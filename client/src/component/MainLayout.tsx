@@ -7,7 +7,7 @@ function MainLayout() {
     <div>
       <HoroBar />
       <Nav />
-      <div className="ml-[6rem] md:ml-[10rem]">
+      <div className="md:mx-40 ml-16 mr-6 pt-24">
         <Outlet />
       </div>
     </div>

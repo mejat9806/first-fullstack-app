@@ -7,7 +7,7 @@ import { toast } from "@/shadcnComponent/ui/use-toast";
 
 export function useLogin() {
   const queryClient = useQueryClient();
-  const { setUser, setAuth } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
   const {
@@ -26,7 +26,7 @@ export function useLogin() {
       queryClient.setQueryData(["user"], data);
       setUser(data);
       // setAuth(data);
-      navigate("/dashboard", { replace: true });
+      navigate("/", { replace: true });
     },
     onError: (err) => {
       toast({

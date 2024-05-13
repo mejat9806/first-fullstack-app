@@ -7,6 +7,11 @@ interface User extends Document {
   password: string;
   passwordConfirmed: string | undefined;
   profileImage: string;
+  active: boolean;
+  passwordChangedAt: Date;
+  passwordResetToken: string;
+  passwordResetExpired: Date;
+
   comparePassword: (
     inputPassword: string,
     passFromDB: string,
@@ -30,6 +35,10 @@ const userSchema = new mongoose.Schema<User>({
   },
   passwordConfirmed: String,
   profileImage: { type: String, default: "defaultUser.svg" },
+  active: { type: Boolean, default: true },
+  passwordChangedAt: Date,
+  passwordResetToken: String,
+  passwordResetExpired: Date,
 });
 
 // Define the comparePassword method
@@ -42,10 +51,18 @@ userSchema.methods.comparePassword = async function (
 
 userSchema.pre<User>("save", async function (next) {
   // Hash password before saving
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 12);
-  }
+  if (this.isModified("password")) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+
   this.passwordConfirmed = undefined;
+  next();
+});
+userSchema.pre<User>("save", function (next) {
+  // This middleware will run when the password is modified, except when a new user is created.
+  // It updates the passwordChangedAt field to the current date and time minus 1000 milliseconds.
+  if (!this.isModified("password") || this.isNew) return next();
+
+  this.passwordChangedAt = new Date(Date.now() - 1000);
   next();
 });
 

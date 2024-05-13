@@ -30,7 +30,7 @@ function Nav() {
   console.log(location.pathname);
 
   return (
-    <nav className="flex flex-col justify-between  items-center h-screen bg-blue-200/20 w-[50px] md:w-[140px]  backdrop-blur-2xl	fixed   transition-all duration-150">
+    <nav className="flex flex-col justify-between  items-center h-screen bg-slate-200 w-[50px] md:w-[140px]  backdrop-blur-2xl	fixed   transition-all duration-150 mt-6">
       <div className="flex flex-col gap-5  h-1/3 mt-10 transition-all duration-150">
         {navitems.map((navitem) => (
           <Link

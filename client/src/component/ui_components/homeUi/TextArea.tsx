@@ -1,16 +1,19 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const TextArea = ({ text }: { text: string }) => {
-  const [showMore, setShowMore] = useState(false);
+  const navigate = useNavigate();
+
   return (
     <div>
       <p>
-        {showMore ? text : `${text.substring(0, 50)}`}{" "}
+        {`${text.substring(0, 100)}`}
         <button
-          onClick={() => setShowMore(!showMore)}
+          // onClick={() => setShowMore(!showMore)}
+          onClick={() => navigate(`post/testid`)}
           className="font-semibold"
         >
-          {showMore ? "show less" : "show more..."}
+          <p className="ml-3"> show more...</p>
         </button>
       </p>
     </div>

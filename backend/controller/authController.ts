@@ -49,7 +49,7 @@ export const loginUser = async (req: Request, res: Response) => {
     //check password matches
 
     const match = await user.comparePassword(password, user.password);
-
+    console.log(password, user.password);
     if (!match) {
       return res.json({ error: "please check the password" });
     }

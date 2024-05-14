@@ -1,7 +1,11 @@
-import React from "react";
+import CreatePost from "@/component/ui_components/CreatePost/CreatePost";
 
 const NewPost = () => {
-  return <div>NewPost</div>;
+  return (
+    <div>
+      <CreatePost />
+    </div>
+  );
 };
 
 export default NewPost;

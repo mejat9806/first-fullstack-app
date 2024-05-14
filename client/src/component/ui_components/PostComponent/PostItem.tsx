@@ -14,11 +14,14 @@ interface PostItemType {
 
 const PostItem = ({ image }: PostItemType) => {
   return (
-    <div className="p-2 bg-slate-200/30 rounded-2xl py-7">
+    <div className="p-2 bg-slate-200/30 rounded-2xl py-7 shadow-xl">
       <div className="w-full h-  flex gap-1 mb-3">
         <img src="/defaultUser.svg" className="h-10 w-10 rounded-full" />
         <div className="flex flex-col items-start justify-start ">
-          <h1 className="text-lg font-semibold leading-3 mb-2">userName</h1>
+          <h1 className="text-lg font-semibold leading-3 mb-2">
+            userName{" "}
+            <span className="font-light text-sm leading-3">11/11/29</span>
+          </h1>
           <TextArea
             text="    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sint
             nesciunt maxime consequuntur, aperiam eveniet tempore cumque
@@ -33,7 +36,7 @@ const PostItem = ({ image }: PostItemType) => {
       </div>
       <div className="w-full flex justify-center items-center">
         {image && (
-          <div className="w-[200px] ">
+          <div className="w-[200px]  md:w-[300px] transition-all duration-150">
             <Carousel>
               <CarouselContent>
                 <CarouselItem>

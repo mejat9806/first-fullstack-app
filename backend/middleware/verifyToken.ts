@@ -31,15 +31,20 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
         .json("You are not logged in! Please log in to get access."),
     );
   }
-  console.log(token, "jere");
-  jwt.verify(token, process.env.JWT_SECRET_KEY as string, (err, decode) => {
-    if (err)
-      return (
-        res
-          .status(401)
-          .json("You are not logged in! Please log in to get access."),
-        (req.user = decode)
-      );
-    next();
-  });
+  jwt.verify(
+    token,
+    process.env.JWT_SECRET_KEY as string,
+    (err: any, decode: any) => {
+      req.user = decode.user.id;
+
+      if (err)
+        return (
+          res
+            .status(401)
+            .json("You are not logged in! Please log in to get access."),
+          (req.user = decode)
+        );
+      next();
+    },
+  );
 };

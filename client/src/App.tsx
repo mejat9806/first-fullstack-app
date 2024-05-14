@@ -6,11 +6,12 @@ import PrivateRoute from "./page/PrivateRoute";
 import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
 import MainLayout from "./component/MainLayout";
-import SearchPage from "./page/NewPost";
 import Setting from "./page/Setting";
 import { Suspense, useEffect, useState } from "react";
 import LoadingPage from "./component/ui_components/LoadingPage";
 import Explore from "./page/Explore";
+import NewPost from "./page/NewPost";
+import PostDetail from "./page/PostDetail";
 
 axios.defaults.baseURL = `http://localhost:8000`;
 axios.defaults.withCredentials = true; // default
@@ -42,14 +43,15 @@ function App() {
           <Route element={<PrivateRoute />}>
             <Route element={<MainLayout />}>
               <Route index element={<Home />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/explore" element={<Explore />} />
-              <Route path="/newPost" element={<SearchPage />} />
-              <Route path="/setting" element={<Setting />} />
+              <Route path={"post/:postId"} element={<PostDetail />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="explore" element={<Explore />} />
+              <Route path="newPost" element={<NewPost />} />
+              <Route path="setting" element={<Setting />} />
             </Route>
           </Route>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
         </Routes>
       </Suspense>
     </>

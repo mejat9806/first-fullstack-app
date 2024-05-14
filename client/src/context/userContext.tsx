@@ -32,7 +32,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
     const accesstoken = user?.accessToken;
     if (!user) {
       axios
-        .get("users/profile", {
+        .get("auth/profile", {
           headers: { Authorization: `Bearer ${accesstoken}` },
         })
         .then(({ data }) => {

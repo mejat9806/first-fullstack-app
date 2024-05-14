@@ -14,7 +14,7 @@ export const registerApi = async ({
   name,
 }: RegisterType) => {
   const data = await axios.post(
-    "users/register",
+    "auth/register",
     {
       email,
       password,

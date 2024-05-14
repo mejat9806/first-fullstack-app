@@ -1,0 +1,53 @@
+import mongoose, { Document, Model } from "mongoose";
+
+import slugify from "slugify";
+import { User, UserType } from "./userModel";
+
+interface PostType extends Document {
+  title: string;
+  detail: string;
+  author: UserType | mongoose.Types.ObjectId;
+  createAt: Date;
+  slug: string;
+  image: string;
+}
+
+const postSchema = new mongoose.Schema<PostType>(
+  {
+    title: {
+      type: "string",
+      required: [true, "must have a tittle"],
+    },
+    detail: {
+      type: "string",
+      required: [true, "must have a post detail"],
+    },
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    createAt: {
+      type: Date,
+      default: Date.now(),
+    },
+    slug: { type: "string" },
+    image: { type: "string" },
+  },
+  {
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
+  },
+);
+postSchema.pre("save", function (next) {
+  this.slug = slugify(`${this.title}-${this._id}`, { lower: true });
+  next();
+});
+
+export const Post: Model<PostType> = mongoose.model<PostType>(
+  "Post",
+  postSchema,
+);

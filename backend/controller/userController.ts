@@ -7,11 +7,13 @@ export const getAlluser = async (
   next: NextFunction,
 ) => {
   try {
+    const amountOfDoc = await User.countDocuments();
+
     const allUser = await User.find();
     if (!allUser) {
       return res.status(404).json({ message: "No user found." });
     }
-    res.status(200).json({ message: allUser });
+    res.status(200).json({ amountOfDoc, data: allUser });
   } catch (error) {}
 };
 

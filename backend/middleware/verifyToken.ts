@@ -24,6 +24,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   } else if (req.cookies.token) {
     token = req.cookies.token;
   }
+  console.log(token);
   if (!token) {
     return next(
       res

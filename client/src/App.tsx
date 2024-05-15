@@ -13,7 +13,7 @@ import Explore from "./page/Explore";
 import NewPost from "./page/NewPost";
 import PostDetail from "./page/PostDetail";
 
-axios.defaults.baseURL = `http://localhost:8000`;
+axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 function App() {
   const [isLoading, setLoading] = useState(true);

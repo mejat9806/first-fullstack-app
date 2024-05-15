@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../model/userModel";
+import { catchAsync } from "../utils/catchAsync";
+import { AppError } from "../utils/appError";
 dotenv.config();
 
 export const test = (req: Request, res: Response) => {
@@ -35,23 +37,23 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-export const loginUser = async (req: Request, res: Response) => {
-  try {
+export const loginUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.json({ error: "email and password is required" });
+      return next(AppError("email and password is required", 401));
     }
     console.log(password);
     const user = await User.findOne({ email });
     if (!user) {
-      return res.json({ error: "user does not exist" });
+      return next(AppError("User not found", 404));
     }
     //check password matches
 
     const match = await user.comparePassword(password, user.password);
-    console.log(password, user.password);
     if (!match) {
-      return res.json({ error: "please check the password" });
+      const err = AppError("please provide correct Email or password  ", 401);
+      return next(err);
     }
     if (match) {
       const accessToken = jwt.sign(
@@ -79,22 +81,76 @@ export const loginUser = async (req: Request, res: Response) => {
         },
       );
     }
-  } catch (error) {
-    console.log(error);
-  }
-};
+  },
+);
+// export const loginUser = async (req: Request, res: Response) => {
+//   try {
+//     const { email, password } = req.body;
+//     if (!email || !password) {
+//       return res.json({ error: "email and password is required" });
+//     }
+//     console.log(password);
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.json({ error: "user does not exist" });
+//     }
+//     //check password matches
 
-export const getProfile = (req: Request, res: Response) => {
-  const { token } = req.cookies; //nned to have the same name as the token used
-  if (token) {
-    jwt.verify(token, process.env.JWT_SECRET_KEY as string, {}, (err, user) => {
-      if (err) throw err;
-      res.json(user);
-    });
-  } else {
-    res.json(null);
-  }
-};
+//     const match = await user.comparePassword(password, user.password);
+//     console.log(password, user.password);
+//     if (!match) {
+//       return res.json({ error: "please check the password" });
+//     }
+//     if (match) {
+//       const accessToken = jwt.sign(
+//         { user },
+//         process.env.JWT_SECRET_KEY as string,
+//         {
+//           expiresIn: "10d",
+//         },
+//       );
+//       jwt.sign(
+//         {
+//           user,
+//         },
+//         process.env.JWT_SECRET_KEY as string,
+//         {},
+//         (err, token) => {
+//           if (err) throw err;
+//           res
+//             .cookie("token", token, {
+//               maxAge: 24 * 60 * 60 * 1000,
+//               httpOnly: true,
+//               sameSite: "lax",
+//             })
+//             .json({ accessToken, user });
+//         },
+//       );
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+export const getProfile = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { token } = req.cookies; //nned to have the same name as the token used
+    if (!token) return next(AppError("please login again ", 401));
+    if (token) {
+      jwt.verify(
+        token,
+        process.env.JWT_SECRET_KEY as string,
+        {},
+        (err, user) => {
+          if (err) throw err;
+          res.json(user);
+        },
+      );
+    } else {
+      res.json(null);
+    }
+  },
+);
 
 export const logout = (req: Request, res: Response) => {
   const { token } = req.cookies;

@@ -1,9 +1,9 @@
-import { globalErrorHandler } from "./controller/errorController";
+import { globalErrorHandler } from "./controller/errorController.js";
 import express, { json } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 
-import { router as authROute } from "./routes/authRoutes";
+import { router as authRoute } from "./routes/authRoutes";
 import { router as userRoute } from "./routes/userRoute";
 import { router as postRoute } from "./routes/postRoute";
 import cookieParser from "cookie-parser";
@@ -48,11 +48,12 @@ app.use(ExpressMongoSanitize());
 app.use(xss());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-const __dirname = dirname(fileURLToPath(import.meta.url));
-
+// @ts-ignore
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api/auth", authROute);
+app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 

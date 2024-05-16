@@ -1,8 +1,8 @@
 import mongoose, { Document, Model } from "mongoose";
 
-import slugify from "slugify";
 import { User, UserType } from "./userModel";
 import { catchAsync } from "../utils/catchAsync";
+import slugify from "slugify";
 
 interface PostType extends Document {
   title: string;

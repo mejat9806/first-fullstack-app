@@ -22,7 +22,7 @@ export interface PostItemType {
 
 const PostItem = ({ item }: PostItemType) => {
   const baseUrl = "http://localhost:8000/"; // Base URL of your Express server
-  const imageUrl = baseUrl + "/img/posts/" + item.image[0]; // Construct the full image URL
+  const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
 
   console.log(imageUrl);
   if (!item) {

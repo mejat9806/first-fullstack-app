@@ -6,6 +6,8 @@ import { apiFeatures } from "../utils/apiFeature";
 import { catchAsync } from "../utils/catchAsync";
 import { AppError } from "../utils/appError";
 import multer, { FileFilterCallback } from "multer";
+import { v4 as uuidv4 } from "uuid";
+
 import sharp from "sharp";
 interface UserPayload {
   id: string;
@@ -85,9 +87,12 @@ export const resizePostImage = catchAsync(
     }
     console.log(files);
     req.body.image = [];
+    const user = req.user as UserPayload;
     await Promise.all(
       files.image.map(async (image: Express.Multer.File, i: number) => {
-        const fileName = `post-${Date.now()}-${i + 1}.jpeg`;
+        const fileName = `post-${user.id}-${Date.now()}-${uuidv4()}-${
+          i + 1
+        }.jpeg`;
         await sharp(files.image[i].buffer)
           .resize(2000, 1300, { fit: "cover" })
           .toFormat("jpeg")
@@ -96,7 +101,7 @@ export const resizePostImage = catchAsync(
         req.body.image.push(fileName);
       }),
     );
-    console.log(req.body, "add post image");
+    // console.log(req.body, "add post image");
     next();
   },
 );

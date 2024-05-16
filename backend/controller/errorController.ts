@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError } from "../utils/appError";
+import util from "util"; // Import util module for inspecting circular structures
+
 function handleCastErrorDB(error: any) {
   const message = ` invalid ${error.path}: ${error.value}`;
   return AppError(message, 401);
@@ -21,34 +23,33 @@ function handleJsonWebTokenErrorDB() {
 }
 const sendErrorDev = (req: Request, res: Response, err: any) => {
   if (req.originalUrl.startsWith("/api")) {
-    return res.status(err.statusCode).json({
-      status: err.status,
-      err: err,
-      message: err.message,
-      errorStack: err.stack,
-    });
+    // Use util.inspect to inspect objects with circular references
+    const errorString = util.inspect(err, { showHidden: false, depth: null });
+
+    // Return the error message instead of the circular error object
+    return res.status(err.statusCode);
   }
 };
 
 const sendErrorProd = (req: Request, res: Response, err: any) => {
-  //this for api
   if (req.originalUrl.startsWith("/api")) {
-    //operational error ,trusted error :send message to client
     if (err.isOperational) {
-      // part II then this will run
       return res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
       });
     }
-    //this is programing or other unknow error : dont leak error detail
-    //this is like  the mongoose error
-    return res.status(500).json({
+    // Exclude circular properties or stringify selectively
+    const errorWithoutCircular = {
       status: "error",
-      message: "something when wrong",
-    });
+      message: "Something went wrong",
+    };
+    // Log the error without circular references
+    console.error("Error without circular references:", errorWithoutCircular);
+    return res.status(500).json(errorWithoutCircular);
   }
 };
+
 export function globalErrorHandler(
   err: any,
   req: Request,

@@ -15,9 +15,11 @@ import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
+import path, { dirname } from "path";
+import { fileURLToPath } from "url";
 dotenv.config();
 const corsOptions = {
-  origin: "http://localhost:5173", // Allow requests from this origin
+  origin: ["http://localhost:5173"], // Allow requests from this origin
   methods: ["GET", "POST"], // Allow GET and POST requests
   allowedHeaders: [
     "set-cookie",
@@ -28,9 +30,9 @@ const corsOptions = {
   ],
   exposedHeaders: ["Content-Length"], // Expose this custom header
   credentials: true, // Allow credentials (cookies, HTTP authentication)
-  preflightContinue: false, // Do not continue if preflight request fails
 };
 app.use(cors(corsOptions));
+
 const limiter = rateLimit({
   max: 1000,
   windowMs: 60 * 60 * 1000, //this allow 100 request in 1 hours
@@ -39,11 +41,17 @@ const limiter = rateLimit({
 app.use("/", limiter);
 app.use(json());
 app.use(morgan("dev"));
-app.use(helmet());
+helmet({
+  crossOriginResourcePolicy: false,
+});
 app.use(ExpressMongoSanitize());
 app.use(xss());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use("/api/auth", authROute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);

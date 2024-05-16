@@ -1,9 +1,12 @@
 import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
+import PostItem from "./PostItem";
+
 const Post = () => {
   const { data, error, status, fetchNextPage } = useGetAllPost();
   const { ref, inView } = useInView();
+
   useEffect(() => {
     if (inView) {
       console.log("run");
@@ -12,26 +15,28 @@ const Post = () => {
     return () => {};
   }, [fetchNextPage, inView]);
 
+  console.log(error);
+
   return status === "pending" ? (
     <div>Loading...</div>
   ) : status === "error" ? (
-    <div>{error.message}</div>
+    <div>{error?.message}</div>
   ) : (
-    <div className="w-[300px] md:w-[500px] h-full ">
-      {data?.pages.map((page, i) => {
-        return (
-          <div
-            key={data.pageParams[i]}
-            className="bg-yellow-100 flex flex-col gap-96"
-          >
-            {page.data.map((item: []) => (
-              <div key={item._id} className="bg-red-100 ">
-                {item.title}
+    <div className="w-[300px] md:w-[500px] h-full">
+      {data?.pages.map((page, i) => (
+        <div key={i} className="flex flex-col gap-5 mt-5">
+          {page.data.map(
+            (
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              itemData: any,
+            ) => (
+              <div key={itemData._d} className="bg-red-100">
+                <PostItem item={itemData} />
               </div>
-            ))}
-          </div>
-        );
-      })}
+            ),
+          )}
+        </div>
+      ))}
       <div ref={ref}></div>
     </div>
   );

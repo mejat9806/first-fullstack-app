@@ -20,7 +20,7 @@ function applySorting(query: any, sortQuery: any) {
 }
 function applyPagination(query: any, pageQuery: any, limitQuery: any) {
   const page = pageQuery * 1 || 1;
-  const limit = limitQuery * 1 || 10;
+  const limit = limitQuery * 1 || 5;
   const skip = (page - 1) * limit; //this used to get the previous page to skip
   return query.skip(skip).limit(limit);
 }
@@ -33,10 +33,9 @@ export async function apiFeatures(
 ) {
   const queryObject = { ...req.query };
   const excludedFields = ["page", "sort", "limit", "fields"];
-  excludedFields.forEach((el) => delete queryObject[el]); //this will remove excludedFields from the query object
+  excludedFields.forEach((el) => delete queryObject[el]); //this will remove excludedFields from the query object because it will effect the find result
   let queryStr = JSON.stringify(queryObject);
-
-  queryStr = queryStr.replace(/\b(gte|gte|lte|lt)\b/g, (match) => `$${match}`);
+  queryStr = queryStr.replace(/\b(gte|gte|lte|lt)\b/g, (match) => `$${match}`); //this is used to change normal gte/lte to mongoDB one with $
   query = query
     .find(JSON.parse(queryStr))
     .populate({

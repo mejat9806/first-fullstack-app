@@ -19,5 +19,4 @@ router.use(
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logout);
-router.use(verifyJWT);
-router.get("/profile", getProfile);
+router.get("/profile", verifyJWT, getProfile);

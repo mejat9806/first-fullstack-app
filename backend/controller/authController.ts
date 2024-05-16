@@ -49,7 +49,6 @@ export const loginUser = catchAsync(
       return next(AppError("User not found", 404));
     }
     //check password matches
-
     const match = await user.comparePassword(password, user.password);
     if (!match) {
       const err = AppError("please provide correct Email or password  ", 401);
@@ -65,7 +64,9 @@ export const loginUser = catchAsync(
       );
       jwt.sign(
         {
-          user,
+          email: user.email,
+          id: user.id,
+          name: user.name,
         },
         process.env.JWT_SECRET_KEY as string,
         {},
@@ -116,10 +117,11 @@ export const loginUser = catchAsync(
 //         process.env.JWT_SECRET_KEY as string,
 //         {},
 //         (err, token) => {
+//           console.log(token);
 //           if (err) throw err;
 //           res
 //             .cookie("token", token, {
-//               maxAge: 24 * 60 * 60 * 1000,
+//               maxAge: 24 * 60 * 60 * 100000,
 //               httpOnly: true,
 //               sameSite: "lax",
 //             })
@@ -132,23 +134,68 @@ export const loginUser = catchAsync(
 //   }
 // };
 
+// Import your User model
+
+// export const loginUser = async (req: Request, res: Response) => {
+//   try {
+//     const { email, password } = req.body;
+//     if (!email || !password) {
+//       return res.status(400).json({ error: "email and password are required" });
+//     }
+
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(404).json({ error: "user does not exist" });
+//     }
+
+//     // Check password matches
+//     const match = await user.comparePassword(password, user.password);
+//     if (!match) {
+//       return res.status(401).json({ error: "incorrect password" });
+//     }
+
+//     // Generate JWT token
+//     const accessToken = jwt.sign(
+//       { user },
+//       process.env.JWT_SECRET_KEY as string,
+//       {
+//         expiresIn: "10d",
+//       },
+//     );
+
+//     // Set up cookie
+//     jwt.sign(
+//       { user },
+//       process.env.JWT_SECRET_KEY as string,
+//       {},
+//       (err, token) => {
+//         if (err) {
+//           console.error("Error signing JWT token:", err);
+//           return res.status(500).json({ error: "internal server error" });
+//         }
+
+//         res
+//           .cookie("token", token, {
+//             maxAge: 10 * 24 * 60 * 60 * 1000, // 10 days
+//             httpOnly: true,
+//             sameSite: "lax",
+//           })
+//           .json({ accessToken, user });
+//       },
+//     );
+//   } catch (error) {
+//     console.error("Login error:", error);
+//     res.status(500).json({ error: "internal server error" });
+//   }
+// };
+
 export const getProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const { token } = req.cookies; //nned to have the same name as the token used
-    if (!token) return next(AppError("please login again ", 401));
-    if (token) {
-      jwt.verify(
-        token,
-        process.env.JWT_SECRET_KEY as string,
-        {},
-        (err, user) => {
-          if (err) throw err;
-          res.json(user);
-        },
-      );
-    } else {
-      res.json(null);
+    console.log(req.user);
+    if (!req.user) {
+      return next(AppError("Please log in again", 401));
     }
+    res.json(req.user);
   },
 );
 

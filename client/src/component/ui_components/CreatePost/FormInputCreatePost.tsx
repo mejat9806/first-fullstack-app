@@ -14,12 +14,13 @@ interface FormInput {
     {
       title: string;
       detail: string;
+      image: string;
     },
     undefined
   >;
   label: string;
-  placeholder: string;
-  name: "title" | "detail";
+  placeholder?: string;
+  name: "title" | "detail" | "image";
   type: string;
 }
 

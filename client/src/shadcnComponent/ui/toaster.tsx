@@ -5,14 +5,14 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "@/shadcnComponent/ui/toast"
-import { useToast } from "@/shadcnComponent/ui/use-toast"
+} from "@/shadcnComponent/ui/toast";
+import { useToast } from "@/shadcnComponent/ui/use-toast";
 
 export function Toaster() {
-  const { toasts } = useToast()
+  const { toasts } = useToast();
 
   return (
-    <ToastProvider>
+    <ToastProvider duration={1000}>
       {toasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>
@@ -25,9 +25,9 @@ export function Toaster() {
             {action}
             <ToastClose />
           </Toast>
-        )
+        );
       })}
       <ToastViewport />
     </ToastProvider>
-  )
+  );
 }

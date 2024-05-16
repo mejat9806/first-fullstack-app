@@ -24,7 +24,6 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   } else if (req.cookies.token) {
     token = req.cookies.token;
   }
-  console.log(token);
   if (!token) {
     return next(
       res
@@ -36,15 +35,12 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     token,
     process.env.JWT_SECRET_KEY as string,
     (err: any, decode: any) => {
-      req.user = decode.user.id;
-
-      if (err)
-        return (
-          res
-            .status(401)
-            .json("You are not logged in! Please log in to get access."),
-          (req.user = decode)
-        );
+      if (err) {
+        return res
+          .status(401)
+          .json("You are not logged in! Please log in to get access.");
+      }
+      req.user = decode;
       next();
     },
   );

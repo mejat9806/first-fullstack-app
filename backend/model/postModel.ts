@@ -22,7 +22,7 @@ const postSchema = new mongoose.Schema<PostType>(
     },
     detail: {
       type: "string",
-      required: [true, "must have a post detail"],
+      // required: [true, "must have a post detail"],
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,
@@ -30,10 +30,10 @@ const postSchema = new mongoose.Schema<PostType>(
     },
     createAt: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
     },
     slug: { type: "string" },
-    image: { type: "string" },
+    image: [String],
   },
   {
     toJSON: {

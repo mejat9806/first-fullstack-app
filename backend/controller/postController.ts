@@ -39,6 +39,7 @@ export const getAllPost = catchAsync(
     });
   },
 );
+
 // export const getAllPost = async (
 //   req: Request,
 //   res: Response,
@@ -60,6 +61,13 @@ export const getAllPost = catchAsync(
 //     data: allPost,
 //   });
 // };
+
+export const getOnePost = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.params);
+    res.status(200).json({ name: "amer", post: "hello" });
+  },
+);
 interface MulterFiles {
   image: Express.Multer.File[];
 }
@@ -81,11 +89,12 @@ export const uploadPostImage = upload.fields([
 export const resizePostImage = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const files = req.files as unknown as MulterFiles;
-
-    if (!files) {
+    console.log(files, "here file check");
+    // Check if files were uploaded
+    if (!files || !files.image) {
+      // No files uploaded, proceed to the next middleware
       return next();
     }
-    console.log(files);
     req.body.image = [];
     const user = req.user as UserPayload;
     await Promise.all(
@@ -94,20 +103,19 @@ export const resizePostImage = catchAsync(
           i + 1
         }.jpeg`;
         await sharp(files.image[i].buffer)
-          .resize(2000, 1300, { fit: "cover" })
           .toFormat("jpeg")
-          .jpeg({ quality: 90 })
+          .webp({ quality: 80 })
           .toFile(`public/img/posts/${fileName}`);
         req.body.image.push(fileName);
       }),
     );
-    // console.log(req.body, "add post image");
+    console.log(req.body, "add post image");
     next();
   },
 );
 export const createAPost = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    console.log(req.body);
+    console.log(req.body, "body here");
     try {
       if (!req.user) {
         return next(AppError("User not authenticated", 401));

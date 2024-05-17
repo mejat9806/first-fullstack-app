@@ -18,7 +18,6 @@ const ProfileIcon = () => {
   const logoutFn = async () => {
     logout();
   };
-  console.log(user);
   return (
     <div>
       <DropdownMenu>

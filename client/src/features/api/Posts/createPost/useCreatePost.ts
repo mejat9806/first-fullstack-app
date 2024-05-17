@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { IcreatePost, createPostApi } from "./createPost";
+import { createPostApi } from "./createPost";
 import { toast } from "@/shadcnComponent/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -11,8 +11,7 @@ export function useCreatePost() {
     isPending: loadingPost,
     mutate: createPost,
   } = useMutation({
-    mutationFn: ({ title, detail }: IcreatePost) =>
-      createPostApi({ title, detail }),
+    mutationFn: createPostApi,
     onSuccess: (data) => {
       console.log(data);
       toast({ title: "Post successfully created" });

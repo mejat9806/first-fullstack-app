@@ -27,7 +27,6 @@ const navitems = [
 
 function Nav() {
   const location = useLocation();
-  console.log(location.pathname);
 
   return (
     <nav className="flex flex-col justify-between  items-center h-screen bg-slate-200 w-[50px] md:w-[140px]  backdrop-blur-2xl	fixed   transition-all duration-150 mt-6">

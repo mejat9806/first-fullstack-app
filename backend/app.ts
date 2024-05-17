@@ -47,7 +47,7 @@ helmet({
 app.use(ExpressMongoSanitize());
 app.use(xss());
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 // @ts-ignore
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

@@ -2,23 +2,24 @@ import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import PostItem from "./PostItem";
+import LoadingPage from "../LoadingPage";
 
 const Post = () => {
-  const { data, error, status, fetchNextPage } = useGetAllPost();
+  const { data, error, status, fetchNextPage, isLoading } = useGetAllPost();
   const { ref, inView } = useInView();
 
   useEffect(() => {
     if (inView) {
-      console.log("run");
+      console.log("here");
       fetchNextPage();
     }
     return () => {};
   }, [fetchNextPage, inView]);
 
-  console.log(error);
-
   return status === "pending" ? (
-    <div>Loading...</div>
+    <div>
+      <LoadingPage />
+    </div>
   ) : status === "error" ? (
     <div>{error?.message}</div>
   ) : (
@@ -29,8 +30,9 @@ const Post = () => {
             (
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               itemData: any,
+              i: number,
             ) => (
-              <div key={itemData._d} className="bg-red-100">
+              <div key={i} className="bg-red-100">
                 <PostItem item={itemData} />
               </div>
             ),

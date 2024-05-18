@@ -4,7 +4,7 @@ import HoroBar from "./horoBar";
 
 function MainLayout() {
   return (
-    <div>
+    <div className="mx">
       <HoroBar />
       <Nav />
       <div className="md:mx-40 ml-16 mr-6 pt-24">

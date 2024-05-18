@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import DefaultProfile from "./DefaultProfile";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
+import { baseUrl } from "./PostComponent/PostItem";
 const ProfileIcon = () => {
   const { user } = useContext(UserContext);
   const { logout } = useLogout();
@@ -19,12 +20,12 @@ const ProfileIcon = () => {
     logout();
   };
   return (
-    <div>
+    <div className="">
       <DropdownMenu>
         <DropdownMenuTrigger className="hover:drop-shadow-2xl">
           {user?.profileImage ? (
             <img
-              src={user?.profileImage}
+              src={`${baseUrl}img/posts/${user?.profileImage}`}
               alt="Profile"
               className="w-10 h-10 "
             />
@@ -32,9 +33,8 @@ const ProfileIcon = () => {
             <DefaultProfile />
           )}
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="bg-white/20 backdrop-blur-2xl drop-shadow-2xl ml-5 ">
+        <DropdownMenuContent className="bg-white/20 backdrop-blur-2xl drop-shadow-2xl p-2">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
-
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Link to="/dashboard" className="p-0">

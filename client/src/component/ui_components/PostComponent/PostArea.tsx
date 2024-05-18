@@ -5,7 +5,7 @@ import PostItem from "./PostItem";
 import LoadingPage from "../LoadingPage";
 
 const Post = () => {
-  const { data, error, status, fetchNextPage, isLoading } = useGetAllPost();
+  const { data, error, status, fetchNextPage } = useGetAllPost();
   const { ref, inView } = useInView();
 
   useEffect(() => {

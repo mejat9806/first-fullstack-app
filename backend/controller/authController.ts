@@ -28,6 +28,7 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.json({ error: "email is already taken " });
     }
 
+    const defaultImage = `/public/img/userImage/default.svg`;
     // const hashedPaswords = await hashPaswords(password);
     const user = await User.create({ name, email, password });
 
@@ -67,6 +68,7 @@ export const loginUser = catchAsync(
           email: user.email,
           id: user.id,
           name: user.name,
+          profileImage: user.profileImage,
         },
         process.env.JWT_SECRET_KEY as string,
         {},

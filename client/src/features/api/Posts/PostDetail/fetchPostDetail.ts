@@ -2,8 +2,13 @@ import axios from "axios";
 
 export type IsinglePostDetail = {
   data: {
-    name: string;
-    post: string;
+    title: string;
+    detail: string;
+    author: { id: string; profileImage: string; name: string };
+    image: [number];
+    createAt: string;
+    slug: string;
+    id: string;
   };
 };
 
@@ -12,7 +17,6 @@ export const fetchPostDetail = async ({
 }: {
   postId: string;
 }): Promise<IsinglePostDetail> => {
-  console.log(postId, "params here");
   const response: IsinglePostDetail = await axios.get(`/posts/${postId}`);
   return response;
 };

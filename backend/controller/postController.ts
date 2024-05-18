@@ -64,11 +64,13 @@ export const getAllPost = catchAsync(
 
 export const getOnePost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.params);
-    res.status(200).json({ name: "amer", post: "hello" });
+    const { postId } = req.params;
+    console.log(postId);
+    const post = await Post.findById(postId).select("-__v ").populate("author");
+    res.status(200).json(post);
   },
 );
-interface MulterFiles {
+export interface MulterFiles {
   image: Express.Multer.File[];
 }
 
@@ -101,9 +103,9 @@ export const resizePostImage = catchAsync(
       files.image.map(async (image: Express.Multer.File, i: number) => {
         const fileName = `post-${user.id}-${Date.now()}-${uuidv4()}-${
           i + 1
-        }.jpeg`;
+        }.webp`;
         await sharp(files.image[i].buffer)
-          .toFormat("jpeg")
+          .toFormat("webp")
           .webp({ quality: 80 })
           .toFile(`public/img/posts/${fileName}`);
         req.body.image.push(fileName);

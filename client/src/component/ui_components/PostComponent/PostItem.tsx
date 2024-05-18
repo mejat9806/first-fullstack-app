@@ -7,6 +7,9 @@ import {
 } from "@/shadcnComponent/ui/carousel";
 import TextArea from "../homeUi/TextArea";
 import PostFooter from "./PostFooter";
+import { dateFormat } from "@/utils/dateFormat";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
 export interface PostItemType {
   item: {
@@ -19,29 +22,24 @@ export interface PostItemType {
     image: string[];
   };
 }
-
+export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
 const PostItem = ({ item }: PostItemType) => {
-  const baseUrl = "http://localhost:8000/"; // Base URL of your Express server
+  const { user } = useContext(UserContext);
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
-
+  const postDay = dateFormat(item.createAt);
   if (!item) {
     return null; // or handle the case when item is undefined
   }
-  const date = item.createAt;
-  const postDay = new Date(date).toLocaleString("en-MY", {
-    year: "2-digit",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-    timeZone: "Asia/Kuala_Lumpur",
-  });
+
   return (
     <div className="p-2 bg-slate-200/30 rounded-2xl py-7 shadow-xl">
       <div className="w-full h-  flex gap-1 mb-3">
-        <img src="/defaultUser.svg" className="h-10 w-10 rounded-full" />
-        <div className="flex flex-col items-start justify-start ">
+        <img
+          src={`${baseUrl}img/posts/${user?.profileImage}`}
+          className="h-10 w-10 rounded-full"
+          // change this
+        />
+        <div className="flex flex-col items-start justify-start w-full ">
           <h1 className="text-lg font-semibold leading-3 mb-2">
             {item?.author?.name}
             <span className="font-light text-sm leading-3 ml-4">{postDay}</span>
@@ -50,7 +48,6 @@ const PostItem = ({ item }: PostItemType) => {
           <TextArea text={item.detail} postID={item._id} />
         </div>
       </div>
-      <img src={baseUrl} alt="" />
       <div className="w-full flex justify-center items-center">
         {item.image[0] && (
           <div className="w-[200px]  md:w-[300px] transition-all duration-150">

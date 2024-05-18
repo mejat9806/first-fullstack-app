@@ -24,6 +24,7 @@ export const loginApi = async ({
     }
 
     // Return the response data
+    console.log(response.data);
     return response.data;
   } catch (error) {
     // If there's an error, log it

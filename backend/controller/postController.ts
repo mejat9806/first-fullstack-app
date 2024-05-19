@@ -9,6 +9,8 @@ import multer, { FileFilterCallback } from "multer";
 import { v4 as uuidv4 } from "uuid";
 
 import sharp from "sharp";
+import { deleteImage } from "../utils/deleteIMG";
+
 interface UserPayload {
   id: string;
   // Add any other properties you expect on the user object
@@ -139,5 +141,28 @@ export const createAPost = catchAsync(
       // Handle errors
       res.status(500).json({ error: error });
     }
+  },
+);
+export const deletePost = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    // Find the post to get the image paths
+    const post = await Post.findById(req.params.postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Get the image paths from the post
+    const imagePaths = post?.image; // Use optional chaining to handle potential null or undefined
+    // Delete the post from the database
+    // await Post.findByIdAndDelete(req.params.postId);
+
+    // Check if there are image paths and delete each image file
+    if (Array.isArray(imagePaths)) {
+      imagePaths.forEach((imagePath) => {
+        deleteImage(imagePath, next); // Pass 'next' as an argument
+      });
+    }
+
+    res.status(200).json({ message: "delete work" });
   },
 );

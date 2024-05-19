@@ -20,7 +20,7 @@ import { fileURLToPath } from "url";
 dotenv.config();
 const corsOptions = {
   origin: ["http://localhost:5173"], // Allow requests from this origin
-  methods: ["GET", "POST"], // Allow GET and POST requests
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
     "set-cookie",
     "Content-Type",

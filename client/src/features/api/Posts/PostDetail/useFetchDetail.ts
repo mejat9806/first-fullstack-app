@@ -1,9 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { fetchPostDetail } from "./fetchPostDetail";
 
 export const useFetchDetails = () => {
   const { postId } = useParams();
+  const queryClient = useQueryClient(); // Get the query client
+
   const {
     data: singleDetail,
     error: singleDetailError,
@@ -15,6 +17,15 @@ export const useFetchDetails = () => {
         return fetchPostDetail({ postId });
       }
     },
+    enabled: !!postId,
+    staleTime: 0,
+    gcTime: 0,
   });
+
+  // Clear the query from the cache when postId changes
+  if (!postId) {
+    queryClient.removeQueries({ queryKey: ["post"] });
+  }
+
   return { singleDetailLoading, singleDetail, singleDetailError };
 };

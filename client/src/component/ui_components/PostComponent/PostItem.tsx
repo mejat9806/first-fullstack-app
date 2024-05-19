@@ -10,6 +10,7 @@ import PostFooter from "./PostFooter";
 import { dateFormat } from "@/utils/dateFormat";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
+import { useNavigate } from "react-router-dom";
 
 export interface PostItemType {
   item: {
@@ -24,6 +25,8 @@ export interface PostItemType {
 }
 export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
 const PostItem = ({ item }: PostItemType) => {
+  const navigate = useNavigate();
+
   const { user } = useContext(UserContext);
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
   const postDay = dateFormat(item.createAt);
@@ -32,7 +35,10 @@ const PostItem = ({ item }: PostItemType) => {
   }
 
   return (
-    <div className="p-2 bg-slate-200/30 rounded-2xl py-7 shadow-xl">
+    <div
+      className="p-2 bg-slate-200/90 rounded-2xl py-7 shadow-2xl"
+      onClick={() => navigate(`post/${item._id}`)}
+    >
       <div className="w-full h-  flex gap-1 mb-3">
         <img
           src={`${baseUrl}img/posts/${user?.profileImage}`}
@@ -40,13 +46,16 @@ const PostItem = ({ item }: PostItemType) => {
           // change this
         />
         <div className="flex flex-col items-start justify-start w-full ">
-          <h1 className="text-lg font-semibold leading-3 mb-2">
+          <h1 className="text-lg font-semibold leading-3 mb-2 flex flex-col">
             {item?.author?.name}
-            <span className="font-light text-sm leading-3 ml-4">{postDay}</span>
+            <span className="font-light text-sm ">{postDay}</span>
           </h1>
-          <h1>{item.title}</h1>
+          <h1 className="text-lg font-medium">{item.title}</h1>
           <TextArea text={item.detail} postID={item._id} />
         </div>
+        {/* <div>
+          <ThreeDotDropDown dropDownStuff={dropDownStuff} />
+        </div> */}
       </div>
       <div className="w-full flex justify-center items-center">
         {item.image[0] && (

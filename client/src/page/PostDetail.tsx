@@ -2,27 +2,23 @@ import LoadingPage from "@/component/ui_components/LoadingPage";
 import PostFooter from "@/component/ui_components/PostComponent/PostFooter";
 import { baseUrl } from "@/component/ui_components/PostComponent/PostItem";
 import ThreeDotDropDown from "@/component/ui_components/ThreeDotDropDown";
+import { UserContext } from "@/context/userContext";
 
 import { useFetchDetails } from "@/features/api/Posts/PostDetail/useFetchDetail";
 import { dateFormat } from "@/utils/dateFormat";
+import { useContext } from "react";
 
 const PostDetail = () => {
   const { singleDetailLoading, singleDetail } = useFetchDetails();
-
+  const { user } = useContext(UserContext);
   if (singleDetailLoading || !singleDetail) {
     return <LoadingPage />;
   }
-
+  const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const { author, createAt, detail, image, title } = singleDetail.data;
   const postDetail = dateFormat(createAt);
-  function test() {
-    window.alert("hello");
-  }
-  const dropDownStuff = [
-    { name: "delete", function: test },
-    { name: "update" },
-  ];
 
+  const isAurthorCorrect = user?.id === author.id;
   return (
     <div className="w-full  flex justify-center items-center">
       <div className="bg-slate-100 mt-2 p-2 rounded-lg mb-10 md:w-1/2 h-1/2 w-full ">
@@ -39,7 +35,9 @@ const PostDetail = () => {
                 <h1>{postDetail}</h1>
               </div>
             </div>
-            <ThreeDotDropDown dropDownStuff={dropDownStuff} type={"threeDot"} />
+            {isAurthorCorrect && (
+              <ThreeDotDropDown dropDownStuff={dropDownStuff} />
+            )}
           </div>
           <div className="flex flex-col">
             <h1 className="text-xl">{title}</h1>
@@ -49,11 +47,11 @@ const PostDetail = () => {
           </div>
         </div>
         {image[0] && (
-          <div className="mt-4 mx-2 h-[40rem] w-full flex justify-center items-center">
+          <div className="mt-4  w-full flex justify-center items-center">
             <img
               src={`${baseUrl}/img/posts/${image[0]}`}
               alt=""
-              className="h-full rounded-xl"
+              className="h-full rounded-xl object-contain"
             />
           </div>
         )}

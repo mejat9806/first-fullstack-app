@@ -19,16 +19,20 @@ const CreatePostInput = () => {
   const FormSchema = z.object({
     title: z.string().min(1, { message: "Please enter a title" }),
     detail: z.string().min(5, { message: "Must have 10 characters" }),
-    image: z.instanceof(File).optional(), // Correctly handle File type
+    image: z.instanceof(File).optional(),
   });
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      title: "",
-      detail: "",
-      image: undefined,
-    },
-  });
+  const form =
+    useForm <
+    z.infer <
+    typeof FormSchema >>
+      {
+        resolver: zodResolver(FormSchema),
+        defaultValues: {
+          title: "",
+          detail: "",
+          image: undefined,
+        },
+      };
   function onSubmit(values: z.infer<typeof FormSchema>) {
     console.log("here");
     const { detail, title, image } = values;

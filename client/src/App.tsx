@@ -12,9 +12,11 @@ import LoadingPage from "./component/ui_components/LoadingPage";
 import Explore from "./page/Explore";
 import NewPost from "./page/NewPost";
 import PostDetail from "./page/PostDetail";
-
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorPage from "./page/ErrorPage";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
+
 function App() {
   const [isLoading, setLoading] = useState(true);
   function someRequest() {
@@ -37,23 +39,25 @@ function App() {
   }
   return (
     <>
-      <Suspense fallback={<LoadingPage />}>
-        {/* <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} /> */}
-        <Routes>
-          <Route element={<PrivateRoute />}>
-            <Route element={<MainLayout />}>
-              <Route index element={<Home />} />
-              <Route path={"post/:postId"} element={<PostDetail />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="explore" element={<Explore />} />
-              <Route path="newPost" element={<NewPost />} />
-              <Route path="setting" element={<Setting />} />
+      <ErrorBoundary fallback={<ErrorPage />}>
+        <Suspense fallback={<LoadingPage />}>
+          {/* <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} /> */}
+          <Routes>
+            <Route element={<PrivateRoute />}>
+              <Route element={<MainLayout />}>
+                <Route index element={<Home />} />
+                <Route path={"post/:postId"} element={<PostDetail />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="explore" element={<Explore />} />
+                <Route path="newPost" element={<NewPost />} />
+                <Route path="setting" element={<Setting />} />
+              </Route>
             </Route>
-          </Route>
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegisterPage />} />
-        </Routes>
-      </Suspense>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="register" element={<RegisterPage />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 }

@@ -12,6 +12,7 @@ import DefaultProfile from "./DefaultProfile";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { baseUrl } from "./PostComponent/PostItem";
+
 const ProfileIcon = () => {
   const { user } = useContext(UserContext);
   const { logout } = useLogout();
@@ -19,6 +20,7 @@ const ProfileIcon = () => {
   const logoutFn = async () => {
     logout();
   };
+
   return (
     <div className="">
       <DropdownMenu>

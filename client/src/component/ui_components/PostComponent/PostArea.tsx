@@ -32,7 +32,7 @@ const Post = () => {
               itemData: any,
               i: number,
             ) => (
-              <div key={i} className="bg-red-100">
+              <div key={i}>
                 <PostItem item={itemData} />
               </div>
             ),

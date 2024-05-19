@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createAPost,
+  deletePost,
   getAllPost,
   getOnePost,
   resizePostImage,
@@ -11,7 +12,7 @@ import { verifyJWT } from "../middleware/verifyToken";
 export const router = express.Router();
 
 router.get("/", getAllPost);
-router.get("/:postId", getOnePost);
+router.route("/:postId").get(getOnePost).delete(verifyJWT, deletePost);
 
 router.post(
   "/create",

@@ -22,15 +22,18 @@ export const useGetAllPost = () => {
     isFetchingNextPage,
     status,
     isLoading,
+    refetch,
   } = useInfiniteQuery({
     queryKey: ["posts"],
     queryFn: ({ pageParam }) => fetchAllPost({ pageParam }), // Pass pageParam correctly
     initialPageParam: 1,
     staleTime: 0,
     refetchOnMount: "always",
+    refetchOnReconnect: "always",
     refetchOnWindowFocus: "always",
     refetchInterval: 6000000,
-    notifyOnChangeProps: ["data"],
+    gcTime: 0,
+    notifyOnChangeProps: ["dataUpdatedAt"],
 
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.data.length ? allPages.length + 1 : undefined;
@@ -46,5 +49,6 @@ export const useGetAllPost = () => {
     isFetchingNextPage,
     status,
     isLoading,
+    refetch,
   };
 };

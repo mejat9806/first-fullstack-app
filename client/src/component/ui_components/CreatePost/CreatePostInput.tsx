@@ -6,6 +6,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/shadcnComponent/ui/form";
 
 import { z } from "zod";
@@ -16,11 +17,24 @@ import { Input } from "@/shadcnComponent/ui/input";
 
 const CreatePostInput = () => {
   const { loadingPost, createPost } = useCreatePost();
+
   const FormSchema = z.object({
     title: z.string().min(1, { message: "Please enter a title" }),
     detail: z.string().min(5, { message: "Must have 10 characters" }),
-    image: z.instanceof(File).optional(), // Correctly handle File type
+    image: z
+      .any()
+      .refine(
+        (files) =>
+          files instanceof FileList &&
+          Array.from(files).every((file) => file instanceof File) &&
+          files.length <= 4,
+        {
+          message: `Invalid file(s) or file limit exceeded (maximum 4 files allowed)`,
+        },
+      )
+      .optional(),
   });
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -29,24 +43,21 @@ const CreatePostInput = () => {
       image: undefined,
     },
   });
-  function onSubmit(values: z.infer<typeof FormSchema>) {
-    console.log("here");
-    const { detail, title, image } = values;
 
+  function onSubmit(values: z.infer<typeof FormSchema>) {
+    const { title, detail, image } = values;
     const formData = new FormData();
     formData.append("title", title);
     formData.append("detail", detail);
 
-    // Ensure 'image' is not null or undefined
-    if (image) {
-      // Append each file from the 'image' FileList
-      Array.from(image).forEach((file: File) => {
-        formData.append("image", file);
+    if (image && image.length > 0) {
+      Array.from(image).forEach((file) => {
+        formData.append(`image`, file as Blob);
       });
     }
-
-    console.log(formData);
-    // createPost(formData);
+    const formObject = Object.fromEntries(formData.entries());
+    console.log(formObject);
+    createPost(formData);
   }
 
   return (
@@ -82,9 +93,10 @@ const CreatePostInput = () => {
                   type="file"
                   accept="image/*"
                   multiple
-                  onChange={(e) => field.onChange(e.target.files)} // Handle file input correctly
+                  onChange={(e) => field.onChange(e.target.files)}
                 />
               </FormControl>
+              <FormMessage className="absolute " />
             </FormItem>
           )}
         />

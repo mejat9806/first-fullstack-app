@@ -5,8 +5,12 @@ import PostItem from "./PostItem";
 import LoadingPage from "../LoadingPage";
 
 const Post = () => {
-  const { data, error, status, fetchNextPage } = useGetAllPost();
+  const { data, error, status, fetchNextPage, refetch } = useGetAllPost();
   const { ref, inView } = useInView();
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   useEffect(() => {
     if (inView) {

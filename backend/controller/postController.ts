@@ -79,6 +79,10 @@ export interface MulterFiles {
 //!this will save the data to memory
 const multerStorege = multer.memoryStorage();
 const multerFilter = (req: Request, file: Express.Multer.File, cb: any) => {
+  console.log(file);
+  // if (req.body.image.length > 4) {
+  //   cb(AppError("please upload 4 image only ", 400), false);
+  // }
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
@@ -86,10 +90,7 @@ const multerFilter = (req: Request, file: Express.Multer.File, cb: any) => {
   }
 };
 const upload = multer({ storage: multerStorege, fileFilter: multerFilter });
-export const uploadPostImage = upload.fields([
-  { name: "image", maxCount: 100 },
-]);
-
+export const uploadPostImage = upload.fields([{ name: "image", maxCount: 4 }]);
 export const resizePostImage = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const files = req.files as unknown as MulterFiles;
@@ -119,7 +120,6 @@ export const resizePostImage = catchAsync(
 );
 export const createAPost = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    console.log(req.body, "body here");
     try {
       if (!req.user) {
         return next(AppError("User not authenticated", 401));
@@ -135,31 +135,25 @@ export const createAPost = catchAsync(
         // { new: true, useFindAndModify: false }, // options to return the updated document and avoid deprecated method warning
       );
 
-      // Send response with the new Post
       res.status(200).json({ data: newPost });
     } catch (error) {
-      // Handle errors
       res.status(500).json({ error: error });
     }
   },
 );
 export const deletePost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    // Find the post to get the image paths
     const post = await Post.findById(req.params.postId);
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    // Get the image paths from the post
-    const imagePaths = post?.image; // Use optional chaining to handle potential null or undefined
-    // Delete the post from the database
-    // await Post.findByIdAndDelete(req.params.postId);
+    const imagePaths = post?.image;
+    await Post.findByIdAndDelete(req.params.postId);
 
-    // Check if there are image paths and delete each image file
     if (Array.isArray(imagePaths)) {
       imagePaths.forEach((imagePath) => {
-        deleteImage(imagePath, next); // Pass 'next' as an argument
+        deleteImage(imagePath, next);
       });
     }
 

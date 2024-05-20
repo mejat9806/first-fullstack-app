@@ -28,17 +28,17 @@ const ConfirmDialog = ({ open, setIsOpen, func }: DialogProps) => {
         <DialogHeader>
           <DialogTitle>Are you absolutely sure?</DialogTitle>
           <DialogDescription className="flex flex-col gap-4">
-            <div>
+            <p>
               This action cannot be undone. This will permanently delete your
               Post
-            </div>
-            <div className="flex gap-4">
-              <Button variant={"destructive"} onClick={func}>
-                Confirm
-              </Button>
-              <Button>Cancel</Button>
-            </div>
+            </p>
           </DialogDescription>
+          <div className="flex gap-4">
+            <Button variant={"destructive"} onClick={func}>
+              Confirm
+            </Button>
+            <Button onClick={() => setIsOpen(false)}>Cancel</Button>
+          </div>
         </DialogHeader>
       </DialogContent>
     </Dialog>

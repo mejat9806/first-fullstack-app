@@ -5,11 +5,13 @@ import ThreeDotDropDown from "@/component/ui_components/ThreeDotDropDown";
 import { UserContext } from "@/context/userContext";
 
 import { useFetchDetails } from "@/features/api/Posts/PostDetail/useFetchDetail";
+import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
 import { dateFormat } from "@/utils/dateFormat";
 import { useContext } from "react";
 
 const PostDetail = () => {
   const { singleDetailLoading, singleDetail } = useFetchDetails();
+  const { isDeletePostLoading } = useDeletePost();
   const { user } = useContext(UserContext);
   if (singleDetailLoading || !singleDetail) {
     return <LoadingPage />;
@@ -18,7 +20,11 @@ const PostDetail = () => {
   const { author, createAt, detail, image, title } = singleDetail.data;
   const postDetail = dateFormat(createAt);
 
-  const isAurthorCorrect = user?.id === author.id;
+  const isAurthorCorrect = user?.id === author?.id;
+
+  if (isDeletePostLoading) {
+    return <LoadingPage />;
+  }
   return (
     <div className="w-full  flex justify-center items-center">
       <div className="bg-slate-100 mt-2 p-2 rounded-lg mb-10 md:w-1/2 h-1/2 w-full ">

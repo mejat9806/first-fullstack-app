@@ -5,7 +5,8 @@ import PostItem from "./PostItem";
 import LoadingPage from "../LoadingPage";
 
 const Post = () => {
-  const { data, error, status, fetchNextPage, refetch } = useGetAllPost();
+  const { data, error, status, fetchNextPage, refetch, isLoadingAllPosts } =
+    useGetAllPost();
   const { ref, inView } = useInView();
 
   useEffect(() => {
@@ -19,7 +20,9 @@ const Post = () => {
     }
     return () => {};
   }, [fetchNextPage, inView]);
-
+  if (isLoadingAllPosts) {
+    return <LoadingPage />;
+  }
   return status === "pending" ? (
     <div>
       <LoadingPage />

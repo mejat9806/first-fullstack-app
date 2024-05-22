@@ -6,6 +6,9 @@ import {
   test,
   getProfile,
   logout,
+  resizeUserPhoto,
+  updateMe,
+  uploadUserPhoto,
 } from "../controller/authController";
 import { verifyJWT } from "../middleware/verifyToken";
 
@@ -19,4 +22,6 @@ router.use(
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logout);
-router.get("/profile", verifyJWT, getProfile);
+router.use(verifyJWT);
+router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
+router.get("/profile", getProfile);

@@ -10,6 +10,7 @@ export const useFetchDetails = () => {
     data: singleDetail,
     error: singleDetailError,
     isLoading: singleDetailLoading,
+    isFetching,
   } = useQuery({
     queryKey: ["post"],
     queryFn: () => {
@@ -27,5 +28,5 @@ export const useFetchDetails = () => {
     queryClient.removeQueries({ queryKey: ["post"] });
   }
 
-  return { singleDetailLoading, singleDetail, singleDetailError };
+  return { singleDetailLoading, isFetching, singleDetail, singleDetailError };
 };

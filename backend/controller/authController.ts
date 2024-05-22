@@ -4,13 +4,17 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../model/userModel";
 import { catchAsync } from "../utils/catchAsync";
 import { AppError } from "../utils/appError";
+import multer from "multer";
+
+import { MulterFiles } from "./postController";
+import sharp from "sharp";
 dotenv.config();
 
 export const test = (req: Request, res: Response) => {
   res.json({ error: "test is working" });
 };
-export const registerUser = async (req: Request, res: Response) => {
-  try {
+export const registerUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
     console.log(name);
     //check if name .password and email was entered
@@ -25,18 +29,21 @@ export const registerUser = async (req: Request, res: Response) => {
 
     const exist = await User.findOne({ email });
     if (exist) {
-      return res.json({ error: "email is already taken " });
+      return AppError("email is taken", 401);
     }
 
     const defaultImage = `/public/img/userImage/default.svg`;
     // const hashedPaswords = await hashPaswords(password);
-    const user = await User.create({ name, email, password });
+    const user = await User.create({
+      name,
+      email,
+      password,
+      image: defaultImage,
+    });
 
     return res.json(user);
-  } catch (error) {
-    console.log(error);
-  }
-};
+  },
+);
 
 export const loginUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -191,16 +198,6 @@ export const loginUser = catchAsync(
 //   }
 // };
 
-export const getProfile = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.user);
-    if (!req.user) {
-      return next(AppError("Please log in again", 401));
-    }
-    res.json(req.user);
-  },
-);
-
 export const logout = (req: Request, res: Response) => {
   const { token } = req.cookies;
   console.log(token);
@@ -227,12 +224,67 @@ function filterObjectsForUpdateUser(
   return newObjects;
 }
 
-export const updateMe = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const filterBody = filterObjectsForUpdateUser(req.body, "name", "email");
+const multerStorage = multer.memoryStorage();
 
-  const updatedUser = await User.findByIdAndUpdate();
+const multerFilter = (req: Request, file: Express.Multer.File, cb: any) => {
+  if (file.mimetype.startsWith("image")) {
+    cb(null, true);
+  } else {
+    cb(AppError("please upload a image file only ", 400), false);
+  }
 };
+
+const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
+export const uploadUserPhoto = upload.single("profileImage");
+export const resizeUserPhoto = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.file, "here");
+    if (!req.user) {
+      return next(AppError("please login", 401));
+    }
+    const files = req.files as unknown as MulterFiles;
+    console.log(files, "here file check");
+
+    if (!req.file) {
+      // No files uploaded, proceed to the next middleware
+      return next();
+    }
+    req.body.filename = `user=${req.user.id}-${Date.now()}.webp`;
+    await sharp(req.file.buffer)
+      .toFormat("webp")
+      .webp({ quality: 80 })
+      .toFile(`public/img/posts/${req.body.filename}`);
+    next();
+  },
+);
+
+export const updateMe = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.name < 5) {
+      return next(AppError("Invalid username need atleast 5 characters", 401));
+    }
+    console.log(req.body.filename, "file name here");
+    const filterBody = filterObjectsForUpdateUser(req.body, "name", "email");
+    if (req.file) {
+      filterBody.profileImage = req.body.filename;
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(req.user?.id, filterBody, {
+      new: true,
+      runValidators: true,
+    });
+    console.log(updatedUser);
+    res.status(200).json({
+      updatedUser,
+    });
+  },
+);
+export const getProfile = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.user);
+    if (!req.user) {
+      return next(AppError("Please log in again", 401));
+    }
+    res.json(req.user);
+  },
+);

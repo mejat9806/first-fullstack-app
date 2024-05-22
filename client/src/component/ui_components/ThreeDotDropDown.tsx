@@ -4,17 +4,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/shadcnComponent/ui/dropdown-menu";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogTrigger,
-// } from "@/shadcnComponent/ui/dialog";
+
 import { ThreeDot } from "./3Dot";
 import { useState } from "react";
-import ConfirmDialog from "./ConfirmDialog";
+import DialogFN from "./DialogFN";
 
 import { useParams } from "react-router-dom";
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
@@ -24,9 +17,9 @@ export interface dropDownStuff {
 }
 
 const ThreeDotDropDown = ({ dropDownStuff }: dropDownStuff) => {
-  const [open, setIsOpen] = useState(false);
+  // const [open, setIsOpen] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const { DeletePost, isDeletePostLoading } = useDeletePost();
+  const { DeletePost } = useDeletePost();
 
   const { postId } = useParams();
   console.log(postId);
@@ -61,8 +54,9 @@ const ThreeDotDropDown = ({ dropDownStuff }: dropDownStuff) => {
           ))}
         </DropdownMenuContent>
       </DropdownMenu>
-      <ConfirmDialog
+      <DialogFN
         open={showDeleteDialog}
+        type="confirm"
         setIsOpen={setShowDeleteDialog}
         func={() => DeletePost(postId as string)}
       />

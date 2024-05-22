@@ -21,7 +21,7 @@ export const useGetAllPost = () => {
     isFetching,
     isFetchingNextPage,
     status,
-    isLoading,
+    isLoading: isLoadingAllPosts,
     refetch,
   } = useInfiniteQuery({
     queryKey: ["posts"],
@@ -48,7 +48,7 @@ export const useGetAllPost = () => {
     isFetching,
     isFetchingNextPage,
     status,
-    isLoading,
+    isLoadingAllPosts,
     refetch,
   };
 };

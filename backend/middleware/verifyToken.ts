@@ -4,7 +4,16 @@ import { Response, Request, NextFunction } from "express";
 declare global {
   namespace Express {
     interface Request {
-      user: JwtPayload | {} | undefined; // Adjust the type as needed
+      user:
+        | JwtPayload
+        | {
+            email: string;
+            id: string;
+            name: string;
+            profileImage: string;
+            iat: number;
+          }
+        | undefined; // Adjust the type as needed
     }
   }
 }

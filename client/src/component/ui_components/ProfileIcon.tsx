@@ -12,22 +12,26 @@ import DefaultProfile from "./DefaultProfile";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { baseUrl } from "./PostComponent/PostItem";
+import { useLogin } from "@/features/api/Auth/login/useLogin";
+import LoadingPage from "./LoadingPage";
 
 const ProfileIcon = () => {
   const { user } = useContext(UserContext);
   const { logout } = useLogout();
-
+  const { isLoading } = useLogin();
   const logoutFn = async () => {
     logout();
   };
-
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   return (
     <div className="">
       <DropdownMenu>
         <DropdownMenuTrigger className="hover:drop-shadow-2xl">
-          {user?.profileImage ? (
+          {user?.user.profileImage ? (
             <img
-              src={`${baseUrl}img/posts/${user?.profileImage}`}
+              src={`${baseUrl}img/posts/${user.user.profileImage}`}
               alt="Profile"
               className="w-10 h-10 "
             />

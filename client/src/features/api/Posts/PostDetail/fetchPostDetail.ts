@@ -5,7 +5,7 @@ export type IsinglePostDetail = {
     title: string;
     detail: string;
     author: { id: string; profileImage: string; name: string };
-    image: [number];
+    image: [string];
     createAt: string;
     slug: string;
     id: string;

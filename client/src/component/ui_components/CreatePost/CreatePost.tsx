@@ -1,5 +1,4 @@
 import CreatePostInput from "./CreatePostInput";
-import UseCreatePostForm from "./UseCreatePostForm";
 
 const CreatePost = () => {
   return (

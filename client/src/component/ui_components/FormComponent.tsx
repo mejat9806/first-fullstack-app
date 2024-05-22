@@ -1,7 +1,7 @@
 import { Form } from "../components/ui/form";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import FormInput from "./FormInput";
+import FormInput from "./FormInputLogin";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { login } from "@/services/login";

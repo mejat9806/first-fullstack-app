@@ -11,18 +11,26 @@ import { UseFormReturn } from "react-hook-form";
 interface FormInput {
   form: UseFormReturn<
     {
-      email: string;
-      password: string;
+      email?: string;
+      name?: string;
+      password?: string;
+      passwordConfirm?: string;
     },
     undefined
   >;
   label: string;
   placeholder: string;
-  name: "email" | "password";
+  name: "email" | "name" | "password" | "passwordConfirm";
   type: string;
 }
 
-function FormInputLogin({ form, label, placeholder, name, type }: FormInput) {
+function FormInputUpdateUser({
+  form,
+  label,
+  placeholder,
+  name,
+  type,
+}: FormInput) {
   return (
     <FormField
       control={form.control}
@@ -46,4 +54,4 @@ function FormInputLogin({ form, label, placeholder, name, type }: FormInput) {
   );
 }
 
-export default FormInputLogin;
+export default FormInputUpdateUser;

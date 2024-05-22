@@ -79,17 +79,17 @@ export interface MulterFiles {
 //!this will save the data to memory
 const multerStorege = multer.memoryStorage();
 const multerFilter = (req: Request, file: Express.Multer.File, cb: any) => {
-  console.log(file);
-  // if (req.body.image.length > 4) {
-  //   cb(AppError("please upload 4 image only ", 400), false);
-  // }
   if (file.mimetype.startsWith("image")) {
     cb(null, true);
   } else {
     cb(AppError("please upload a image file only ", 400), false);
+    return;
   }
 };
-const upload = multer({ storage: multerStorege, fileFilter: multerFilter });
+const upload = multer({
+  storage: multerStorege,
+  fileFilter: multerFilter,
+});
 export const uploadPostImage = upload.fields([{ name: "image", maxCount: 4 }]);
 export const resizePostImage = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

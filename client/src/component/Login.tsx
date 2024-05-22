@@ -4,7 +4,7 @@ import { Button } from "@/shadcnComponent/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormInputLogin from "@/component/ui_components/FormInput";
+import FormInputLogin from "./ui_components/FormInputLogin";
 
 function Login() {
   const { login, isLoading } = useLogin();
@@ -51,6 +51,7 @@ function Login() {
           placeholder={"email"}
           name="email"
           type="email"
+          disabled={isLoading}
         />
         <FormInputLogin
           form={form}
@@ -58,6 +59,7 @@ function Login() {
           placeholder={"password"}
           name="password"
           type="password"
+          disabled={isLoading}
         />
 
         <Button type="submit" className="hover:bg-slate-600 ">

@@ -13,19 +13,17 @@ interface FormInput {
     {
       email: string;
       password: string;
-      passwordConfirm: string;
-      name: string;
     },
     undefined
   >;
   label: string;
   placeholder: string;
-  name: "email" | "password" | "passwordConfirm" | "name";
+  name: "email" | "password";
   type: string;
   disabled: boolean;
 }
 
-function FormInputRegister({
+function FormInputLogin({
   form,
   label,
   placeholder,
@@ -38,8 +36,8 @@ function FormInputRegister({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="relative">
-          <FormLabel className="text-white capitalize">{label}</FormLabel>
+        <FormItem className="relative w-full transition-all duration-150">
+          <FormLabel className="text-black capitalize">{label}</FormLabel>
           <FormControl>
             <Input
               placeholder={placeholder}
@@ -57,4 +55,4 @@ function FormInputRegister({
   );
 }
 
-export default FormInputRegister;
+export default FormInputLogin;

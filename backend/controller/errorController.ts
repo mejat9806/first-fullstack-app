@@ -1,19 +1,18 @@
 import { NextFunction, Request, Response } from "express";
-import { AppError } from "../utils/appError";
 import util from "util"; // Import util module for inspecting circular structures
+import { AppError } from "../utils/appError";
 
 function handleCastErrorDB(error: any) {
   const message = ` invalid ${error.path}: ${error.value}`;
   return AppError(message, 401);
 }
 function handleDuplicateData(error: any) {
-  console.log(error, "here");
   const value = Object.values(error.keyValue)[0]; //this will work with any duplicate value
   const message = `Duplicate field value: ${value}. Use another value.`;
   return AppError(message, 400);
 }
 function handleValidationErrorDB(err: any) {
-  console.log(err);
+  console.log(err, "here");
   const error = Object.values(err.errors).map((val: any) => val.message);
   const message = `invalid input data ${error.join(", ")}`;
   return AppError(message, 400);
@@ -22,32 +21,53 @@ function handleJsonWebTokenErrorDB() {
   return AppError("Something when wrong ,please log in again ", 401);
 }
 const sendErrorDev = (req: Request, res: Response, err: any) => {
+  //this of the api like postman
   if (req.originalUrl.startsWith("/api")) {
-    // Use util.inspect to inspect objects with circular references
-    const errorString = util.inspect(err, { showHidden: false, depth: null });
-
-    // Return the error message instead of the circular error object
-    return res.status(err.statusCode);
+    return res.status(err.statusCode).json({
+      status: err.status,
+      err: err,
+      message: err.message,
+      errorStack: err.stack,
+    });
   }
+  //this is for render
+  return res.status(err.statusCode).render("error", {
+    tittle: "some went wrong",
+    msg: err.message,
+  });
 };
 
 const sendErrorProd = (req: Request, res: Response, err: any) => {
+  //this for api
   if (req.originalUrl.startsWith("/api")) {
+    //operational error ,trusted error :send message to client
     if (err.isOperational) {
+      // part II then this will run
       return res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
       });
     }
-    // Exclude circular properties or stringify selectively
-    const errorWithoutCircular = {
+    //this is programing or other unknow error : dont leak error detail
+    //this is like  the mongoose error
+    return res.status(500).json({
       status: "error",
-      message: "Something went wrong",
-    };
-    // Log the error without circular references
-    console.error("Error without circular references:", errorWithoutCircular);
-    return res.status(500).json(errorWithoutCircular);
+      message: "something when wrong",
+    });
   }
+  //this for render website
+
+  if (err.isOperational) {
+    return res.status(err.statusCode).render("error", {
+      tittle: "some went wrong",
+      msg: err.message,
+    });
+  }
+  // programing or other unknow error : dont leak error detail for render website
+  return res.status(err.statusCode).render("error", {
+    tittle: "some went wrong",
+    msg: "please try again",
+  });
 };
 
 export function globalErrorHandler(
@@ -63,7 +83,6 @@ export function globalErrorHandler(
     sendErrorDev(req, res, err);
   } else if (process.env.NODE_ENV === "production") {
     let error = { ...err };
-
     error.message = err.message; //add the message to the error
     //let error = Object.create(err);
     if (error.name === "CastError") {
@@ -72,7 +91,7 @@ export function globalErrorHandler(
     if (error.code === 11000) {
       error = handleDuplicateData(error);
     }
-    if (error.name === "handleValidationErrorDB") {
+    if (error.name === "ValidationError") {
       error = handleValidationErrorDB(error);
     }
     if (error.name === "JsonWebTokenError") {

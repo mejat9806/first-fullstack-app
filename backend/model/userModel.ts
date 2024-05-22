@@ -1,5 +1,6 @@
 import mongoose, { Document, Model } from "mongoose";
 import bcrypt from "bcryptjs";
+import validator from "validator";
 
 export interface UserType extends Document {
   email: string;
@@ -25,11 +26,13 @@ const userSchema = new mongoose.Schema<UserType>(
     name: {
       type: String,
       required: [true, "name is required"],
+      minlength: 5,
     },
     email: {
       type: String,
       unique: true,
       required: [true, "email is required"],
+      validate: [validator.isEmail, "must be a valid email"],
     },
     password: {
       type: String,

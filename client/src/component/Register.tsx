@@ -1,4 +1,3 @@
-import { toast } from "@/shadcnComponent/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { toast } from "react-hot-toast";
 import { z } from "zod";
@@ -7,6 +6,7 @@ import { Button } from "@/shadcnComponent/ui/button";
 import { useForm } from "react-hook-form";
 import { useRegister } from "@/features/api/Auth/register/useRegister";
 import { Form } from "@/shadcnComponent/ui/form";
+
 export const registerFormSchema = z
   .object({
     email: z
@@ -21,7 +21,6 @@ export const registerFormSchema = z
     message: "passwords do not match",
     path: ["passwordConfirmed"], //error path
   });
-
 function Register() {
   const { isLoadingRegister, register } = useRegister();
   const form = useForm<z.infer<typeof registerFormSchema>>({
@@ -65,6 +64,7 @@ function Register() {
           placeholder={"email"}
           name="email"
           type="email"
+          disabled={isLoadingRegister}
         />
 
         <FormInputRegister
@@ -73,6 +73,7 @@ function Register() {
           placeholder={"username"}
           name="name"
           type="string"
+          disabled={isLoadingRegister}
         />
         <FormInputRegister
           form={form}
@@ -80,6 +81,7 @@ function Register() {
           placeholder={"password"}
           name="password"
           type="password"
+          disabled={isLoadingRegister}
         />
         <FormInputRegister
           form={form}
@@ -87,10 +89,11 @@ function Register() {
           placeholder={"passwordConfirme"}
           name="passwordConfirm"
           type="password"
+          disabled={isLoadingRegister}
         />
 
         <Button type="submit" className="hover:bg-slate-600 ">
-          Submit
+          {!isLoadingRegister ? "Submit" : "Please wait..."}
         </Button>
       </form>
     </Form>

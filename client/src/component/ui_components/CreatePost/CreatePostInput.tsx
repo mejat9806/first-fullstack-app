@@ -32,6 +32,16 @@ const CreatePostInput = () => {
           message: `Invalid file(s) or file limit exceeded (maximum 4 files allowed)`,
         },
       )
+
+      .refine(
+        (files) =>
+          files instanceof FileList &&
+          Array.from(files).every((file) => file.size <= 12828100),
+        {
+          message: `File size to big`,
+        },
+      )
+
       .optional(),
   });
 

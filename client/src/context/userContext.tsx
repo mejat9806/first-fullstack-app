@@ -17,6 +17,8 @@ export interface UserType extends AuthType {
   user: {
     password: string;
     profileImage: string;
+    email: string;
+    name: string;
   };
 }
 export const UserContext = createContext<{
@@ -30,6 +32,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
   useEffect(() => {
     const accesstoken = user?.accessToken;
+
     if (!user) {
       axios
         .get("auth/profile", {
@@ -45,9 +48,8 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
           });
         });
     }
-  }, [user]);
+  }, []);
 
-  console.log(user);
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}

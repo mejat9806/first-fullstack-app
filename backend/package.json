@@ -49,5 +49,8 @@
     "@types/uuid": "^9.0.8",
     "@types/validator": "^13.11.10",
     "typescript": "^5.4.5"
+  },
+  "browser": {
+    "crypto": false
   }
 }

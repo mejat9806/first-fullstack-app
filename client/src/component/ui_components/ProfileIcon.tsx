@@ -16,24 +16,29 @@ import { useLogin } from "@/features/api/Auth/login/useLogin";
 import LoadingPage from "./LoadingPage";
 
 const ProfileIcon = () => {
-  const { user } = useContext(UserContext);
   const { logout } = useLogout();
   const { isLoading } = useLogin();
+  const { user } = useContext(UserContext);
   const logoutFn = async () => {
     logout();
   };
-  if (isLoading) {
+  if (isLoading || !user) {
     return <LoadingPage />;
   }
+
+  const profileImage = `${baseUrl}img/posts/${
+    user?.profileImage ?? user?.user?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
+  }`;
+  console.log(user);
   return (
     <div className="">
       <DropdownMenu>
         <DropdownMenuTrigger className="hover:drop-shadow-2xl">
-          {user?.user.profileImage ? (
+          {user ? (
             <img
-              src={`${baseUrl}img/posts/${user.user.profileImage}`}
+              src={profileImage}
               alt="Profile"
-              className="w-10 h-10 "
+              className="w-10 h-10 rounded-full object-fill"
             />
           ) : (
             <DefaultProfile />

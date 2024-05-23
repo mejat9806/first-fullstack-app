@@ -15,9 +15,14 @@ import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import LoadingPage from "../ui_components/LoadingPage";
 import { Input } from "@/shadcnComponent/ui/input";
+import useUpdateUserData from "@/features/api/updateUser/useUpdateUserData";
 
 const SettingForm = () => {
   const { user } = useContext(UserContext);
+  const { isPending, updateUserFn } = useUpdateUserData();
+  if (!user) {
+    return <LoadingPage />;
+  }
   const FormSchema = z.object({
     email: z
       .string()
@@ -39,19 +44,17 @@ const SettingForm = () => {
   //   message: "passwords do not match",
   //   path: ["passwordConfirmed"],
   // });
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: user?.email,
-      name: user?.name,
+      email: user?.email ?? user.user.email,
+      name: user?.name ?? user.user.name,
       image: undefined,
       //   password: "",
       //   passwordConfirm: "",
     },
   });
-  if (!user?.email) {
-    return <LoadingPage />;
-  }
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     const { email, name, image } = values;
     const formData = new FormData();
@@ -64,11 +67,12 @@ const SettingForm = () => {
       formData.append("name", name);
     }
     if (image) {
-      formData.append("image", image);
+      formData.append("profileImage", image);
     }
     formData.forEach((data, key) => {
       console.log(key, data);
     });
+    updateUserFn(formData);
   }
   return (
     <Form {...form}>
@@ -129,7 +133,9 @@ const SettingForm = () => {
           type="passwordConfirm"
         /> */}
         <div className="w-full ">
-          <Button className="w-full">Submit</Button>
+          <Button className="w-full" disabled={isPending}>
+            {isPending ? <LoadingPage /> : "submit"}
+          </Button>
         </div>
       </form>
     </Form>

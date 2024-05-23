@@ -1,6 +1,7 @@
-import mongoose, { Document, Model } from "mongoose";
+import mongoose, { Document, Model, Query } from "mongoose";
 import bcrypt from "bcryptjs";
 import validator from "validator";
+import * as crypto from "crypto";
 
 export interface UserType extends Document {
   email: string;
@@ -14,7 +15,8 @@ export interface UserType extends Document {
   passwordChangedAt: Date;
   passwordResetToken: string;
   passwordResetExpired: Date;
-
+  changedPasswordAfter: (JWTtimestamp: number) => boolean;
+  createPasswordResetToken: () => string;
   comparePassword: (
     inputPassword: string,
     passFromDB: string,
@@ -43,7 +45,7 @@ const userSchema = new mongoose.Schema<UserType>(
 
     passwordConfirmed: String,
     profileImage: { type: String, default: "defaultUser.svg" },
-    active: { type: Boolean, default: true },
+    active: { type: Boolean, default: true, select: false },
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpired: Date,
@@ -60,26 +62,16 @@ const userSchema = new mongoose.Schema<UserType>(
 
 // Define the comparePassword method
 
-userSchema.pre<UserType>("save", async function (next) {
+userSchema.pre("save", async function (next) {
   // Hash password before saving
-  this.password = await bcrypt.hash(this.password, 12);
+  if (!this.isModified("password")) return next(); //this will check if there is no a change for the password
+  this.password = await bcrypt.hash(this.password, 12); //this will hash the password
 
-  this.passwordConfirmed = undefined;
+  this.passwordConfirmed = undefined; //this will set the passwordConfirmed to undefined after saving
   next();
 });
-userSchema.methods.comparePassword = async function (
-  inputPassword: string,
-  passFromDB: string,
-) {
-  return bcrypt.compare(inputPassword, passFromDB);
-};
-userSchema.pre<UserType>(/^find/, function (next) {
-  this.populate({
-    path: "posts",
-  });
-  next();
-});
-userSchema.pre<UserType>("save", function (next) {
+
+userSchema.pre("save", function (next) {
   // This middleware will run when the password is modified, except when a new user is created.
   // It updates the passwordChangedAt field to the current date and time minus 1000 milliseconds.
   if (!this.isModified("password") || this.isNew) return next();
@@ -88,6 +80,47 @@ userSchema.pre<UserType>("save", function (next) {
   next();
 });
 
+userSchema.methods.comparePassword = async function (
+  inputPassword: string,
+  passFromDB: string,
+) {
+  return bcrypt.compare(inputPassword, passFromDB);
+};
+
+// Explicitly type the 'this' context as a Mongoose query object for query middleware hooks
+userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+  this.populate({
+    path: "posts",
+  });
+  next();
+});
+
+userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+  //use type Query for query middleware
+  this.find({ active: { $ne: false } });
+  next();
+});
+
+userSchema.methods.changedPasswordAfter = function (JWTtimestamp: number) {
+  if (this.passwordChangedAt) {
+    const chnagedTimeStamp = parseInt(
+      (this.passwordChangedAt.getTime() / 1000).toString(),
+      10,
+    );
+    return JWTtimestamp < chnagedTimeStamp;
+  }
+  return false;
+};
+
+userSchema.methods.createPasswordResetToken = function (this: UserType) {
+  const randRestToken = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(randRestToken)
+    .digest("hex");
+  this.passwordResetExpired = new Date(Date.now() + 10 * 60 * 1000);
+  return randRestToken;
+};
 export const User: Model<UserType> = mongoose.model<UserType>(
   "User",
   userSchema,

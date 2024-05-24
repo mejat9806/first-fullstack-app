@@ -2,18 +2,21 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { Response, Request, NextFunction } from "express";
 
 declare global {
+  //this is used to modify the global TS Scope
   namespace Express {
+    //this is used to select express to edit
     interface Request {
+      //this is used to add new properties
       user:
-        | JwtPayload
+        | JwtPayload //this is from jsonwebtoken
         | {
-            email: string;
+            email: string; //this is the jsonwebtoken data we want
             id: string;
             name: string;
             profileImage: string;
             iat: number;
           }
-        | undefined; // Adjust the type as needed
+        | undefined;
     }
   }
 }
@@ -30,8 +33,8 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     token = (
       (req.headers.Authorization || req.headers.Authorization) as string
     ).split(" ")[1];
-  } else if (req.cookies.token) {
-    token = req.cookies.token;
+  } else if (req.cookies.token || req.cookies.refreshToken) {
+    token = req.cookies.token || req.cookies.refreshToken;
   }
   if (!token) {
     return next(

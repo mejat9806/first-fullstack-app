@@ -13,8 +13,8 @@ export interface UserType extends Document {
   posts: mongoose.Types.ObjectId[];
 
   passwordChangedAt: Date;
-  passwordResetToken: string;
-  passwordResetExpired: Date;
+  passwordResetToken: string | undefined;
+  passwordResetExpired: Date | undefined;
   changedPasswordAfter: (JWTtimestamp: number) => boolean;
   createPasswordResetToken: () => string;
   comparePassword: (
@@ -118,9 +118,11 @@ userSchema.methods.createPasswordResetToken = function (this: UserType) {
     .createHash("sha256")
     .update(randRestToken)
     .digest("hex");
+  console.log(this.passwordResetToken, "in model");
   this.passwordResetExpired = new Date(Date.now() + 10 * 60 * 1000);
   return randRestToken;
 };
+
 export const User: Model<UserType> = mongoose.model<UserType>(
   "User",
   userSchema,

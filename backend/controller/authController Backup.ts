@@ -10,9 +10,11 @@ import * as crypto from "crypto";
 import { MulterFiles } from "./postController";
 import sharp from "sharp";
 import { Email } from "../utils/email";
-import { createSendToken, signToken } from "../utils/tokenGeneration";
 dotenv.config();
 
+export const test = (req: Request, res: Response) => {
+  res.json({ error: "test is working" });
+};
 export const registerUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
@@ -48,30 +50,49 @@ export const registerUser = catchAsync(
 export const loginUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-
-    //!step for check login credential
-    //!1) check email and password if it exists
     if (!email || !password) {
-      const err = AppError("please provide email and password", 400);
-      return next(err); //finish because we want to stop the function here
+      return next(AppError("email and password is required", 401));
     }
-
-    //!
-    //!2) check is the user exist password is correct
-    const user = await User.findOne({ email: email }).select(
-      "+password +isValidated",
-    ); //select use to get the password from DB eventhough they are on selected by default refer to password in userModel
-    // (user.isValidated); //! this is for validation turn back on later
-    // if (user.isValidated === false) {
-    //   return next(AppError('Please check your email for validation', 401));
-    // }
-    if (!user || !(await user.comparePassword(password, user.password))) {
+    console.log(password);
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(AppError("User not found", 404));
+    }
+    //check password matches
+    const match = await user.comparePassword(password, user.password);
+    if (!match) {
       const err = AppError("please provide correct Email or password  ", 401);
       return next(err);
     }
-    //!3) if everything ok ,send the token to client
-
-    createSendToken(user, 200, res);
+    if (match) {
+      const accessToken = jwt.sign(
+        { user },
+        process.env.JWT_SECRET_KEY as string,
+        {
+          expiresIn: "10d",
+        },
+      );
+      jwt.sign(
+        {
+          email: user.email,
+          id: user.id,
+          name: user.name,
+          profileImage: user.profileImage,
+        },
+        process.env.JWT_SECRET_KEY as string,
+        {},
+        (err, token) => {
+          if (err) throw err;
+          res
+            .cookie("token", token, {
+              maxAge: 24 * 60 * 60 * 1000,
+              httpOnly: true,
+              sameSite: "lax",
+            })
+            .json({ accessToken, user });
+        },
+      );
+    }
   },
 );
 
@@ -158,29 +179,22 @@ export const updateMe = catchAsync(
 );
 export const getProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.user, "user");
+    console.log(req.user);
     if (!req.user) {
       return next(AppError("Please log in again", 401));
     }
-    const profile = await User.findById(req.user.id)
-      .select("-password -passwordResetExpired -passwordResetToken")
-      .populate("posts");
-
-    if (!profile) {
-      return next(AppError("Profile not found", 401));
-    }
-    console.log(profile);
-    res.json(profile);
+    res.json(req.user);
   },
 );
 
 export const forgotPassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body.email);
     const user = await User.findOne({ email: req.body.email }); //this will get the user by email
     if (!user) {
       return next(AppError("user not found", 404));
     } //this is use to save the reset token
-    const resetToken = user.createPasswordResetToken(); //this will create the reset token using the methods
+    const resetToken = user?.createPasswordResetToken(); //this will create the reset token using the methods
 
     await user.save({ validateBeforeSave: false }); //this is use to save the reset token
     try {
@@ -188,12 +202,11 @@ export const forgotPassword = catchAsync(
         "host",
       )}/api/auth/resetPassword/${resetToken}`; //this will get the url
       const message = `forgot your password? Submit a PATCH request with your new password and password Confirm to ${resetURL}.\n if you did not forget your password ,pls ignore this message`;
+      console.log(resetURL);
       await new Email(user, resetURL, message).sendPasswordReset();
-
       res.status(200).json({
         status: "success",
         message: "your reset token  password email have been send",
-        resetToken,
       });
     } catch (error) {
       user.passwordResetToken = undefined;
@@ -207,17 +220,16 @@ export const forgotPassword = catchAsync(
 
 export const resetPassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.params.token, "here tokens params");
+    console.log(req.params.token);
     const hashedToken = crypto
       .createHash("sha256")
       .update(req.params.token)
       .digest("hex");
-    console.log(hashedToken, "here");
+
     const user = await User.findOne({
       passwordResetToken: hashedToken,
-      passwordResetExpired: { $gt: Date.now() }, //this use to compare the expire time
+      passwordChangedAt: { $gt: Date.now() },
     });
-    console.log(user);
     if (!user) {
       return next(AppError("Token is invalid or expired", 400));
     }
@@ -226,8 +238,5 @@ export const resetPassword = catchAsync(
     user.passwordResetExpired = undefined;
     user.passwordResetToken = undefined;
     await user.save();
-
-    const token = signToken(user._id);
-    res.status(200).json({ status: "success", token });
   },
 );

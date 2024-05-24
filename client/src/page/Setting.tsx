@@ -1,6 +1,6 @@
-import UserSetting from "@/component/SettingPage/userDataNonPassword/UserSetting";
-import PasswordSettingForm from "@/component/SettingPage/userPassword/PasswordSettingForm";
-import DialogFN from "@/component/ui_components/DialogFN";
+import UserSetting from "@/components/component/SettingPage/userDataNonPassword/UserSetting";
+import PasswordSettingForm from "@/components/component/SettingPage/userPassword/PasswordSettingForm";
+import DialogFN from "@/components/component/ui_components/DialogFN";
 import { Button } from "@/shadcnComponent/ui/button";
 import { useState } from "react";
 

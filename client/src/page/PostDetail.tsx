@@ -1,18 +1,18 @@
-import LoadingPage from "@/component/ui_components/LoadingPage";
-import PostFooter from "@/component/ui_components/PostComponent/PostFooter";
-import ThreeDotDropDown from "@/component/ui_components/ThreeDotDropDown";
 import { UserContext } from "@/context/userContext";
 
 import { useFetchDetails } from "@/features/api/Posts/PostDetail/useFetchDetail";
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
 import { dateFormat } from "@/utils/dateFormat";
 import { useContext, useState } from "react";
-import DialogFN from "@/component/ui_components/DialogFN";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { baseUrl } from "@/component/ui_components/PostComponent/PostItem";
 import { Button } from "@/shadcnComponent/ui/button";
 import { ArrowBigLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "@/components/component/ui_components/LoadingPage";
+import ThreeDotDropDown from "@/components/component/ui_components/ThreeDotDropDown";
+import { baseUrl } from "@/components/component/ui_components/PostComponent/PostItem";
+import PostFooter from "@/components/component/ui_components/PostComponent/PostFooter";
+import DialogFN from "@/components/component/ui_components/DialogFN";
 
 const PostDetail = () => {
   const { singleDetailLoading, singleDetail, isFetching } = useFetchDetails();
@@ -20,12 +20,15 @@ const PostDetail = () => {
   const { isDeletePostLoading } = useDeletePost();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  if (singleDetailLoading || !singleDetail || isFetching) {
+  if (
+    singleDetailLoading ||
+    !singleDetail ||
+    isFetching ||
+    isDeletePostLoading
+  ) {
     return <LoadingPage />;
   }
-  if (isDeletePostLoading) {
-    return <LoadingPage />;
-  }
+
   console.log(isFetching);
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const { author, createAt, detail, image, title } = singleDetail.data;

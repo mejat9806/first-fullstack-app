@@ -1,4 +1,4 @@
-import CreatePost from "@/component/ui_components/CreatePost/CreatePost";
+import CreatePost from "@/components/component/ui_components/CreatePost/CreatePost";
 
 const NewPost = () => {
   return (

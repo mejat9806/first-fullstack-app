@@ -1,4 +1,4 @@
-import Login from "@/component/Login";
+import Login from "@/components/component/Login";
 import { Link } from "react-router-dom";
 
 function LoginPage() {

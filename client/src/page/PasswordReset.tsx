@@ -1,4 +1,4 @@
-import ResetPageUI from "@/component/ResetPage/ResetPageUI";
+import ResetPageUI from "@/components/component/ResetPage/ResetPageUI";
 
 const PasswordReset = () => {
   return (

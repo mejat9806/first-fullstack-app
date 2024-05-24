@@ -5,16 +5,16 @@ import Dashboard from "./page/Dashboard";
 import PrivateRoute from "./page/PrivateRoute";
 import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
-import MainLayout from "./component/MainLayout";
 import Setting from "./page/Setting";
 import { Suspense, useEffect, useState } from "react";
-import LoadingPage from "./component/ui_components/LoadingPage";
 import Explore from "./page/Explore";
 import NewPost from "./page/NewPost";
 import PostDetail from "./page/PostDetail";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "./page/ErrorPage";
 import PasswordReset from "./page/PasswordReset";
+import LoadingPage from "./components/component/ui_components/LoadingPage";
+import MainLayout from "./components/component/MainLayout";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 

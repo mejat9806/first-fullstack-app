@@ -10,7 +10,6 @@ function LoginPage() {
         <Login />
         <span>Dont have account ?</span>
         <Link to={"/register"} className="font-semibold hover:text-blue-950">
-          {" "}
           Register here
         </Link>
       </div>

@@ -10,6 +10,7 @@ import {
   uploadUserPhoto,
   forgotPassword,
   resetPassword,
+  updatePassword,
 } from "../controller/authController";
 import { verifyJWT } from "../middleware/verifyToken";
 
@@ -28,3 +29,4 @@ router.patch("/resetPassword/:token", resetPassword);
 router.use(verifyJWT);
 router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
 router.get("/profile", getProfile);
+router.post("/updatePassword", updatePassword);

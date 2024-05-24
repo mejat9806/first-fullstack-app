@@ -231,3 +231,25 @@ export const resetPassword = catchAsync(
     res.status(200).json({ status: "success", token });
   },
 );
+
+export const updatePassword = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
+    if (!req.user) {
+      return next(AppError("Please Log in ", 401));
+    }
+    const user = await User.findById(req.user.id).select("+password");
+    if (!user) {
+      return next(AppError("User did not exist", 404));
+    }
+    if (
+      !(await user.comparePassword(req.body.currentPassword, user.password))
+    ) {
+      return next(AppError("Password  is not the same", 404));
+    }
+    user.password = req.body.password;
+    user.passwordConfirmed = req.body.passwordConfirmed;
+    await user.save();
+    res.status(200).json({ status: "woriking", user });
+  },
+);

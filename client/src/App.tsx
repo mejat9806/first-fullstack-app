@@ -14,6 +14,7 @@ import NewPost from "./page/NewPost";
 import PostDetail from "./page/PostDetail";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "./page/ErrorPage";
+import PasswordReset from "./page/PasswordReset";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -53,6 +54,7 @@ function App() {
                 <Route path="setting" element={<Setting />} />
               </Route>
             </Route>
+            <Route path="forgotPassword" element={<PasswordReset />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
           </Routes>

@@ -1,7 +1,7 @@
 import React from "react";
 import SettingForm from "./SettingForm";
 
-const SettingPage = () => {
+const UserSetting = () => {
   return (
     <div>
       <SettingForm />
@@ -9,4 +9,4 @@ const SettingPage = () => {
   );
 };
 
-export default SettingPage;
+export default UserSetting;

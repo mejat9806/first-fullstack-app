@@ -13,7 +13,7 @@ import FormInputUpdateUser from "./FormInputUpdateUser";
 import { Button } from "@/shadcnComponent/ui/button";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
-import LoadingPage from "../ui_components/LoadingPage";
+import LoadingPage from "../../ui_components/LoadingPage";
 import { Input } from "@/shadcnComponent/ui/input";
 import useUpdateUserData from "@/features/api/updateUser/useUpdateUserData";
 

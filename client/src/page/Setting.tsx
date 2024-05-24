@@ -1,15 +1,32 @@
-import SettingPage from "@/component/SettingPage/SettingPage";
+import UserSetting from "@/component/SettingPage/userDataNonPassword/UserSetting";
+import PasswordSettingForm from "@/component/SettingPage/userPassword/PasswordSettingForm";
+import DialogFN from "@/component/ui_components/DialogFN";
+import { Button } from "@/shadcnComponent/ui/button";
+import { useState } from "react";
 
 const Setting = () => {
+  const [openPasswordSetting, setOpenPasswordSetting] =
+    useState<boolean>(false);
   return (
-    <div>
+    <div className="flex flex-col gap-8">
       <div>
         <h1 className="font-semibold text-2xl">User Setting</h1>
-        <SettingPage />
+        <UserSetting />
       </div>
-      <div>
+      <div className="flex flex-col gap-8">
         <h1 className="font-semibold text-2xl">Passwords Setting</h1>
+        <div className="mx-auto flex justify-center w-full">
+          <Button onClick={() => setOpenPasswordSetting(true)}>
+            Change Password
+          </Button>
+        </div>
       </div>
+      <DialogFN
+        open={openPasswordSetting}
+        setIsOpen={setOpenPasswordSetting}
+        type="component"
+        component={<PasswordSettingForm />}
+      />
     </div>
   );
 };

@@ -19,7 +19,7 @@ function Login() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "mejathussin@gmail.com",
-      password: "12345678",
+      password: "mav989698",
     },
   });
 

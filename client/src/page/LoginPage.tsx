@@ -9,8 +9,14 @@ function LoginPage() {
         <div className="h-1 w-full bg-slate-300/50 my-5 rounded-xl"></div>
         <Login />
         <span>Dont have account ?</span>
-        <Link to={"/register"} className="font-semibold hover:text-blue-950">
+        <Link to={"/register"} className="font-semibold hover:text-blue-500">
           Register here
+        </Link>
+        <Link
+          to={"/forgotPassword"}
+          className="font-semibold hover:text-blue-500"
+        >
+          Forgot Password
         </Link>
       </div>
     </div>

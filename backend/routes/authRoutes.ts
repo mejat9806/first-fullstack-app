@@ -13,6 +13,7 @@ import {
   updatePassword,
 } from "../controller/authController";
 import { verifyJWT } from "../middleware/verifyToken";
+import { validateEmail } from "../controller/validationApi";
 
 export const router = Router();
 router.use(
@@ -24,9 +25,10 @@ router.use(
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logout);
+router.post("/checkEmail", validateEmail);
 router.post("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:token", resetPassword);
 router.use(verifyJWT);
 router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
 router.get("/profile", getProfile);
-router.post("/updatePassword", updatePassword);
+router.patch("/updatePassword", updatePassword);

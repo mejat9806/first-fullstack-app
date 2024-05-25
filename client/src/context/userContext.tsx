@@ -1,4 +1,3 @@
-import { toast } from "@/shadcnComponent/ui/use-toast";
 import axios from "axios";
 import React, { ReactNode, useEffect, useState } from "react";
 
@@ -40,12 +39,6 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
         })
         .then(({ data }) => {
           setUser(data);
-        })
-        .catch((err) => {
-          toast({
-            title: "Please login again",
-            description: err.message,
-          });
         });
     }
   });

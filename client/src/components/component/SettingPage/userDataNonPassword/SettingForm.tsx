@@ -15,7 +15,7 @@ import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import LoadingPage from "../../ui_components/LoadingPage";
 import { Input } from "@/shadcnComponent/ui/input";
-import useUpdateUserData from "@/features/api/updateUser/useUpdateUserData";
+import useUpdateUserData from "@/features/api/updateUser/updateUser/useUpdateUserData";
 
 const SettingForm = () => {
   const { user } = useContext(UserContext);

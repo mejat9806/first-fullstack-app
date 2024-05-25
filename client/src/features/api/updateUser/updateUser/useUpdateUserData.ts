@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import updateUserApi from "./updateUserApi";
 import { toast } from "@/shadcnComponent/ui/use-toast";
-import { useLogout } from "../Auth/logout/useLogout";
+import { useLogout } from "../../Auth/logout/useLogout";
 
 const useUpdateUserData = () => {
   const queryClient = useQueryClient();

@@ -184,11 +184,17 @@ export const forgotPassword = catchAsync(
 
     await user.save({ validateBeforeSave: false }); //this is use to save the reset token
     try {
+      const resetPageUrl = `${req.protocol}://localhost:5173/resetPassword/${resetToken}`; //this will get the url
       const resetURL = `${req.protocol}://${req.get(
         "host",
-      )}/api/auth/resetPassword/${resetToken}`; //this will get the url
-      const message = `forgot your password? Submit a PATCH request with your new password and password Confirm to ${resetURL}.\n if you did not forget your password ,pls ignore this message`;
-      await new Email(user, resetURL, message).sendPasswordReset();
+      )}/api/auth/resetPassword/${resetToken}`; //this will get the url to send the the password reset
+      const message = `forgot your password? Submit a PATCH request with your new password and password Confirm to ${resetPageUrl}.\n if you did not forget your password ,pls ignore this message`;
+      await new Email(
+        user,
+        resetPageUrl,
+        resetURL,
+        message,
+      ).sendPasswordReset();
 
       res.status(200).json({
         status: "success",

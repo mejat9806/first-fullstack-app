@@ -1,10 +1,9 @@
-import ResetPageUI from "@/components/component/ResetPage/ResetPageUI";
+import ForgotPageUI from "@/components/component/Password/Forgot/ForgotPageUI";
 
 const PasswordReset = () => {
   return (
     <div>
-      <h1>Password Reset </h1>
-      <ResetPageUI />
+      <ForgotPageUI />
     </div>
   );
 };

@@ -43,7 +43,7 @@ function FormInputUpdatePassword({
               {...field}
               className=""
               type={type}
-              autoComplete="on"
+              autoComplete="true"
             />
           </FormControl>
           <FormMessage className="absolute -bottom-5" />

@@ -7,6 +7,7 @@ interface IEmail {
   firstName: string;
   url: string;
   from: string;
+  pageUrl: string;
   message: string;
 }
 
@@ -14,13 +15,15 @@ export class Email implements IEmail {
   to: string;
   firstName: string;
   url: string;
+  pageUrl: string;
   from: string;
   message: string;
 
-  constructor(user: any, url: string, message: string) {
+  constructor(user: any, url: string, pageUrl: string, message: string) {
     this.to = user.email;
     this.firstName = user.name.split(" ")[0];
     this.url = url;
+    this.pageUrl = pageUrl;
     this.from = `Amer Aizat <${process.env.EMAIL_FROM}>`;
     this.message = message;
   }
@@ -56,6 +59,7 @@ export class Email implements IEmail {
       firsName: this.firstName,
       url: this.url,
       to: this.to,
+      pageUrl: this.pageUrl,
       text: this.message,
       subject,
     };

@@ -15,6 +15,8 @@ import ErrorPage from "./page/ErrorPage";
 import PasswordReset from "./page/PasswordReset";
 import LoadingPage from "./components/component/ui_components/LoadingPage";
 import MainLayout from "./components/component/MainLayout";
+import Resetpassword from "./page/Resetpassword";
+import CheckEmailPage from "./page/CheckEmailPage";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -57,6 +59,11 @@ function App() {
             <Route path="forgotPassword" element={<PasswordReset />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
+            <Route path="checkEmail" element={<CheckEmailPage />} />
+            <Route
+              path="resetPassword/:resetToken"
+              element={<Resetpassword />}
+            />
           </Routes>
         </Suspense>
       </ErrorBoundary>

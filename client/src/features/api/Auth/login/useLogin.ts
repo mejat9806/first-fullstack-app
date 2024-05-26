@@ -4,6 +4,7 @@ import { loginApi } from "./loginApi";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { toast } from "@/shadcnComponent/ui/use-toast";
+import axios from "axios";
 
 export function useLogin() {
   const queryClient = useQueryClient();
@@ -24,17 +25,19 @@ export function useLogin() {
       });
       console.log(data, "in the quuery function");
       queryClient.setQueryData(["user"], data);
-      setUser(data);
+      setUser(data.data);
       // setAuth(data);
       navigate("/", { replace: true });
     },
     onError: (err) => {
-      toast({
-        title: "Login Error",
-        description: err.message,
-        variant: "error",
-      });
       console.log("ERROR", err);
+      if (axios.isAxiosError(err) && err.response)
+        //this how to read error from axios
+        toast({
+          title: "Login Error",
+          description: err.response.data.message,
+          variant: "error",
+        });
     },
   });
   return { login, isLoading, loginData };

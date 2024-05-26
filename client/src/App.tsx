@@ -12,7 +12,7 @@ import NewPost from "./page/NewPost";
 import PostDetail from "./page/PostDetail";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "./page/ErrorPage";
-import PasswordReset from "./page/PasswordReset";
+import PasswordReset from "./page/ForgotPass";
 import LoadingPage from "./components/component/ui_components/LoadingPage";
 import MainLayout from "./components/component/MainLayout";
 import Resetpassword from "./page/Resetpassword";

@@ -11,6 +11,7 @@ import { MulterFiles } from "./postController";
 import sharp from "sharp";
 import { Email } from "../utils/email";
 import { createSendToken, signToken } from "../utils/tokenGeneration";
+import ResetPassword from "../../client/emails/ResetPassword";
 dotenv.config();
 
 export const registerUser = catchAsync(
@@ -137,6 +138,14 @@ export const resizeUserPhoto = catchAsync(
 
 export const updateMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user) {
+      return next(AppError("please login", 401));
+    }
+    const currentUser = await User.findById(user.id);
+    if (currentUser?.changedPasswordAfter(user.iat as number)) {
+      return next(AppError("user change password recently", 401));
+    }
     if (req.body.name < 5) {
       return next(AppError("Invalid username need atleast 5 characters", 401));
     }
@@ -159,10 +168,16 @@ export const updateMe = catchAsync(
 export const getProfile = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.user, "user");
-    if (!req.user) {
+    const user = req.user;
+
+    if (!user) {
       return next(AppError("Please log in again", 401));
     }
-    const profile = await User.findById(req.user.id)
+    const currentUser = await User.findById(user.id);
+    if (currentUser?.changedPasswordAfter(user.iat as number)) {
+      return next(AppError("user change password recently", 401));
+    }
+    const profile = await User.findById(user.id)
       .select("-password -passwordResetExpired -passwordResetToken")
       .populate("posts");
 
@@ -185,15 +200,22 @@ export const forgotPassword = catchAsync(
     await user.save({ validateBeforeSave: false }); //this is use to save the reset token
     try {
       const resetPageUrl = `${req.protocol}://localhost:5173/resetPassword/${resetToken}`; //this will get the url
+      const type = "reset";
       const resetURL = `${req.protocol}://${req.get(
         "host",
       )}/api/auth/resetPassword/${resetToken}`; //this will get the url to send the the password reset
       const message = `forgot your password? Submit a PATCH request with your new password and password Confirm to ${resetPageUrl}.\n if you did not forget your password ,pls ignore this message`;
+      const html = ResetPassword({
+        name: user.name.split(" ")[0],
+        url: resetPageUrl,
+      });
       await new Email(
         user,
         resetPageUrl,
         resetURL,
         message,
+        type,
+        html,
       ).sendPasswordReset();
 
       res.status(200).json({
@@ -214,6 +236,7 @@ export const forgotPassword = catchAsync(
 export const resetPassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.params.token, "here tokens params");
+    console.log(req.body);
     const hashedToken = crypto
       .createHash("sha256")
       .update(req.params.token)
@@ -223,7 +246,7 @@ export const resetPassword = catchAsync(
       passwordResetToken: hashedToken,
       passwordResetExpired: { $gt: Date.now() }, //this use to compare the expire time
     });
-    console.log(user);
+    console.log(user, "here null");
     if (!user) {
       return next(AppError("Token is invalid or expired", 400));
     }

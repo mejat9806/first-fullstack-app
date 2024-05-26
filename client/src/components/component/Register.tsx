@@ -13,9 +13,9 @@ export const registerFormSchema = z
       .string()
       .min(1, { message: "Please enter a valid email address" })
       .email(),
+    name: z.string().min(3, { message: "Please enter atleast 3 characters" }),
     password: z.string().min(8, { message: "Need 8 character" }),
     passwordConfirm: z.string().min(8, { message: "Need 8 character" }),
-    name: z.string().min(3, { message: "Please enter atleast 3 characters" }),
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "passwords do not match",

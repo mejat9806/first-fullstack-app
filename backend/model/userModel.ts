@@ -74,7 +74,7 @@ userSchema.pre("save", async function (next) {
 userSchema.pre("save", function (next) {
   // This middleware will run when the password is modified, except when a new user is created.
   // It updates the passwordChangedAt field to the current date and time minus 1000 milliseconds.
-  if (!this.isModified("password") || this.isNew) return next();
+  if (!this.isModified("password") || this.isNew) return next(); //if there is no change to the password
 
   this.passwordChangedAt = new Date(Date.now() - 1000);
   next();
@@ -102,12 +102,14 @@ userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
 });
 
 userSchema.methods.changedPasswordAfter = function (JWTtimestamp: number) {
+  //this will update the password after change time
   if (this.passwordChangedAt) {
+    //if the the current document has the passwordChangedAt property
     const chnagedTimeStamp = parseInt(
-      (this.passwordChangedAt.getTime() / 1000).toString(),
+      (this.passwordChangedAt.getTime() / 1000).toString(), //this will gert the change time in milliseconds
       10,
     );
-    return JWTtimestamp < chnagedTimeStamp;
+    return JWTtimestamp < chnagedTimeStamp; //this
   }
   return false;
 };

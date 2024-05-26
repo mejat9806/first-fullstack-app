@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { registerApi } from "./registerApi";
 import { toast } from "@/shadcnComponent/ui/use-toast";
+import axios from "axios";
 
 export function useRegister() {
   const queryClient = useQueryClient();
@@ -37,12 +38,12 @@ export function useRegister() {
       navigate("/login", { replace: true });
     },
     onError: (err) => {
-      toast({
-        title: "Register failed",
-        description: err.message,
-        variant: "error",
-      });
-      console.log("ERROR", err);
+      if (axios.isAxiosError(err) && err.response)
+        toast({
+          title: "Register failed",
+          description: err.response.data.message,
+          variant: "error",
+        });
     },
   });
   return { register, isLoadingRegister, registerData };

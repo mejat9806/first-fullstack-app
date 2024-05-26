@@ -1,7 +1,9 @@
+import { toast } from "@/shadcnComponent/ui/use-toast";
 import axios from "axios";
 import React, { ReactNode, useEffect, useState } from "react";
 
 import { createContext } from "react";
+import { useLocation } from "react-router-dom";
 
 export interface AuthType {
   email: string;
@@ -29,16 +31,20 @@ export const UserContext = createContext<{
 });
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
+  const { pathname } = useLocation();
   useEffect(() => {
     const accesstoken = user?.accessToken;
 
-    if (!user) {
+    if (!user && pathname === "/") {
       axios
         .get("auth/profile", {
           headers: { Authorization: `Bearer ${accesstoken}` },
         })
         .then(({ data }) => {
           setUser(data);
+        })
+        .catch((err) => {
+          toast({ variant: "error", description: err.data.message });
         });
     }
   });

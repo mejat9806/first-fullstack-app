@@ -1,7 +1,8 @@
 import { UserType } from "../model/userModel";
 import nodemailer, { Transporter } from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
-
+import { render } from "@react-email/render";
+import ResetPassword from "../../client/emails/ResetPassword"; // Adjust the path as necessary
 interface IEmail {
   to: string;
   firstName: string;
@@ -9,6 +10,8 @@ interface IEmail {
   from: string;
   pageUrl: string;
   message: string;
+  type: string;
+  html: any;
 }
 
 export class Email implements IEmail {
@@ -18,14 +21,26 @@ export class Email implements IEmail {
   pageUrl: string;
   from: string;
   message: string;
+  type: string;
+  html: any;
 
-  constructor(user: any, url: string, pageUrl: string, message: string) {
+  constructor(
+    user: any,
+    url: string,
+    pageUrl: string,
+    message: string,
+    type: string,
+
+    html: any,
+  ) {
     this.to = user.email;
     this.firstName = user.name.split(" ")[0];
     this.url = url;
     this.pageUrl = pageUrl;
     this.from = `Amer Aizat <${process.env.EMAIL_FROM}>`;
     this.message = message;
+    this.type = type;
+    this.html = html;
   }
 
   createNewTransport(): Transporter {
@@ -55,12 +70,16 @@ export class Email implements IEmail {
     }
   }
   async send(subject: string) {
+    const emailHtml = render(this.html);
+    console.log(this.url);
     const mailOptions = {
       firsName: this.firstName,
       url: this.url,
       to: this.to,
       pageUrl: this.pageUrl,
       text: this.message,
+      html: emailHtml,
+
       subject,
     };
     await this.createNewTransport().sendMail(mailOptions);

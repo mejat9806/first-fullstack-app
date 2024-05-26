@@ -1,4 +1,3 @@
-import { checkEmail } from "@/features/api/validation/Email/checkEmail";
 import { Button } from "@/shadcnComponent/ui/button";
 import {
   Form,
@@ -10,10 +9,8 @@ import {
 } from "@/shadcnComponent/ui/form";
 import { Input } from "@/shadcnComponent/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { debounce, DebouncedFunc } from "lodash";
 import { useForgotPassword } from "@/features/api/updateUser/forgotPassword/useForgotPassword";
 
 const ForgotPassForm = () => {
@@ -72,12 +69,15 @@ const ForgotPassForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex-col flex gap-5"
+      >
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className=" items-baseline justify-center gap-5">
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input

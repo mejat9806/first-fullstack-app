@@ -13,7 +13,7 @@ function Login() {
       .string()
       .min(1, { message: "Please enter a valid email address" })
       .email(),
-    password: z.string().min(4),
+    password: z.string().min(8),
   });
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -62,7 +62,7 @@ function Login() {
           disabled={isLoading}
         />
 
-        <Button type="submit" className="hover:bg-slate-600 ">
+        <Button type="submit" className="hover:bg-slate-600 flex w-full ">
           {!isLoading ? "  Submit" : "Loading..."}
         </Button>
       </form>

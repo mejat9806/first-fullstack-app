@@ -1,5 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { Response, Request, NextFunction } from "express";
+import { User } from "../model/userModel";
 
 declare global {
   //this is used to modify the global TS Scope

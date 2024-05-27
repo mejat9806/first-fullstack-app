@@ -4,7 +4,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import FormInputUpdatePassword from "./FormInputUpdatePassword";
 import { Button } from "@/shadcnComponent/ui/button";
+import { useUpdatePassword } from "@/features/api/updateUser/updatePassword/useUpdatePassword";
 const PasswordSettingForm = () => {
+  const { isUpdatePassword, updatePassword } = useUpdatePassword();
   const FormSchema = z
     .object({
       currentPassword: z
@@ -13,7 +15,9 @@ const PasswordSettingForm = () => {
       newPassword: z
         .string()
         .min(8, { message: "Password need to be 8 character" }),
-      passwordConfirm: z.string(),
+      passwordConfirm: z
+        .string()
+        .min(8, { message: "Password need to be 8 character" }),
     })
     .refine((data) => data.newPassword === data.passwordConfirm, {
       message: "passwords do not match",
@@ -22,9 +26,17 @@ const PasswordSettingForm = () => {
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      currentPassword: "",
+      newPassword: "",
+      passwordConfirm: "",
+    },
   });
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    console.log(values);
+    if (values.currentPassword === "") {
+      return;
+    }
+    updatePassword(values);
   }
 
   return (
@@ -39,6 +51,7 @@ const PasswordSettingForm = () => {
           placeholder={"Password"}
           type="password"
           name={"currentPassword"}
+          disabled={isUpdatePassword}
         />
         <FormInputUpdatePassword
           form={form}
@@ -46,6 +59,7 @@ const PasswordSettingForm = () => {
           placeholder={"New Password"}
           type="password"
           name={"newPassword"}
+          disabled={isUpdatePassword}
         />
         <FormInputUpdatePassword
           form={form}
@@ -53,9 +67,10 @@ const PasswordSettingForm = () => {
           placeholder={"Confirm Password"}
           type="password"
           name={"passwordConfirm"}
+          disabled={isUpdatePassword}
         />
         <div className="w-full flex items-center justify-end">
-          <Button>Submit</Button>
+          <Button disabled={isUpdatePassword}>Submit</Button>
         </div>
       </form>
     </Form>

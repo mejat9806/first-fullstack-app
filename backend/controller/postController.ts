@@ -109,7 +109,7 @@ export const resizePostImage = catchAsync(
         }.webp`;
         await sharp(files.image[i].buffer)
           .toFormat("webp")
-          .webp({ quality: 80 })
+          .webp({ quality: 95 })
           .toFile(`public/img/posts/${fileName}`);
         req.body.image.push(fileName);
       }),

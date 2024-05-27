@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { ReactNode, useEffect, useState } from "react";
 
 import { createContext } from "react";
-import { useLocation } from "react-router-dom";
 
 export interface AuthType {
   email: string;
@@ -31,11 +30,10 @@ export const UserContext = createContext<{
 });
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
-  const { pathname } = useLocation();
   useEffect(() => {
     const accesstoken = user?.accessToken;
 
-    if (!user && pathname === "/") {
+    if (!user) {
       axios
         .get("auth/profile", {
           headers: { Authorization: `Bearer ${accesstoken}` },

@@ -12,6 +12,7 @@ import sharp from "sharp";
 import { Email } from "../utils/email";
 import { createSendToken, signToken } from "../utils/tokenGeneration";
 import ResetPassword from "../../client/emails/ResetPassword";
+import WelcomeEmail from "../../client/emails/welcomEmail";
 dotenv.config();
 
 export const registerUser = catchAsync(
@@ -41,7 +42,13 @@ export const registerUser = catchAsync(
       password,
       profileImage: defaultImage,
     });
+    const url = `${req.protocol}://localhost:5173/login`;
+    const pageUrl = `${req.protocol}://localhost:5173/login`;
+    const message = "Welcome to my app";
+    const type = "welcome";
+    const html = WelcomeEmail({ name: user.name.split(" ")[0], url }); // No need to provide actual HTML content
 
+    await new Email(user, url, pageUrl, message, type, html).sendWelcome();
     return res.json(user);
   },
 );
@@ -81,6 +88,12 @@ export const logout = (req: Request, res: Response) => {
   console.log(token);
   if (!token) return res.status(204);
   res.clearCookie("token", {
+    httpOnly: true,
+    secure: false, //https
+    sameSite: "lax", //cross site cookies
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+  res.clearCookie("refreshToken", {
     httpOnly: true,
     secure: false, //https
     sameSite: "lax", //cross site cookies

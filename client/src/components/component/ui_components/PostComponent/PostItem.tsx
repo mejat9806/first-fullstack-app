@@ -4,6 +4,7 @@ import { dateFormat } from "@/utils/dateFormat";
 
 import { useNavigate } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { useTheme } from "@/components/darkMode/theme-provider";
 
 export interface PostItemType {
   item: {
@@ -19,6 +20,7 @@ export interface PostItemType {
 export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
 const PostItem = ({ item }: PostItemType) => {
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
   const postDay = dateFormat(item.createAt);
@@ -27,8 +29,14 @@ const PostItem = ({ item }: PostItemType) => {
   }
 
   return (
-    <div className="p-2 bg-slate-200/90 rounded-2xl py-7 shadow-2xl">
-      <div className="w-full h-  flex gap-1 mb-3">
+    <div
+      className={` ${
+        theme === "dark"
+          ? "text-white  hover:bg-slate-700  border-2 border-slate-100"
+          : "text-black  hover:bg-slate-200"
+      } p-5  rounded-2xl  l shadow-2xl`}
+    >
+      <div className="w-full  flex gap-1 mb-3">
         <img
           src={`${baseUrl}img/posts/${item.author.profileImage}`}
           className="h-10 w-10 rounded-full"
@@ -45,34 +53,8 @@ const PostItem = ({ item }: PostItemType) => {
           <h1 className="text-lg font-medium">{item.title}</h1>
           <TextArea text={item.detail} postID={item._id} />
         </div>
-        {/* <div>
-          <ThreeDotDropDown dropDownStuff={dropDownStuff} />
-        </div> */}
       </div>
-      <div className="w-full flex justify-center items-center">
-        {/* {item.image[0] && (
-          <div className="w-full  md:w-[300px] transition-all duration-150">
-            <Carousel>
-              <CarouselContent className="rounded-2xl">
-                {item.image.map((img) => (
-                  <CarouselItem key={img}>
-                    <img
-                      src={`${baseUrl}/img/posts/${img}`}
-                      alt={img}
-                      className="rounded-2xl w-full h-full object-cover bg-black"
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              {item.image.length > 1 && (
-                <CarouselPrevious className="md:flex hidden" />
-              )}
-              {item.image.length > 1 && (
-                <CarouselNext className="md:flex hidden" />
-              )}
-            </Carousel>
-          </div>
-        )} */}
+      <div className="w-full  flex justify-center items-center">
         <ResponsiveMasonry
           columnsCountBreakPoints={
             item.image.length < 2 ? { 500: 1 } : { 900: 2 }
@@ -80,13 +62,14 @@ const PostItem = ({ item }: PostItemType) => {
           style={{ width: "100%", height: "100%" }}
           className="mx-5 h-52"
         >
-          <Masonry gutter="10px">
+          <Masonry gutter="1px">
             {item.image.map((img, i) => (
               <img
                 key={i}
                 onClick={() => navigate(`post/${item._id}`)}
                 src={`${baseUrl}/img/posts/${img}`}
                 style={{ width: "100%", height: "100%" }}
+                className="rounded-xl"
               />
             ))}
           </Masonry>

@@ -6,32 +6,30 @@ import ResetPassword from "../../client/emails/ResetPassword"; // Adjust the pat
 interface IEmail {
   to: string;
   firstName: string;
-  url: string;
+  url?: string;
   from: string;
-  pageUrl: string;
+  pageUrl?: string;
   message: string;
   type: string;
-  html: any;
+  html?: any;
 }
-
 export class Email implements IEmail {
   to: string;
   firstName: string;
-  url: string;
-  pageUrl: string;
+  url?: string;
+  pageUrl?: string;
   from: string;
   message: string;
   type: string;
-  html: any;
+  html?: any;
 
   constructor(
     user: any,
     url: string,
-    pageUrl: string,
+    pageUrl: string = "null",
     message: string,
     type: string,
-
-    html: any,
+    html: any = undefined,
   ) {
     this.to = user.email;
     this.firstName = user.name.split(" ")[0];
@@ -41,10 +39,12 @@ export class Email implements IEmail {
     this.message = message;
     this.type = type;
     this.html = html;
+    this.from = `Amer Aizat <${process.env.EMAIL_FROM}>`;
   }
 
   createNewTransport(): Transporter {
     if (process.env.NODE_ENV === "production") {
+      console.log(process.env.BREVO_HOST);
       const transportOptions: SMTPTransport.Options = {
         host: process.env.BREVO_HOST,
         port: parseInt(process.env.BREVO_PORT || "587", 10),
@@ -54,6 +54,7 @@ export class Email implements IEmail {
           pass: process.env.BREVO_KEY,
         },
       };
+      console.log(process.env.BREVO_LOGIN);
       return nodemailer.createTransport(transportOptions);
     } else if (process.env.NODE_ENV === "development") {
       const transportOptions: SMTPTransport.Options = {
@@ -74,6 +75,7 @@ export class Email implements IEmail {
     console.log(this.url);
     const mailOptions = {
       firsName: this.firstName,
+      from: this.from,
       url: this.url,
       to: this.to,
       pageUrl: this.pageUrl,

@@ -21,6 +21,7 @@ interface FormInput {
   placeholder: string;
   name: "newPassword" | "passwordConfirm" | "currentPassword";
   type: string;
+  disabled: boolean;
 }
 
 function FormInputUpdatePassword({
@@ -29,6 +30,7 @@ function FormInputUpdatePassword({
   placeholder,
   name,
   type,
+  disabled,
 }: FormInput) {
   return (
     <FormField
@@ -44,6 +46,7 @@ function FormInputUpdatePassword({
               className=""
               type={type}
               autoComplete="true"
+              disabled={disabled}
             />
           </FormControl>
           <FormMessage className="absolute -bottom-5" />

@@ -13,6 +13,7 @@ import ThreeDotDropDown from "@/components/component/ui_components/ThreeDotDropD
 import { baseUrl } from "@/components/component/ui_components/PostComponent/PostItem";
 import PostFooter from "@/components/component/ui_components/PostComponent/PostFooter";
 import DialogFN from "@/components/component/ui_components/DialogFN";
+import { useTheme } from "@/components/darkMode/theme-provider";
 
 const PostDetail = () => {
   const { singleDetailLoading, singleDetail, isFetching } = useFetchDetails();
@@ -20,6 +21,7 @@ const PostDetail = () => {
   const { isDeletePostLoading } = useDeletePost();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+  const { theme } = useTheme();
   if (
     singleDetailLoading ||
     !singleDetail ||
@@ -35,44 +37,51 @@ const PostDetail = () => {
   const postDetail = dateFormat(createAt);
 
   const isAurthorCorrect = user?.id === author?.id;
-
   return (
-    <div>
-      <div className="w-full flex-col  flex justify-center items-center">
-        <div className=" md:w-1/2 w-full">
-          <Button
-            onClick={() => navigate(-1)}
-            className="hover:bg-slate-400 bg-slate-200  rounded-full h-10 w-10 p-0"
-          >
-            <ArrowBigLeft className="scale-110" />
-          </Button>
-        </div>
-        <div className="bg-slate-100 mt-2 p-2 rounded-lg mb-10 md:w-1/2 h-1/2 w-full ">
-          <div className="flex flex-col ">
-            <div className="flex justify-between">
-              <div className="flex gap-4">
-                <img
-                  src="/img/userImage/defaultUser.svg"
-                  alt="profileImage"
-                  className="h-[50px] w-[50px]"
-                />
-                <div>
-                  <h1>{author?.name}</h1>
-                  <h1>{postDetail}</h1>
-                </div>
-              </div>
-              {isAurthorCorrect && (
-                <ThreeDotDropDown dropDownStuff={dropDownStuff} />
-              )}
+    <div className="h-full flex md:grid md:grid-cols-postDetails items-start flex-col w-full ">
+      <div className="w-full flex-col h-full flex md:justify-center md:items-center ">
+        <div
+          className={`${
+            theme === "dark"
+              ? "text-white bg-slate-900  border-2 border-slate-100"
+              : "text-black bg-slate-50 "
+          } mt-2 p-2 rounded-lg  md:w-[600px] md:h-[600px] h-full w-full flex flex-col gap-2`}
+        >
+          <div className="flex gap-3 items-center  ">
+            <div className="  ">
+              <Button
+                onClick={() => navigate(-1)}
+                className="hover:bg-slate-400 bg-slate-200  rounded-full h-10 w-10 p-0"
+              >
+                <ArrowBigLeft className="scale-110" />
+              </Button>
             </div>
-            <div className="flex flex-col">
-              <h1 className="text-xl">{title}</h1>
-              <p className=" whitespace-break-spaces break-words text-sm w-full">
-                {detail}
-              </p>
+            <div className="flex flex-col ">
+              <div className="flex justify-between">
+                <div className="flex gap-4">
+                  <img
+                    src="/img/userImage/defaultUser.svg"
+                    alt="profileImage"
+                    className="h-[50px] w-[50px]"
+                  />
+                  <div>
+                    <h1>{author?.name}</h1>
+                    <h1>{postDetail}</h1>
+                  </div>
+                </div>
+                {isAurthorCorrect && (
+                  <ThreeDotDropDown dropDownStuff={dropDownStuff} />
+                )}
+              </div>
             </div>
           </div>
-          <div className="w-full flex justify-center items-center">
+          <div className="flex flex-col  mt-6">
+            <h1 className="text-xl">{title}</h1>
+            <p className=" whitespace-break-spaces break-words text-md w-full">
+              {detail}
+            </p>
+          </div>
+          <div className="w-full flex justify-center ">
             {/* <div className="w-full md:w-[500px] ">
               {image[0] && (
                 <CarouselComp imageProp={image} setOpenImage={setOpenImage} />
@@ -80,18 +89,19 @@ const PostDetail = () => {
             </div> */}
             <ResponsiveMasonry
               columnsCountBreakPoints={
-                image.length < 2 ? { 500: 1 } : { 900: 2 }
+                image.length <= 1 ? { 500: 1 } : { 900: 2 }
               }
-              style={{ width: "100%", height: "100%" }}
-              className="mx-5 h-52"
+              className="w-[100%]  md:w-[100%]"
             >
-              <Masonry gutter="10px">
+              <Masonry className="bg-black " gutter="2px">
                 {image.map((img, i) => (
                   <img
                     key={i}
                     src={`${baseUrl}/img/posts/${img}`}
-                    style={{ width: "100%", height: "100%" }}
                     onClick={() => setOpenImage(true)}
+                    className={`$${
+                      image.length > 1 ? "md:h-[200px] md:w-full h-[200px]" : ""
+                    }`}
                   />
                 ))}
               </Masonry>
@@ -109,6 +119,7 @@ const PostDetail = () => {
         type="image"
         image={image}
       />
+      <div className="h-[50%] hidden md:flex bg-red-500"></div>
     </div>
   );
 };

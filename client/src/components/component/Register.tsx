@@ -56,7 +56,7 @@ function Register() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(registerUser)}
-        className="space-y-8 flex flex-col  capitalize  "
+        className="space-y-8 flex flex-col  "
       >
         <FormInputRegister
           form={form}

@@ -1,9 +1,9 @@
-import DashboardUi from "@/components/component/ui_components/dashboardUI/DashboardUi";
+import ProfileUI from "@/components/component/ui_components/profileUI/ProfileUI";
 
-export default function Dashboard() {
+export default function Profile() {
   return (
     <div>
-      <DashboardUi />
+      <ProfileUI />
     </div>
   );
 }

@@ -17,6 +17,7 @@ import LoadingPage from "./components/component/ui_components/LoadingPage";
 import MainLayout from "./components/component/MainLayout";
 import Resetpassword from "./page/Resetpassword";
 import CheckEmailPage from "./page/CheckEmailPage";
+import { useTheme } from "./components/darkMode/theme-provider";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -26,6 +27,7 @@ function App() {
     //Simulates a request; makes a "promise" that'll run for 2.5 seconds
     return new Promise<void>((resolve) => setTimeout(() => resolve(), 1500));
   }
+  const { theme } = useTheme();
   useEffect(() => {
     someRequest().then(() => {
       const loaderElement = document.querySelector(".loader-container");
@@ -40,9 +42,14 @@ function App() {
     //
     return null;
   }
+
   //before react email
   return (
-    <>
+    <div
+      className={`${
+        theme === "dark" ? "text-white bg-black" : "text-black bg-slate-100"
+      } h-full`}
+    >
       <ErrorBoundary fallback={<ErrorPage />}>
         <Suspense fallback={<LoadingPage />}>
           {/* <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} /> */}
@@ -51,7 +58,7 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route index element={<Home />} />
                 <Route path={"post/:postId"} element={<PostDetail />} />
-                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="profile" element={<Dashboard />} />
                 <Route path="explore" element={<Explore />} />
                 <Route path="newPost" element={<NewPost />} />
                 <Route path="setting" element={<Setting />} />
@@ -68,7 +75,7 @@ function App() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
-    </>
+    </div>
   );
 }
 

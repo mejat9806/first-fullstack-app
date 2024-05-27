@@ -14,11 +14,20 @@ import { UserContext } from "@/context/userContext";
 import { baseUrl } from "./PostComponent/PostItem";
 import { useLogin } from "@/features/api/Auth/login/useLogin";
 import LoadingPage from "./LoadingPage";
+import { useTheme } from "@/components/darkMode/theme-provider";
 
 const ProfileIcon = () => {
   const { logout } = useLogout();
   const { isLoading } = useLogin();
+  const { setTheme, theme } = useTheme();
   const { user } = useContext(UserContext);
+
+  const toggleTheme = () => {
+    if (theme === "dark") {
+      setTheme("light");
+    } else setTheme("dark");
+  };
+
   const logoutFn = async () => {
     logout();
   };
@@ -29,9 +38,9 @@ const ProfileIcon = () => {
   const profileImage = `${baseUrl}img/posts/${
     user?.profileImage ?? user?.user?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
-  console.log(user);
+
   return (
-    <div className="">
+    <div className={`${theme === "dark" ? "text-white" : "text-black"}`}>
       <DropdownMenu>
         <DropdownMenuTrigger className="hover:drop-shadow-2xl">
           {user ? (
@@ -44,18 +53,25 @@ const ProfileIcon = () => {
             <DefaultProfile />
           )}
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="bg-white/20 backdrop-blur-2xl drop-shadow-2xl p-2">
+        <DropdownMenuContent
+          className={`${
+            theme === "dark" ? "" : "bg-white/20"
+          } backdrop-blur-2xl drop-shadow-2xl p-2`}
+        >
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Link to="/dashboard" className="p-0">
+            <Link to="/profile" className="w-full">
               Profile
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Link to="/setting" className="p-0">
+            <Link to="/setting" className="w-full">
               Setting
             </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="bg-transparent" onClick={toggleTheme}>
+            {theme === "dark" ? "Light mode" : "Dark mode"}
           </DropdownMenuItem>
           <DropdownMenuItem>Contact the Dev</DropdownMenuItem>
           <DropdownMenuItem onClick={logoutFn}>Logout</DropdownMenuItem>

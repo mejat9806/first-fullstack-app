@@ -16,14 +16,14 @@ type ICarousel = {
 const CarouselComp = ({ imageProp, setOpenImage, open }: ICarousel) => {
   return (
     <div className="w-full  md:w-full transition-all duration-150 ">
-      <Carousel className="w-full ">
+      <Carousel className="md:w-full h-full">
         <CarouselContent className="rounded-2xl">
           {imageProp.map((img) => (
             <CarouselItem key={img} className="">
               <img
                 src={`${baseUrl}/img/posts/${img}`}
                 alt={img}
-                className=" w-full h-full object-contain bg-black"
+                className=" w-full md:w-full h-full object-contain "
                 onClick={() => setOpenImage(true)}
               />
             </CarouselItem>

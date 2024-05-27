@@ -39,7 +39,7 @@ function FormInputRegister({
       name={name}
       render={({ field }) => (
         <FormItem className="relative">
-          <FormLabel className="text-white capitalize">{label}</FormLabel>
+          <FormLabel className="text-black capitalize">{label}</FormLabel>
           <FormControl>
             <Input
               placeholder={placeholder}

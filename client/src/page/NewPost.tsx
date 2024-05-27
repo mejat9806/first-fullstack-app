@@ -2,7 +2,7 @@ import CreatePost from "@/components/component/ui_components/CreatePost/CreatePo
 
 const NewPost = () => {
   return (
-    <div>
+    <div className="flex justify-center items-center ">
       <CreatePost />
     </div>
   );

@@ -16,7 +16,7 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 dotenv.config();
 const corsOptions = {
-    origin: ["http://localhost:5173"], // Allow requests from this origin
+    // origin: ["http://localhost:5173"], // Allow requests from this origin
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
     allowedHeaders: [
         "set-cookie",
@@ -28,7 +28,7 @@ const corsOptions = {
     exposedHeaders: ["Content-Length"], // Expose this custom header
     credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
-app.use(cors(corsOptions));
+app.use("*", cors(corsOptions));
 const limiter = rateLimit({
     max: 1000,
     windowMs: 60 * 60 * 1000, //this allow 100 request in 1 hours

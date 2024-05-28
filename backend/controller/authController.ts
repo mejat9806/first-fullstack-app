@@ -1,18 +1,18 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
-import { User } from "../model/userModel";
-import { catchAsync } from "../utils/catchAsync";
-import { AppError } from "../utils/appError";
+import { User } from "../model/userModel.js";
+import { catchAsync } from "../utils/catchAsync.js";
+import { AppError } from "../utils/appError.js";
 import multer from "multer";
 import * as crypto from "crypto";
 
-import { MulterFiles } from "./postController";
+import { MulterFiles } from "./postController.js";
 import sharp from "sharp";
-import { Email } from "../utils/email";
-import { createSendToken, signToken } from "../utils/tokenGeneration";
-import ResetPassword from "../../client/emails/ResetPassword";
-import WelcomeEmail from "../../client/emails/welcomEmail";
+import { Email } from "../utils/email.js";
+import { createSendToken, signToken } from "../utils/tokenGeneration.js";
+import ResetPassword from "../../client/emails/ResetPassword.js";
+import WelcomeEmail from "../../client/emails/welcomEmail.js";
 dotenv.config();
 
 export const registerUser = catchAsync(

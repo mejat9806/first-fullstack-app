@@ -1,15 +1,15 @@
 import { NextFunction, Request, Response } from "express";
-import { Post } from "../model/postModel";
-import { User } from "../model/userModel";
+import { Post } from "../model/postModel.js";
+import { User } from "../model/userModel.js";
 import { JwtPayload } from "jsonwebtoken";
-import { apiFeatures } from "../utils/apiFeature";
-import { catchAsync } from "../utils/catchAsync";
-import { AppError } from "../utils/appError";
+import { apiFeatures } from "../utils/apiFeature.js";
+import { catchAsync } from "../utils/catchAsync.js";
+import { AppError } from "../utils/appError.js";
 import multer, { FileFilterCallback } from "multer";
 import { v4 as uuidv4 } from "uuid";
 
 import sharp from "sharp";
-import { deleteImage } from "../utils/deleteIMG";
+import { deleteImage } from "../utils/deleteIMG.js";
 
 interface UserPayload {
   id: string;

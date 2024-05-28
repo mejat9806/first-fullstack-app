@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import util from "util"; // Import util module for inspecting circular structures
-import { AppError } from "../utils/appError";
+import { AppError } from "../utils/appError.js";
 
 function handleCastErrorDB(error: any) {
   const message = ` invalid ${error.path}: ${error.value}`;

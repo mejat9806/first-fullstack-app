@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { catchAsync } from "../utils/catchAsync";
-import { AppError } from "../utils/appError";
-import { User } from "../model/userModel";
+import { catchAsync } from "../utils/catchAsync.js";
+import { AppError } from "../utils/appError.js";
+import { User } from "../model/userModel.js";
 
 export const validateEmail = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

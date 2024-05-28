@@ -1,27 +1,13 @@
 import { Router } from "express";
 import cors from "cors";
-import {
-  loginUser,
-  registerUser,
-  getProfile,
-  logout,
-  resizeUserPhoto,
-  updateMe,
-  uploadUserPhoto,
-  forgotPassword,
-  resetPassword,
-  updatePassword,
-} from "../controller/authController.js";
+import { loginUser, registerUser, getProfile, logout, resizeUserPhoto, updateMe, uploadUserPhoto, forgotPassword, resetPassword, updatePassword, } from "../controller/authController.js";
 import { verifyJWT } from "../middleware/verifyToken.js";
 import { validateEmail } from "../controller/validationApi.js";
-
 export const router = Router();
-router.use(
-  cors({
+router.use(cors({
     credentials: true,
     origin: "http://localhost:5173",
-  }),
-);
+}));
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logout);

@@ -6,8 +6,8 @@ import {
   getOnePost,
   resizePostImage,
   uploadPostImage,
-} from "../controller/postController";
-import { verifyJWT } from "../middleware/verifyToken";
+} from "../controller/postController.js";
+import { verifyJWT } from "../middleware/verifyToken.js";
 
 export const router = express.Router();
 

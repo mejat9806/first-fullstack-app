@@ -14,10 +14,12 @@ import FormInputCreatePost from "./FormInputCreatePost";
 import { Button } from "@/shadcnComponent/ui/button";
 import { useCreatePost } from "@/features/api/Posts/createPost/useCreatePost";
 import { Input } from "@/shadcnComponent/ui/input";
+import { useTheme } from "@/components/darkMode/theme-provider";
 
 const CreatePostInput = () => {
   const { loadingPost, createPost } = useCreatePost();
 
+  const { theme } = useTheme();
   const FormSchema = z.object({
     title: z.string().min(1, { message: "Please enter a title" }),
     detail: z.string().min(5, { message: "Must have 10 characters" }),
@@ -56,6 +58,7 @@ const CreatePostInput = () => {
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
     const { title, detail, image } = values;
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("detail", detail);
@@ -94,10 +97,12 @@ const CreatePostInput = () => {
           control={form.control}
           name="image"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-black capitalize text-lg">
-                Image input
-              </FormLabel>
+            <FormItem
+              className={`relative w-full transition-all duration-150 ${
+                theme === "dark" ? "text-white" : "text-black"
+              }`}
+            >
+              <FormLabel className="capitalize text-lg">Image input</FormLabel>
               <FormControl>
                 <Input
                   type="file"

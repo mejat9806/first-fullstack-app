@@ -35,7 +35,7 @@ const PostDetail = () => {
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const { author, createAt, detail, image, title } = singleDetail.data;
   const postDetail = dateFormat(createAt);
-
+  console.log(baseUrl + author.profileImage);
   const isAurthorCorrect = user?.id === author?.id;
   return (
     <div className="h-full flex md:grid md:grid-cols-postDetails items-start flex-col w-full ">
@@ -47,33 +47,40 @@ const PostDetail = () => {
               : "text-black bg-slate-50 "
           } mt-2 p-2 rounded-lg  md:w-[600px] md:h-[600px] h-full w-full flex flex-col gap-2`}
         >
-          <div className="flex gap-3 items-center  ">
-            <div className="  ">
-              <Button
-                onClick={() => navigate(-1)}
-                className="hover:bg-slate-400 bg-slate-200  rounded-full h-10 w-10 p-0"
-              >
-                <ArrowBigLeft className="scale-110" />
-              </Button>
-            </div>
-            <div className="flex flex-col ">
-              <div className="flex justify-between">
-                <div className="flex gap-4">
-                  <img
-                    src="/img/userImage/defaultUser.svg"
-                    alt="profileImage"
-                    className="h-[50px] w-[50px]"
-                  />
-                  <div>
-                    <h1>{author?.name}</h1>
-                    <h1>{postDetail}</h1>
+          <div className="flex  items-center  justify-between">
+            <div className="flex md:items-center gap-3 flex-col md:flex-row">
+              <div className="flex justify-start">
+                <Button
+                  onClick={() => navigate(-1)}
+                  className="hover:bg-slate-400 bg-slate-200  rounded-full h-10 w-10 p-0"
+                >
+                  <ArrowBigLeft className="scale-110" />
+                </Button>
+              </div>
+              <div className="flex flex-col ">
+                <div className="flex  justify-between">
+                  <div
+                    className="flex gap-4 "
+                    onClick={() => {
+                      navigate(`/profile/${author.id}`);
+                    }}
+                  >
+                    <img
+                      src={`${baseUrl}/img/posts/${author.profileImage}`}
+                      alt="profileImage"
+                      className="h-[50px] w-[50px] rounded-full"
+                    />
+                    <div>
+                      <h1>{author?.name}</h1>
+                      <h1>{postDetail}</h1>
+                    </div>
                   </div>
                 </div>
-                {isAurthorCorrect && (
-                  <ThreeDotDropDown dropDownStuff={dropDownStuff} />
-                )}
               </div>
             </div>
+            {isAurthorCorrect && (
+              <ThreeDotDropDown dropDownStuff={dropDownStuff} />
+            )}
           </div>
           <div className="flex flex-col  mt-6">
             <h1 className="text-xl">{title}</h1>

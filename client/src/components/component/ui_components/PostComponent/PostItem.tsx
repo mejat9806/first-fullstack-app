@@ -21,7 +21,6 @@ export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
 const PostItem = ({ item }: PostItemType) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
-
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
   const postDay = dateFormat(item.createAt);
   if (!item) {

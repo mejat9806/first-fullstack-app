@@ -1,3 +1,4 @@
+import { useTheme } from "@/components/darkMode/theme-provider";
 import {
   FormControl,
   FormField,
@@ -25,15 +26,19 @@ const FormInputCreatePost = ({
   name,
   type,
 }: FormInputCreatePostProps) => {
+  const { theme } = useTheme();
+
   return (
     <FormField
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="relative w-full transition-all duration-150">
-          <FormLabel className="text-black capitalize text-lg">
-            {label}
-          </FormLabel>
+        <FormItem
+          className={`relative w-full transition-all duration-150 ${
+            theme === "dark" ? "text-white" : "text-black"
+          }`}
+        >
+          <FormLabel className=" capitalize text-lg">{label}</FormLabel>
           <FormControl>
             <>
               {type === "text" && (

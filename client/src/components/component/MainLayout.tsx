@@ -6,11 +6,11 @@ function MainLayout() {
   const { theme } = useTheme();
   return (
     <div
-      className={`h-screen ${theme === "dark" ? "bg-black" : "bg-slate-100"}`}
+      className={`min-h-svh ${theme === "dark" ? "bg-black" : "bg-slate-100"}`}
     >
       <HoroBar />
       <Nav />
-      <div className="md:mx-40 ml-16 mr-6 pt-24 h-full ">
+      <div className="md:mx-40 ml-20 mr-6 pt-24 h-full ">
         <Outlet />
       </div>
     </div>

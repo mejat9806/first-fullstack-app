@@ -120,6 +120,8 @@ export const resizePostImage = catchAsync(
 );
 export const createAPost = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
+    console.log(req.body);
+    const { title, detail, image } = req.body;
     try {
       if (!req.user) {
         return next(AppError("User not authenticated", 401));
@@ -128,7 +130,7 @@ export const createAPost = catchAsync(
       req.body.author = user.id;
       console.log(req.user);
       // Create new Post document
-      const newPost = await Post.create(req.body);
+      const newPost = await Post.create({ title, detail, image });
       await User.findByIdAndUpdate(
         req.body.author.id,
         { $push: { posts: newPost._id } },

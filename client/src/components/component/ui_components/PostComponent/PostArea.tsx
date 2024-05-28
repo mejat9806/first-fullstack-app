@@ -3,11 +3,13 @@ import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import PostItem from "./PostItem";
 import LoadingPage from "../LoadingPage";
+import { useSearchParams } from "react-router-dom";
 
 const Post = () => {
   const { data, error, status, fetchNextPage, refetch, isLoadingAllPosts } =
     useGetAllPost();
   const { ref, inView } = useInView();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     refetch();

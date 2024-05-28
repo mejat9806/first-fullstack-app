@@ -58,7 +58,7 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route index element={<Home />} />
                 <Route path={"post/:postId"} element={<PostDetail />} />
-                <Route path="profile" element={<Dashboard />} />
+                <Route path="profile/:id" element={<Dashboard />} />
                 <Route path="explore" element={<Explore />} />
                 <Route path="newPost" element={<NewPost />} />
                 <Route path="setting" element={<Setting />} />

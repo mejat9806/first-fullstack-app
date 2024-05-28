@@ -1,7 +1,12 @@
+import { useTheme } from "@/components/darkMode/theme-provider";
+
 export const ThreeDot = ({ style }: { style: string }) => {
+  const { theme } = useTheme();
   return (
     <svg
-      className={`${style} fill-black/45`}
+      className={`${style}  ${
+        theme === "dark" ? "fill-slate-300" : "fill-black/45"
+      }`}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 32.055 32.055"
       xmlSpace="preserve"

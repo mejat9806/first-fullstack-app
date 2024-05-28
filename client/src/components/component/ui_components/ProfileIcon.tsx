@@ -55,7 +55,7 @@ const ProfileIcon = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent
           className={`${
-            theme === "dark" ? "" : "bg-white/20"
+            theme === "dark" ? "bg-black/20" : "bg-white/20"
           } backdrop-blur-2xl drop-shadow-2xl p-2`}
         >
           <DropdownMenuLabel>My Account</DropdownMenuLabel>

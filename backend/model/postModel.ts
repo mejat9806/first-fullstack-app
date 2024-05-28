@@ -12,6 +12,7 @@ interface PostType extends Document {
   slug: string;
   image: string;
   _doc?: any;
+  likes: number;
 }
 
 const postSchema = new mongoose.Schema<PostType>(
@@ -34,7 +35,9 @@ const postSchema = new mongoose.Schema<PostType>(
     },
     slug: { type: "string" },
     image: [String],
+    likes: { type: "Number", default: 0 },
   },
+
   {
     toJSON: {
       virtuals: true,

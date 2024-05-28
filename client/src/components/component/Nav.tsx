@@ -2,6 +2,10 @@ import { Link, useLocation } from "react-router-dom";
 
 import { BookMarked, CompassIcon, HomeIcon, PenIcon } from "lucide-react";
 import { useTheme } from "../darkMode/theme-provider";
+import { Button } from "@/shadcnComponent/ui/button";
+import DialogFN from "./ui_components/DialogFN";
+import { useState } from "react";
+import CreatePost from "./ui_components/CreatePost/CreatePost";
 
 const navitems = [
   {
@@ -22,6 +26,7 @@ const navitems = [
 ];
 
 function Nav() {
+  const [openWrite, setOpenWrite] = useState(false);
   const location = useLocation();
   const { theme } = useTheme();
 
@@ -49,10 +54,9 @@ function Nav() {
             </span>
           </Link>
         ))}
-        <Link
-          aria-label="label"
-          to={"/newPost"}
+        <Button
           className="flex gap-2 hover:scale-105 p-3 mx-10 md:w-32 transition-transform duration-150   bg-white rounded-full text-slate-900"
+          onClick={() => setOpenWrite(true)}
         >
           <i>
             <PenIcon className=" hover:stroke-slate-700 stroke-black" />
@@ -60,8 +64,14 @@ function Nav() {
           <span className="hidden md:flex transition-all duration-150">
             Write
           </span>
-        </Link>
+        </Button>
       </div>
+      <DialogFN
+        type="component"
+        setIsOpen={setOpenWrite}
+        open={openWrite}
+        component={<CreatePost />}
+      />
     </nav>
   );
 }

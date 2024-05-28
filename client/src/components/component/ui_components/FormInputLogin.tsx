@@ -37,7 +37,7 @@ function FormInputLogin({
       name={name}
       render={({ field }) => (
         <FormItem className="relative w-full transition-all duration-150">
-          <FormLabel className="text-black capitalize">{label}</FormLabel>
+          <FormLabel className=" capitalize">{label}</FormLabel>
           <FormControl>
             <Input
               placeholder={placeholder}

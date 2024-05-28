@@ -12,4 +12,4 @@ const connectDB = async () => {
   });
 };
 
-async () => await connectDB();
+connectDB();

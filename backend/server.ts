@@ -6,7 +6,7 @@ mongoose
   .connect(process.env.MONGO_URL as string)
   .then(() => console.log("db connection established"))
   .catch((err: any) => console.log("db connection fail", err));
-const port = 8000 || process.env.PORT;
+const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log(`server is running on ${port}`);
 });

@@ -7,6 +7,7 @@
   "scripts": {
     "build": "npx tsc",
     "start": "npx tsc && node dist/backend/server.js ",
+    "startProd": "NODE_ENV=production node dist/backend/server.js",
     "start:prod": "NODE_ENV=production tsx watch  server.ts",
     "dev": "tsx watch  server.ts"
   },

@@ -2,7 +2,9 @@ import mongoose from "mongoose";
 import { app } from "./app";
 const port = process.env.PORT || 8000;
 
-console.log(process.env.MONGO_URL);
+console.log("Starting application...");
+console.log(`PORT: ${port}`);
+console.log(`MONGO_URL: ${process.env.MONGO_URL}`);
 mongoose
   .connect(process.env.MONGO_URL as string)
   .then(() => console.log("db connection established"))

@@ -1,19 +1,32 @@
 import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import PostItem from "./PostItem";
 import LoadingPage from "../LoadingPage";
-import { useSearchParams } from "react-router-dom";
+
+import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
+import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
+import { UserContext } from "@/context/userContext";
 
 const Post = () => {
+  const { fetchType } = useContext(UserContext);
+  //use type here to dynamically fetch data base on what the page want like recent or popular
+  let postType = fetchAllPost;
+  console.log(fetchType);
+  if (fetchType === "popular") {
+    postType = fetchAllPost;
+  }
+  if (fetchType === "recent") {
+    postType = fetchlatest;
+  }
+
   const { data, error, status, fetchNextPage, refetch, isLoadingAllPosts } =
-    useGetAllPost();
+    useGetAllPost({ fetchingFunction: postType });
   const { ref, inView } = useInView();
-  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [refetch, postType]);
 
   useEffect(() => {
     if (inView) {
@@ -48,17 +61,9 @@ const Post = () => {
           )}
         </div>
       ))}
-      <div ref={ref}></div>
+      <div ref={ref} className="w-full h-1"></div>
     </div>
   );
 };
 
 export default Post;
-
-// <div className="w-[300px] md:w-[500px] h-full ">
-//   <h1 className="text-6xl font-bold font-Poppins">Post</h1>
-//   <div className="flex gap-y-5 flex-col">
-//     <PostItem image="/registerPhoto.jpg" />
-//     <PostItem />
-//   </div>
-// </div>

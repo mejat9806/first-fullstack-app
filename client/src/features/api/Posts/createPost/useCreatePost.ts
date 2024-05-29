@@ -10,6 +10,7 @@ export function useCreatePost() {
     data: PostData,
     isPending: loadingPost,
     mutate: createPost,
+    error,
   } = useMutation({
     mutationFn: createPostApi,
     onSuccess: (data) => {
@@ -24,5 +25,5 @@ export function useCreatePost() {
     },
   });
 
-  return { PostData, loadingPost, createPost };
+  return { PostData, loadingPost, createPost, error };
 }

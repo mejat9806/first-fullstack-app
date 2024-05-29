@@ -24,12 +24,18 @@ export interface UserType extends AuthType {
 export const UserContext = createContext<{
   user: UserType | null;
   setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
+  fetchType: string;
+  setFetchType: React.Dispatch<React.SetStateAction<string>>;
 }>({
   user: null,
+  fetchType: "popular",
   setUser: () => {},
+  setFetchType: () => "",
 });
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
+  const [fetchType, setFetchType] = useState("popular");
+
   useEffect(() => {
     const accesstoken = user?.accessToken;
 
@@ -48,7 +54,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   });
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, fetchType, setFetchType }}>
       {children}
     </UserContext.Provider>
   );

@@ -5,7 +5,6 @@ import { dateFormat } from "@/utils/dateFormat";
 import { useNavigate } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useTheme } from "@/components/darkMode/theme-provider";
-import ProfileImage from "../../ProfileImage";
 
 export interface PostItemType {
   item: {
@@ -28,11 +27,9 @@ const PostItem = ({ item }: PostItemType) => {
   if (!item) {
     return null; // or handle the case when item is undefined
   }
-  console.log(item.author);
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
-  console.log(profileImage);
   return (
     <div
       className={` ${
@@ -80,7 +77,7 @@ const PostItem = ({ item }: PostItemType) => {
             ))}
           </Masonry>
         </ResponsiveMasonry> */}
-        {item.image.length <= 1 ? (
+        {item.image && item.image.length === 1 ? (
           <img
             src={`${baseUrl}/img/posts/${item.image[0]}`}
             onClick={() => navigate(`post/${item._id}`)}

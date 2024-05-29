@@ -5,5 +5,5 @@ work need to be implemented
 - [] make like and comment function
 - [] make a bookmark function
 - [] make search function
-- [] refactor the form input
+- [] refactor the form input with index signature
 - [] make sorting function for main post

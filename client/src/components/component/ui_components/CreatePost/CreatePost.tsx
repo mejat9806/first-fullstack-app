@@ -1,7 +1,12 @@
 import { useTheme } from "@/components/darkMode/theme-provider";
 import CreatePostInput from "./CreatePostInput";
+import React from "react";
 
-const CreatePost = () => {
+const CreatePost = ({
+  setIsOpen,
+}: {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { theme } = useTheme();
   return (
     <div>
@@ -12,7 +17,7 @@ const CreatePost = () => {
       >
         Create New Post
       </h1>
-      <CreatePostInput />
+      <CreatePostInput setIsOpen={setIsOpen} />
       {/* <UseCreatePostForm /> */}
     </div>
   );

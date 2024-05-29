@@ -1,18 +1,32 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchAllPost } from "./fetchAllPost";
 import { PostItemType } from "@/components/component/ui_components/PostComponent/PostItem";
-type PageParams = (string | number)[]; // adjust as needed
+
+type PageParams = string | number;
 
 export type UseGetAllPostReturnType = {
   data?: {
-    pages: PostItemType[];
+    pages: { data: PostItemType[] }[];
     pageParams: PageParams;
   };
   error?: { message: string };
   status: "pending" | "error" | "success";
   fetchNextPage: () => void;
 };
-export const useGetAllPost = () => {
+type PostResponse = {
+  data: PostItemType[];
+};
+export const useGetAllPost = ({
+  fetchingFunction,
+}: {
+  fetchingFunction: ({
+    pageParam,
+  }: {
+    pageParam: number;
+  }) => Promise<PostResponse>;
+}) => {
+  if (!fetchingFunction) {
+    throw new Error("fetchingFunction must be provided.");
+  }
   const {
     data,
     error,
@@ -23,18 +37,15 @@ export const useGetAllPost = () => {
     status,
     isLoading: isLoadingAllPosts,
     refetch,
-  } = useInfiniteQuery({
+  } = useInfiniteQuery<PostResponse>({
     queryKey: ["posts"],
-    queryFn: ({ pageParam }) => fetchAllPost({ pageParam }), // Pass pageParam correctly
+    queryFn: ({ pageParam = 1 }) =>
+      fetchingFunction({ pageParam: pageParam as number }), // Default pageParam to 1
+    staleTime: 300000, // 5 minutes
     initialPageParam: 1,
-    staleTime: 0,
-    refetchOnMount: "always",
-    refetchOnReconnect: "always",
-    refetchOnWindowFocus: "always",
-    refetchInterval: 6000000,
-    gcTime: 0,
-    notifyOnChangeProps: ["dataUpdatedAt"],
-
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
     getNextPageParam: (lastPage, allPages) => {
       return lastPage.data.length ? allPages.length + 1 : undefined;
     },

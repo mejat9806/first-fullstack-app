@@ -15,8 +15,13 @@ import { Button } from "@/shadcnComponent/ui/button";
 import { useCreatePost } from "@/features/api/Posts/createPost/useCreatePost";
 import { Input } from "@/shadcnComponent/ui/input";
 import { useTheme } from "@/components/darkMode/theme-provider";
+import React from "react";
 
-const CreatePostInput = () => {
+const CreatePostInput = ({
+  setIsOpen,
+}: {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { loadingPost, createPost } = useCreatePost();
 
   const { theme } = useTheme();
@@ -55,7 +60,6 @@ const CreatePostInput = () => {
       image: undefined,
     },
   });
-
   function onSubmit(values: z.infer<typeof FormSchema>) {
     const { title, detail, image } = values;
 
@@ -70,7 +74,11 @@ const CreatePostInput = () => {
     }
     const formObject = Object.fromEntries(formData.entries());
     console.log(formObject);
-    createPost(formData);
+    createPost(formData, {
+      onSuccess: () => {
+        setIsOpen(false);
+      },
+    });
   }
 
   return (

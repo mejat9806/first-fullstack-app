@@ -95,7 +95,7 @@ const PostDetail = () => {
                 <CarouselComp imageProp={image} setOpenImage={setOpenImage} />
               )}
             </div> */}
-            {image.length <= 1 ? (
+            {image && image.length === 1 ? (
               <img
                 src={`${baseUrl}/img/posts/${image[0]}`}
                 onClick={() => setOpenImage(true)}

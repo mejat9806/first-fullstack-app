@@ -13,6 +13,7 @@ const navitems = [
     icons: <HomeIcon className=" hover:stroke-slate-700 " />,
     link: "/",
   },
+
   {
     name: "Explore",
     icons: <CompassIcon className=" hover:stroke-slate-700 " />,
@@ -70,7 +71,7 @@ function Nav() {
         type="component"
         setIsOpen={setOpenWrite}
         open={openWrite}
-        component={<CreatePost />}
+        component={<CreatePost setIsOpen={setOpenWrite} />}
       />
     </nav>
   );

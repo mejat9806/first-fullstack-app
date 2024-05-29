@@ -11,8 +11,7 @@ import { UseFormReturn } from "react-hook-form";
 interface FormInput {
   form: UseFormReturn<
     {
-      password: string;
-      passwordConfirmed: string;
+      [key: string]: string;
     },
     undefined
   >;

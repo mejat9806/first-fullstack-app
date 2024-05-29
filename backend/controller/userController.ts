@@ -9,7 +9,7 @@ export const getAlluser = async (
   try {
     const amountOfDoc = await User.countDocuments();
 
-    const allUser = await User.find();
+    const allUser = await User.find().populate("posts");
     if (!allUser) {
       return res.status(404).json({ message: "No user found." });
     }
@@ -24,13 +24,14 @@ export const getUser = async (
 ) => {
   try {
     const authorId = req.params.id;
-    if (!req.params.id) {
+    console.log(authorId);
+    if (!authorId) {
       return res.status(404).json({ message: "No user found." });
     }
 
-    const allUser = await User.findById(req.params.id).populate("posts");
-    console.log(allUser);
-    res.status(200).json({ data: allUser });
+    const user = await User.findById(authorId).populate("posts");
+    console.log(user);
+    res.status(200).json({ data: user });
   } catch (error) {
     next();
   }

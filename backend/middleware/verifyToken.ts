@@ -34,9 +34,10 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     token = (
       (req.headers.Authorization || req.headers.Authorization) as string
     ).split(" ")[1];
-  } else if (req.cookies.token || req.cookies.refreshToken) {
-    token = req.cookies.token || req.cookies.refreshToken;
+  } else if (req.cookies.refreshToken) {
+    token = req.cookies.refreshToken;
   }
+  console.log(req.cookies.refreshToken);
   if (!token) {
     return next(
       res
@@ -46,7 +47,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   }
   jwt.verify(
     token,
-    process.env.JWT_SECRET_KEY as string,
+    process.env.REFRESH_JWT_SECRET as string,
     (err: any, decode: any) => {
       if (err) {
         return res
@@ -54,6 +55,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
           .json("You are not logged in! Please log in to get access.");
       }
       req.user = decode;
+      console.log(req.user);
       next();
     },
   );

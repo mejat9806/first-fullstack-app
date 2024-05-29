@@ -5,6 +5,7 @@ import { dateFormat } from "@/utils/dateFormat";
 import { useNavigate } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useTheme } from "@/components/darkMode/theme-provider";
+import ProfileImage from "../../ProfileImage";
 
 export interface PostItemType {
   item: {
@@ -17,6 +18,7 @@ export interface PostItemType {
     image: string[];
   };
 }
+
 export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
 const PostItem = ({ item }: PostItemType) => {
   const navigate = useNavigate();
@@ -26,21 +28,26 @@ const PostItem = ({ item }: PostItemType) => {
   if (!item) {
     return null; // or handle the case when item is undefined
   }
-
+  console.log(item.author);
+  const profileImage = `${baseUrl}img/posts/${
+    item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
+  }`;
+  console.log(profileImage);
   return (
     <div
       className={` ${
         theme === "dark"
           ? "text-white  hover:bg-slate-700  border-2 border-slate-100"
           : "text-black  hover:bg-slate-200"
-      } p-5  rounded-2xl  l shadow-2xl`}
+      } p-5  rounded-2xl h-  shadow-2xl`}
     >
       <div className="w-full  flex gap-1 mb-3">
         <img
-          src={`${baseUrl}img/posts/${item.author.profileImage}`}
+          src={profileImage}
           className="h-10 w-10 rounded-full"
           // change this
         />
+
         <div
           className="flex flex-col items-start justify-start w-full "
           onClick={() => navigate(`post/${item._id}`)}
@@ -54,7 +61,7 @@ const PostItem = ({ item }: PostItemType) => {
         </div>
       </div>
       <div className="w-full  flex justify-center items-center">
-        <ResponsiveMasonry
+        {/* <ResponsiveMasonry
           columnsCountBreakPoints={
             item.image.length < 2 ? { 500: 1 } : { 900: 2 }
           }
@@ -72,7 +79,32 @@ const PostItem = ({ item }: PostItemType) => {
               />
             ))}
           </Masonry>
-        </ResponsiveMasonry>
+        </ResponsiveMasonry> */}
+        {item.image.length <= 1 ? (
+          <img
+            src={`${baseUrl}/img/posts/${item.image[0]}`}
+            onClick={() => navigate(`post/${item._id}`)}
+            className=" max-w-[200px] md:max-w-[450px] md:max-h-[400px] object-cover  "
+          />
+        ) : (
+          <ResponsiveMasonry
+            columnsCountBreakPoints={
+              item.image.length <= 1 ? { 500: 1 } : { 900: 2 }
+            }
+            className="  h-full w-full  md:max-w-[90%]"
+          >
+            <Masonry className="bg-transparent " gutter="2px">
+              {item.image.map((img, i) => (
+                <img
+                  key={i}
+                  src={`${baseUrl}/img/posts/${img}`}
+                  onClick={() => navigate(`post/${item._id}`)}
+                  className="md:max-h-[500px]  object-contain "
+                />
+              ))}
+            </Masonry>
+          </ResponsiveMasonry>
+        )}
       </div>
       <div className="mt-5">
         <PostFooter />

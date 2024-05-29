@@ -4,7 +4,7 @@ import { fetchPostDetail } from "./fetchPostDetail";
 
 export const useFetchDetails = () => {
   const { postId } = useParams();
-  const queryClient = useQueryClient(); // Get the query client
+  const queryClient = useQueryClient();
 
   const {
     data: singleDetail,
@@ -23,7 +23,6 @@ export const useFetchDetails = () => {
     gcTime: 0,
   });
 
-  // Clear the query from the cache when postId changes
   if (!postId) {
     queryClient.removeQueries({ queryKey: ["post"] });
   }

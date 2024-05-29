@@ -10,7 +10,7 @@ export interface UserType extends Document {
   passwordConfirmed: string | undefined;
   profileImage: string;
   active: boolean;
-  posts: mongoose.Types.ObjectId[];
+  posts: any;
 
   passwordChangedAt: Date;
   passwordResetToken: string | undefined;
@@ -91,6 +91,7 @@ userSchema.methods.comparePassword = async function (
 userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
   this.populate({
     path: "posts",
+    model: "Post",
   });
   next();
 });

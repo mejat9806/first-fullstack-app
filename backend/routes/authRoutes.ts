@@ -3,7 +3,6 @@ import cors from "cors";
 import {
   loginUser,
   registerUser,
-  getProfile,
   logout,
   resizeUserPhoto,
   updateMe,
@@ -11,6 +10,7 @@ import {
   forgotPassword,
   resetPassword,
   updatePassword,
+  isLogin,
 } from "../controller/authController.js";
 import { verifyJWT } from "../middleware/verifyToken.js";
 import { validateEmail } from "../controller/validationApi.js";
@@ -28,7 +28,8 @@ router.get("/logout", logout);
 router.post("/checkEmail", validateEmail);
 router.post("/forgotPassword", forgotPassword);
 router.patch("/resetPassword/:token", resetPassword);
+
 router.use(verifyJWT);
+router.get("/isLogin", isLogin);
 router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
-router.get("/profile", getProfile);
 router.patch("/updatePassword", updatePassword);

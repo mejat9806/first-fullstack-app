@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import Home from "./page/Home";
-import Dashboard from "./page/Dashboard";
+import Dashboard from "./page/Profile";
 import PrivateRoute from "./page/PrivateRoute";
 import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";

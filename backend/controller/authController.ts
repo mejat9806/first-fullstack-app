@@ -34,7 +34,7 @@ export const registerUser = catchAsync(
       return AppError("email is taken", 401);
     }
 
-    const defaultImage = `/public/img/userImage/default.svg`;
+    const defaultImage = `defaultUse.webp`;
     // const hashedPaswords = await hashPaswords(password);
     const user = await User.create({
       name,
@@ -106,7 +106,7 @@ function filterObjectsForUpdateUser(
   reqBodyObject: any,
   ...allowedFields: string[]
 ) {
-  const newObjects: { [key: string]: any } = {};
+  const newObjects: { [key: string]: any } = {}; //this is index signature
   Object.keys(reqBodyObject).forEach((key) => {
     if (allowedFields.includes(key)) {
       newObjects[key] = reqBodyObject[key];
@@ -178,7 +178,7 @@ export const updateMe = catchAsync(
     });
   },
 );
-export const getProfile = catchAsync(
+export const isLogin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.user, "user");
     const user = req.user;

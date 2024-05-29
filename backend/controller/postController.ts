@@ -19,7 +19,12 @@ interface UserPayload {
 interface RequestWithUser extends Request {
   user: UserPayload;
 }
-
+export const getLatestPost = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    req.query.sort = "+createAt";
+    next();
+  },
+);
 export const getAllPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const allPostFilter = await apiFeatures(
@@ -48,11 +53,9 @@ export const getAllPost = catchAsync(
 //   next: NextFunction,
 // ) => {
 //   const allPost = await Post.find()
-//     .populate({
-//       path: "author",
-//       select: "name email profileImage active",
-//     })
-//     .lean();
+//     .populate({ path: "author", select: "-posts" })
+//     .populate("_id");
+
 //   allPost.forEach((post) => {
 //     // this will loop through and delete the posts array from the author array
 //     if (post.author && (post.author as any).posts) {
@@ -68,7 +71,7 @@ export const getOnePost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { postId } = req.params;
     console.log(postId);
-    const post = await Post.findById(postId).select("-__v ").populate("author");
+    const post = await Post.findById(postId).populate("author");
     res.status(200).json(post);
   },
 );
@@ -127,13 +130,19 @@ export const createAPost = catchAsync(
         return next(AppError("User not authenticated", 401));
       }
       const user = req.user;
-      req.body.author = user.id;
-      console.log(req.user);
-      // Create new Post document
-      const newPost = await Post.create({ title, detail, image });
+
+      // Set the author field directly when creating the new Post
+      const newPost = await Post.create({
+        title,
+        detail,
+        image,
+        author: user.id,
+      });
+
+      // Update the user's posts array with the new post's ID
       await User.findByIdAndUpdate(
-        req.body.author.id,
-        { $push: { posts: newPost._id } },
+        user.id,
+        { $push: { posts: newPost.id } },
         // { new: true, useFindAndModify: false }, // options to return the updated document and avoid deprecated method warning
       );
 
@@ -143,6 +152,7 @@ export const createAPost = catchAsync(
     }
   },
 );
+
 export const deletePost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const post = await Post.findById(req.params.postId);

@@ -18,5 +18,6 @@ export const fetchPostDetail = async ({
   postId: string;
 }): Promise<IsinglePostDetail> => {
   const response: IsinglePostDetail = await axios.get(`/posts/${postId}`);
+  console.log(response.data);
   return response;
 };

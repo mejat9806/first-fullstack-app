@@ -31,11 +31,12 @@ const PostDetail = () => {
     return <LoadingPage />;
   }
 
-  console.log(isFetching);
-  const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const { author, createAt, detail, image, title } = singleDetail.data;
+  const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
-  console.log(baseUrl + author.profileImage);
+  const imageLength = image.length <= 1;
+  console.log(imageLength, "here");
+  console.log(baseUrl + author?.profileImage);
   const isAurthorCorrect = user?.id === author?.id;
   return (
     <div className="h-full flex md:grid md:grid-cols-postDetails items-start flex-col w-full ">
@@ -43,12 +44,12 @@ const PostDetail = () => {
         <div
           className={`${
             theme === "dark"
-              ? "text-white bg-slate-900  border-2 border-slate-100"
+              ? "text-white bg-slate-900  border-2 border-slate-100 "
               : "text-black bg-slate-50 "
-          } mt-2 p-2 rounded-lg  md:w-[600px] md:h-[600px] h-full w-full flex flex-col gap-2`}
+          } mt-2 p-2 rounded-lg  md:max-w-[500px]   w-full flex flex-col gap-2`}
         >
           <div className="flex  items-center  justify-between">
-            <div className="flex md:items-center gap-3 flex-col md:flex-row">
+            <div className="flex md:items-center gap-3 flex-row md:flex-row">
               <div className="flex justify-start">
                 <Button
                   onClick={() => navigate(-1)}
@@ -58,7 +59,7 @@ const PostDetail = () => {
                 </Button>
               </div>
               <div className="flex flex-col ">
-                <div className="flex  justify-between">
+                <div className="flex">
                   <div
                     className="flex gap-4 "
                     onClick={() => {
@@ -66,13 +67,13 @@ const PostDetail = () => {
                     }}
                   >
                     <img
-                      src={`${baseUrl}/img/posts/${author.profileImage}`}
+                      src={`${baseUrl}/img/posts/${author?.profileImage}`}
                       alt="profileImage"
                       className="h-[50px] w-[50px] rounded-full"
                     />
                     <div>
-                      <h1>{author?.name}</h1>
-                      <h1>{postDetail}</h1>
+                      <h1 className="text-xs">{author?.name}</h1>
+                      <h1 className="text-xs">{postDetail}</h1>
                     </div>
                   </div>
                 </div>
@@ -82,7 +83,7 @@ const PostDetail = () => {
               <ThreeDotDropDown dropDownStuff={dropDownStuff} />
             )}
           </div>
-          <div className="flex flex-col  mt-6">
+          <div className="flex flex-col  md:mt-6">
             <h1 className="text-xl">{title}</h1>
             <p className=" whitespace-break-spaces break-words text-md w-full">
               {detail}
@@ -94,25 +95,31 @@ const PostDetail = () => {
                 <CarouselComp imageProp={image} setOpenImage={setOpenImage} />
               )}
             </div> */}
-            <ResponsiveMasonry
-              columnsCountBreakPoints={
-                image.length <= 1 ? { 500: 1 } : { 900: 2 }
-              }
-              className="w-[100%]  md:w-[100%]"
-            >
-              <Masonry className="bg-black " gutter="2px">
-                {image.map((img, i) => (
-                  <img
-                    key={i}
-                    src={`${baseUrl}/img/posts/${img}`}
-                    onClick={() => setOpenImage(true)}
-                    className={`$${
-                      image.length > 1 ? "md:h-[200px] md:w-full h-[200px]" : ""
-                    }`}
-                  />
-                ))}
-              </Masonry>
-            </ResponsiveMasonry>
+            {image.length <= 1 ? (
+              <img
+                src={`${baseUrl}/img/posts/${image[0]}`}
+                onClick={() => setOpenImage(true)}
+                className="  max-w-[200px] md:max-w-[480px] md:max-h-[450px] object-cover   "
+              />
+            ) : (
+              <ResponsiveMasonry
+                columnsCountBreakPoints={
+                  image.length <= 1 ? { 500: 1 } : { 900: 2 }
+                }
+                className="  h-full w-full  md:max-w-[90%]"
+              >
+                <Masonry className="bg-transparent " gutter="2px">
+                  {image.map((img, i) => (
+                    <img
+                      key={i}
+                      src={`${baseUrl}/img/posts/${img}`}
+                      onClick={() => setOpenImage(true)}
+                      className="md:max-h-[500px]  object-contain "
+                    />
+                  ))}
+                </Masonry>
+              </ResponsiveMasonry>
+            )}
           </div>
 
           <div className="mt-5 mb-4 ">

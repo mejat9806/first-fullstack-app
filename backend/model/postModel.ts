@@ -7,12 +7,13 @@ import slugify from "slugify";
 interface PostType extends Document {
   title: string;
   detail: string;
-  author: any;
+  author: mongoose.Schema.Types.ObjectId;
   createAt: Date;
   slug: string;
   image: string;
   _doc?: any;
-  likes: number;
+  likes: mongoose.Schema.Types.ObjectId[];
+  likesCount: number;
 }
 const postSchema = new mongoose.Schema<PostType>(
   {
@@ -35,7 +36,8 @@ const postSchema = new mongoose.Schema<PostType>(
     },
     slug: { type: "string" },
     image: [String],
-    likes: { type: "Number", default: 0 },
+    likesCount: { type: Number, default: 0 },
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
   },
 
   {
@@ -56,7 +58,7 @@ postSchema.pre("save", function (next) {
 //   console.log("Middleware triggered!");
 
 //   this.populate({
-//     path: "author",
+//     path: "likes",
 //   });
 //   next();
 // });

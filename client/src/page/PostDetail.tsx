@@ -30,13 +30,10 @@ const PostDetail = () => {
   ) {
     return <LoadingPage />;
   }
-
-  const { author, createAt, detail, image, title } = singleDetail.data;
+  const { author, createAt, detail, image, title, likes } = singleDetail.data;
+  console.log(likes);
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
-  const imageLength = image.length <= 1;
-  console.log(imageLength, "here");
-  console.log(baseUrl + author?.profileImage);
   const isAurthorCorrect = user?.id === author?.id;
   return (
     <div className="h-full flex md:grid md:grid-cols-postDetails items-start flex-col w-full ">
@@ -95,7 +92,7 @@ const PostDetail = () => {
                 <CarouselComp imageProp={image} setOpenImage={setOpenImage} />
               )}
             </div> */}
-            {image && image.length === 1 ? (
+            {image.length === 1 ? (
               <img
                 src={`${baseUrl}/img/posts/${image[0]}`}
                 onClick={() => setOpenImage(true)}
@@ -123,7 +120,7 @@ const PostDetail = () => {
           </div>
 
           <div className="mt-5 mb-4 ">
-            <PostFooter />
+            <PostFooter like={likes.length} />
           </div>
         </div>
       </div>

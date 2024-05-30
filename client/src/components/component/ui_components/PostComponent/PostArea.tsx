@@ -47,7 +47,7 @@ const Post = () => {
   ) : (
     <div className="w-[300px] md:w-[500px] h-full">
       {data?.pages.map((page, i) => (
-        <div key={i} className="flex flex-col gap-5 mt-5">
+        <div key={i} className="flex flex-col gap-10 mt-5">
           {page.data.map(
             (
               // eslint-disable-next-line @typescript-eslint/no-explicit-any

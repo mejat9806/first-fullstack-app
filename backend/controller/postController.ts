@@ -21,7 +21,7 @@ interface RequestWithUser extends Request {
 }
 export const getLatestPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    req.query.sort = "+createAt";
+    req.query.sort = "-createAt";
     next();
   },
 );
@@ -30,7 +30,7 @@ export const getAllPost = catchAsync(
     const allPostFilter = await apiFeatures(
       Post,
       req,
-      "author",
+      "author likes",
       "name  profileImage ",
     );
     const allPost = await allPostFilter;
@@ -71,8 +71,15 @@ export const getOnePost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { postId } = req.params;
     console.log(postId);
-    const post = await Post.findById(postId).populate("author");
-    res.status(200).json(post);
+
+    const data = await Post.findById(postId)
+      .populate("author")
+      .populate("likes");
+
+    if (!data) {
+      return next(AppError("No Post found", 404));
+    }
+    res.status(200).json(data);
   },
 );
 export interface MulterFiles {

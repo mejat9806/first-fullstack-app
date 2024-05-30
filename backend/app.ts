@@ -17,6 +17,7 @@ import ExpressMongoSanitize from "express-mongo-sanitize";
 import xss from "xss-clean";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
+import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
 const corsOptions = {
   origin: ["http://localhost:5173"], // Allow requests from this origin
@@ -56,5 +57,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
+app.use("/api/likeDislike", likeRouter);
 
 app.use(globalErrorHandler);

@@ -15,6 +15,7 @@ export interface PostItemType {
     title: string;
     _id: string;
     image: string[];
+    likesCount: number;
   };
 }
 
@@ -104,7 +105,7 @@ const PostItem = ({ item }: PostItemType) => {
         )}
       </div>
       <div className="mt-5">
-        <PostFooter />
+        <PostFooter like={item.likesCount} />
       </div>
     </div>
   );

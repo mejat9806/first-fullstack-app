@@ -16,7 +16,7 @@ function applySorting(query: any, sortQuery: any) {
     const sortBy = sortQuery.split(",").join(" ");
     return query.sort(sortBy); //to get accending or descending use fieldname or -fieldname
   }
-  return query.sort("createAt");
+  return query.sort("-likesCount"); //this will sort descending order
 }
 function applyPagination(query: any, pageQuery: any, limitQuery: any) {
   const page = pageQuery * 1 || 1;
@@ -28,9 +28,10 @@ function applyPagination(query: any, pageQuery: any, limitQuery: any) {
 export async function apiFeatures(
   query: any, //this is the Model we want to operateon
   req: Request, //this is the request
-  author: string,
+  populateOption: string,
   select: string,
 ) {
+  const populateOptions = populateOption.split(" ");
   const queryObject = { ...req.query };
   const excludedFields = ["page", "sort", "limit", "fields"]; //need to exclude because it will interfere with mongo query
   excludedFields.forEach((el) => delete queryObject[el]); //this will remove excludedFields from the query object because it will effect the find result of the find operation
@@ -40,8 +41,11 @@ export async function apiFeatures(
   query = query
     .find(JSON.parse(queryStr))
     .populate({
-      path: author,
+      path: populateOptions[0],
       select: select,
+    })
+    .populate({
+      path: populateOptions[1],
     })
     .lean();
   query = applyFieldSelection(query, req.query.fields);

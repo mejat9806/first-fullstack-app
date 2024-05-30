@@ -10,6 +10,7 @@ export function useCreatePost() {
     data: PostData,
     isPending: loadingPost,
     mutate: createPost,
+    isSuccess: isCreatingSuccess,
     error,
   } = useMutation({
     mutationFn: createPostApi,
@@ -17,6 +18,7 @@ export function useCreatePost() {
       console.log(data);
       toast({ title: "Post successfully created" });
       queryClient.setQueryData(["post"], data);
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
       navigate("/");
     },
     onError: (data) => {
@@ -25,5 +27,5 @@ export function useCreatePost() {
     },
   });
 
-  return { PostData, loadingPost, createPost, error };
+  return { PostData, loadingPost, createPost, error, isCreatingSuccess };
 }

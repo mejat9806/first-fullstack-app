@@ -30,7 +30,6 @@ function Nav() {
   const [openWrite, setOpenWrite] = useState(false);
   const location = useLocation();
   const { theme } = useTheme();
-
   return (
     <nav
       className={`flex flex-col justify-between  items-center h-screen  w-[60px] md:w-[140px]  backdrop-blur-2xl	fixed   transition-all duration-150 mt-10 ${
@@ -44,7 +43,7 @@ function Nav() {
           <Link
             aria-label="label"
             to={navitem.link}
-            className={`flex gap-2 hover:scale-105 p-3 mx-10 md:w-32 transition-transform duration-150  hover:text-slate-400  rounded-lg  ${
+            className={`flex gap-2 hover:scale-100 p-3 mx-10 md:w-32 transition-transform duration-150  hover:text-slate-400  rounded-lg  ${
               location.pathname === navitem.link ? "bg-white/40 border-1 " : ""
             }`}
             key={navitem.name}
@@ -56,11 +55,21 @@ function Nav() {
           </Link>
         ))}
         <Button
-          className="flex gap-2 hover:scale-105 p-3 mx-10 md:w-32 transition-transform duration-150   bg-white rounded-full text-slate-900"
+          className={`flex gap-2 hover:scale-105 p-3 mx-10 md:w-32 transition-transform duration-150   ${
+            theme === "dark"
+              ? "hover:bg-white bg-blue-300"
+              : "text-slate-900 bg-blue-300 hover:bg-slate-300"
+          } rounded-full `}
           onClick={() => setOpenWrite(true)}
         >
           <i>
-            <PenIcon className=" hover:stroke-slate-700 stroke-black" />
+            <PenIcon
+              className={`${
+                theme === "dark"
+                  ? "hover:stroke-slate-500 stroke-black"
+                  : "hover:stroke-slate-700 stroke-black"
+              } `}
+            />
           </i>{" "}
           <span className="hidden md:flex transition-all duration-150">
             Write

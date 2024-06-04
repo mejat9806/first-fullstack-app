@@ -5,6 +5,9 @@ import { dateFormat } from "@/utils/dateFormat";
 import { useNavigate } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useTheme } from "@/components/darkMode/theme-provider";
+import { HoverCard, HoverCardTrigger } from "@radix-ui/react-hover-card";
+import { HoverCardContent } from "@/shadcnComponent/ui/hover-card";
+import HoverCardUI from "../../hoverCard/HoverCardUI";
 
 export interface PostItemType {
   item: {
@@ -16,9 +19,9 @@ export interface PostItemType {
     _id: string;
     image: string[];
     likesCount: number;
+    likes: [];
   };
 }
-
 export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
 const PostItem = ({ item }: PostItemType) => {
   const navigate = useNavigate();
@@ -40,12 +43,19 @@ const PostItem = ({ item }: PostItemType) => {
       } p-5  rounded-2xl h-  shadow-2xl`}
     >
       <div className="w-full  flex gap-1 mb-3">
-        <img
-          src={profileImage}
-          className="h-10 w-10 rounded-full"
-          // change this
-        />
-
+        <HoverCard>
+          <HoverCardTrigger>
+            <img
+              src={profileImage}
+              className="h-10 w-10 rounded-full cursor-pointer "
+              // change this
+              onClick={() => navigate(`/profile/${item.author._id}`)}
+            />
+          </HoverCardTrigger>
+          <HoverCardContent className="m-0 absolute -top-20 -left-20">
+            <HoverCardUI userId={item.author._id} />
+          </HoverCardContent>
+        </HoverCard>
         <div
           className="flex flex-col items-start justify-start w-full "
           onClick={() => navigate(`post/${item._id}`)}
@@ -105,7 +115,12 @@ const PostItem = ({ item }: PostItemType) => {
         )}
       </div>
       <div className="mt-5">
-        <PostFooter like={item.likesCount} />
+        <PostFooter
+          like={item.likesCount}
+          author={item.author._id}
+          postId={item._id}
+          likeArray={item.likes}
+        />
       </div>
     </div>
   );

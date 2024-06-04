@@ -9,7 +9,7 @@ export type IsinglePostDetail = {
     createAt: string;
     slug: string;
     id: string;
-    likes: [string];
+    likes: [];
   };
 };
 

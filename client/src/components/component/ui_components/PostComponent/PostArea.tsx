@@ -7,12 +7,12 @@ import LoadingPage from "../LoadingPage";
 import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
 import { UserContext } from "@/context/userContext";
+import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
 
 const Post = () => {
   const { fetchType } = useContext(UserContext);
   //use type here to dynamically fetch data base on what the page want like recent or popular
   let postType = fetchAllPost;
-  console.log(fetchType);
   if (fetchType === "popular") {
     postType = fetchAllPost;
   }
@@ -23,20 +23,30 @@ const Post = () => {
   const { data, error, status, fetchNextPage, refetch, isLoadingAllPosts } =
     useGetAllPost({ fetchingFunction: postType });
   const { ref, inView } = useInView();
-
+  const { isDeletePostLoading, status: statusDelete } = useDeletePost();
   useEffect(() => {
     refetch();
-  }, [refetch, postType]);
+  }, [refetch, postType, isDeletePostLoading, statusDelete]);
 
   useEffect(() => {
     if (inView) {
-      console.log("here");
       fetchNextPage();
     }
     return () => {};
   }, [fetchNextPage, inView]);
   if (isLoadingAllPosts) {
     return <LoadingPage />;
+  }
+  if (!data) {
+    throw new Error("something goes wrong");
+  }
+  console.log();
+  if (data.pages[0].data.length === 0) {
+    return (
+      <div className="w-[300px] md:w-[500px] h-full flex justify-center items-center mt-10">
+        <h1 className="text-5xl">No Data</h1>
+      </div>
+    );
   }
   return status === "pending" ? (
     <div>
@@ -61,7 +71,7 @@ const Post = () => {
           )}
         </div>
       ))}
-      <div ref={ref} className="w-full h-1"></div>
+      <div ref={ref} className="w-full h-1 bg-red"></div>
     </div>
   );
 };

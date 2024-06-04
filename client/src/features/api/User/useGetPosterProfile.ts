@@ -11,11 +11,16 @@ interface IUserProfileData {
   profileImage: string;
 }
 
-export const useGetPosterProfile = () => {
+export const useGetPosterProfile = ({ userId }: { userId: string }) => {
   const queryClient = useQueryClient();
-  const { id: userID } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
 
-  const queryResult = useQuery<IUserProfileData, Error>({
+  const userID = id || userId;
+  const {
+    isLoading: isGetProfile,
+    data: userProfileData,
+    error: isError,
+  } = useQuery<IUserProfileData, Error>({
     queryKey: ["userProfile", userID],
     queryFn: () => {
       if (userID) {
@@ -32,8 +37,8 @@ export const useGetPosterProfile = () => {
   }
 
   return {
-    isLoading: queryResult.isLoading,
-    userProfileData: queryResult.data,
-    error: queryResult.error,
+    isGetProfile,
+    isError,
+    userProfileData,
   };
 };

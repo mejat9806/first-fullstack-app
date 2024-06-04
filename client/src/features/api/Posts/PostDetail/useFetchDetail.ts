@@ -19,7 +19,6 @@ export const useFetchDetails = () => {
       }
     },
     enabled: !!postId,
-    staleTime: 0,
     gcTime: 0,
   });
 

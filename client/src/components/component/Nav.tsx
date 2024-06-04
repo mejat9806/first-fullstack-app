@@ -6,6 +6,7 @@ import { Button } from "@/shadcnComponent/ui/button";
 import DialogFN from "./ui_components/DialogFN";
 import { useState } from "react";
 import CreatePost from "./ui_components/CreatePost/CreatePost";
+import { useLogout } from "@/features/api/Auth/logout/useLogout";
 
 const navitems = [
   {
@@ -30,6 +31,7 @@ function Nav() {
   const [openWrite, setOpenWrite] = useState(false);
   const location = useLocation();
   const { theme } = useTheme();
+
   return (
     <nav
       className={`flex flex-col justify-between  items-center h-screen  w-[60px] md:w-[140px]  backdrop-blur-2xl	fixed   transition-all duration-150 mt-10 ${

@@ -11,25 +11,40 @@ export const likePost = catchAsync(
       return next(AppError("please log in ", 401));
     }
     const { postId } = req.params;
-    const isLikeAlready = await Like.findOne({ user: req.user.id });
-    if (isLikeAlready) {
-      return next(AppError("you already like this", 401));
-    }
-    const likePost = await Like.create({
+    const existingLike = await Like.findOne({
+      //this will get the the existing like
       user: req.user.id,
       post: postId,
     });
-    await Post.findByIdAndUpdate(postId, {
-      $push: { likes: likePost._id },
-      $inc: { likesCount: 1 },
-    });
-    const post = await Post.findById(postId)
-      .populate("author")
-      .populate("likes");
-    res.status(200).json(post);
+
+    if (existingLike) {
+      //if the is already like for this post delete the like and
+      const likePost = await Like.findByIdAndDelete(existingLike.id); //delete the existing like
+      await Post.findByIdAndUpdate(postId, {
+        $pull: { likes: existingLike._id },
+        $inc: { likesCount: -1 },
+      }); //this will update the
+      //then get the updated post and send it to the user
+      res.status(200).json({ message: " like remove", likePost });
+    } else {
+      //if there is no like post create new like poast
+      const likePost = await Like.create({
+        user: req.user.id,
+        post: postId,
+      });
+      await Post.findByIdAndUpdate(postId, {
+        $push: { likes: likePost._id },
+        $inc: { likesCount: 1 },
+      });
+
+      res.status(200).json({ message: " like added", likePost });
+    }
   },
 );
 
-export const dislike = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {},
+export const getLike = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const like = await Like.find();
+    res.status(200).json(like);
+  },
 );

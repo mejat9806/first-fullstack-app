@@ -3,10 +3,10 @@ import Post from "../PostComponent/PostArea";
 
 const HomeUi = () => {
   return (
-    <div className="w-full flex justify-center items-center">
-      <div className="w-fit">
+    <div className="w-full flex justify-center items-center ">
+      <div className="w-fit h-full ">
         <SelectComponent />
-        <Post type="normal" />
+        <Post />
       </div>
     </div>
   );

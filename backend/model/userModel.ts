@@ -11,7 +11,8 @@ export interface UserType extends Document {
   profileImage: string;
   active: boolean;
   posts: any;
-
+  bio: string;
+  joinDate: Date;
   passwordChangedAt: Date;
   passwordResetToken: string | undefined;
   passwordResetExpired: Date | undefined;
@@ -41,14 +42,15 @@ const userSchema = new mongoose.Schema<UserType>(
       required: [true, "password is required"],
       minlength: 8,
     },
+    joinDate: { type: Date, default: Date.now() },
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
-
     passwordConfirmed: String,
     profileImage: { type: String, default: "defaultUser.svg" },
     active: { type: Boolean, default: true, select: false },
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpired: Date,
+    bio: { type: String },
   },
   {
     toJSON: {

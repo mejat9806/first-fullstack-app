@@ -28,9 +28,6 @@ const ProfileIcon = () => {
     } else setTheme("dark");
   };
 
-  const logoutFn = async () => {
-    logout();
-  };
   if (isLoading || !user) {
     return <LoadingPage />;
   }
@@ -61,8 +58,8 @@ const ProfileIcon = () => {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Link to="/profile" className="w-full">
-              Profile
+            <Link to="/Me" className="w-full">
+              View profile
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
@@ -74,7 +71,15 @@ const ProfileIcon = () => {
             {theme === "dark" ? "Light mode" : "Dark mode"}
           </DropdownMenuItem>
           <DropdownMenuItem>Contact the Dev</DropdownMenuItem>
-          <DropdownMenuItem onClick={logoutFn}>Logout</DropdownMenuItem>
+          <DropdownMenuItem>
+            <button
+              onClick={() => {
+                console.log("click"), logout();
+              }}
+            >
+              Logout
+            </button>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

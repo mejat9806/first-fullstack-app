@@ -132,6 +132,7 @@ export const createAPost = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
     console.log(req.body);
     const { title, detail, image } = req.body;
+    console.log(image, "here");
     try {
       if (!req.user) {
         return next(AppError("User not authenticated", 401));
@@ -166,16 +167,17 @@ export const deletePost = catchAsync(
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
-
     const imagePaths = post?.image;
-    await Post.findByIdAndDelete(req.params.postId);
-
+    const deletePost = await User.findByIdAndUpdate(req.user?.id, {
+      $pull: { posts: post._id },
+    });
     if (Array.isArray(imagePaths)) {
       imagePaths.forEach((imagePath) => {
         deleteImage(imagePath, next);
       });
     }
-
+    await Post.findByIdAndDelete(req.params.postId);
+    console.log(deletePost, "here");
     res.status(200).json({ message: "delete work" });
   },
 );

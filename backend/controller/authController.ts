@@ -84,9 +84,6 @@ export const loginUser = catchAsync(
 );
 
 export const logout = (req: Request, res: Response) => {
-  const { token } = req.cookies;
-  console.log(token);
-  if (!token) return res.status(204);
   res.clearCookie("token", {
     httpOnly: true,
     secure: false, //https
@@ -190,9 +187,9 @@ export const isLogin = catchAsync(
     if (currentUser?.changedPasswordAfter(user.iat as number)) {
       return next(AppError("user change password recently", 401));
     }
-    const profile = await User.findById(user.id)
-      .select("-password -passwordResetExpired -passwordResetToken")
-      .populate("posts");
+    const profile = await User.findById(user.id).select(
+      "-password -passwordResetExpired -passwordResetToken",
+    );
 
     if (!profile) {
       return next(AppError("Profile not found", 401));

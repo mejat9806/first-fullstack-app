@@ -10,6 +10,7 @@ import {
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import CarouselComp from "../CarouselComp";
+import { useTheme } from "@/components/darkMode/theme-provider";
 
 interface DialogProps {
   open: boolean;
@@ -34,6 +35,7 @@ const DialogFN = ({
   image,
   component,
 }: DialogProps) => {
+  const { theme } = useTheme();
   return (
     <Dialog open={open} onOpenChange={setIsOpen}>
       <DialogContent
@@ -56,12 +58,14 @@ const DialogFN = ({
           )}
           {type === "confirm" && (
             <>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>{" "}
+              <DialogTitle
+                className={`${theme === "dark" ? "text-white" : ""}`}
+              >
+                Are you absolutely sure?
+              </DialogTitle>{" "}
               <DialogDescription className="flex flex-col gap-4">
-                <p>
-                  This action cannot be undone. This will permanently delete
-                  your Post
-                </p>
+                This action cannot be undone. This will permanently delete your
+                Post
               </DialogDescription>
               <div className="flex gap-4">
                 <Button variant={"destructive"} onClick={func}>

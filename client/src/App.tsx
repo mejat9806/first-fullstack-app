@@ -18,6 +18,8 @@ import MainLayout from "./components/component/MainLayout";
 import Resetpassword from "./page/Resetpassword";
 import CheckEmailPage from "./page/CheckEmailPage";
 import { useTheme } from "./components/darkMode/theme-provider";
+import Profile from "./page/Profile";
+import Me from "./page/Me";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -58,7 +60,8 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route index element={<Home />} />
                 <Route path={"post/:postId"} element={<PostDetail />} />
-                <Route path="profile/:id" element={<Dashboard />} />
+                <Route path="profile/:id" element={<Profile />} />
+                <Route path="me" element={<Me />} />
                 <Route path="explore" element={<Explore />} />
                 <Route path="newPost" element={<NewPost />} />
                 <Route path="setting" element={<Setting />} />

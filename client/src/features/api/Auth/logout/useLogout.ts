@@ -7,7 +7,7 @@ export function useLogout() {
   const navigate = useNavigate();
 
   const { isPending: isLogout, mutate: logout } = useMutation({
-    mutationFn: () => logoutApi(),
+    mutationFn: logoutApi,
     onSuccess: () => {
       toast({
         title: "Logout successfully",
@@ -23,5 +23,6 @@ export function useLogout() {
       });
     },
   });
-  return { isLogout, logout };
+
+  return { logout, isLogout };
 }

@@ -1,44 +1,34 @@
-import { ArrowBigDown, ArrowBigUp } from "lucide-react";
-import React, { useState } from "react";
+import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
+import { useQueryClient } from "@tanstack/react-query";
+import { Heart } from "lucide-react";
 import { IoChatbubbleEllipses } from "react-icons/io5";
+import LoadingPage from "../LoadingPage";
 
+interface Ilike {
+  user: string;
+}
 interface PostFooter {
   like: number;
+  author: string;
+  postId: string;
+  likeArray: Ilike[];
 }
 
-const PostFooter = ({ like }: PostFooter) => {
-  const [Like, setlike] = useState(1);
-  const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
-
-  console.log(Like);
-
+const PostFooter = ({ like = 0, postId, author, likeArray }: PostFooter) => {
+  // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
+  const { likeDislike } = useLikeDislike();
+  const userLike = likeArray?.map((user) => user.user);
+  const queryClient = useQueryClient();
+  if (!(like || postId || author || likeArray)) {
+    return <LoadingPage />;
+  }
+  const isLike = userLike.includes(author);
   const handleLike = () => {
-    if (userVote === "like") {
-      //this will run if the if it already like
-      setUserVote(null); //then it will set the vote to null
-      setlike(Like - 1); // then it will decrease the count
-    } else {
-      if (userVote === "dislike") {
-        setlike(Like + 1); // Undo dislike and add like
-      } else {
-        setlike(Like + 1); // Add like
-      }
-      setUserVote("like");
-    }
-  };
-
-  const handleDownvote = () => {
-    if (userVote === "dislike") {
-      setUserVote(null);
-      setlike(Like + 1); // Decrement dislike count
-    } else {
-      if (userVote === "like") {
-        setlike(Like - 1); // Undo like and add dislike
-      } else {
-        setlike(Like - 1); // Add dislike
-      }
-      setUserVote("dislike");
-    }
+    likeDislike(postId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+      },
+    });
   };
 
   return (
@@ -46,18 +36,16 @@ const PostFooter = ({ like }: PostFooter) => {
       <div className="flex gap-5 items-center justify-center">
         <div className="flex items-center justify-center gap-2 h-10 ">
           <button onClick={handleLike}>
-            <ArrowBigUp
+            <Heart
               size={30}
-              className={`${userVote === "like" ? "stroke-blue-300" : ""}`}
+              className={`${
+                isLike
+                  ? "fill-pink-300 stroke-none hover:fill-pink-200"
+                  : "fill-white hover:fill-pink-200"
+              } hover:scale-105 transition-all duration-200`}
             />
           </button>
-          <p className="w-4">{Like}</p>
-          <button onClick={handleDownvote}>
-            <ArrowBigDown
-              size={30}
-              className={`${userVote === "dislike" ? "stroke-red-500" : ""}`}
-            />
-          </button>
+          <p className="w-4 ">{like}</p>
         </div>
         <IoChatbubbleEllipses size={30} />
       </div>

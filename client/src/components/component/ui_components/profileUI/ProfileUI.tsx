@@ -5,18 +5,18 @@ import LoadingPage from "../LoadingPage";
 
 const ProfileUI = () => {
   const { id } = useParams<{ id: string }>();
-  const { isLoading, userProfileData, error } = useGetPosterProfile();
-
+  const { isGetProfile, isError, userProfileData } = useGetPosterProfile();
+  console.log(userProfileData);
   if (!id) {
     return <div>No user ID provided.</div>;
   }
 
-  if (isLoading) {
+  if (isGetProfile) {
     return <LoadingPage />;
   }
 
-  if (error) {
-    return <div>Error loading user profile: {error.message}</div>;
+  if (isError) {
+    return <div>Error loading user profile: {isError.message}</div>;
   }
 
   if (userProfileData) {

@@ -43,6 +43,7 @@ export const useGetAllPost = ({
       fetchingFunction({ pageParam: pageParam as number }), // Default pageParam to 1
     staleTime: 300000, // 5 minutes
     initialPageParam: 1,
+    gcTime: 0,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,

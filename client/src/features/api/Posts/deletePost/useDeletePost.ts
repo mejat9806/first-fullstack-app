@@ -1,16 +1,23 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { deletePostApi } from "./deletePost";
 import { toast } from "@/shadcnComponent/ui/use-toast";
 
 export const useDeletePost = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { mutate: DeletePost, isPending: isDeletePostLoading } = useMutation({
+  const { postId } = useParams();
+
+  const {
+    mutate: DeletePost,
+    isPending: isDeletePostLoading,
+    status,
+  } = useMutation({
     mutationFn: (postId: string) => deletePostApi(postId),
     onSuccess: () => {
       toast({ title: "Delete Post Successfully" });
-      queryClient.invalidateQueries({ queryKey: ["posts,post"] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["post", postId] });
       navigate("/");
     },
     onError: (err) => {
@@ -18,5 +25,5 @@ export const useDeletePost = () => {
       console.log(err);
     },
   });
-  return { DeletePost, isDeletePostLoading };
+  return { DeletePost, isDeletePostLoading, status };
 };

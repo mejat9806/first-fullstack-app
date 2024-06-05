@@ -1,5 +1,5 @@
 import TextArea from "../homeUi/TextArea";
-import PostFooter from "./PostFooter";
+import PostFooter, { Ilike } from "./PostFooter";
 import { dateFormat } from "@/utils/dateFormat";
 
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,8 @@ import { useTheme } from "@/components/darkMode/theme-provider";
 import { HoverCard, HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { HoverCardContent } from "@/shadcnComponent/ui/hover-card";
 import HoverCardUI from "../../hoverCard/HoverCardUI";
+import { Button } from "@/shadcnComponent/ui/button";
+import LoadingPage from "../LoadingPage";
 
 export interface PostItemType {
   item: {
@@ -19,7 +21,7 @@ export interface PostItemType {
     _id: string;
     image: string[];
     likesCount: number;
-    likes: [];
+    likes: Ilike[];
   };
 }
 export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
@@ -29,37 +31,36 @@ const PostItem = ({ item }: PostItemType) => {
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
   const postDay = dateFormat(item.createAt);
   if (!item) {
-    return null; // or handle the case when item is undefined
+    return <LoadingPage />; // or handle the case when item is undefined
   }
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
+
+  console.log(item, "item check");
   return (
     <div
       className={` ${
         theme === "dark"
           ? "text-white  hover:bg-slate-700  border-2 border-slate-100"
           : "text-black  hover:bg-slate-200"
-      } p-5  rounded-2xl h-  shadow-2xl`}
+      } p-5  rounded-2xl   shadow-2xl `}
     >
-      <div className="w-full  flex gap-1 mb-3">
+      <div className="w-full  flex gap-1 mb-3 ">
         <HoverCard>
           <HoverCardTrigger>
             <img
               src={profileImage}
-              className="h-10 w-10 rounded-full cursor-pointer "
+              className="h-15 w-14 rounded-full cursor-pointer "
               // change this
               onClick={() => navigate(`/profile/${item.author._id}`)}
             />
           </HoverCardTrigger>
           <HoverCardContent className="m-0 absolute -top-20 -left-20">
-            <HoverCardUI userId={item.author._id} />
+            <HoverCardUI userId={item.author?._id} />
           </HoverCardContent>
         </HoverCard>
-        <div
-          className="flex flex-col items-start justify-start w-full "
-          onClick={() => navigate(`post/${item._id}`)}
-        >
+        <div className="flex flex-col items-start justify-start w-full ">
           <h1 className="text-lg font-semibold leading-3 mb-2 flex flex-col">
             {item?.author?.name}
             <span className="font-light text-sm ">{postDay}</span>
@@ -67,31 +68,15 @@ const PostItem = ({ item }: PostItemType) => {
           <h1 className="text-lg font-medium">{item.title}</h1>
           <TextArea text={item.detail} postID={item._id} />
         </div>
+        {!item.author?._id && (
+          <Button className="hover:bg-blue-400 hover:text-white">Follow</Button>
+        )}
       </div>
       <div className="w-full  flex justify-center items-center">
-        {/* <ResponsiveMasonry
-          columnsCountBreakPoints={
-            item.image.length < 2 ? { 500: 1 } : { 900: 2 }
-          }
-          style={{ width: "100%", height: "100%" }}
-          className="mx-5 h-52"
-        >
-          <Masonry gutter="1px">
-            {item.image.map((img, i) => (
-              <img
-                key={i}
-                onClick={() => navigate(`post/${item._id}`)}
-                src={`${baseUrl}/img/posts/${img}`}
-                style={{ width: "100%", height: "100%" }}
-                className="rounded-xl"
-              />
-            ))}
-          </Masonry>
-        </ResponsiveMasonry> */}
         {item.image && item.image.length === 1 ? (
           <img
             src={`${baseUrl}/img/posts/${item.image[0]}`}
-            onClick={() => navigate(`post/${item._id}`)}
+            onClick={() => navigate(`/post/${item._id}`, { replace: true })}
             className=" max-w-[200px] md:max-w-[450px] md:max-h-[400px] object-cover  "
           />
         ) : (

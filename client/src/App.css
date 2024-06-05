@@ -1,9 +1,6 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .logo {
   height: 6em;
@@ -107,4 +104,18 @@
   100% {
     left: 100%;
   }
+}
+
+.underline {
+}
+
+.toAdd::after {
+  content: " ";
+
+  width: 100%;
+  height: 5px;
+  background-color: #93c5fd;
+  left: 0;
+  bottom: 0;
+  position: absolute;
 }

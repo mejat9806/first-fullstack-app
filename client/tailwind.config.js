@@ -19,6 +19,7 @@ module.exports = {
     extend: {
       gridTemplateColumns: {
         postDetails: "1fr 0.3fr",
+        profile: "0.2fr 2fr 0.2fr",
       },
       fontFamily: {
         Poppins: ["Poppins", "sans-serif"],

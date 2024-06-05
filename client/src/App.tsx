@@ -1,7 +1,6 @@
 import axios from "axios";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./page/Home";
-import Dashboard from "./page/Profile";
 import PrivateRoute from "./page/PrivateRoute";
 import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
@@ -20,6 +19,10 @@ import CheckEmailPage from "./page/CheckEmailPage";
 import { useTheme } from "./components/darkMode/theme-provider";
 import Profile from "./page/Profile";
 import Me from "./page/Me";
+import AllPostByUser from "./components/component/ui_components/profileUI/AllPostProfileUI/AllPostByUser";
+import LikePost from "./components/component/ui_components/profileUI/likePostProfileUI/LikePost";
+import { ProfileLayout } from "./components/component/ProfileLayout";
+import BookmarkSave from "./components/component/BookmarkSave";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -60,11 +63,18 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route index element={<Home />} />
                 <Route path={"post/:postId"} element={<PostDetail />} />
-                <Route path="profile/:id" element={<Profile />} />
                 <Route path="me" element={<Me />} />
                 <Route path="explore" element={<Explore />} />
                 <Route path="newPost" element={<NewPost />} />
                 <Route path="setting" element={<Setting />} />
+                <Route path="profile/:id" element={<Profile />}>
+                  <Route element={<ProfileLayout />}>
+                    <Route index element={<Navigate to="all" replace />} />
+                    <Route path="all" element={<AllPostByUser />} />
+                    <Route path="like" element={<LikePost />} />
+                    <Route path="bookmarksave" element={<BookmarkSave />} />
+                  </Route>
+                </Route>
               </Route>
             </Route>
             <Route path="forgotPassword" element={<PasswordReset />} />

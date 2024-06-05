@@ -1,4 +1,4 @@
-import mongoose, { Model } from "mongoose";
+import mongoose, { Model, Query } from "mongoose";
 import { Post } from "./postModel";
 
 interface likeType {
@@ -32,6 +32,21 @@ const likeSchema = new mongoose.Schema<likeType>({
 //     });
 //   }
 // };
+// likeSchema.pre<Query<any, likeType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "user",
+//     model: "User",
+//   });
+//   next();
+// });
+// likeSchema.pre<Query<any, likeType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "post",
+//     model: "Post",
+//   });
+//   next();
+// });
+
 export const Like: Model<likeType> = mongoose.model<likeType>(
   "Like",
   likeSchema,

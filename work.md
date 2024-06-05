@@ -7,3 +7,4 @@ work need to be implemented
 - [] make search function
 - [] refactor the form input with index signature
 - [] make sorting function for main post
+- [] add follow function

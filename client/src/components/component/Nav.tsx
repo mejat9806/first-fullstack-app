@@ -6,7 +6,6 @@ import { Button } from "@/shadcnComponent/ui/button";
 import DialogFN from "./ui_components/DialogFN";
 import { useState } from "react";
 import CreatePost from "./ui_components/CreatePost/CreatePost";
-import { useLogout } from "@/features/api/Auth/logout/useLogout";
 
 const navitems = [
   {
@@ -34,11 +33,11 @@ function Nav() {
 
   return (
     <nav
-      className={`flex flex-col justify-between  items-center h-screen  w-[60px] md:w-[140px]  backdrop-blur-2xl	fixed   transition-all duration-150 mt-10 ${
+      className={`flex flex-col justify-between  items-center h-screen  w-[60px] md:w-[140px]  backdrop-blur-2xl	fixed   transition-all duration-150  ${
         theme === "dark"
           ? "text-white bg-black border-r-2 border-r-slate-100"
           : "text-black bg-slate-100 border-r-2 border-r-slate-900/10"
-      }`}
+      } mt-9`}
     >
       <div className="flex flex-col gap-5  h-1/3 mt-10 transition-all duration-150">
         {navitems.map((navitem) => (

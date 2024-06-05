@@ -1,12 +1,13 @@
 import axios from "axios";
-import { IsinglePostDetail } from "../Posts/PostDetail/fetchPostDetail";
+import { Iposts } from "./useGetPosterProfile";
 
 interface IUserProfileData {
   id: string;
   name: string;
   email: string;
-  post: IsinglePostDetail[];
+  posts: Iposts[];
   profileImage: string;
+  likePosts: [];
 }
 
 interface IuserProfileResponse {

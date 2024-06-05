@@ -9,7 +9,7 @@ const HoroBar = () => {
 
   return (
     <div
-      className={` fixed w-screen z-50 ${
+      className={` fixed w-full z-50 ${
         theme === "dark"
           ? "text-white bg-black border-b-2 border-b-slate-100"
           : "text-black bg-slate-200 border-b-2 border-b-slate-900/10"

@@ -42,7 +42,7 @@ const PostDetail = () => {
   const isAuthorCorrect = user?.id === author?.id;
 
   return (
-    <div className="h-full flex md:grid md:grid-cols-postDetails items-start flex-col w-full">
+    <div className="h-full flex md:grid md:grid-cols-postDetails items-start flex-col w-full mt-12">
       <div className="w-full flex-col h-full flex md:justify-center md:items-center">
         <div
           className={`${

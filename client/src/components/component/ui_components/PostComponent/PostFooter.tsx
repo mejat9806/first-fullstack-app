@@ -4,7 +4,7 @@ import { Heart } from "lucide-react";
 import { IoChatbubbleEllipses } from "react-icons/io5";
 import LoadingPage from "../LoadingPage";
 
-interface Ilike {
+export interface Ilike {
   user: string;
 }
 interface PostFooter {
@@ -14,7 +14,8 @@ interface PostFooter {
   likeArray: Ilike[];
 }
 
-const PostFooter = ({ like = 0, postId, author, likeArray }: PostFooter) => {
+const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
+  console.log(like, postId, author, likeArray);
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
   const { likeDislike } = useLikeDislike();
   const userLike = likeArray?.map((user) => user.user);
@@ -22,11 +23,14 @@ const PostFooter = ({ like = 0, postId, author, likeArray }: PostFooter) => {
   if (!(like || postId || author || likeArray)) {
     return <LoadingPage />;
   }
+  console.log(likeArray, "likeArray");
   const isLike = userLike.includes(author);
   const handleLike = () => {
     likeDislike(postId, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["userProfile", author] });
       },
     });
   };

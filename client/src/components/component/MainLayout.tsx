@@ -6,12 +6,16 @@ function MainLayout() {
   const { theme } = useTheme();
   return (
     <div
-      className={`min-h-svh ${theme === "dark" ? "bg-black" : "bg-slate-100"}`}
+      className={`min-h-screen ${
+        theme === "dark" ? "bg-black" : "bg-slate-100"
+      } mx-auto w-full s`}
     >
       <HoroBar />
       <Nav />
-      <div className="md:mx-40 ml-20 mr-6 pt-24 h-full ">
-        <Outlet />
+      <div className="md:grid md:grid-cols-profile  ">
+        <div className=" ml-16 mr-2 pt-5 h-full col-start-2  ">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

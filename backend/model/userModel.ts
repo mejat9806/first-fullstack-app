@@ -1,4 +1,4 @@
-import mongoose, { Document, Model, Query } from "mongoose";
+import mongoose, { Document, Model, ObjectId, Query } from "mongoose";
 import bcrypt from "bcryptjs";
 import validator from "validator";
 import * as crypto from "crypto";
@@ -13,9 +13,13 @@ export interface UserType extends Document {
   posts: any;
   bio: string;
   joinDate: Date;
+  follow: [string];
+  likePosts: [ObjectId];
+  followCount: number;
   passwordChangedAt: Date;
   passwordResetToken: string | undefined;
   passwordResetExpired: Date | undefined;
+  bannerImage: string;
   changedPasswordAfter: (JWTtimestamp: number) => boolean;
   createPasswordResetToken: () => string;
   comparePassword: (
@@ -42,6 +46,7 @@ const userSchema = new mongoose.Schema<UserType>(
       required: [true, "password is required"],
       minlength: 8,
     },
+    likePosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
     joinDate: { type: Date, default: Date.now() },
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     passwordConfirmed: String,
@@ -51,6 +56,8 @@ const userSchema = new mongoose.Schema<UserType>(
     passwordResetToken: String,
     passwordResetExpired: Date,
     bio: { type: String },
+    bannerImage: { type: String },
+    follow: [],
   },
   {
     toJSON: {

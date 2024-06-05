@@ -1,13 +1,26 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import getPosterProfileApi from "./getPosterProfileApi";
 import { useParams } from "react-router-dom";
-import { IsinglePostDetail } from "../Posts/PostDetail/fetchPostDetail";
+import { Ilike } from "@/components/component/ui_components/PostComponent/PostFooter";
 
+export interface Iposts {
+  name: string;
+  email: string;
+  profileImage: string;
+  createAt: string;
+  detail: string;
+  id: string;
+  image: [string];
+  likesCount: number;
+  slug: string;
+  title: string;
+}
 interface IUserProfileData {
   id: string;
   name: string;
   email: string;
-  post: IsinglePostDetail[];
+  likePosts: Ilike[];
+  posts: Iposts[];
   profileImage: string;
 }
 

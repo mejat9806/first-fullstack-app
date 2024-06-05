@@ -58,7 +58,7 @@ postSchema.pre("save", function (next) {
 //   console.log("Middleware triggered!");
 
 //   this.populate({
-//     path: "likes",
+//     path: "author",
 //   });
 //   next();
 // });

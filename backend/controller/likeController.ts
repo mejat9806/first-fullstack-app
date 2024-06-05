@@ -25,6 +25,10 @@ export const likePost = catchAsync(
         $inc: { likesCount: -1 },
       }); //this will update the
       //then get the updated post and send it to the user
+      await User.findByIdAndUpdate(req.user.id, {
+        $pull: { likePosts: existingLike._id },
+        $inc: { likesCount: -1 },
+      });
       res.status(200).json({ message: " like remove", likePost });
     } else {
       //if there is no like post create new like poast
@@ -34,6 +38,10 @@ export const likePost = catchAsync(
       });
       await Post.findByIdAndUpdate(postId, {
         $push: { likes: likePost._id },
+        $inc: { likesCount: 1 },
+      });
+      await User.findByIdAndUpdate(req.user.id, {
+        $push: { likePosts: likePost._id },
         $inc: { likesCount: 1 },
       });
 

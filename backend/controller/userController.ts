@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../model/userModel.js";
+import { model } from "mongoose";
 
 export const getAlluser = async (
   req: Request,
@@ -29,8 +30,19 @@ export const getUser = async (
       return res.status(404).json({ message: "No user found." });
     }
 
-    const user = await User.findById(authorId).populate("posts");
-    console.log(user);
+    const user = await User.findById(authorId).populate({
+      path: "likePosts",
+      model: "Like",
+      populate: {
+        path: "post",
+        model: "Post",
+        populate: {
+          path: "author",
+          model: "User",
+          select: "-posts",
+        },
+      },
+    });
     res.status(200).json({ data: user });
   } catch (error) {
     next();

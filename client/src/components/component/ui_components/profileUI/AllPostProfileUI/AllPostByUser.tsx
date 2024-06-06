@@ -19,7 +19,6 @@ const AllPostByUser = () => {
   if (isError) {
     return <div>Error loading user profile: {isError.message}</div>;
   }
-  console.log(userProfileData, "allData");
   return (
     <div className=" flex   md:justify-center md:items-center mt-12 w-full overflow-hidden">
       <div className="md:w-[40%] flex flex-col gap-5 w-full">

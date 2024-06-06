@@ -14,13 +14,12 @@ export interface AuthType {
 
 export interface UserType extends AuthType {
   accessToken: string;
-  user: {
-    password: string;
-    profileImage: string;
-    email: string;
-    name: string;
-    id: string;
-  };
+  likePosts: [string];
+  password: string;
+  profileImage: string;
+  email: string;
+  name: string;
+  id: string;
 }
 export const UserContext = createContext<{
   user: UserType | null;

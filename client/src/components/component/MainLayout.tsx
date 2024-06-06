@@ -8,7 +8,7 @@ function MainLayout() {
     <div
       className={`min-h-screen ${
         theme === "dark" ? "bg-black" : "bg-slate-100"
-      } mx-auto w-full s`}
+      } mx-auto w-full overflow-x-hidden`}
     >
       <HoroBar />
       <Nav />

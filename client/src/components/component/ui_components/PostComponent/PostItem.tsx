@@ -1,5 +1,6 @@
 import TextArea from "../homeUi/TextArea";
-import PostFooter, { Ilike } from "./PostFooter";
+import { Ilike } from "./PostFooter";
+import PostFooter from "./PostFooter";
 import { dateFormat } from "@/utils/dateFormat";
 
 import { useNavigate } from "react-router-dom";

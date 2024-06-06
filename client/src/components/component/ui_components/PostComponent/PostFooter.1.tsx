@@ -1,51 +1,28 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
 import { useQueryClient } from "@tanstack/react-query";
 import { Heart } from "lucide-react";
 import { IoChatbubbleEllipses } from "react-icons/io5";
 import LoadingPage from "../LoadingPage";
-import { PostItemType } from "./PostItem";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
-import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 
-export interface Ilike {
-  user: string;
-  post: PostItemType;
-  _id: string;
-}
-interface PostFooter {
-  like: number;
-  author: string;
-  postId: string;
-  likeArray: Ilike[];
-}
-
-const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
+export const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
   const { user } = useContext(UserContext);
   const { likeDislike } = useLikeDislike();
   const queryClient = useQueryClient();
   if (!user) {
     return <LoadingPage />;
   }
-  const userId = user.id;
-  const { isGetProfile, userProfileData } = useGetPosterProfile({
-    userId,
-  });
-  console.log(userProfileData?.likePosts);
-  const userLikePost = user.likePosts;
-  console.log(userLikePost);
+  console.log(user.likePosts);
+  const userID = user.id;
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
-  console.log(postId);
-  const userProfileLike = userProfileData?.likePosts.map(
-    (user) => user.post._id,
-  );
+  const userLike = likeArray.map((user) => console.log(user));
 
-  if (!(like || postId || author || likeArray) || isGetProfile) {
+  if (!(like || postId || author || likeArray)) {
     return <LoadingPage />;
   }
-  const isProfileLike = userProfileLike?.includes(postId);
-  // const isLike = userLike.includes(postId);
+  const isLike = user.likePosts;
+
   const handleLike = () => {
     likeDislike(postId, {
       onSuccess: () => {
@@ -65,7 +42,7 @@ const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
             <Heart
               size={30}
               className={`${
-                isProfileLike
+                isLike
                   ? "fill-pink-300 stroke-none hover:fill-pink-200"
                   : "fill-white hover:fill-pink-200"
               } hover:scale-105 transition-all duration-200`}
@@ -78,5 +55,3 @@ const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
     </div>
   );
 };
-
-export default PostFooter;

@@ -7,6 +7,8 @@ import { Button } from "@/shadcnComponent/ui/button";
 import "./../../../../App.css";
 import { UserContext } from "@/context/userContext";
 import { IoAddCircle, IoAddCircleOutline } from "react-icons/io5";
+import DialogFN from "../DialogFN";
+import AddBannerImage from "../../addBannerImage/AddBannerImage";
 
 const ProfileUI = () => {
   const [openAddImage, setUpdateImage] = useState(false);
@@ -38,7 +40,7 @@ const ProfileUI = () => {
     <div className="flex justify-center flex-col items-start w-full gap-3">
       <div className="w-full h-[200px] relative">
         <div className="h-full border-white border-2">
-          <button>
+          <button onClick={() => setUpdateImage(true)}>
             {" "}
             <IoAddCircleOutline size={30} className="absolute top-0 right-0" />
           </button>
@@ -94,6 +96,12 @@ const ProfileUI = () => {
           Bookmark
         </Link>
       </div>
+      <DialogFN
+        type="component"
+        setIsOpen={setUpdateImage}
+        open={openAddImage}
+        component={<AddBannerImage setIsOpen={setUpdateImage} />}
+      />
     </div>
   );
 };

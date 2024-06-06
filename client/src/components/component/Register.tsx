@@ -6,6 +6,7 @@ import { Button } from "@/shadcnComponent/ui/button";
 import { useForm } from "react-hook-form";
 import { useRegister } from "@/features/api/Auth/register/useRegister";
 import { Form } from "@/shadcnComponent/ui/form";
+import FormInputLogin from "./ui_components/FormInput";
 
 export const registerFormSchema = z
   .object({
@@ -58,7 +59,7 @@ function Register() {
         onSubmit={form.handleSubmit(registerUser)}
         className="space-y-8 flex flex-col  "
       >
-        <FormInputRegister
+        <FormInputLogin
           form={form}
           label={"email"}
           placeholder={"email"}
@@ -67,7 +68,7 @@ function Register() {
           disabled={isLoadingRegister}
         />
 
-        <FormInputRegister
+        <FormInputLogin
           form={form}
           label={"username"}
           placeholder={"username"}
@@ -75,7 +76,7 @@ function Register() {
           type="string"
           disabled={isLoadingRegister}
         />
-        <FormInputRegister
+        <FormInputLogin
           form={form}
           label={"password"}
           placeholder={"password"}
@@ -83,7 +84,7 @@ function Register() {
           type="password"
           disabled={isLoadingRegister}
         />
-        <FormInputRegister
+        <FormInputLogin
           form={form}
           label={"password Confirmed"}
           placeholder={"passwordConfirme"}

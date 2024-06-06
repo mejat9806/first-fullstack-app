@@ -4,7 +4,7 @@ import { Button } from "@/shadcnComponent/ui/button";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import FormInputLogin from "./ui_components/FormInputLogin";
+import FormInputLogin from "./ui_components/FormInput";
 
 function Login() {
   const { login, isLoading } = useLogin();

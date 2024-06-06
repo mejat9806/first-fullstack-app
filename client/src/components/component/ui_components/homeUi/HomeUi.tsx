@@ -4,7 +4,7 @@ import Post from "../PostComponent/PostArea";
 const HomeUi = () => {
   return (
     <div className=" flex justify-center items-center ">
-      <div className="w-fit h-full ">
+      <div className="w-fit h-full mt-12">
         <SelectComponent />
         <Post />
       </div>

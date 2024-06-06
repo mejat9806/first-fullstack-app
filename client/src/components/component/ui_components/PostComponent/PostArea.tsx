@@ -27,7 +27,6 @@ const Post = () => {
   useEffect(() => {
     refetch();
   }, [refetch, postType, isDeletePostLoading, statusDelete]);
-
   useEffect(() => {
     if (inView) {
       fetchNextPage();
@@ -55,7 +54,7 @@ const Post = () => {
   ) : status === "error" ? (
     <div>{error?.message}</div>
   ) : (
-    <div className="w-[300px] md:w-[500px] h-full">
+    <div className="w-[300px] md:w-[500px] h-full ">
       {data?.pages.map((page, i) => (
         <div key={i} className="flex flex-col gap-10 mt-5">
           {page.data.map(

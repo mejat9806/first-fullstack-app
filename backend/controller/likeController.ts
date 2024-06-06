@@ -16,17 +16,17 @@ export const likePost = catchAsync(
       user: req.user.id,
       post: postId,
     });
-
+    console.log(postId);
     if (existingLike) {
       //if the is already like for this post delete the like and
       const likePost = await Like.findByIdAndDelete(existingLike.id); //delete the existing like
       await Post.findByIdAndUpdate(postId, {
-        $pull: { likes: existingLike._id },
+        $pull: { likes: existingLike.id },
         $inc: { likesCount: -1 },
       }); //this will update the
       //then get the updated post and send it to the user
       await User.findByIdAndUpdate(req.user.id, {
-        $pull: { likePosts: existingLike._id },
+        $pull: { likePosts: existingLike.id },
         $inc: { likesCount: -1 },
       });
       res.status(200).json({ message: " like remove", likePost });
@@ -37,11 +37,11 @@ export const likePost = catchAsync(
         post: postId,
       });
       await Post.findByIdAndUpdate(postId, {
-        $push: { likes: likePost._id },
+        $push: { likes: likePost.id },
         $inc: { likesCount: 1 },
       });
       await User.findByIdAndUpdate(req.user.id, {
-        $push: { likePosts: likePost._id },
+        $push: { likePosts: likePost.id },
         $inc: { likesCount: 1 },
       });
 
@@ -52,7 +52,7 @@ export const likePost = catchAsync(
 
 export const getLike = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const like = await Like.find();
+    const like = await Like.findById(req.body.likeId);
     res.status(200).json(like);
   },
 );

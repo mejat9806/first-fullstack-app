@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import sharp from "sharp";
 import { deleteImage } from "../utils/deleteIMG.js";
+import { Like } from "../model/likeModel.js";
 
 interface UserPayload {
   id: string;
@@ -167,7 +168,18 @@ export const deletePost = catchAsync(
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
+
+    const like = await Like.findOne({ post: post.id });
+    console.log(like);
+    if (!like) {
+      return AppError("no like found", 404);
+    }
+    console.log(like.id, "like id");
+    await User.findByIdAndUpdate(req.user?.id, {
+      $pull: { likePosts: like.id },
+    });
     const imagePaths = post?.image;
+    await Like.findByIdAndDelete(post._id);
     const deletePost = await User.findByIdAndUpdate(req.user?.id, {
       $pull: { posts: post._id },
     });

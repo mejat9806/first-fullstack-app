@@ -2,9 +2,9 @@ import { Form } from "@/shadcnComponent/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import FormInputUpdatePassword from "./FormInputUpdatePassword";
 import { Button } from "@/shadcnComponent/ui/button";
 import { useUpdatePassword } from "@/features/api/updateUser/updatePassword/useUpdatePassword";
+import FormInput from "../../ui_components/FormInput";
 const PasswordSettingForm = () => {
   const { isUpdatePassword, updatePassword } = useUpdatePassword();
   const FormSchema = z
@@ -45,7 +45,7 @@ const PasswordSettingForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-8"
       >
-        <FormInputUpdatePassword
+        <FormInput
           form={form}
           label={"current Password"}
           placeholder={"Password"}
@@ -53,7 +53,7 @@ const PasswordSettingForm = () => {
           name={"currentPassword"}
           disabled={isUpdatePassword}
         />
-        <FormInputUpdatePassword
+        <FormInput
           form={form}
           label={"New Password"}
           placeholder={"New Password"}
@@ -61,7 +61,7 @@ const PasswordSettingForm = () => {
           name={"newPassword"}
           disabled={isUpdatePassword}
         />
-        <FormInputUpdatePassword
+        <FormInput
           form={form}
           label={"Confirm Password"}
           placeholder={"Confirm Password"}

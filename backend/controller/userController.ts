@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { User } from "../model/userModel.js";
 import { model } from "mongoose";
+import { populate } from "dotenv";
 
 export const getAlluser = async (
   req: Request,
@@ -39,7 +40,6 @@ export const getUser = async (
         populate: {
           path: "author",
           model: "User",
-          select: "-posts",
         },
       },
     });

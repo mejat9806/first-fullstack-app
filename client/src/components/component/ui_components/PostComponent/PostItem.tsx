@@ -12,20 +12,23 @@ import { Button } from "@/shadcnComponent/ui/button";
 import LoadingPage from "../LoadingPage";
 
 export interface PostItemType {
-  item: {
-    author: { name: string; _id: string; profileImage: string };
-    createAt: string;
-    detail: string;
-    slug: string;
-    title: string;
-    _id: string;
-    image: string[];
-    likesCount: number;
-    likes: Ilike[];
-  };
+  author: { name: string; _id: string; profileImage: string };
+  createAt: string;
+  detail: string;
+  slug: string;
+  title: string;
+  _id: string;
+  image: string[];
+  likesCount: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  likes: any[];
+  id: string;
+}
+interface item {
+  item: PostItemType;
 }
 export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
-const PostItem = ({ item }: PostItemType) => {
+const PostItem = ({ item }: item) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
@@ -51,7 +54,7 @@ const PostItem = ({ item }: PostItemType) => {
           <HoverCardTrigger>
             <img
               src={profileImage}
-              className="h-15 w-14 rounded-full cursor-pointer "
+              className="h-12 w-12 rounded-full cursor-pointer "
               // change this
               onClick={() => navigate(`/profile/${item.author._id}`)}
             />
@@ -60,7 +63,10 @@ const PostItem = ({ item }: PostItemType) => {
             <HoverCardUI userId={item.author?._id} />
           </HoverCardContent>
         </HoverCard>
-        <div className="flex flex-col items-start justify-start w-full ">
+        <div
+          className="flex flex-col items-start justify-start w-full "
+          onClick={() => navigate(`/post/${item._id}`, { replace: true })}
+        >
           <h1 className="text-lg font-semibold leading-3 mb-2 flex flex-col">
             {item?.author?.name}
             <span className="font-light text-sm ">{postDay}</span>

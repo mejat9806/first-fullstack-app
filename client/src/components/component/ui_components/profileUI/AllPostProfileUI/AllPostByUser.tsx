@@ -21,12 +21,13 @@ const AllPostByUser = () => {
   }
   console.log(userProfileData, "allData");
   return (
-    <div className=" flex   justify-center items-center mt-12 overflow-hidden">
-      <div className="md:w-[40%] flex flex-col gap-5">
+    <div className=" flex   md:justify-center md:items-center mt-12 w-full overflow-hidden">
+      <div className="md:w-[40%] flex flex-col gap-5 w-full">
         {userProfileData.posts.map((post) => (
           <PostItem
             key={post.id}
             item={{
+              id: post.id,
               createAt: post.createAt,
               _id: post.id,
               title: post.title,

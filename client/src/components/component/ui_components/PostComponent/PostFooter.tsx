@@ -3,9 +3,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Heart } from "lucide-react";
 import { IoChatbubbleEllipses } from "react-icons/io5";
 import LoadingPage from "../LoadingPage";
+import { PostItemType } from "./PostItem";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
 export interface Ilike {
   user: string;
+  post: PostItemType;
 }
 interface PostFooter {
   like: number;
@@ -15,21 +19,27 @@ interface PostFooter {
 }
 
 const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
-  console.log(like, postId, author, likeArray);
-  // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
+  const { user } = useContext(UserContext);
   const { likeDislike } = useLikeDislike();
-  const userLike = likeArray?.map((user) => user.user);
   const queryClient = useQueryClient();
+  if (!user) {
+    return <LoadingPage />;
+  }
+  const userID = user.id || user.user.id;
+  // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
+  const userLike = likeArray.map((user) => user.user);
+
   if (!(like || postId || author || likeArray)) {
     return <LoadingPage />;
   }
-  console.log(likeArray, "likeArray");
-  const isLike = userLike.includes(author);
+  console.log(user);
+  const isLike = userLike.includes(userID);
   const handleLike = () => {
     likeDislike(postId, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
         queryClient.invalidateQueries({ queryKey: ["posts"] });
+        queryClient.invalidateQueries({ queryKey: ["userProfile", user.id] });
         queryClient.invalidateQueries({ queryKey: ["userProfile", author] });
       },
     });

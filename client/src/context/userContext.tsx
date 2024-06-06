@@ -19,6 +19,7 @@ export interface UserType extends AuthType {
     profileImage: string;
     email: string;
     name: string;
+    id: string;
   };
 }
 export const UserContext = createContext<{

@@ -10,12 +10,12 @@ import {
 } from "@/shadcnComponent/ui/form";
 
 import { z } from "zod";
-import FormInputCreatePost from "./FormInputCreatePost";
 import { Button } from "@/shadcnComponent/ui/button";
 import { useCreatePost } from "@/features/api/Posts/createPost/useCreatePost";
 import { Input } from "@/shadcnComponent/ui/input";
 import { useTheme } from "@/components/darkMode/theme-provider";
 import React from "react";
+import FormInput from "../FormInput";
 
 const CreatePostInput = ({
   setIsOpen,
@@ -87,14 +87,16 @@ const CreatePostInput = ({
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-y-6"
       >
-        <FormInputCreatePost
+        <FormInput
           form={form}
           label={"title"}
           placeholder={"Post Title"}
           name="title"
           type="text"
+          disabled={loadingPost}
         />
-        <FormInputCreatePost
+        <FormInput
+          disabled={loadingPost}
           form={form}
           label={"detail"}
           placeholder={"Post detail"}

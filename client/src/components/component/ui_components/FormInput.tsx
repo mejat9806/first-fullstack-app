@@ -1,3 +1,4 @@
+import { useTheme } from "@/components/darkMode/theme-provider";
 import {
   FormControl,
   FormField,
@@ -6,37 +7,36 @@ import {
   FormMessage,
 } from "@/shadcnComponent/ui/form";
 import { Input } from "@/shadcnComponent/ui/input";
-import { UseFormReturn } from "react-hook-form";
+import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
-interface FormInput {
-  form: UseFormReturn<
-    {
-      email: string;
-      password: string;
-    },
-    undefined
-  >;
+interface FormInput<T extends FieldValues> {
+  form: UseFormReturn<T, undefined>;
   label: string;
   placeholder: string;
-  name: "email" | "password";
+  name: Path<T>;
   type: string;
   disabled: boolean;
 }
 
-function FormInputLogin({
+function FormInput<T extends FieldValues>({
   form,
   label,
   placeholder,
   name,
   type,
   disabled,
-}: FormInput) {
+}: FormInput<T>) {
+  const { theme } = useTheme();
   return (
     <FormField
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="relative w-full transition-all duration-150">
+        <FormItem
+          className={`relative w-full transition-all duration-150 ${
+            theme === "dark" ? "text-white" : "text-black"
+          }`}
+        >
           <FormLabel className=" capitalize">{label}</FormLabel>
           <FormControl>
             <Input
@@ -55,4 +55,4 @@ function FormInputLogin({
   );
 }
 
-export default FormInputLogin;
+export default FormInput;

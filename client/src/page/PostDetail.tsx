@@ -37,10 +37,13 @@ const PostDetail = () => {
 
   const { author, createAt, detail, image, title, likes, id } =
     singleDetail.data;
+  if (!user) {
+    return <LoadingPage />;
+  }
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
-  const isAuthorCorrect = user?.id === author?.id;
-
+  const isAuthorCorrect = user.id === author?.id;
+  console.log(isAuthorCorrect);
   return (
     <div className="h-full flex md:grid md:grid-cols-postDetails items-start flex-col w-full mt-12">
       <div className="w-full flex-col h-full flex md:justify-center md:items-center">

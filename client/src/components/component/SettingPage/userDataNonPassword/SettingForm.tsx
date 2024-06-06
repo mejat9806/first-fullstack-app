@@ -9,13 +9,13 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import FormInputUpdateUser from "./FormInputUpdateUser";
 import { Button } from "@/shadcnComponent/ui/button";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import LoadingPage from "../../ui_components/LoadingPage";
 import { Input } from "@/shadcnComponent/ui/input";
 import useUpdateUserData from "@/features/api/updateUser/updateUser/useUpdateUserData";
+import FormInput from "../../ui_components/FormInput";
 
 const SettingForm = () => {
   const { user } = useContext(UserContext);
@@ -80,15 +80,17 @@ const SettingForm = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex flex-col gap-y-6"
       >
-        <FormInputUpdateUser
+        <FormInput
           form={form}
           label={"email"}
+          disabled={isPending}
           placeholder={"email"}
           type="email"
           name={"email"}
         />
-        <FormInputUpdateUser
+        <FormInput
           form={form}
+          disabled={isPending}
           label={"username"}
           placeholder={"username"}
           name="name"

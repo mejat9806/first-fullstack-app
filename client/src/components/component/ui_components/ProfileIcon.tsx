@@ -58,7 +58,7 @@ const ProfileIcon = () => {
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Link to="/Me" className="w-full">
+            <Link to={`/profile/${user.id}`} className="w-full">
               View profile
             </Link>
           </DropdownMenuItem>

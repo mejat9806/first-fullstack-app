@@ -16,12 +16,15 @@ export interface Iposts {
   title: string;
 }
 interface IUserProfileData {
+  bannerImage: string;
   id: string;
   name: string;
   email: string;
   likePosts: Ilike[];
   posts: Iposts[];
   profileImage: string;
+  joinDate: string;
+  bio: string;
 }
 
 export const useGetPosterProfile = ({ userId }: { userId: string }) => {

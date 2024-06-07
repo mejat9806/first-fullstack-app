@@ -20,7 +20,7 @@ const useUpdateUserData = () => {
       });
 
       queryClient.invalidateQueries({ queryKey: ["user"] });
-      logout();
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (err) => {
       toast({ title: err.message });

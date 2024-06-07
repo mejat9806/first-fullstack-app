@@ -1,5 +1,4 @@
 import TextArea from "../homeUi/TextArea";
-import { Ilike } from "./PostFooter";
 import PostFooter from "./PostFooter";
 import { dateFormat } from "@/utils/dateFormat";
 
@@ -9,7 +8,6 @@ import { useTheme } from "@/components/darkMode/theme-provider";
 import { HoverCard, HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { HoverCardContent } from "@/shadcnComponent/ui/hover-card";
 import HoverCardUI from "../../hoverCard/HoverCardUI";
-import { Button } from "@/shadcnComponent/ui/button";
 import LoadingPage from "../LoadingPage";
 
 export interface PostItemType {
@@ -41,7 +39,6 @@ const PostItem = ({ item }: item) => {
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
 
-  console.log(item, "item check");
   return (
     <div
       className={` ${
@@ -75,9 +72,9 @@ const PostItem = ({ item }: item) => {
           <h1 className="text-lg font-medium">{item.title}</h1>
           <TextArea text={item.detail} postID={item._id} />
         </div>
-        {!item.author?._id && (
+        {/* {item.author?._id !== user?.id && (
           <Button className="hover:bg-blue-400 hover:text-white">Follow</Button>
-        )}
+        )} */}
       </div>
       <div className="w-full  flex justify-center items-center">
         {item.image && item.image.length === 1 ? (

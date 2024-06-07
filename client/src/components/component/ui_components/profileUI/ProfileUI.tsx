@@ -9,17 +9,62 @@ import { UserContext } from "@/context/userContext";
 import { IoAddCircle, IoAddCircleOutline } from "react-icons/io5";
 import DialogFN from "../DialogFN";
 import AddBannerImage from "../../addBannerImage/AddBannerImage";
+import FileInputwithCrop from "../../addBannerImage/FileInputwithCrop";
+import { ImageCropper } from "../../ImageCropper";
+import useUpdateUserData from "@/features/api/updateUser/updateUser/useUpdateUserData";
 
 const ProfileUI = () => {
   const [openAddImage, setUpdateImage] = useState(false);
   const location = useLocation();
-  console.log(location.pathname);
+  const { updateUserFn } = useUpdateUserData();
+  const [image, setImage] = useState("");
+  const [imageAfterCrop, setImageAfterCrop] = useState("");
+  const [currentPage, setCurrentPage] = useState("choose-img");
   const { id: userId } = useParams<{ id: string }>();
   const { user } = useContext(UserContext);
   if (!userId) {
     return <div>No user ID provided.</div>;
   }
-
+  const onImageSelected = (selectedImage: string) => {
+    setImage(selectedImage);
+    setCurrentPage("crop-img");
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const onCropDone = (imgCroppedArea: any) => {
+    const canvasElement = document.createElement("canvas");
+    canvasElement.width = imgCroppedArea.width;
+    canvasElement.height = imgCroppedArea.height;
+    const context = canvasElement.getContext("2d");
+    const imageObj1 = new Image();
+    imageObj1.src = image;
+    imageObj1.onload = function () {
+      context?.drawImage(
+        imageObj1,
+        imgCroppedArea.x,
+        imgCroppedArea.y,
+        imgCroppedArea.width,
+        imgCroppedArea.height,
+        0,
+        0,
+        imgCroppedArea.width,
+        imgCroppedArea.height,
+      );
+      const dataUrl = canvasElement.toDataURL("image/jpeg");
+      setImageAfterCrop(dataUrl);
+      setCurrentPage("image-cropped");
+      fetch(dataUrl) //this is used to create formdata
+        .then((res) => res.blob())
+        .then((blob) => {
+          const formData = new FormData();
+          formData.append("bannerImage", blob, "croppedImage.jpg");
+          updateUserFn(formData);
+        });
+    };
+  };
+  const onCropCancel = () => {
+    setCurrentPage("choose-img");
+    setImage("");
+  };
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
     userId,
@@ -27,7 +72,7 @@ const ProfileUI = () => {
   if (isGetProfile || !user) {
     return <LoadingPage />;
   }
-  const userID = user.id || user.user.id;
+  const userID = user.id;
 
   if (isError) {
     return <div>Error loading user profile: {isError.message}</div>;
@@ -35,22 +80,43 @@ const ProfileUI = () => {
   if (!userProfileData) {
     return <div>No user profile data provided.</div>;
   }
-  console.log(userProfileData);
   return (
     <div className="flex justify-center flex-col items-start w-full gap-3">
-      <div className="w-full h-[200px] relative">
-        <div className="h-full border-white border-2">
-          <button onClick={() => setUpdateImage(true)}>
-            {" "}
-            <IoAddCircleOutline size={30} className="absolute top-0 right-0" />
-          </button>
-        </div>
+      <div className="w-full md:h-[300px] h-[200px] relative">
+        {userProfileData.bannerImage ? (
+          <div className="w-full md:h-[300px] h-[200px] relative">
+            <img
+              src={`${baseUrl}img/posts/${userProfileData.bannerImage}`}
+              alt=""
+              className="h-full w-full object-center"
+            />
+            <button onClick={() => setUpdateImage(true)}>
+              {" "}
+              <IoAddCircleOutline
+                size={30}
+                className="absolute top-0 right-0 stroke-black"
+              />
+            </button>
+          </div>
+        ) : (
+          <div className="h-full w-full">
+            <button onClick={() => setUpdateImage(true)}>
+              {" "}
+              <IoAddCircleOutline
+                size={30}
+                className="absolute top-0 right-0 stroke-black"
+              />
+            </button>
+          </div>
+        )}
+
         <img
           src={`${baseUrl}img/posts/${userProfileData.profileImage}`}
           alt={`${userProfileData.name}'s profile`}
           className="h-32 w-32 absolute -bottom-16 left-4 rounded-full"
         />
       </div>
+
       <div className="w-full flex justify-end mt-10"></div>
       <div className="mt-4 flex justify-between w-full">
         <div className="">
@@ -100,7 +166,33 @@ const ProfileUI = () => {
         type="component"
         setIsOpen={setUpdateImage}
         open={openAddImage}
-        component={<AddBannerImage setIsOpen={setUpdateImage} />}
+        currentPage={currentPage}
+        component={
+          currentPage === "choose-img" ? (
+            <FileInputwithCrop onImageSelected={onImageSelected} />
+          ) : currentPage === "crop-img" ? (
+            <ImageCropper
+              image={image}
+              onCropDone={onCropDone}
+              onCropCancel={onCropCancel}
+            />
+          ) : (
+            <div className=" w-full">
+              <img src={imageAfterCrop} />
+              <div className="w-full h-full flex justify-center items-center gap-10 mt-5">
+                {" "}
+                <Button
+                  onClick={() => {
+                    setCurrentPage("choose-img"), setImage("");
+                    setUpdateImage(false);
+                  }}
+                >
+                  close
+                </Button>
+              </div>
+            </div>
+          )
+        }
       />
     </div>
   );

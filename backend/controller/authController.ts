@@ -123,31 +123,45 @@ const multerFilter = (req: Request, file: Express.Multer.File, cb: any) => {
 };
 
 const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
-export const uploadUserPhoto = upload.single("profileImage");
+// export const uploadUserPhoto = upload.single("profileImage");
+export const uploadImage = upload.fields([
+  { name: "profileImage", maxCount: 1 },
+  { name: "bannerImage", maxCount: 1 },
+]);
 export const resizeUserPhoto = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.file, "here");
     if (!req.user) {
       return next(AppError("please login", 401));
     }
-    const files = req.files as unknown as MulterFiles;
-    console.log(files, "here file check");
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
-    if (!req.file) {
-      // No files uploaded, proceed to the next middleware
-      return next();
+    console.log(files.bannerImage, "here file check");
+
+    if (files.profileImage && files.profileImage.length > 0) {
+      req.body.profileImage = `user=${req.user.id}-${Date.now()}.webp`;
+      await sharp(files.profileImage[0].buffer)
+        .toFormat("webp")
+        .webp({ quality: 80 })
+        .toFile(`public/img/posts/${req.body.profileImage}`);
+      next();
     }
-    req.body.filename = `user=${req.user.id}-${Date.now()}.webp`;
-    await sharp(req.file.buffer)
-      .toFormat("webp")
-      .webp({ quality: 80 })
-      .toFile(`public/img/posts/${req.body.filename}`);
-    next();
+
+    if (files.bannerImage && files.bannerImage.length > 0) {
+      console.log("get here");
+      req.body.bannerImage = `userBanner=${req.user.id}-${Date.now()}.webp`;
+      await sharp(files.bannerImage[0].buffer)
+        .toFormat("webp")
+        .webp({ quality: 80 })
+        .toFile(`public/img/posts/${req.body.bannerImage}`);
+      next();
+    }
   },
 );
 
 export const updateMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    // console.log(req.body, "bodyhere");
     const user = req.user;
     if (!user) {
       return next(AppError("please login", 401));
@@ -159,17 +173,24 @@ export const updateMe = catchAsync(
     if (req.body.name < 5) {
       return next(AppError("Invalid username need atleast 5 characters", 401));
     }
-    console.log(req.body.filename, "file name here");
-    const filterBody = filterObjectsForUpdateUser(req.body, "name", "email");
-    if (req.file) {
-      filterBody.profileImage = req.body.filename;
+    const filterBody = filterObjectsForUpdateUser(
+      req.body,
+      "name",
+      "email",
+      "bio",
+    );
+
+    if (req.body.profileImage) {
+      filterBody.profileImage = req.body.profileImage;
+    }
+    if (req.body.bannerImage) {
+      filterBody.bannerImage = req.body.bannerImage;
     }
 
     const updatedUser = await User.findByIdAndUpdate(req.user?.id, filterBody, {
       new: true,
       runValidators: true,
     });
-    console.log(updatedUser);
     res.status(200).json({
       updatedUser,
     });
@@ -273,7 +294,6 @@ export const resetPassword = catchAsync(
 
 export const updatePassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
     if (!req.user) {
       return next(AppError("Please Log in ", 401));
     }

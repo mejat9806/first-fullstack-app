@@ -48,8 +48,8 @@ const SettingForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: user?.email ?? user.user.email,
-      name: user?.name ?? user.user.name,
+      email: user?.email ?? user.email,
+      name: user?.name ?? user.name,
       image: undefined,
       //   password: "",
       //   passwordConfirm: "",

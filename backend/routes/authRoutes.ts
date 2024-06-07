@@ -11,6 +11,8 @@ import {
   resetPassword,
   updatePassword,
   isLogin,
+  uploadBanner,
+  uploadImage,
 } from "../controller/authController.js";
 import { verifyJWT } from "../middleware/verifyToken.js";
 import { validateEmail } from "../controller/validationApi.js";
@@ -31,5 +33,5 @@ router.patch("/resetPassword/:token", resetPassword);
 
 router.use(verifyJWT);
 router.get("/isLogin", isLogin);
-router.patch("/updateMe", uploadUserPhoto, resizeUserPhoto, updateMe);
+router.patch("/updateMe", uploadImage, resizeUserPhoto, updateMe);
 router.patch("/updatePassword", updatePassword);

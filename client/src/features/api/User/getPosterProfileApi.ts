@@ -8,6 +8,9 @@ interface IUserProfileData {
   posts: Iposts[];
   profileImage: string;
   likePosts: [];
+  joinDate: string;
+  bio: string;
+  bannerImage: string;
 }
 
 interface IuserProfileResponse {

@@ -25,6 +25,7 @@ interface DialogProps {
   type: "confirm" | "image" | "component";
   image?: [string];
   component?: React.ReactNode;
+  currentPage?: string;
 }
 
 const DialogFN = ({
@@ -32,6 +33,7 @@ const DialogFN = ({
   setIsOpen,
   func,
   type,
+  currentPage,
   image,
   component,
 }: DialogProps) => {
@@ -44,7 +46,7 @@ const DialogFN = ({
           type === "image"
             ? "bg-transparent px-10 border-none shadow-none"
             : " py-10"
-        }`}
+        } w-[100%] ${currentPage === "crop-img" ? "h-1/2" : "h-fit"}`}
       >
         <DialogHeader>
           {type === "image" && image && (
@@ -75,7 +77,9 @@ const DialogFN = ({
               </div>
             </>
           )}
-          {type === "component" && component}
+          {type === "component" && (
+            <div className="w-full h-full">{component}</div>
+          )}
         </DialogHeader>
       </DialogContent>
     </Dialog>

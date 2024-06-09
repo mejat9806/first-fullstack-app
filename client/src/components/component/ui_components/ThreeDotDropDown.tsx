@@ -11,6 +11,7 @@ import DialogFN from "./DialogFN";
 
 import { useParams } from "react-router-dom";
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
+import UpdatePost from "./PostComponent/UpdatePost";
 
 export interface dropDownStuff {
   dropDownStuff: { name: string; linkTo?: string }[];
@@ -19,6 +20,7 @@ export interface dropDownStuff {
 const ThreeDotDropDown = ({ dropDownStuff }: dropDownStuff) => {
   // const [open, setIsOpen] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showUpdateDialog, setShowUpdateDialog] = useState(false);
   const { DeletePost } = useDeletePost();
 
   const { postId } = useParams();
@@ -44,7 +46,7 @@ const ThreeDotDropDown = ({ dropDownStuff }: dropDownStuff) => {
                 </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem
-                  onSelect={() => setShowDeleteDialog(true)}
+                  onSelect={() => setShowUpdateDialog(true)}
                   className="capitalize"
                 >
                   Update
@@ -59,6 +61,12 @@ const ThreeDotDropDown = ({ dropDownStuff }: dropDownStuff) => {
         type="confirm"
         setIsOpen={setShowDeleteDialog}
         func={() => DeletePost(postId as string)}
+      />
+      <DialogFN
+        open={showUpdateDialog}
+        type="component"
+        setIsOpen={setShowUpdateDialog}
+        component={<UpdatePost />}
       />
     </>
   );

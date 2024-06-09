@@ -4,7 +4,7 @@ import { User, UserType } from "./userModel";
 import { catchAsync } from "../utils/catchAsync";
 import slugify from "slugify";
 
-interface PostType extends Document {
+export interface PostType extends Document {
   title: string;
   detail: string;
   author: mongoose.Schema.Types.ObjectId;
@@ -14,6 +14,8 @@ interface PostType extends Document {
   _doc?: any;
   likes: mongoose.Schema.Types.ObjectId[];
   likesCount: number;
+  updated: boolean;
+  lastUpdate: Date;
 }
 const postSchema = new mongoose.Schema<PostType>(
   {
@@ -38,8 +40,9 @@ const postSchema = new mongoose.Schema<PostType>(
     image: [String],
     likesCount: { type: Number, default: 0 },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
+    lastUpdate: Date,
+    updated: { type: Boolean, default: false },
   },
-
   {
     toJSON: {
       virtuals: true,
@@ -50,10 +53,23 @@ const postSchema = new mongoose.Schema<PostType>(
   },
 );
 postSchema.pre("save", function (next) {
+  if (!this.isModified("title") && !this.isModified("detail") && this.isNew) {
+    console.log(
+      "edit",
+      !this.isModified("title"),
+      !this.isModified("detail"),
+      this.isNew,
+    );
+    return next();
+  }
+  this.lastUpdate = new Date(Date.now() - 1000);
+  this.updated = true;
+  next();
+});
+postSchema.pre("save", function (next) {
   this.slug = slugify(`${this.title}-${this._id}`, { lower: true });
   next();
 });
-
 // postSchema.pre<UserType>(/^find/, function (next) {
 //   console.log("Middleware triggered!");
 

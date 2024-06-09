@@ -26,7 +26,7 @@ const Post = () => {
   const { isDeletePostLoading, status: statusDelete } = useDeletePost();
   useEffect(() => {
     refetch();
-  }, [refetch, postType, isDeletePostLoading, statusDelete]);
+  }, [refetch, isDeletePostLoading, statusDelete]);
   useEffect(() => {
     if (inView) {
       fetchNextPage();

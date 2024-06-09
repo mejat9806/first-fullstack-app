@@ -10,7 +10,7 @@ import { IoAddCircle, IoAddCircleOutline } from "react-icons/io5";
 import DialogFN from "../DialogFN";
 import AddBannerImage from "../../addBannerImage/AddBannerImage";
 import FileInputwithCrop from "../../addBannerImage/FileInputwithCrop";
-import { ImageCropper } from "../../ImageCropper";
+import { CroppedArea, ImageCropper } from "../../ImageCropper";
 import useUpdateUserData from "@/features/api/updateUser/updateUser/useUpdateUserData";
 
 const ProfileUI = () => {
@@ -31,13 +31,15 @@ const ProfileUI = () => {
   };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onCropDone = (imgCroppedArea: any) => {
+    //next we create a new canvas to preview the image
     const canvasElement = document.createElement("canvas");
-    canvasElement.width = imgCroppedArea.width;
-    canvasElement.height = imgCroppedArea.height;
-    const context = canvasElement.getContext("2d");
-    const imageObj1 = new Image();
-    imageObj1.src = image;
+    canvasElement.width = imgCroppedArea.width; //this will get the width of the canvas from the image croped
+    canvasElement.height = imgCroppedArea.height; //this will get the height of the canvas from the image croped
+    const context = canvasElement.getContext("2d"); //we use 2d context
+    const imageObj1 = new Image(); //this will create a new image instance simillar to document.createElement('img').
+    imageObj1.src = image; //this will set the image src to image
     imageObj1.onload = function () {
+      // this will run on browser load
       context?.drawImage(
         imageObj1,
         imgCroppedArea.x,
@@ -49,11 +51,11 @@ const ProfileUI = () => {
         imgCroppedArea.width,
         imgCroppedArea.height,
       );
-      const dataUrl = canvasElement.toDataURL("image/jpeg");
+      const dataUrl = canvasElement.toDataURL("image/jpeg"); //this is use to convert canvas data to image data
       setImageAfterCrop(dataUrl);
       setCurrentPage("image-cropped");
-      fetch(dataUrl) //this is used to create formdata
-        .then((res) => res.blob())
+      fetch(dataUrl) //use fetch function because when given dataUrl it will be treated as fetchable source
+        .then((res) => res.blob()) //then convert to blob object // blob object use to manipulate immutable raw data // in this example we convert dataUrl to img/jpeg
         .then((blob) => {
           const formData = new FormData();
           formData.append("bannerImage", blob, "croppedImage.jpg");

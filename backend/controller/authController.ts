@@ -13,6 +13,7 @@ import { Email } from "../utils/email.js";
 import { createSendToken, signToken } from "../utils/tokenGeneration.js";
 import ResetPassword from "../../client/emails/ResetPassword.js";
 import WelcomeEmail from "../../client/emails/welcomEmail.js";
+import { filterObjectsForUpdate } from "../utils/filterObject.js";
 dotenv.config();
 
 export const registerUser = catchAsync(
@@ -99,19 +100,6 @@ export const logout = (req: Request, res: Response) => {
   res.json({ message: "send" });
 };
 
-function filterObjectsForUpdateUser(
-  reqBodyObject: any,
-  ...allowedFields: string[]
-) {
-  const newObjects: { [key: string]: any } = {}; //this is index signature
-  Object.keys(reqBodyObject).forEach((key) => {
-    if (allowedFields.includes(key)) {
-      newObjects[key] = reqBodyObject[key];
-    }
-  });
-  return newObjects;
-}
-
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req: Request, file: Express.Multer.File, cb: any) => {
@@ -173,12 +161,7 @@ export const updateMe = catchAsync(
     if (req.body.name < 5) {
       return next(AppError("Invalid username need atleast 5 characters", 401));
     }
-    const filterBody = filterObjectsForUpdateUser(
-      req.body,
-      "name",
-      "email",
-      "bio",
-    );
+    const filterBody = filterObjectsForUpdate(req.body, "name", "email", "bio");
 
     if (req.body.profileImage) {
       filterBody.profileImage = req.body.profileImage;

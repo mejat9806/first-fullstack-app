@@ -16,7 +16,7 @@ function applySorting(query: any, sortQuery: any) {
     const sortBy = sortQuery.split(",").join(" ");
     return query.sort(sortBy); //to get accending or descending use fieldname or -fieldname
   }
-  return query.sort("-likesCount"); //this will sort descending order
+  return query.sort("-createAt"); //this will sort descending order
 }
 function applyPagination(query: any, pageQuery: any, limitQuery: any) {
   const page = pageQuery * 1 || 1;

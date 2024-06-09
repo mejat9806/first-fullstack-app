@@ -5,7 +5,7 @@ const HomeUi = () => {
   return (
     <div className=" flex justify-center items-center ">
       <div className="w-fit h-full mt-12">
-        <SelectComponent />
+        <h1 className="text-4xl font-semibold">Home </h1>
         <Post />
       </div>
     </div>

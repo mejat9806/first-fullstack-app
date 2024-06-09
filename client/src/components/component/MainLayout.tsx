@@ -8,12 +8,12 @@ function MainLayout() {
     <div
       className={`min-h-screen ${
         theme === "dark" ? "bg-black" : "bg-slate-100"
-      } mx-auto w-full overflow-x-hidden`}
+      } mx-auto w-full overflow-hidden`}
     >
       <HoroBar />
       <Nav />
       <div className="md:grid md:grid-cols-profile  ">
-        <div className=" ml-16 mr-2 pt-5 h-full col-start-2  ">
+        <div className=" md:ml-24 md:mr-2 pt-5 h-full col-start-2  ml-16">
           <Outlet />
         </div>
       </div>

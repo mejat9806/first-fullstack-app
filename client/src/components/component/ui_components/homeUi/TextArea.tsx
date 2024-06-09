@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 const TextArea = ({ text, postID }: { text: string; postID: string }) => {
   const navigate = useNavigate();
   const textLength = text.length;
+
   return (
     <div>
       <p className="whitespace-break-spaces  text-sm 	">

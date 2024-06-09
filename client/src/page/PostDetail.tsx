@@ -42,23 +42,25 @@ const PostDetail = () => {
   }
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
+  const link = detail?.includes("https");
+  console.log(link);
   const isAuthorCorrect = user.id === author?.id;
   console.log(isAuthorCorrect);
   return (
-    <div className="h-full flex md:grid md:grid-cols-postDetails items-start flex-col w-full mt-12">
-      <div className="w-full flex-col h-full flex md:justify-center md:items-center">
+    <div className="h-full flex lg:grid lg:grid-cols-postDetails items-start flex-col w-full mt-12">
+      <div className="w-full flex-col h-full flex justify-center items-center">
         <div
           className={`${
             theme === "dark"
               ? "text-white bg-slate-900 border-2 border-slate-100"
               : "text-black bg-slate-50"
-          } mt-2 p-2 rounded-lg md:max-w-[500px] w-full flex flex-col gap-2`}
+          } mt-2 p-2 rounded-lg lg:max-w-[500px] w-full flex flex-col gap-2`}
         >
           <div className="flex items-center justify-between">
             <div className="flex md:items-center gap-3 flex-row md:flex-row">
               <div className="flex justify-start">
                 <Button
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigate("/")}
                   className="hover:bg-slate-400 bg-slate-200 rounded-full h-10 w-10 p-0"
                 >
                   <ArrowBigLeft className="scale-110" />
@@ -89,10 +91,10 @@ const PostDetail = () => {
               <ThreeDotDropDown dropDownStuff={dropDownStuff} />
             )}
           </div>
-          <div className="flex flex-col md:mt-6">
-            <h1 className="text-xl">{title}</h1>
-            <p className="whitespace-break-spaces break-words text-md w-full">
-              {detail}
+          <div className="flex flex-col md:mt-2">
+            <h1 className="text-xl font-bold">{title}</h1>
+            <p className="whitespace-break-spaces break-words text-sm w-full">
+              {link ? <a href={detail}>{detail}</a> : <p>{detail}</p>}
             </p>
           </div>
           <div className="w-full flex justify-center">
@@ -139,7 +141,7 @@ const PostDetail = () => {
         type="image"
         image={image}
       />
-      <div className="h-[50%] hidden md:flex bg-red-500"></div>
+      <div className="h-[50%] hidden lg:flex bg-red-500"></div>
     </div>
   );
 };

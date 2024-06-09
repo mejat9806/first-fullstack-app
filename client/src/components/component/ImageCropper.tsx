@@ -1,14 +1,30 @@
 import { Button } from "@/shadcnComponent/ui/button";
 import React, { useState } from "react";
 import Cropper from "react-easy-crop";
+export interface CroppedArea {
+  width: number;
+  height: number;
+  x: number;
+  y: number;
+}
 
-export const ImageCropper = ({ image, onCropCancel, onCropDone }) => {
+interface ImageCropperProps {
+  image: string;
+  onCropCancel: () => void;
+  onCropDone: (croppedArea: CroppedArea | null) => void;
+}
+export const ImageCropper = ({
+  image,
+  onCropCancel,
+  onCropDone,
+}: ImageCropperProps) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedArea, setCroppedArea] = useState(null);
+  const [croppedArea, setCroppedArea] = useState<CroppedArea | null>(null);
   const [aspectRatio, setAspectRatio] = useState(21 / 9);
 
-  const onCropComplete = (croppedAreaPercentage, CroppedAreaPixel) => {
+  const onCropComplete = (CroppedAreaPixel: CroppedArea) => {
+    console.log(CroppedAreaPixel);
     setCroppedArea(CroppedAreaPixel);
   };
   return (

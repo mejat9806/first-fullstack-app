@@ -41,7 +41,7 @@ const PostItem = ({ item }: item) => {
 
   return (
     <div
-      className={` ${
+      className={`listItem ${
         theme === "dark"
           ? "text-white  hover:bg-slate-700  border-2 border-slate-100"
           : "text-black  hover:bg-slate-200"

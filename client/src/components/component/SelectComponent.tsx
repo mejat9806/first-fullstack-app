@@ -13,13 +13,13 @@ const SelectComponent = () => {
   return (
     <Select onValueChange={(newValue) => setFetchType(newValue)}>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Popular"></SelectValue>
+        <SelectValue placeholder="Recent"></SelectValue>
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="popular" defaultChecked>
-          Popular
+        <SelectItem value="recent" defaultChecked>
+          Recent
         </SelectItem>
-        <SelectItem value="recent">Recent</SelectItem>
+        <SelectItem value="popular">Popular</SelectItem>
       </SelectContent>
     </Select>
   );

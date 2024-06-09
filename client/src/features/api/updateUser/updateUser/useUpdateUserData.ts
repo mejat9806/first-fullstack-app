@@ -1,11 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import updateUserApi from "./updateUserApi";
 import { toast } from "@/shadcnComponent/ui/use-toast";
-import { useLogout } from "../../Auth/logout/useLogout";
 
 const useUpdateUserData = () => {
   const queryClient = useQueryClient();
-  const { logout } = useLogout();
   const {
     data: updateData,
     error: updateDataError,
@@ -21,6 +19,7 @@ const useUpdateUserData = () => {
 
       queryClient.invalidateQueries({ queryKey: ["user"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] });
+      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
     },
     onError: (err) => {
       toast({ title: err.message });

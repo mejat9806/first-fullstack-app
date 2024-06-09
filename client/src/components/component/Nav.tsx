@@ -1,17 +1,29 @@
 import { Link, useLocation } from "react-router-dom";
 
-import { BookMarked, CompassIcon, HomeIcon, PenIcon } from "lucide-react";
+import {
+  BookMarked,
+  CompassIcon,
+  HomeIcon,
+  IndentIncrease,
+  PenIcon,
+} from "lucide-react";
 import { useTheme } from "../darkMode/theme-provider";
 import { Button } from "@/shadcnComponent/ui/button";
 import DialogFN from "./ui_components/DialogFN";
 import { useState } from "react";
 import CreatePost from "./ui_components/CreatePost/CreatePost";
+import PopularIcon from "../SVG/PopularIcon";
 
 const navitems = [
   {
     name: "Home",
     icons: <HomeIcon className=" hover:stroke-slate-700 " />,
     link: "/",
+  },
+  {
+    name: "Popular",
+    icons: <PopularIcon style=" hover:stroke-slate-700 " />,
+    link: "/popular",
   },
 
   {
@@ -45,7 +57,9 @@ function Nav() {
             aria-label="label"
             to={navitem.link}
             className={`flex gap-2 hover:scale-100 p-3 mx-10 md:w-32 transition-transform duration-150  hover:text-slate-400  rounded-lg  ${
-              location.pathname === navitem.link ? "bg-white/40 border-1 " : ""
+              location.pathname === navitem.link
+                ? "bg-blue-300/40 border-1 fill-black"
+                : ""
             }`}
             key={navitem.name}
           >

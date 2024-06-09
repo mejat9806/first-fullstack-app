@@ -11,12 +11,20 @@ import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
 import { deleteImage } from "../utils/deleteIMG.js";
 import { Like } from "../model/likeModel.js";
+import { Document } from "mongoose";
+import { filterObjectsForUpdate } from "../utils/filterObject.js";
 
 interface UserPayload {
   id: string;
-  // Add any other properties you expect on the user object
 }
 
+interface IPost extends Document {
+  title?: string;
+  detail?: string;
+  image?: string[] | undefined;
+
+  [key: string]: any;
+}
 interface RequestWithUser extends Request {
   user: UserPayload;
 }
@@ -191,5 +199,35 @@ export const deletePost = catchAsync(
     await Post.findByIdAndDelete(req.params.postId);
     console.log(deletePost, "here");
     res.status(200).json({ message: "delete work" });
+  },
+);
+
+export const updatePost = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { postId } = req.params;
+    if (!postId) {
+      return next(AppError("no post Id ", 404));
+    }
+    console.log(req.body);
+    if (!req.body.title && !req.body.detail && !req.body.image) {
+      return next(AppError("no data to edit ", 404));
+    }
+    const filterBody = filterObjectsForUpdate(
+      req.body,
+      "title",
+      "detail",
+      "image",
+    );
+    const post = await Post.findById(postId);
+    if (!post) {
+      return next(AppError("Now post found", 404));
+    }
+    Object.keys(filterBody).forEach((key: string) => {
+      //noted to myself this is how to update the object properie // object.key will create array of from req.body
+      (post as unknown as IPost)[key] = req.body[key]; //this will add key and value based on the key in the req.body
+    });
+    console.log(post);
+    post.save({ validateBeforeSave: true });
+    res.status(200).json(post);
   },
 );

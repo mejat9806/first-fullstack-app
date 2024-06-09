@@ -23,6 +23,7 @@ import AllPostByUser from "./components/component/ui_components/profileUI/AllPos
 import LikePost from "./components/component/ui_components/profileUI/likePostProfileUI/LikePost";
 import { ProfileLayout } from "./components/component/ProfileLayout";
 import BookmarkSave from "./components/component/BookmarkSave";
+import PopularPost from "./page/PopularPost";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -65,6 +66,7 @@ function App() {
                 <Route path={"post/:postId"} element={<PostDetail />} />
                 <Route path="me" element={<Me />} />
                 <Route path="explore" element={<Explore />} />
+                <Route path="popular" element={<PopularPost />} />
                 <Route path="newPost" element={<NewPost />} />
                 <Route path="setting" element={<Setting />} />
                 <Route path="profile/:id" element={<Profile />}>

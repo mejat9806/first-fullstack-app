@@ -46,7 +46,7 @@ const DialogFN = ({
           type === "image"
             ? "bg-transparent px-10 border-none shadow-none"
             : " py-10"
-        } w-[100%] ${currentPage === "crop-img" ? "h-1/2" : "h-fit"}`}
+        } w-[100%]  ${currentPage === "crop-img" ? "h-1/2" : "h-fit"}`}
       >
         <DialogHeader>
           {type === "image" && image && (

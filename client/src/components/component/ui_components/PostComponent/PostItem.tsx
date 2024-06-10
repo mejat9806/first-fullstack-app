@@ -48,12 +48,12 @@ const PostItem = ({ item }: item) => {
           : "text-black  hover:bg-slate-200"
       } p-5  rounded-2xl   shadow-2xl `}
     >
-      <div className="w-full  flex gap-1 mb-3 ">
+      <div className="w-full  flex gap-2 mb-3 ">
         <HoverCard>
-          <HoverCardTrigger>
+          <HoverCardTrigger className="w-12">
             <img
               src={profileImage}
-              className="h-12 w-12 rounded-full cursor-pointer "
+              className="md:h-12 md:w-12 w-9 h-9 rounded-full cursor-pointer  "
               // change this
               onClick={() => navigate(`/profile/${item.author._id}`)}
             />

@@ -12,7 +12,6 @@ import {
 import { Toggle } from "@/shadcnComponent/ui/toggle";
 import DialogFN from "./DialogFN";
 import AddUrl from "../AddUrl";
-import { Button } from "@/shadcnComponent/ui/button";
 import { FaLinkSlash } from "react-icons/fa6";
 
 type Props = {
@@ -20,7 +19,6 @@ type Props = {
 };
 
 const Toolbar = ({ editor }: Props) => {
-  const [url, setUrl] = useState<string>("");
   const [OpenLink, setOpenLink] = useState<boolean>(false);
   if (!editor) {
     return null;
@@ -45,42 +43,42 @@ const Toolbar = ({ editor }: Props) => {
           editor.chain().focus().toggleHeading({ level: 2 }).run()
         }
       >
-        <Heading2 />
+        <Heading2 size={20} />
       </Toggle>
       <Toggle
         size="sm"
         pressed={editor.isActive("bold")}
         onPressedChange={() => editor.chain().focus().toggleBold().run()}
       >
-        <Bold />
+        <Bold size={20} />
       </Toggle>
       <Toggle
         size="sm"
         pressed={editor.isActive("strike")}
         onPressedChange={() => editor.chain().focus().toggleStrike().run()}
       >
-        <Strikethrough />
+        <Strikethrough size={20} />
       </Toggle>
       <Toggle
         size="sm"
         pressed={editor.isActive("italic")}
         onPressedChange={() => editor.chain().focus().toggleItalic().run()}
       >
-        <Italic />
+        <Italic size={20} />
       </Toggle>
       <Toggle
         size="sm"
         pressed={editor.isActive("bulletList")}
         onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
       >
-        <List />
+        <List size={20} />
       </Toggle>
       <Toggle
         size="sm"
         pressed={editor.isActive("orderedList")}
         onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
       >
-        <ListOrdered />
+        <ListOrdered size={20} />
       </Toggle>
       <Toggle
         pressed={editor.isActive("link")}
@@ -89,7 +87,7 @@ const Toolbar = ({ editor }: Props) => {
         }}
         className="ml-2"
       >
-        <LinkIcon />
+        <LinkIcon size={20} />
       </Toggle>
       <DialogFN
         open={OpenLink}
@@ -102,7 +100,7 @@ const Toolbar = ({ editor }: Props) => {
         pressed={editor.isActive("link")}
         onPressedChange={() => editor.chain().focus().unsetLink().run()}
       >
-        <FaLinkSlash size={25} />{" "}
+        <FaLinkSlash size={20} />{" "}
       </Toggle>
     </div>
   );

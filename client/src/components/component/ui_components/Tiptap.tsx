@@ -29,7 +29,8 @@ const Tiptap = ({
     content: description,
     editorProps: {
       attributes: {
-        class: "rounder-md border min-h-[150px] ",
+        class:
+          "rounded-md border min-h-[100px] text-wrap whitespace-break-spaces ",
       },
     },
     onUpdate: ({ editor }) => {
@@ -39,7 +40,7 @@ const Tiptap = ({
   });
 
   return (
-    <div>
+    <div className="">
       <Toolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

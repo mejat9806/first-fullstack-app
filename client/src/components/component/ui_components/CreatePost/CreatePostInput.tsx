@@ -85,7 +85,7 @@ const CreatePostInput = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-y-6"
+        className="flex flex-col gap-y-6 "
       >
         <FormInput
           form={form}

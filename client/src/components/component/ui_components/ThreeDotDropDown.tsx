@@ -66,7 +66,7 @@ const ThreeDotDropDown = ({ dropDownStuff }: dropDownStuff) => {
         open={showUpdateDialog}
         type="component"
         setIsOpen={setShowUpdateDialog}
-        component={<UpdatePost />}
+        component={<UpdatePost setShowUpdateDialog={setShowUpdateDialog} />}
       />
     </>
   );

@@ -16,7 +16,7 @@ interface FormInput<T extends FieldValues> {
   placeholder: string;
   name: Path<T>;
   type: string;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 function FormInput<T extends FieldValues>({ form, label, name }: FormInput<T>) {

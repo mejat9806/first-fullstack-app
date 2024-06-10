@@ -11,9 +11,9 @@ const CreatePost = ({
   return (
     <div>
       <h1
-        className={`text-5xl font-bold ${
+        className={`md:text-5xl text-2xl font-bold ${
           theme === "dark" ? "text-white" : "text-black"
-        }`}
+        } `}
       >
         Create New Post
       </h1>

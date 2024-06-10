@@ -129,3 +129,13 @@ body,
 :root {
   height: 100%;
 }
+
+.link-style {
+  @apply font-medium text-blue-600 hover:underline cursor-pointer;
+}
+.list-Bullet-style {
+  @apply list-disc ml-10;
+}
+.list-order-style {
+  @apply list-decimal ml-10;
+}

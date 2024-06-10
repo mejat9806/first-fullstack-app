@@ -62,7 +62,7 @@ const CreatePostInput = ({
   });
   function onSubmit(values: z.infer<typeof FormSchema>) {
     const { title, detail, image } = values;
-
+    console.log(title, detail);
     const formData = new FormData();
     formData.append("title", title);
     formData.append("detail", detail);

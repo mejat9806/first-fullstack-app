@@ -14,6 +14,7 @@ import PostFooter from "@/components/component/ui_components/PostComponent/PostF
 import DialogFN from "@/components/component/ui_components/DialogFN";
 import { useTheme } from "@/components/darkMode/theme-provider";
 import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
+import DOMPurify from "dompurify";
 
 const PostDetail = () => {
   const { singleDetailLoading, singleDetail } = useFetchDetails();
@@ -92,10 +93,18 @@ const PostDetail = () => {
             )}
           </div>
           <div className="flex flex-col md:mt-2">
-            <h1 className="text-xl font-bold">{title}</h1>
-            <p className="whitespace-break-spaces break-words text-sm w-full">
-              {link ? <a href={detail}>{detail}</a> : <p>{detail}</p>}
-            </p>
+            <h1
+              className="text-xl font-bold"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(title),
+              }}
+            ></h1>
+            <p
+              className="whitespace-break-spaces break-words text-sm w-full"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(detail),
+              }}
+            ></p>
           </div>
           <div className="w-full flex justify-center">
             {image && image.length === 1 ? (

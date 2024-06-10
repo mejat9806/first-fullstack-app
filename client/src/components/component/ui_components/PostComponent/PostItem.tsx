@@ -9,6 +9,7 @@ import { HoverCard, HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { HoverCardContent } from "@/shadcnComponent/ui/hover-card";
 import HoverCardUI from "../../hoverCard/HoverCardUI";
 import LoadingPage from "../LoadingPage";
+import DOMPurify from "dompurify";
 
 export interface PostItemType {
   author: { name: string; _id: string; profileImage: string };
@@ -69,7 +70,12 @@ const PostItem = ({ item }: item) => {
             {item?.author?.name}
             <span className="font-light text-sm ">{postDay}</span>
           </h1>
-          <h1 className="text-lg font-medium">{item.title}</h1>
+          <h1
+            className="text-lg font-medium"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(item.title),
+            }}
+          ></h1>
           <TextArea text={item.detail} postID={item._id} />
         </div>
         {/* {item.author?._id !== user?.id && (

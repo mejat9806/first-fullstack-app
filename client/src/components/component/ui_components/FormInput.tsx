@@ -8,6 +8,7 @@ import {
 } from "@/shadcnComponent/ui/form";
 import { Input } from "@/shadcnComponent/ui/input";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
+import Tiptap from "./Tiptap";
 
 interface FormInput<T extends FieldValues> {
   form: UseFormReturn<T, undefined>;
@@ -18,14 +19,7 @@ interface FormInput<T extends FieldValues> {
   disabled: boolean;
 }
 
-function FormInput<T extends FieldValues>({
-  form,
-  label,
-  placeholder,
-  name,
-  type,
-  disabled,
-}: FormInput<T>) {
+function FormInput<T extends FieldValues>({ form, label, name }: FormInput<T>) {
   const { theme } = useTheme();
   return (
     <FormField
@@ -39,14 +33,15 @@ function FormInput<T extends FieldValues>({
         >
           <FormLabel className=" capitalize">{label}</FormLabel>
           <FormControl>
-            <Input
+            {/* <Input
               placeholder={placeholder}
               {...field}
               className=""
               type={type}
               autoComplete="on"
               disabled={disabled}
-            />
+            /> */}
+            <Tiptap description={field.value} onChange={field.onChange} />
           </FormControl>
           <FormMessage className="absolute " />
         </FormItem>

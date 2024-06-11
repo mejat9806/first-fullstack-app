@@ -88,6 +88,7 @@ const CreatePostInput = ({
         className="flex flex-col gap-y-6 "
       >
         <FormInput
+          textInput="normal"
           form={form}
           label={"title"}
           placeholder={"Post Title"}
@@ -96,6 +97,7 @@ const CreatePostInput = ({
           disabled={loadingPost}
         />
         <FormInput
+          textInput="rich"
           disabled={loadingPost}
           form={form}
           label={"detail"}

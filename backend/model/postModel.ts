@@ -13,6 +13,7 @@ export interface PostType extends Document {
   image: string;
   _doc?: any;
   likes: mongoose.Schema.Types.ObjectId[];
+  comments: mongoose.Schema.Types.ObjectId[];
   likesCount: number;
   updated: boolean;
   lastUpdate: Date;
@@ -31,6 +32,12 @@ const postSchema = new mongoose.Schema<PostType>(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
 
     createAt: {
       type: Date,

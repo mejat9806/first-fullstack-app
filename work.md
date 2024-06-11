@@ -24,3 +24,4 @@ work need to be implement
 - [x] reset password send email (sendgrid)
 - [x]forgot password function
 - []add tiptap if posible
+- []add edited mark on the post

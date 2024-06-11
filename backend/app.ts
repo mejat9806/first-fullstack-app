@@ -1,11 +1,13 @@
-import { globalErrorHandler } from "./controller/errorController.js";
+import { globalErrorHandler } from "./controller/errorController";
 import express, { json } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 
-import { router as authRoute } from "./routes/authRoutes.js";
-import { router as userRoute } from "./routes/userRoute.js";
-import { router as postRoute } from "./routes/postRoute.js";
+import { router as authRoute } from "./routes/authRoutes";
+import { router as userRoute } from "./routes/userRoute";
+import { router as postRoute } from "./routes/postRoute";
+import { router as commentRoute } from "./routes/commentRoutes";
+import { router as likeRoute } from "./routes/replyRoute";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
@@ -58,5 +60,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/likeDislike", likeRouter);
+app.use("/api/comment", commentRoute);
+app.use("/api/reply", likeRoute);
 
 app.use(globalErrorHandler);

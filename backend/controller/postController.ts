@@ -82,8 +82,9 @@ export const getOnePost = catchAsync(
     console.log(postId);
 
     const data = await Post.findById(postId)
-      .populate("author")
-      .populate("likes");
+      .populate({ path: "author", model: "User", select: "-posts" })
+      .populate("likes")
+      .populate("comments");
 
     if (!data) {
       return next(AppError("No Post found", 404));

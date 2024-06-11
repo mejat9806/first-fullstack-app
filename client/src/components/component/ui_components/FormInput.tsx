@@ -17,9 +17,18 @@ interface FormInput<T extends FieldValues> {
   name: Path<T>;
   type: string;
   disabled?: boolean;
+  textInput: "normal" | "rich";
 }
 
-function FormInput<T extends FieldValues>({ form, label, name }: FormInput<T>) {
+function FormInput<T extends FieldValues>({
+  form,
+  label,
+  name,
+  textInput = "normal",
+  placeholder,
+  type,
+  disabled,
+}: FormInput<T>) {
   const { theme } = useTheme();
   return (
     <FormField
@@ -33,15 +42,18 @@ function FormInput<T extends FieldValues>({ form, label, name }: FormInput<T>) {
         >
           <FormLabel className=" capitalize">{label}</FormLabel>
           <FormControl>
-            {/* <Input
-              placeholder={placeholder}
-              {...field}
-              className=""
-              type={type}
-              autoComplete="on"
-              disabled={disabled}
-            /> */}
-            <Tiptap description={field.value} onChange={field.onChange} />
+            {textInput === "normal" ? (
+              <Input
+                placeholder={placeholder}
+                {...field}
+                className=""
+                type={type}
+                autoComplete="on"
+                disabled={disabled}
+              />
+            ) : (
+              <Tiptap description={field.value} onChange={field.onChange} />
+            )}
           </FormControl>
           <FormMessage className="absolute " />
         </FormItem>

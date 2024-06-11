@@ -7,7 +7,8 @@ import { router as authRoute } from "./routes/authRoutes";
 import { router as userRoute } from "./routes/userRoute";
 import { router as postRoute } from "./routes/postRoute";
 import { router as commentRoute } from "./routes/commentRoutes";
-import { router as likeRoute } from "./routes/replyRoute";
+import { router as likeRoute } from "./routes/likeRoute";
+import { router as replyRoute } from "./routes/replyRoute";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
@@ -61,6 +62,6 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/likeDislike", likeRouter);
 app.use("/api/comment", commentRoute);
-app.use("/api/reply", likeRoute);
+app.use("/api/reply", replyRoute);
 
 app.use(globalErrorHandler);

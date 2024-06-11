@@ -8,7 +8,7 @@ export const GetAllComment = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { postId } = req.params;
     const comment = await Comment.findOne({ post: postId });
-    res.status(200).json({ message: "work", postId });
+    res.status(200).json({ comment });
   },
 );
 export const createComment = catchAsync(
@@ -29,13 +29,5 @@ export const createComment = catchAsync(
       $push: { comments: comment.id },
     });
     res.status(200).json({ data: comment });
-  },
-);
-
-export const replyToComment = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { postId, commentId } = req.params;
-
-    res.status(200).json({ postId, commentId });
   },
 );

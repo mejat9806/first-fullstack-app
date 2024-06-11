@@ -64,7 +64,6 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route index element={<Home />} />
                 <Route path={"post/:postId"} element={<PostDetail />} />
-                <Route path="me" element={<Me />} />
                 <Route path="explore" element={<Explore />} />
                 <Route path="popular" element={<PopularPost />} />
                 <Route path="newPost" element={<NewPost />} />

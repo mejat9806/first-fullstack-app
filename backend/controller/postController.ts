@@ -11,8 +11,9 @@ import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
 import { deleteImage } from "../utils/deleteIMG.js";
 import { Like } from "../model/likeModel.js";
-import { Document } from "mongoose";
+import { Document, model } from "mongoose";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";
+import { populate } from "dotenv";
 
 interface UserPayload {
   id: string;
@@ -82,9 +83,29 @@ export const getOnePost = catchAsync(
     console.log(postId);
 
     const data = await Post.findById(postId)
-      .populate({ path: "author", model: "User", select: "-posts" })
+      .populate({
+        path: "author",
+        model: "User",
+        select: "-password -joinDate -posts",
+      })
       .populate("likes")
-      .populate("comments");
+      .populate({
+        path: "comments",
+        model: "Comment",
+        populate: { path: "user", model: "User" },
+      })
+      .populate({
+        path: "comments",
+        model: "Comment",
+        populate: {
+          path: "reply",
+          model: "Reply",
+          populate: {
+            path: "reply",
+            model: "Reply",
+          },
+        },
+      });
 
     if (!data) {
       return next(AppError("No Post found", 404));

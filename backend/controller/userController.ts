@@ -34,6 +34,7 @@ export const getUser = async (
     const user = await User.findById(authorId).populate({
       path: "likePosts",
       model: "Like",
+      select: "-user",
       populate: {
         path: "post",
         model: "Post",

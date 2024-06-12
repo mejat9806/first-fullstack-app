@@ -1,5 +1,19 @@
+import { UserType } from "@/context/userContext";
 import axios from "axios";
 
+export interface Ireply {
+  createdAt: string;
+  reply: Ireply[];
+  text: string;
+  _id: string;
+}
+export interface Icomment {
+  _id: string;
+  commentText: string;
+  reply: Ireply[];
+  timeStamp: string;
+  user: UserType;
+}
 export type IsinglePostDetail = {
   data: {
     title: string;
@@ -10,6 +24,7 @@ export type IsinglePostDetail = {
     slug: string;
     id: string;
     likes: [];
+    comments: Icomment[];
   };
 };
 

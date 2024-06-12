@@ -1,12 +1,9 @@
 import { useTheme } from "@/components/darkMode/theme-provider";
 import CreatePostInput from "./CreatePostInput";
-import React from "react";
+import React, { useState } from "react";
 
-const CreatePost = ({
-  setIsOpen,
-}: {
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const CreatePost = () => {
+  const [IsOpen, setIsOpen] = useState(false);
   const { theme } = useTheme();
   return (
     <div>

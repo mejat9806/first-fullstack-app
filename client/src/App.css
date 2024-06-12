@@ -139,3 +139,6 @@ body,
 .list-order-style {
   @apply list-decimal ml-10;
 }
+.transition-grid {
+  transition: all 1s ease-in-out;
+}

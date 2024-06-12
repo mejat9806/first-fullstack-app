@@ -20,7 +20,7 @@ module.exports = {
     },
     extend: {
       gridTemplateColumns: {
-        postDetails: "1fr 0.3fr",
+        postDetails: "1fr 1fr",
         profile: "0.2fr 2fr 0.2fr",
       },
       fontFamily: {

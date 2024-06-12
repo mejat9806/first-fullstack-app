@@ -12,8 +12,8 @@ function MainLayout() {
     >
       <HoroBar />
       <Nav />
-      <div className="md:grid md:grid-cols-profile  ">
-        <div className=" md:ml-24 md:mr-2 pt-5 h-full col-start-2  ml-16">
+      <div className=" flex justify-center w-full items-center mt-14 ">
+        <div className=" flex justify-center items-center md:ml-24 md:mr-2 pt-5 w-full h-full col-start-2  ml-16">
           <Outlet />
         </div>
       </div>

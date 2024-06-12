@@ -2,22 +2,23 @@
 import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
 import { useQueryClient } from "@tanstack/react-query";
 import { Heart } from "lucide-react";
-import { IoChatbubbleEllipses } from "react-icons/io5";
 import LoadingPage from "../LoadingPage";
 import { PostItemType } from "./PostItem";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
+import { FaCommentDots } from "react-icons/fa6";
 
 export interface Ilike {
   user: string;
   post: PostItemType;
   _id: string;
 }
-interface PostFooter {
+export interface PostFooter {
   like: number;
   author: string;
   postId: string;
+
   likeArray: Ilike[];
 }
 
@@ -69,7 +70,7 @@ const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
           </button>
           <p className="w-4 ">{like}</p>
         </div>
-        <IoChatbubbleEllipses size={30} />
+        <FaCommentDots size={30} />
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ const Tiptap = ({
     editorProps: {
       attributes: {
         class:
-          "rounded-md border min-h-[100px] text-wrap whitespace-break-spaces ",
+          "rounded-md border min-h-[100px] w-[30rem]  text-wrap whitespace-break-spaces ",
       },
     },
     onUpdate: ({ editor }) => {

@@ -1,8 +1,7 @@
-import React from "react";
 import { useTheme } from "../../../darkMode/theme-provider";
-import PostFooter from "../PostComponent/PostFooter";
+import CommentInput from "./CommentInput";
 
-const Comments = () => {
+const Comments = ({ postId }: { postId: string }) => {
   const { theme } = useTheme();
 
   return (
@@ -12,9 +11,9 @@ const Comments = () => {
           theme === "dark"
             ? "text-white bg-slate-900 border-2 border-slate-100"
             : "text-black bg-slate-50"
-        }  p-2 rounded-e-lg lg:max-w-[500px] w-full flex flex-col gap-2 h-full`}
+        }  p-2 rounded-e-lg  w-full flex flex-col gap-2 h-full`}
       >
-        Comments
+        <CommentInput postId={postId} />
       </div>
     </div>
   );

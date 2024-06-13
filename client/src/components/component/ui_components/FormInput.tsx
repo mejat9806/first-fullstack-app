@@ -12,12 +12,14 @@ import Tiptap from "./Tiptap";
 
 interface FormInput<T extends FieldValues> {
   form: UseFormReturn<T, undefined>;
-  label: string;
+  label?: string;
   placeholder: string;
   name: Path<T>;
   type: string;
-  disabled?: boolean;
-  textInput: "normal" | "rich";
+  disabled: boolean;
+  textInput?: "normal" | "rich";
+  className?: string;
+  withCancel?: boolean;
 }
 
 function FormInput<T extends FieldValues>({
@@ -27,6 +29,7 @@ function FormInput<T extends FieldValues>({
   textInput = "normal",
   placeholder,
   type,
+  withCancel = false,
   disabled,
 }: FormInput<T>) {
   const { theme } = useTheme();
@@ -40,7 +43,7 @@ function FormInput<T extends FieldValues>({
             theme === "dark" ? "text-white" : "text-black"
           }`}
         >
-          <FormLabel className=" capitalize">{label}</FormLabel>
+          {label && <FormLabel className=" capitalize">{label}</FormLabel>}
           <FormControl>
             {textInput === "normal" ? (
               <Input
@@ -52,7 +55,12 @@ function FormInput<T extends FieldValues>({
                 disabled={disabled}
               />
             ) : (
-              <Tiptap description={field.value} onChange={field.onChange} />
+              <Tiptap
+                disabled={disabled}
+                description={field.value}
+                onChange={field.onChange}
+                withCancel={withCancel}
+              />
             )}
           </FormControl>
           <FormMessage className="absolute " />

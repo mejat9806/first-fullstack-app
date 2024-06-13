@@ -5,6 +5,7 @@ import React, { useState } from "react";
 const CreatePost = () => {
   const [IsOpen, setIsOpen] = useState(false);
   const { theme } = useTheme();
+
   return (
     <div>
       <h1

@@ -13,6 +13,7 @@ export const GetAllComment = catchAsync(
 );
 export const createComment = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.body);
     const user = req.user;
     const { postId } = req.params;
 

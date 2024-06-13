@@ -37,7 +37,6 @@ const PostDetail = () => {
   ) {
     return <LoadingPage />;
   }
-  console.log(singleDetail.data);
   const { author, createAt, detail, image, title, likes, id, comments } =
     singleDetail.data;
   if (!user) {
@@ -45,13 +44,11 @@ const PostDetail = () => {
   }
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
-  console.log(comments);
   const isAuthorCorrect = user.id === author?.id;
-  console.log(isAuthorCorrect);
   return (
     <div
       className={`h-full  w-[80%]
-         flex-col  justify-center md:w-full divide-x-2 divide-black/5 mt-2`}
+         flex-col  justify-center  max-w-[70%] divide-x-2 divide-black/5 mt-2`}
     >
       <div className="w-full flex-col h-full flex  justify-center items-center  ">
         <div
@@ -59,7 +56,7 @@ const PostDetail = () => {
             theme === "dark"
               ? "text-white bg-slate-900 border-2 border-slate-100"
               : "text-black bg-slate-50"
-          }  p-2 rounded-md lg:max-w-[500px] w-full flex flex-col gap-2 h-full justify-between`}
+          }  p-2 rounded-md lg:max-w-[600px] w-full flex flex-col gap-2 h-full justify-between`}
         >
           <div>
             <div className="flex items-center justify-between">
@@ -146,7 +143,7 @@ const PostDetail = () => {
             postId={id}
             likeArray={likes}
           />
-          <Comments />
+          <Comments postId={id} />
           <CommentsList comments={comments} />
         </div>
       </div>

@@ -6,7 +6,6 @@ interface IreplyData {
 }
 
 const Reply = ({ replyData }: IreplyData) => {
-  console.log(replyData);
   return (
     <div>
       <p>{replyData.text}</p>

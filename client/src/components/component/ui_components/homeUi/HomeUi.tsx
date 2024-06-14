@@ -3,8 +3,8 @@ import Post from "../PostComponent/PostArea";
 
 const HomeUi = () => {
   return (
-    <div className=" flex justify-center items-center ">
-      <div className="w-fit h-full mt-12">
+    <div className=" flex justify-center items-center w-full ml-8 md:ml-0 mt-20">
+      <div className="w-fit h-full ">
         <h1 className="text-4xl font-semibold">Home </h1>
         <Post />
       </div>

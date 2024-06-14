@@ -10,7 +10,7 @@ interface CommentType extends Document {
 const commentSchema = new mongoose.Schema<CommentType>({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   post: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
-  commentText: { type: String },
+  commentText: String,
   reply: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   timeStamp: { type: Date, default: Date.now() },
 });

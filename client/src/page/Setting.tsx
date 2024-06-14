@@ -8,8 +8,8 @@ const Setting = () => {
   const [openPasswordSetting, setOpenPasswordSetting] =
     useState<boolean>(false);
   return (
-    <div className="flex justify-center mt-24">
-      <div className="max-w-2xl flex flex-col gap-8">
+    <div className="flex justify-center mt-24 ">
+      <div className="md:max-w-2xl w-[200px] md:w-full  flex flex-col gap-8 ml-12">
         <div>
           <h1 className="font-semibold text-2xl">User Setting</h1>
           <UserSetting />

@@ -1,12 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-import {
-  BookMarked,
-  CompassIcon,
-  HomeIcon,
-  IndentIncrease,
-  PenIcon,
-} from "lucide-react";
+import { BookMarked, CompassIcon, HomeIcon, PenIcon } from "lucide-react";
 import { useTheme } from "../darkMode/theme-provider";
 import { Button } from "@/shadcnComponent/ui/button";
 import DialogFN from "./ui_components/DialogFN";
@@ -45,11 +39,11 @@ function Nav() {
 
   return (
     <nav
-      className={`flex flex-col justify-between  items-center h-screen  w-[60px] md:w-[140px]  backdrop-blur-2xl	fixed   transition-all duration-150  ${
+      className={`flex flex-col justify-between  items-center h-screen  w-[60px] md:w-[140px]  backdrop-blur-2xl	fixed   transition-all duration-150 mt-12  ${
         theme === "dark"
           ? "text-white bg-black border-r-2 border-r-slate-100"
           : "text-black bg-slate-100 border-r-2 border-r-slate-900/10"
-      } mt-9`}
+      } `}
     >
       <div className="flex flex-col gap-5  h-1/3 mt-10 transition-all duration-150">
         {navitems.map((navitem) => (

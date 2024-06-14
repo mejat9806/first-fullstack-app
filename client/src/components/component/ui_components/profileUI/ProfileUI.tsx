@@ -83,7 +83,7 @@ const ProfileUI = () => {
     return <div>No user profile data provided.</div>;
   }
   return (
-    <div className="flex justify-center flex-col items-start w-full gap-3">
+    <div className="flex justify-center flex-col items-start md:w-[600px] gap-3 w-[300px] sm:w-[500px]  ml-16 mt-16">
       <div className="w-full md:h-[300px] h-[200px] relative">
         {userProfileData.bannerImage ? (
           <div className="w-full md:h-[300px] h-[200px] relative">

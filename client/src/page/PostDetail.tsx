@@ -46,17 +46,14 @@ const PostDetail = () => {
   const postDetail = dateFormat(createAt);
   const isAuthorCorrect = user.id === author?.id;
   return (
-    <div
-      className={`h-full  w-[80%]
-         flex-col  justify-center  max-w-[70%] divide-x-2 divide-black/5 mt-2`}
-    >
-      <div className="w-full flex-col h-full flex  justify-center items-center  ">
+    <div className={``}>
+      <div className="w-full mt-24 ml-8  justify-center items-center flex   ">
         <div
           className={`${
             theme === "dark"
               ? "text-white bg-slate-900 border-2 border-slate-100"
               : "text-black bg-slate-50"
-          }  p-2 rounded-md lg:max-w-[600px] w-full flex flex-col gap-2 h-full justify-between`}
+          }  p-2 rounded-md lg:max-w-[600px] w-[80%] flex flex-col gap-2 h-full justify-between `}
         >
           <div>
             <div className="flex items-center justify-between">
@@ -144,7 +141,7 @@ const PostDetail = () => {
             likeArray={likes}
           />
           <Comments postId={id} />
-          <CommentsList comments={comments} />
+          {comments && <CommentsList comments={comments} />}
         </div>
       </div>
       <DialogFN

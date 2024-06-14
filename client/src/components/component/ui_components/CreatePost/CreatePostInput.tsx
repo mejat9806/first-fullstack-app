@@ -76,6 +76,7 @@ const CreatePostInput = ({
     console.log(formObject);
     createPost(formData, {
       onSuccess: () => {
+        console.log("success");
         setIsOpen(false);
       },
     });

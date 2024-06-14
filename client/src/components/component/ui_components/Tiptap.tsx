@@ -4,7 +4,8 @@ import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Toolbar from "./Toolbar";
 import { Button } from "@/shadcnComponent/ui/button";
-import useCreateComment from "@/features/api/Comment/useCreateComment";
+import { useTheme } from "@/components/darkMode/theme-provider";
+import { cn } from "@/lib/utils";
 
 const Tiptap = ({
   description,
@@ -17,12 +18,27 @@ const Tiptap = ({
   withCancel: boolean;
   disabled: boolean;
 }) => {
-  const { isAddComment } = useCreateComment();
+  const { theme } = useTheme();
+  const themeChange = theme === "dark" ? "text-white" : "text-black";
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        bulletList: { HTMLAttributes: { class: "list-Bullet-style" } },
-        orderedList: { HTMLAttributes: { class: "list-order-style" } },
+        bulletList: {
+          HTMLAttributes: { class: `list-Bullet-style prose ${themeChange}` },
+        },
+        orderedList: {
+          HTMLAttributes: { class: `list-order-style prose ${themeChange}` },
+        },
+        heading: {
+          HTMLAttributes: {
+            class: cn(`prose ${themeChange} text-3xl`),
+          },
+        },
+        bold: {
+          HTMLAttributes: {
+            class: cn(`prose ${themeChange} font-bold `),
+          },
+        },
       }),
 
       Link.configure({
@@ -36,8 +52,11 @@ const Tiptap = ({
     content: description,
     editorProps: {
       attributes: {
-        class:
-          "rounded-md border min-h-[100px] max-w-[100%]  text-wrap whitespace-break-spaces ",
+        class: cn(
+          `rounded-md border min-h-[100px] max-w-[100%]  text-wrap whitespace-break-spaces prose ${
+            theme === "dark" ? "text-white" : "text-black"
+          }`,
+        ),
       },
     },
     onUpdate: ({ editor }) => {
@@ -52,8 +71,7 @@ const Tiptap = ({
 
   useEffect(() => {
     editor?.commands.clearContent();
-  }, [editor, isAddComment]);
-  console.log(isAddComment);
+  }, [editor, disabled]);
   return (
     <div className="">
       <Toolbar editor={editor} />

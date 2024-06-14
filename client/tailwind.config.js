@@ -22,6 +22,8 @@ module.exports = {
       gridTemplateColumns: {
         postDetails: "1fr 1fr",
         profile: "0.2fr 2fr 0.2fr",
+        mainLayoutBig: "0.2fr 1fr",
+        mainLayoutSmall: "",
       },
       fontFamily: {
         Poppins: ["Poppins", "sans-serif"],

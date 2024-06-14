@@ -71,7 +71,9 @@ const CommentInput = ({ postId }: { postId: string }) => {
         )}
         <Button
           className={` ${
-            theme === "dark" ? " bg-slate-700" : "text-black "
+            theme === "dark"
+              ? " bg-slate-700 text-white hover:text-black"
+              : "text-white hover:bg-slate-700"
           } w-10 text-xs rounded-full p-0 m-0 absolute  bottom-0`}
           onClick={changeTextMode}
           type="button"

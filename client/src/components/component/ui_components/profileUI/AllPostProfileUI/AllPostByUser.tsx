@@ -21,7 +21,7 @@ const AllPostByUser = () => {
   }
   return (
     <div className=" flex   md:justify-center md:items-center mt-12 w-full overflow-hidden">
-      <div className="md:w-[40%] flex flex-col gap-5 w-full">
+      <div className="md:w-full  flex flex-col gap-5 w-full">
         {userProfileData.posts.map((post) => (
           <PostItem
             key={post.id}

@@ -14,8 +14,7 @@ const useCreateComment = () => {
     isPending: isAddComment,
     isSuccess: isSuccessAddComment,
   } = useMutation({
-    mutationFn: ({ commentText, postId }: IcreateComment) =>
-      createCommentApi({ commentText, postId }),
+    mutationFn: createCommentApi,
     mutationKey: ["comment"],
     onSuccess: () => {
       toast({ variant: "success", description: "Comment added" });

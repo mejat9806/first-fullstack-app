@@ -6,6 +6,7 @@ export interface Ireply {
   reply: Ireply[];
   text: string;
   _id: string;
+  user: UserType;
 }
 export interface Icomment {
   _id: string;

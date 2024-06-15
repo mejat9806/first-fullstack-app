@@ -11,9 +11,11 @@ function MainLayout() {
       } mx-auto w-full overflow-hidden`}
     >
       <HoroBar />
-      <div className=" grid grid-cols-mainLayoutSmall ">
+      <div className=" flex  ">
         <Nav />
-        <Outlet />
+        <div className="flex-1">
+          <Outlet />
+        </div>
       </div>
       {/*  <HoroBar />
       <Nav />

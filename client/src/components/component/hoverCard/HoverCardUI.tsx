@@ -17,7 +17,6 @@ const HoverCardUI = ({ userId }: { userId: string }) => {
     return <div>something goes wrong</div>;
   }
   const dateJoin = userProfileData.joinDate.split("T")[0];
-  console.log(dateJoin);
   return (
     <div className="flex w-full justify-between">
       <div className="flex gap-4 flex-col">

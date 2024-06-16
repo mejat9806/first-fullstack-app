@@ -64,4 +64,6 @@ app.use("/api/likeDislike", likeRouter);
 app.use("/api/comment", commentRoute);
 app.use("/api/reply", replyRoute);
 
+//if any error happens in the server/route then it will go to error handler for example in catchAsyync function we got error and it will jump to error handler
+//
 app.use(globalErrorHandler);

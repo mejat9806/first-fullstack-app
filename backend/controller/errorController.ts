@@ -71,7 +71,7 @@ const sendErrorProd = (req: Request, res: Response, err: any) => {
 };
 
 export function globalErrorHandler(
-  err: any,
+  err: any, //this come from AppError
   req: Request,
   res: Response,
   next: NextFunction,

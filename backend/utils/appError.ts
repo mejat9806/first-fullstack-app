@@ -6,3 +6,5 @@ export const AppError = (message: string, statusCode: number) => {
   (err as any).isOperational = true;
   return err;
 };
+
+//this will return and error object for next middleware error handling   because if next(err) it will skip any other non error middleware

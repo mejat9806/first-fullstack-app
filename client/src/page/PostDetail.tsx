@@ -100,9 +100,7 @@ const PostDetail = () => {
             <p
               className="whitespace-break-spaces break-all	 text-sm  font-extralight text-wrap"
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(
-                  "sdasdad adasdasdadasdasdas dadadasdasdas dadada",
-                ),
+                __html: DOMPurify.sanitize(detail),
               }}
             ></p>
           </div>
@@ -141,6 +139,7 @@ const PostDetail = () => {
             postId={id}
             likeArray={likes}
           />
+
           <Comments postId={id} />
           {comments && <CommentsList comments={comments} />}
         </div>

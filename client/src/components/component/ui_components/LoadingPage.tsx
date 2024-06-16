@@ -9,7 +9,7 @@ const LoadingPage = () => {
         theme ? "bg-white" : "bg-black "
       }`}
     >
-      <div className="loader "></div>
+      <div className="loader  "></div>
     </div>
   );
 };

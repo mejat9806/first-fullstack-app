@@ -8,35 +8,40 @@ import { NextFunction, Request, Response } from "express";
 export const replyToComment = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { postId, commentId } = req.params;
-    console.log(req.body);
+    console.log(commentId, "commentId", postId);
     const user = req.user;
     if (!user) {
       return next(AppError("Please Log in", 401));
     }
-    const post = await Post.findById(postId);
-
-    if (!post) {
-      return next(AppError("no post found", 404));
-    }
-
-    const replyToReply = await Reply.findById(commentId);
-
+    // const reply = await Reply.findO({ commentId: commentId });
+    // console.log(reply, "reply");
+    // if (!reply) {
+    //   return next(AppError("no comment found", 404));
+    // }
+    const replyToReply = await Reply.findOne({
+      _id: commentId,
+    });
+    console.log(commentId);
+    console.log(replyToReply, "reply to reply");
     if (replyToReply) {
       console.log(replyToReply);
       const reply = await Reply.create({
+        user: user.id,
+        commentId,
         text: req.body.text,
       });
       const replytoReply = await Reply.findByIdAndUpdate(commentId, {
-        $push: { user: user.id, commentId: commentId, reply: reply.id },
+        $push: { reply: reply.id },
       });
-      console.log("reply to reply");
+      console.log("here");
       res.status(200).send({ replytoReply });
     } else {
       const reply = await Reply.create({
         text: req.body.text,
       });
       const replywithUpdate = await Reply.findByIdAndUpdate(reply.id, {
-        $push: { user: user.id, commentId: commentId },
+        user: user.id,
+        commentId: commentId,
       });
       const comment = await Comment.findByIdAndUpdate(commentId, {
         $push: { reply: reply.id },

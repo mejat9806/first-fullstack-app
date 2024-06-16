@@ -17,7 +17,7 @@ const CommentsList = ({ comments }: CommentProps) => {
     );
   }
   return (
-    <div className=" flex flex-col gap-10 h-full">
+    <div className=" flex flex-col  h-full">
       {comments.map((comment) => (
         <Comment key={comment._id} commentData={comment} />
       ))}

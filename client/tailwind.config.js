@@ -24,7 +24,8 @@ module.exports = {
         profile: "0.2fr 2fr 0.2fr",
         mainLayoutBig: "0.2fr 1fr",
 
-        mainLayoutSmall: "",
+        Small: "250px 1fr",
+        comment: "50px 1fr",
       },
 
       fontFamily: {

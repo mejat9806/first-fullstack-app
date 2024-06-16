@@ -25,6 +25,14 @@ replySchema.pre(/^find/, function (next) {
   });
   next();
 });
+replySchema.pre(/^find/, function (next) {
+  console.log("Middleware triggered!");
+
+  this.populate({
+    path: "reply",
+  });
+  next();
+});
 export const Reply: Model<ReplyType> = mongoose.model<ReplyType>(
   "Reply",
   replySchema,

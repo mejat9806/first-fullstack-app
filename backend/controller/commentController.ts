@@ -19,7 +19,11 @@ export const createComment = catchAsync(
     console.log(commentText);
     const { postId } = req.params;
     commentText = he.decode(commentText);
+    const post = await Post.findById(postId);
 
+    if (!post) {
+      return next(AppError("There is no Post ", 401));
+    }
     if (!user) {
       return next(AppError("Please Log in ", 401));
     }

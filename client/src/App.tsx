@@ -18,7 +18,6 @@ import Resetpassword from "./page/Resetpassword";
 import CheckEmailPage from "./page/CheckEmailPage";
 import { useTheme } from "./components/darkMode/theme-provider";
 import Profile from "./page/Profile";
-import Me from "./page/Me";
 import AllPostByUser from "./components/component/ui_components/profileUI/AllPostProfileUI/AllPostByUser";
 import LikePost from "./components/component/ui_components/profileUI/likePostProfileUI/LikePost";
 import { ProfileLayout } from "./components/component/ProfileLayout";

@@ -20,8 +20,10 @@ const AllPostByUser = () => {
     return <div>Error loading user profile: {isError.message}</div>;
   }
   return (
-    <div className=" flex   md:justify-center md:items-center mt-12 w-full overflow-hidden">
-      <div className="md:w-full  flex flex-col gap-5 w-full">
+    <div
+      className={` flex   md:justify-center md:items-center mt-12 w-full rounded-full`}
+    >
+      <div className="w-full md:max-w-lg">
         {userProfileData.posts.map((post) => (
           <PostItem
             key={post.id}

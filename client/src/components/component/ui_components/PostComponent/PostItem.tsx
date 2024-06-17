@@ -45,7 +45,7 @@ const PostItem = ({ item }: item) => {
       className={`listItem ${
         theme === "dark"
           ? "text-white  hover:bg-slate-700  border-2 border-slate-100"
-          : "text-black  hover:bg-slate-200"
+          : "text-black  hover:bg-slate-200 border-2 border-slate-200"
       } p-5  rounded-2xl   shadow-2xl `}
     >
       <div className="w-full  flex gap-2 mb-3 ">

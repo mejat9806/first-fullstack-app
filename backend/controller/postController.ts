@@ -200,14 +200,13 @@ export const deletePost = catchAsync(
     }
 
     const like = await Like.findOne({ post: post.id });
-    console.log(like);
-    if (!like) {
-      return AppError("no like found", 404);
+    console.log(like, "like here");
+    if (like) {
+      console.log(like.id, "like id");
+      await User.findByIdAndUpdate(req.user?.id, {
+        $pull: { likePosts: like.id },
+      });
     }
-    console.log(like.id, "like id");
-    await User.findByIdAndUpdate(req.user?.id, {
-      $pull: { likePosts: like.id },
-    });
     const imagePaths = post?.image;
     await Like.findByIdAndDelete(post._id);
     const deletePost = await User.findByIdAndUpdate(req.user?.id, {

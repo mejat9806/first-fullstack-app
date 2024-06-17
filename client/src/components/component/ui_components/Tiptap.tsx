@@ -19,24 +19,34 @@ const Tiptap = ({
   disabled: boolean;
 }) => {
   const { theme } = useTheme();
-  const themeChange = theme === "dark" ? "text-white" : "text-black";
+  // const themeChange = theme === "light" ? "text-white" : "text-black";
+  console.log("Current theme:", theme);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
         bulletList: {
-          HTMLAttributes: { class: `list-Bullet-style prose ${themeChange}` },
+          HTMLAttributes: {
+            class: `list-Bullet-style   prose dark:prose-invert   focus:outline-none `,
+          },
         },
         orderedList: {
-          HTMLAttributes: { class: `list-order-style prose ${themeChange}` },
+          HTMLAttributes: {
+            class: `list-order-style prose  prose dark:prose-invert    focus:outline-none `,
+          },
         },
         heading: {
           HTMLAttributes: {
-            class: cn(`prose ${themeChange} text-3xl`),
+            class: cn(
+              `prose  text-3xl  prose dark:prose-invert   focus:outline-none `,
+            ),
           },
         },
         bold: {
           HTMLAttributes: {
-            class: cn(`prose ${themeChange} font-bold `),
+            class: cn(
+              `prose  font-bold   prose dark:prose-invert   focus:outline-none`,
+            ),
           },
         },
       }),
@@ -53,8 +63,7 @@ const Tiptap = ({
     editorProps: {
       attributes: {
         class: cn(
-          `rounded-md border min-h-[100px] max-w-[100%]  text-wrap whitespace-break-spaces prose ${
-            theme === "dark" ? "text-white" : "text-black"
+          `rounded-md border min-h-[100px] max-w-[100%]  text-wrap whitespace-break-spaces  prose dark:prose-invert   focus:outline-none
           }`,
         ),
       },

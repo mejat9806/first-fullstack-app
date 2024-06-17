@@ -20,6 +20,7 @@ interface IreplyData {
 const ReplyItem = ({ replyData }: IreplyData) => {
   console.log("Reply Data:", replyData);
   const [openReply, setOpenReply] = useState(false);
+  const [openReplySection, setOpenReplySection] = useState(false);
 
   const navigate = useNavigate();
 
@@ -65,7 +66,7 @@ const ReplyItem = ({ replyData }: IreplyData) => {
           <AddReply commentId={replyData._id} setOpenReply={setOpenReply} />
         )}
       </div>{" "}
-      <div className="ml-5">
+      <div className="ml-5 ">
         {replyData.reply.map((replyToReply) => (
           <ReplyItem key={replyToReply._id} replyData={replyToReply} />
         ))}

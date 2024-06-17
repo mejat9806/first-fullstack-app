@@ -54,9 +54,12 @@ const Post = () => {
   ) : status === "error" ? (
     <div>{error?.message}</div>
   ) : (
-    <div className="w-[300px] md:w-[500px] h-full flex flex-col justify-center">
+    <div className="w-full  h-full flex flex-col justify-center">
       {data?.pages.map((page, i) => (
-        <div key={i} className="flex flex-col gap-10 mt-5">
+        <div
+          key={i}
+          className="flex flex-col gap-10 mt-5 md:w-[500px] w-[100%]"
+        >
           {page.data.map(
             (
               // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTheme } from "@/components/darkMode/theme-provider";
 import { useReply } from "@/features/api/reply/useReply";
 import { useParams } from "react-router-dom";
 export const FormSchema = z.object({
@@ -18,7 +17,6 @@ const AddReply = ({
 }) => {
   const { isReply, mutateReply } = useReply();
   const { postId } = useParams();
-  const { theme } = useTheme();
   const [textInputType, setTextInputType] = useState<"rich" | "normal">(
     "normal",
   );
@@ -45,7 +43,7 @@ const AddReply = ({
     } else setTextInputType("normal");
   };
   return (
-    <div className="border border-2 p-2">
+    <div className="border border-2 p-2 ">
       {" "}
       <CommentReplyInput
         name="text"

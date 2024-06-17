@@ -1,3 +1,4 @@
+import { useTheme } from "@/components/darkMode/theme-provider";
 import DOMPurify from "dompurify";
 import { useNavigate } from "react-router-dom";
 
@@ -7,11 +8,14 @@ const TextArea = ({ text, postID }: { text: string; postID: string }) => {
   const maxLength = 50;
   const displayText =
     textLength > maxLength ? text.substring(0, maxLength) + "..." : text;
-
+  const { theme } = useTheme();
+  console.log(displayText);
   return (
     <div>
-      <p
-        className="whitespace-break-spaces text-sm"
+      <div
+        className={`whitespace-break-spaces text-sm ${
+          theme === "dark" ? "text-white" : "text-black"
+        }`}
         dangerouslySetInnerHTML={{
           __html: DOMPurify.sanitize(displayText),
         }}

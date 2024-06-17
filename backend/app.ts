@@ -11,6 +11,7 @@ import { router as likeRoute } from "./routes/likeRoute";
 import { router as replyRoute } from "./routes/replyRoute";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import compression from "compression";
 
 export const app = express();
 import dotenv from "dotenv";
@@ -45,18 +46,20 @@ const limiter = rateLimit({
 app.use("/", limiter);
 app.use(json());
 app.use(morgan("dev"));
-helmet({
-  crossOriginResourcePolicy: false,
-});
+
 app.use(ExpressMongoSanitize());
 app.use(xss());
 app.use(cookieParser());
+
 app.use(express.urlencoded({ extended: true }));
+// app.use(helmet());
+
 // @ts-ignore
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
+app.use(compression());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);

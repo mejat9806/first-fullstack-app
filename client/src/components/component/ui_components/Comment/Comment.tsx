@@ -11,7 +11,6 @@ import {
   HoverCardTrigger,
 } from "@/shadcnComponent/ui/hover-card";
 import HoverCardUI from "../../hoverCard/HoverCardUI";
-import PlusIcon from "@/components/SVG/PlusIcon";
 import { Button } from "@/shadcnComponent/ui/button";
 import AddReply from "./reply/AddReply";
 
@@ -22,6 +21,7 @@ interface ICommentData {
 const Comment = ({ commentData }: ICommentData) => {
   const navigate = useNavigate();
   const [openReply, setOpenReply] = useState(false);
+  const [openReplySection, setOpenReplySection] = useState(false);
 
   const profileImage = `${baseUrl}img/posts/${commentData.user.profileImage}`;
 
@@ -70,11 +70,29 @@ const Comment = ({ commentData }: ICommentData) => {
               />
             )}
           </div>
-          <div className="w-full ">
-            {commentData.reply &&
-              commentData.reply.map((reply) => (
-                <Reply key={reply._id} replyData={reply} />
-              ))}
+          <div className="justify-center flex ">
+            <Button
+              className=""
+              onClick={() => setOpenReplySection(!openReplySection)}
+            >
+              Show replies
+            </Button>
+          </div>
+          <div
+            className={`w-full overflow-hidden transition-all duration-300 ease-in-out transform ${
+              openReplySection
+                ? "max-h-screen opacity-100"
+                : "max-h-0 opacity-0"
+            }`}
+          >
+            {openReplySection && (
+              <div className="w-full  ">
+                {commentData.reply &&
+                  commentData.reply.map((reply) => (
+                    <Reply key={reply._id} replyData={reply} />
+                  ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

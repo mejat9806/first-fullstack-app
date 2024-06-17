@@ -1,6 +1,7 @@
-import { Button } from "@/shadcnComponent/ui/button";
 import React, { useState } from "react";
 import Cropper from "react-easy-crop";
+import { Button } from "@/shadcnComponent/ui/button";
+
 export interface CroppedArea {
   width: number;
   height: number;
@@ -11,8 +12,9 @@ export interface CroppedArea {
 interface ImageCropperProps {
   image: string;
   onCropCancel: () => void;
-  onCropDone: (croppedArea: CroppedArea | null) => void;
+  onCropDone: (croppedArea: CroppedArea) => void;
 }
+
 export const ImageCropper = ({
   image,
   onCropCancel,
@@ -21,18 +23,19 @@ export const ImageCropper = ({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedArea, setCroppedArea] = useState<CroppedArea | null>(null);
-  const [aspectRatio, setAspectRatio] = useState(21 / 9);
 
-  const onCropComplete = (CroppedAreaPixel: CroppedArea) => {
-    console.log(CroppedAreaPixel);
-    setCroppedArea(CroppedAreaPixel);
+  const onCropComplete = (croppedArea: CroppedArea) => {
+    setCroppedArea(croppedArea);
   };
+
   return (
-    <div className="w-full h-full flex flex-col justify-end items-end ">
+    <div className="w-full h-full flex flex-col justify-end items-end">
       <div className="flex justify-center items-center w-full gap-11">
         <Button onClick={onCropCancel}>Cancel</Button>
         <Button
-          onClick={() => onCropDone(croppedArea)}
+          onClick={() => {
+            if (croppedArea) onCropDone(croppedArea);
+          }}
           className="text-white z-50"
         >
           Crop and Apply
@@ -42,14 +45,16 @@ export const ImageCropper = ({
         image={image}
         crop={crop}
         zoom={zoom}
-        aspect={aspectRatio}
+        aspect={16 / 9}
         onCropChange={setCrop}
-        onCropComplete={onCropComplete}
+        onCropComplete={(croppedArea, croppedAreaPixels) =>
+          onCropComplete(croppedAreaPixels)
+        }
         onZoomChange={setZoom}
         style={{
           containerStyle: {
             width: "100%",
-            height: "80%",
+            height: "100%",
           },
         }}
       />

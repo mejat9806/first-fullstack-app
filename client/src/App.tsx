@@ -27,15 +27,21 @@ axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
 function App() {
+  const { theme } = useTheme();
   const [isLoading, setLoading] = useState(true);
+
   function someRequest() {
     //Simulates a request; makes a "promise" that'll run for 2.5 seconds
     return new Promise<void>((resolve) => setTimeout(() => resolve(), 1500));
   }
-  const { theme } = useTheme();
   useEffect(() => {
     someRequest().then(() => {
       const loaderElement = document.querySelector(".loader-container");
+      // if (theme === "dark") {
+      //   loaderElement?.classList.add("bg-black");
+      // } else {
+      //   loaderElement?.classList.add("bg-white");
+      // }
       if (loaderElement) {
         loaderElement.remove();
         setLoading(!isLoading);

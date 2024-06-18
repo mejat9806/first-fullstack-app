@@ -133,12 +133,7 @@ const PostDetail = () => {
             )}
           </div>
 
-          <PostFooter
-            like={likes?.length}
-            author={author?.id}
-            postId={id}
-            likeArray={likes}
-          />
+          <PostFooter like={likes?.length} author={author?.id} postId={id} />
 
           <Comments postId={id} />
           {comments && <CommentsList comments={comments} />}

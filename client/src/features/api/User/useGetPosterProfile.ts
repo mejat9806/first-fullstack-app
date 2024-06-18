@@ -4,18 +4,16 @@ import { useParams } from "react-router-dom";
 import { Ilike } from "@/components/component/ui_components/PostComponent/PostFooter";
 
 export interface Iposts {
-  post: {
-    name: string;
-    email: string;
-    profileImage: string;
-    createAt: string;
-    detail: string;
-    id: string;
-    image: [string];
-    likesCount: number;
-    slug: string;
-    title: string;
-  };
+  name: string;
+  email: string;
+  profileImage: string;
+  createAt: string;
+  detail: string;
+  id: string;
+  image: [string];
+  likesCount: number;
+  slug: string;
+  title: string;
 }
 interface IUserProfileData {
   bannerImage: string;

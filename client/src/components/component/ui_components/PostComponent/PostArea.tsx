@@ -48,9 +48,7 @@ const Post = () => {
     );
   }
   return status === "pending" ? (
-    <div>
-      <LoadingPage />
-    </div>
+    <div>{/* <LoadingPage /> */}</div>
   ) : status === "error" ? (
     <div>{error?.message}</div>
   ) : (
@@ -60,17 +58,11 @@ const Post = () => {
           key={i}
           className="flex flex-col gap-10 mt-5 md:w-[500px] w-[100%]"
         >
-          {page.data.map(
-            (
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              itemData: any,
-              i: number,
-            ) => (
-              <div key={i}>
-                <PostItem item={itemData} />
-              </div>
-            ),
-          )}
+          {page.data.map((itemData, i: number) => (
+            <div key={i} className="">
+              <PostItem item={itemData} />
+            </div>
+          ))}
         </div>
       ))}
       <div ref={ref} className="w-full h-1 bg-red"></div>

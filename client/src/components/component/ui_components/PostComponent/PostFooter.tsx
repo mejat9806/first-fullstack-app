@@ -6,10 +6,7 @@ import LoadingPage from "../LoadingPage";
 import { PostItemType } from "./PostItem";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
-import {
-  Iposts,
-  useGetPosterProfile,
-} from "@/features/api/User/useGetPosterProfile";
+import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import { FaCommentDots } from "react-icons/fa6";
 
 export interface Ilike {
@@ -21,11 +18,9 @@ export interface PostFooter {
   like: number;
   author: string;
   postId: string;
-  bookmark: Iposts[];
-  likeArray: Ilike[];
 }
 
-const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
+const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { user } = useContext(UserContext);
   const { likeDislike } = useLikeDislike();
   const queryClient = useQueryClient();
@@ -33,7 +28,7 @@ const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
     return <LoadingPage />;
   }
   const userId = user.id;
-  const { isGetProfile, userProfileData } = useGetPosterProfile({
+  const { userProfileData } = useGetPosterProfile({
     userId,
   });
   console.log(userProfileData);
@@ -41,12 +36,10 @@ const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
   const userProfileLike = userProfileData?.likePosts.map(
     (user) => user.post?._id,
   );
-  const userProfileBookmark = userProfileData?.bookmark.map(
-    (post) => post.post.id,
-  );
-  if (!(like || postId || author || likeArray) || isGetProfile) {
-    return <LoadingPage />;
-  }
+  const userProfileBookmark = userProfileData?.bookmark.map((post) => post.id);
+  // if (!(like || postId || author || likeArray) || isGetProfile) {
+  //   return <LoadingPage className="h-fit" />;
+  // }
   const isProfileLike = userProfileLike?.includes(postId);
   const isBookMark = userProfileBookmark?.includes(postId);
   // const isLike = userLike.includes(postId);

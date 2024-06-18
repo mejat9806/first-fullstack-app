@@ -1,14 +1,19 @@
 import { useTheme } from "@/components/darkMode/theme-provider";
+import { twMerge } from "tailwind-merge";
 
-const LoadingPage = () => {
-  const { theme } = useTheme();
+const LoadingPage = ({ className }: { className?: string }) => {
+  console.log(className, "class");
+  const style = twMerge(
+    `flex space-x-2 justify-center items-center bg-transparent h-screen dark:invert ${className}`,
+  );
   return (
-    <div
-      className={`h-screen w-full flex justify-center items-center absolute top-0 left-0 z-50 ${
-        theme ? "bg-white" : "bg-black "
-      }`}
-    >
-      <div className="loader  "></div>
+    <div className="">
+      <div className={style}>
+        <span className="sr-only">Loading...</span>
+        <div className="h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+        <div className="h-8 w-8 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+        <div className="h-8 w-8 bg-black rounded-full animate-bounce"></div>
+      </div>
     </div>
   );
 };

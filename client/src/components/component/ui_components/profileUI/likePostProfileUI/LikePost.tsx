@@ -9,15 +9,16 @@ const LikePost = () => {
     return <div>No user ID provided.</div>;
   }
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { isGetProfile, userProfileData } = useGetPosterProfile({
+  const { userProfileData } = useGetPosterProfile({
     userId,
   });
-  if (isGetProfile) {
+  if (!userProfileData) {
     return <LoadingPage />;
   }
+  console.log(userProfileData);
   return (
-    <div className=" flex   md:justify-center md:items-center mt-12 w-full overflow-hidden">
-      <div className="md:w-[40%] flex flex-col gap-5 w-full">
+    <div className=" flex flex-col gap-10  md:justify-center md:items-center mt-12 w-full overflow-hidden">
+      <div className="w-full md:max-w-lg flex-col gap-10 flex">
         {userProfileData?.likePosts.map((likePost) => (
           <div key={likePost.post._id}>
             <PostItem

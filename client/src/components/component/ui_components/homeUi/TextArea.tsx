@@ -9,7 +9,6 @@ const TextArea = ({ text, postID }: { text: string; postID: string }) => {
   const displayText =
     textLength > maxLength ? text.substring(0, maxLength) + "..." : text;
   const { theme } = useTheme();
-  console.log(displayText);
   return (
     <div>
       <div

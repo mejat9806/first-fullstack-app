@@ -39,14 +39,14 @@ const PostItem = ({ item }: item) => {
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
-
+  console.log(item);
   return (
     <div
       className={`listItem ${
         theme === "dark"
           ? "text-white  hover:bg-slate-700  border-2 border-slate-100"
           : "text-black  hover:bg-slate-200 border-2 border-slate-200"
-      } p-5  rounded-2xl   shadow-2xl `}
+      } p-5  rounded-2xl  shadow-md  `}
     >
       <div className="w-full  flex gap-2 mb-3 ">
         <HoverCard>
@@ -114,7 +114,6 @@ const PostItem = ({ item }: item) => {
           like={item.likesCount}
           author={item.author._id}
           postId={item._id}
-          likeArray={item.likes}
         />
       </div>
     </div>

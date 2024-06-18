@@ -4,38 +4,39 @@ import { BookMarked, CompassIcon, HomeIcon, PenIcon } from "lucide-react";
 import { useTheme } from "../darkMode/theme-provider";
 import { Button } from "@/shadcnComponent/ui/button";
 import DialogFN from "./ui_components/DialogFN";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CreatePost from "./ui_components/CreatePost/CreatePost";
 import PopularIcon from "../SVG/PopularIcon";
-
-const navitems = [
-  {
-    name: "Home",
-    icons: <HomeIcon className=" hover:stroke-slate-700 " />,
-    link: "/",
-  },
-  {
-    name: "Popular",
-    icons: <PopularIcon style=" stroke-current stroke-1 	" />,
-    link: "/popular",
-  },
-
-  {
-    name: "Explore",
-    icons: <CompassIcon className=" hover:stroke-slate-700 " />,
-    link: "/explore",
-  },
-  {
-    name: "Bookmark",
-    icons: <BookMarked className=" hover:stroke-slate-700 " />,
-    link: "#",
-  },
-];
+import { UserContext } from "@/context/userContext";
 
 function Nav() {
   const [openWrite, setOpenWrite] = useState(false);
   const location = useLocation();
   const { theme } = useTheme();
+  const { user } = useContext(UserContext);
+  const navitems = [
+    {
+      name: "Home",
+      icons: <HomeIcon className=" hover:stroke-slate-700 " />,
+      link: "/",
+    },
+    {
+      name: "Popular",
+      icons: <PopularIcon style=" stroke-current stroke-1 	" />,
+      link: "/popular",
+    },
+
+    {
+      name: "Explore",
+      icons: <CompassIcon className=" hover:stroke-slate-700 " />,
+      link: "/explore",
+    },
+    {
+      name: "Bookmark",
+      icons: <BookMarked className=" hover:stroke-slate-700 " />,
+      link: `/profile/${user?.id}/bookmarksave`,
+    },
+  ];
 
   return (
     <>

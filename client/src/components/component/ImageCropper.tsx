@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Cropper from "react-easy-crop";
 import { Button } from "@/shadcnComponent/ui/button";
 
@@ -47,7 +47,7 @@ export const ImageCropper = ({
         zoom={zoom}
         aspect={16 / 9}
         onCropChange={setCrop}
-        onCropComplete={(croppedArea, croppedAreaPixels) =>
+        onCropComplete={(croppedAreaPixels) =>
           onCropComplete(croppedAreaPixels)
         }
         onZoomChange={setZoom}

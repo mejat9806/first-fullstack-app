@@ -11,6 +11,7 @@ interface IUserProfileData {
   joinDate: string;
   bio: string;
   bannerImage: string;
+  bookmark: Iposts[];
 }
 
 interface IuserProfileResponse {

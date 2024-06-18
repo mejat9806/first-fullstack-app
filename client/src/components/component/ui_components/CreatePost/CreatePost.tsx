@@ -1,6 +1,5 @@
 import { useTheme } from "@/components/darkMode/theme-provider";
 import CreatePostInput from "./CreatePostInput";
-import React from "react";
 
 const CreatePost = ({
   setIsOpen,

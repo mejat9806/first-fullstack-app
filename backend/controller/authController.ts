@@ -118,14 +118,15 @@ export const uploadImage = upload.fields([
 ]);
 export const resizeUserPhoto = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.file, "here");
     if (!req.user) {
       return next(AppError("please login", 401));
     }
+    if (!req.files) {
+      return next();
+    }
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
-    console.log(files.bannerImage, "here file check");
-
+    console.log(files, "jere");
     if (files.profileImage && files.profileImage.length > 0) {
       req.body.profileImage = `user=${req.user.id}-${Date.now()}.webp`;
       await sharp(files.profileImage[0].buffer)
@@ -144,12 +145,13 @@ export const resizeUserPhoto = catchAsync(
         .toFile(`public/img/posts/${req.body.bannerImage}`);
       next();
     }
+    next();
   },
 );
 
 export const updateMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    // console.log(req.body, "bodyhere");
+    console.log(req.body, "bodyhere");
     const user = req.user;
     if (!user) {
       return next(AppError("please login", 401));
@@ -181,13 +183,15 @@ export const updateMe = catchAsync(
 );
 export const isLogin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.user, "user");
+    console.log(req.user, "userdsds");
     const user = req.user;
-
     if (!user) {
+      console.log("here");
       return next(AppError("Please log in again", 401));
     }
     const currentUser = await User.findById(user.id);
+    console.log("here");
+    console.log(currentUser, "current user");
     if (currentUser?.changedPasswordAfter(user.iat as number)) {
       return next(AppError("user change password recently", 401));
     }
@@ -199,7 +203,7 @@ export const isLogin = catchAsync(
       return next(AppError("Profile not found", 401));
     }
     console.log(profile);
-    res.json(profile);
+    res.status(200).json(profile);
   },
 );
 

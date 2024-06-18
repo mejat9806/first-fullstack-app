@@ -27,14 +27,9 @@ const sendErrorDev = (req: Request, res: Response, err: any) => {
       status: err.status,
       err: err,
       message: err.message,
-      errorStack: err.stack,
+      error: util.inspect(err, { depth: null }), // Inspect the error object to avoid circular references
     });
   }
-  //this is for render
-  return res.status(err.statusCode).render("error", {
-    tittle: "some went wrong",
-    msg: err.message,
-  });
 };
 
 const sendErrorProd = (req: Request, res: Response, err: any) => {

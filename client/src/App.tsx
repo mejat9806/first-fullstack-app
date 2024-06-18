@@ -7,7 +7,7 @@ import RegisterPage from "./page/RegisterPage";
 import Setting from "./page/Setting";
 import { Suspense, useEffect, useState } from "react";
 import Explore from "./page/Explore";
-import NewPost from "./page/NewPost";
+// import NewPost from "./page/NewPost";
 import PostDetail from "./page/PostDetail";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "./page/ErrorPage";
@@ -65,8 +65,9 @@ function App() {
                 <Route path={"post/:postId"} element={<PostDetail />} />
                 <Route path="explore" element={<Explore />} />
                 <Route path="popular" element={<PopularPost />} />
-                <Route path="newPost" element={<NewPost />} />
+                {/* <Route path="newPost" element={<NewPost />} /> */}
                 <Route path="setting" element={<Setting />} />
+
                 <Route path="profile/:id" element={<Profile />}>
                   <Route element={<ProfileLayout />}>
                     <Route index element={<Navigate to="all" replace />} />

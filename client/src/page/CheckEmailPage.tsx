@@ -1,5 +1,3 @@
-import React from "react";
-
 const CheckEmailPage = () => {
   return (
     <div className="flex justify-center items-center w-screen h-svh">

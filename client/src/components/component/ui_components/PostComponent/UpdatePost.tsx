@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useFetchDetails } from "@/features/api/Posts/PostDetail/useFetchDetail";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import LoadingPage from "../LoadingPage";
@@ -55,6 +55,7 @@ const UpdatePost = ({
             label={"title"}
             placeholder={"Post Title"}
             name="title"
+            disabled={isUpdatingPost}
             type="text"
           />
           <FormInput
@@ -63,6 +64,7 @@ const UpdatePost = ({
             placeholder={"Post detail"}
             name="detail"
             type="textArea"
+            disabled={isUpdatingPost}
           />
 
           <div className="w-full flex justify-end mt-2">

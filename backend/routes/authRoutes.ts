@@ -6,12 +6,10 @@ import {
   logout,
   resizeUserPhoto,
   updateMe,
-  uploadUserPhoto,
   forgotPassword,
   resetPassword,
   updatePassword,
   isLogin,
-  uploadBanner,
   uploadImage,
 } from "../controller/authController.js";
 import { verifyJWT } from "../middleware/verifyToken.js";

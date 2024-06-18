@@ -5,7 +5,7 @@ import { FormEvent, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 const SearchBar = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const [searchInput, setSearchInput] = useState("");
   function search(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();

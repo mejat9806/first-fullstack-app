@@ -1,5 +1,5 @@
 import { Ireply } from "@/features/api/Posts/PostDetail/fetchPostDetail";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   HoverCard,
   HoverCardContent,
@@ -20,7 +20,6 @@ interface IreplyData {
 const ReplyItem = ({ replyData }: IreplyData) => {
   console.log("Reply Data:", replyData);
   const [openReply, setOpenReply] = useState(false);
-  const [openReplySection, setOpenReplySection] = useState(false);
 
   const navigate = useNavigate();
 

@@ -6,22 +6,19 @@ import {
   FormMessage,
 } from "@/shadcnComponent/ui/form";
 import { Input } from "@/shadcnComponent/ui/input";
-import React from "react";
+
 import { UseFormReturn } from "react-hook-form";
 interface FormInput {
-  form: UseFormReturn<
-    {
-      [key: string]: string;
-    },
-    undefined
-  >;
+  form: UseFormReturn<{
+    password: string;
+    passwordConfirmed: string;
+  }>;
   label: string;
   placeholder: string;
   name: "password" | "passwordConfirmed";
   type: string;
   disabled: boolean;
 }
-
 const ResetFormInput = ({
   form,
   label,

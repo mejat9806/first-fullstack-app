@@ -24,7 +24,6 @@ declare global {
 
 export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   let token;
-
   if (
     (req.headers.Authorization || req.headers.Authorization) &&
     (
@@ -37,8 +36,9 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
   } else if (req.cookies.refreshToken) {
     token = req.cookies.refreshToken;
   }
-  console.log(req.cookies.refreshToken);
+  console.log(req.cookies.refreshToken, "cookies");
   if (!token) {
+    console.log("token no detected");
     return next(
       res
         .status(401)
@@ -55,6 +55,8 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
           .json("You are not logged in! Please log in to get access.");
       }
       req.user = decode;
+      console.log("token no detected");
+
       console.log(req.user);
       next();
     },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { type Editor } from "@tiptap/react";
 import {
   Bold,

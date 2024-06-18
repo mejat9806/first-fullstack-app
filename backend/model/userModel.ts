@@ -11,10 +11,11 @@ export interface UserType extends Document {
   profileImage: string;
   active: boolean;
   posts: any;
+  bookmark: [mongoose.Schema.Types.ObjectId];
   bio: string;
   joinDate: Date;
   follow: [string];
-  likePosts: [ObjectId];
+  likePosts: [mongoose.Schema.Types.ObjectId];
   followCount: number;
   passwordChangedAt: Date;
   passwordResetToken: string | undefined;
@@ -46,7 +47,9 @@ const userSchema = new mongoose.Schema<UserType>(
       required: [true, "password is required"],
       minlength: 8,
     },
+
     likePosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
+    bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: "BookMark" }],
     joinDate: { type: Date, default: Date.now() },
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     passwordConfirmed: String,
@@ -101,6 +104,13 @@ userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
   this.populate({
     path: "posts",
     model: "Post",
+  });
+  next();
+});
+userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+  this.populate({
+    path: "bookmark",
+    model: "BookMark",
   });
   next();
 });

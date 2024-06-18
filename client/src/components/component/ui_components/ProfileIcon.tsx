@@ -33,7 +33,7 @@ const ProfileIcon = () => {
   }
 
   const profileImage = `${baseUrl}img/posts/${
-    user?.profileImage ?? user?.user?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
+    user?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
 
   return (

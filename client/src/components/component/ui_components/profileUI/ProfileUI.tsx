@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import LoadingPage from "../LoadingPage";
@@ -94,7 +94,7 @@ const ProfileUI = () => {
 
   return (
     <div className="w-full justify-center items-center flex mt-16">
-      <div className="flex justify-center flex-col items-start md:w-[80%] w-full px-1 mt-3">
+      <div className="flex justify-center flex-col items-start md:w-[50%] w-full px-1 mt-3">
         <div className="w-full md:h-[300px] h-[200px] relative ">
           {userProfileData.bannerImage ? (
             <div className="w-full md:h-[300px] h-[200px] relative">

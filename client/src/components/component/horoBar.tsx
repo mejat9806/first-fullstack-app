@@ -1,5 +1,4 @@
 import { OctagonIcon } from "lucide-react";
-import React from "react";
 import SearchBar from "./ui_components/SearchBar";
 import ProfileIcon from "./ui_components/ProfileIcon";
 import { useTheme } from "../darkMode/theme-provider";

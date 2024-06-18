@@ -1,5 +1,3 @@
-import React from "react";
-
 const PopularPost = () => {
   return (
     <div className=" h-full w-full flex justify-center items-center mt-12">

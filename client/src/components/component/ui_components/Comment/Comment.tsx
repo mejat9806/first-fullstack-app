@@ -1,5 +1,5 @@
 import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
-import React, { useState } from "react";
+import { useState } from "react";
 import Reply from "./reply/ReplyItem";
 import DOMPurify from "dompurify";
 import { useNavigate } from "react-router-dom";

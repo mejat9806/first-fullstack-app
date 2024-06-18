@@ -8,11 +8,11 @@ const FormSchema = z.object({
   title: z.string().min(1, { message: "Please enter a title" }),
   detail: z.string().min(5, { message: "Must have 10 characters" }),
   image: z
-    .any()
+    .instanceof(FileList)
+    .optional()
     .refine(
       (files) =>
-        files instanceof FileList &&
-        Array.from(files).every((file) => file instanceof File),
+        !files || Array.from(files).every((file) => file instanceof File),
       {
         message: "Invalid file",
       },

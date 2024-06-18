@@ -5,7 +5,7 @@ import FormInput from "../ui_components/FormInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/shadcnComponent/ui/button";
 
-const AddBannerImage = ({ setIsOpen }: { setIsOpen: () => void }) => {
+const AddBannerImage = () => {
   const FormSchema = z.object({
     bannerImage: z.any(),
   });

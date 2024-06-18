@@ -14,7 +14,7 @@ import { Button } from "@/shadcnComponent/ui/button";
 import { useCreatePost } from "@/features/api/Posts/createPost/useCreatePost";
 import { Input } from "@/shadcnComponent/ui/input";
 import { useTheme } from "@/components/darkMode/theme-provider";
-import React from "react";
+
 import FormInput from "../FormInput";
 
 const CreatePostInput = ({

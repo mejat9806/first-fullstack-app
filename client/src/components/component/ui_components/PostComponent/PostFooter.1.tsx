@@ -5,8 +5,18 @@ import { IoChatbubbleEllipses } from "react-icons/io5";
 import LoadingPage from "../LoadingPage";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
-
-export const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
+interface IPostFooter {
+  like: number;
+  author: string;
+  postId: string;
+  likeArray: [];
+}
+export const PostFooter = ({
+  like,
+  postId,
+  author,
+  likeArray,
+}: IPostFooter) => {
   const { user } = useContext(UserContext);
   const { likeDislike } = useLikeDislike();
   const queryClient = useQueryClient();
@@ -14,9 +24,7 @@ export const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
     return <LoadingPage />;
   }
   console.log(user.likePosts);
-  const userID = user.id;
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
-  const userLike = likeArray.map((user) => console.log(user));
 
   if (!(like || postId || author || likeArray)) {
     return <LoadingPage />;

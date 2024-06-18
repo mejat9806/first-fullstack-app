@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 // import { toast } from "react-hot-toast";
 import { z } from "zod";
-import FormInputRegister from "./ui_components/FormInputRegister";
 import { Button } from "@/shadcnComponent/ui/button";
 import { useForm } from "react-hook-form";
 import { useRegister } from "@/features/api/Auth/register/useRegister";

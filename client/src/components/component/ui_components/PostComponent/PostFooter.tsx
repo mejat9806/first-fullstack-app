@@ -1,12 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
 import { useQueryClient } from "@tanstack/react-query";
-import { Heart } from "lucide-react";
+import { Bookmark, Heart } from "lucide-react";
 import LoadingPage from "../LoadingPage";
 import { PostItemType } from "./PostItem";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
-import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
+import {
+  Iposts,
+  useGetPosterProfile,
+} from "@/features/api/User/useGetPosterProfile";
 import { FaCommentDots } from "react-icons/fa6";
 
 export interface Ilike {
@@ -18,7 +21,7 @@ export interface PostFooter {
   like: number;
   author: string;
   postId: string;
-
+  bookmark: Iposts[];
   likeArray: Ilike[];
 }
 
@@ -33,15 +36,19 @@ const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
   const { isGetProfile, userProfileData } = useGetPosterProfile({
     userId,
   });
+  console.log(userProfileData);
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
   const userProfileLike = userProfileData?.likePosts.map(
     (user) => user.post?._id,
   );
-
+  const userProfileBookmark = userProfileData?.bookmark.map(
+    (post) => post.post.id,
+  );
   if (!(like || postId || author || likeArray) || isGetProfile) {
     return <LoadingPage />;
   }
   const isProfileLike = userProfileLike?.includes(postId);
+  const isBookMark = userProfileBookmark?.includes(postId);
   // const isLike = userLike.includes(postId);
   const handleLike = () => {
     likeDislike(postId, {
@@ -71,6 +78,14 @@ const PostFooter = ({ like, postId, author, likeArray }: PostFooter) => {
           <p className="w-4 ">{like}</p>
         </div>
         <FaCommentDots size={30} />
+        <Bookmark
+          size={30}
+          className={`${
+            isBookMark
+              ? "fill-cyan-300 stroke-none hover:fill-cyan-200"
+              : "fill-white hover:fill-cyan-200"
+          } hover:scale-105 transition-all duration-200`}
+        />
       </div>
     </div>
   );

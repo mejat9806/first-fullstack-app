@@ -2,13 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../model/userModel.js";
 import { model } from "mongoose";
 import { populate } from "dotenv";
+import { catchAsync } from "../utils/catchAsync.js";
 
-export const getAlluser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const getAlluser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const amountOfDoc = await User.countDocuments();
 
     const allUser = await User.find().populate("posts");
@@ -16,8 +13,8 @@ export const getAlluser = async (
       return res.status(404).json({ message: "No user found." });
     }
     res.status(200).json({ amountOfDoc, data: allUser });
-  } catch (error) {}
-};
+  },
+);
 
 export const getUser = async (
   req: Request,

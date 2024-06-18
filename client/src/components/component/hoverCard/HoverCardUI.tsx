@@ -1,5 +1,5 @@
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
-import React from "react";
+
 import { baseUrl } from "../ui_components/PostComponent/PostItem";
 import LoadingPage from "../ui_components/LoadingPage";
 import { dateFormat } from "@/utils/dateFormat";

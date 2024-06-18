@@ -1,5 +1,5 @@
 import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
-import React from "react";
+
 import Comment from "./Comment";
 import NoComment from "./NoComment";
 

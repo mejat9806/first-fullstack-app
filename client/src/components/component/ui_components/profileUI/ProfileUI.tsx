@@ -21,18 +21,19 @@ const ProfileUI = () => {
   const [currentPage, setCurrentPage] = useState("choose-img");
   const { id: userId } = useParams<{ id: string }>();
   const { user } = useContext(UserContext);
+  const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
+    userId: userId || "",
+  });
+
   if (!userId) {
     return <div>No user ID provided.</div>;
   }
+
   const onImageSelected = (selectedImage: string) => {
     setImage(selectedImage);
     setCurrentPage("crop-img");
   };
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
-    userId,
-  });
   const onCropDone = (imgCroppedArea: CroppedArea) => {
     const canvasElement = document.createElement("canvas");
     const context = canvasElement.getContext("2d");
@@ -40,10 +41,10 @@ const ProfileUI = () => {
     imageObj1.src = image;
 
     imageObj1.onload = function () {
-      const scaleX = imageObj1.width / imgCroppedArea.width;
-      const scaleY = imageObj1.height / imgCroppedArea.height;
-      canvasElement.width = imgCroppedArea.width;
-      canvasElement.height = imgCroppedArea.height;
+      const scaleX = imageObj1.width / 100; // Adjust scale factor
+      const scaleY = imageObj1.height / 100; // Adjust scale factor
+      canvasElement.width = imgCroppedArea.width * scaleX;
+      canvasElement.height = imgCroppedArea.height * scaleY;
 
       if (context) {
         context.drawImage(
@@ -54,8 +55,8 @@ const ProfileUI = () => {
           imgCroppedArea.height * scaleY,
           0,
           0,
-          imgCroppedArea.width,
-          imgCroppedArea.height,
+          imgCroppedArea.width * scaleX,
+          imgCroppedArea.height * scaleY,
         );
 
         const dataUrl = canvasElement.toDataURL("image/jpeg");
@@ -180,14 +181,16 @@ const ProfileUI = () => {
             currentPage === "choose-img" ? (
               <FileInputwithCrop onImageSelected={onImageSelected} />
             ) : currentPage === "crop-img" ? (
-              <ImageCropper
-                image={image}
-                onCropDone={onCropDone}
-                onCropCancel={onCropCancel}
-              />
+              <div className=" relative w-full h-full">
+                <ImageCropper
+                  image={image}
+                  onCropDone={onCropDone}
+                  onCropCancel={onCropCancel}
+                />
+              </div>
             ) : (
               <div className="w-full">
-                <img src={imageAfterCrop} alt="Cropped" />
+                <img src={imageAfterCrop} alt="Cropped" className="w-full" />
                 <div className="w-full h-full flex justify-center items-center gap-10 mt-5">
                   <Button
                     onClick={() => {

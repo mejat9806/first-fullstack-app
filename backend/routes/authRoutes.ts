@@ -31,5 +31,14 @@ router.patch("/resetPassword/:token", resetPassword);
 
 router.use(verifyJWT);
 router.get("/isLogin", isLogin);
-router.patch("/updateMe", uploadImage, resizeUserPhoto, updateMe);
+router.patch(
+  "/updateMe",
+  (req, res, next) => {
+    console.log("updateMe route accessed");
+    next();
+  },
+  uploadImage,
+  resizeUserPhoto,
+  updateMe,
+);
 router.patch("/updatePassword", updatePassword);

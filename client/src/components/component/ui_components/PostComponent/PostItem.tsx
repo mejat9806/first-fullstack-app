@@ -39,7 +39,6 @@ const PostItem = ({ item }: item) => {
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
-  console.log(item);
   return (
     <div
       className={`listItem ${

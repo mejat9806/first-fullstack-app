@@ -23,41 +23,47 @@ export const ImageCropper = ({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedArea, setCroppedArea] = useState<CroppedArea | null>(null);
-
-  const onCropComplete = (croppedArea: CroppedArea) => {
-    setCroppedArea(croppedArea);
+  console.log("cropArea:", croppedArea);
+  const onCropComplete = (croppedAreaPixels: CroppedArea) => {
+    console.log("croppedAreaPixels:", croppedAreaPixels); // Debugging line
+    setCroppedArea(croppedAreaPixels);
   };
 
   return (
-    <div className="w-full h-full flex flex-col justify-end items-end">
+    <div className="relative w-full h-full flex flex-col justify-end items-end">
       <div className="flex justify-center items-center w-full gap-11">
-        <Button onClick={onCropCancel}>Cancel</Button>
+        <Cropper
+          image={image}
+          crop={crop}
+          zoom={zoom}
+          aspect={16 / 9}
+          onCropChange={setCrop}
+          onCropComplete={onCropComplete}
+          onZoomChange={setZoom}
+          style={{
+            containerStyle: {
+              width: "100%",
+              height: "100%",
+            },
+          }}
+        />
+      </div>
+      <div className="absolute bottom-0 flex justify-center items-center w-full gap-7">
+        <Button onClick={onCropCancel} className="text-white z-50">
+          Cancel
+        </Button>
         <Button
           onClick={() => {
-            if (croppedArea) onCropDone(croppedArea);
+            if (croppedArea) {
+              console.log("Cropped Area:", croppedArea); // Debugging line
+              onCropDone(croppedArea);
+            }
           }}
           className="text-white z-50"
         >
           Crop and Apply
         </Button>
       </div>
-      <Cropper
-        image={image}
-        crop={crop}
-        zoom={zoom}
-        aspect={16 / 9}
-        onCropChange={setCrop}
-        onCropComplete={(croppedAreaPixels) =>
-          onCropComplete(croppedAreaPixels)
-        }
-        onZoomChange={setZoom}
-        style={{
-          containerStyle: {
-            width: "100%",
-            height: "100%",
-          },
-        }}
-      />
     </div>
   );
 };

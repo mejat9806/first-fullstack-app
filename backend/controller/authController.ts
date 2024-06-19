@@ -131,9 +131,8 @@ export const resizeUserPhoto = catchAsync(
       req.body.profileImage = `user=${req.user.id}-${Date.now()}.webp`;
       await sharp(files.profileImage[0].buffer)
         .toFormat("webp")
-        .webp({ quality: 80 })
+        .webp({ quality: 100 })
         .toFile(`public/img/posts/${req.body.profileImage}`);
-      next();
     }
 
     if (files.bannerImage && files.bannerImage.length > 0) {
@@ -141,9 +140,8 @@ export const resizeUserPhoto = catchAsync(
       req.body.bannerImage = `userBanner=${req.user.id}-${Date.now()}.webp`;
       await sharp(files.bannerImage[0].buffer)
         .toFormat("webp")
-        .webp({ quality: 80 })
+        .webp({ quality: 100 })
         .toFile(`public/img/posts/${req.body.bannerImage}`);
-      next();
     }
     next();
   },
@@ -151,7 +149,7 @@ export const resizeUserPhoto = catchAsync(
 
 export const updateMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body, "bodyhere");
+    console.log("bodyhere");
     const user = req.user;
     if (!user) {
       return next(AppError("please login", 401));
@@ -176,9 +174,8 @@ export const updateMe = catchAsync(
       new: true,
       runValidators: true,
     });
-    res.status(200).json({
-      updatedUser,
-    });
+
+    res.status(200).json(updatedUser);
   },
 );
 export const isLogin = catchAsync(

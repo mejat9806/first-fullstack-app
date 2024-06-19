@@ -31,7 +31,6 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { userProfileData } = useGetPosterProfile({
     userId,
   });
-  console.log(userProfileData);
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
   const userProfileLike = userProfileData?.likePosts.map(
     (user) => user.post?._id,

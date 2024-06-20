@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { fetchPostDetail } from "./fetchPostDetail";
+import { IsinglePostDetail, fetchPostDetail } from "./fetchPostDetail";
 
 export const useFetchDetails = () => {
   const { postId } = useParams();
@@ -11,11 +11,13 @@ export const useFetchDetails = () => {
     error: singleDetailError,
     isLoading: singleDetailLoading,
     isFetching,
-  } = useQuery({
+  } = useQuery<IsinglePostDetail, Error>({
     queryKey: ["post"],
     queryFn: () => {
       if (postId) {
         return fetchPostDetail({ postId });
+      } else {
+        throw new Error("no post found");
       }
     },
     enabled: !!postId,

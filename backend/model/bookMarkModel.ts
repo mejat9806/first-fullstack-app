@@ -8,6 +8,7 @@ interface bookMarkType {
 
 const bookMarkSchema = new mongoose.Schema<bookMarkType>({
   post: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   createAt: {
     type: Date,
     default: Date.now,

@@ -9,7 +9,7 @@ import {
 
 import { UseMutateFunction } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
-import CarouselComp from "../CarouselComp";
+import CarouselComp from "./CarouselComp";
 import { useTheme } from "@/components/darkMode/theme-provider";
 
 interface DialogProps {

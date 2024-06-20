@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Toggle } from "@/shadcnComponent/ui/toggle";
 import DialogFN from "./DialogFN";
-import AddUrl from "../AddUrl";
+import AddUrl from "./AddUrl";
 import { FaLinkSlash } from "react-icons/fa6";
 
 type Props = {

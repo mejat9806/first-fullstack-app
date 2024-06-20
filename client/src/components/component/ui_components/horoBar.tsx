@@ -1,7 +1,7 @@
 import { OctagonIcon } from "lucide-react";
-import SearchBar from "./ui_components/SearchBar";
-import ProfileIcon from "./ui_components/ProfileIcon";
-import { useTheme } from "../darkMode/theme-provider";
+import SearchBar from "./SearchBar";
+import ProfileIcon from "./profileUI/ProfileIcon";
+import { useTheme } from "../../darkMode/theme-provider";
 
 const HoroBar = () => {
   const { theme } = useTheme();

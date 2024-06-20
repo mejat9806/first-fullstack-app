@@ -5,7 +5,7 @@ import { Button } from "@/shadcnComponent/ui/button";
 import { useForm } from "react-hook-form";
 import { useRegister } from "@/features/api/Auth/register/useRegister";
 import { Form } from "@/shadcnComponent/ui/form";
-import FormInputLogin from "./ui_components/FormInput";
+import FormInputLogin from "./FormInput";
 
 export const registerFormSchema = z
   .object({

@@ -8,12 +8,12 @@ import {
   DropdownMenuTrigger,
 } from "@/shadcnComponent/ui/dropdown-menu";
 import { Link } from "react-router-dom";
-import DefaultProfile from "./DefaultProfile";
+import DefaultProfile from "../DefaultProfile";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
-import { baseUrl } from "./PostComponent/PostItem";
+import { baseUrl } from "../PostComponent/PostItem";
 import { useLogin } from "@/features/api/Auth/login/useLogin";
-import LoadingPage from "./LoadingPage";
+import LoadingPage from "../LoadingPage";
 import { useTheme } from "@/components/darkMode/theme-provider";
 
 const ProfileIcon = () => {

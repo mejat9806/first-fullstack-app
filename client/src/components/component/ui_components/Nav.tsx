@@ -1,12 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 
 import { BookMarked, CompassIcon, HomeIcon, PenIcon } from "lucide-react";
-import { useTheme } from "../darkMode/theme-provider";
+import { useTheme } from "../../darkMode/theme-provider";
 import { Button } from "@/shadcnComponent/ui/button";
-import DialogFN from "./ui_components/DialogFN";
+import DialogFN from "./DialogFN";
 import { useContext, useState } from "react";
-import CreatePost from "./ui_components/CreatePost/CreatePost";
-import PopularIcon from "../SVG/PopularIcon";
+import CreatePost from "./CreatePost/CreatePost";
+import PopularIcon from "../../SVG/PopularIcon";
 import { UserContext } from "@/context/userContext";
 
 function Nav() {

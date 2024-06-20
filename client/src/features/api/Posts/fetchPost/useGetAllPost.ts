@@ -1,5 +1,5 @@
+import { PostItemType } from "@/utils/type";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { PostItemType } from "@/components/component/ui_components/PostComponent/PostItem";
 
 type PageParams = string | number;
 

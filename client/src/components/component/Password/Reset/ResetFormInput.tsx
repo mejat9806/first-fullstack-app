@@ -6,19 +6,8 @@ import {
   FormMessage,
 } from "@/shadcnComponent/ui/form";
 import { Input } from "@/shadcnComponent/ui/input";
+import { FormInput } from "@/utils/type";
 
-import { UseFormReturn } from "react-hook-form";
-interface FormInput {
-  form: UseFormReturn<{
-    password: string;
-    passwordConfirmed: string;
-  }>;
-  label: string;
-  placeholder: string;
-  name: "password" | "passwordConfirmed";
-  type: string;
-  disabled: boolean;
-}
 const ResetFormInput = ({
   form,
   label,

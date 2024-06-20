@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Iposts } from "./useGetPosterProfile";
+import { IBookmark, Iposts } from "@/utils/type";
 
 interface IUserProfileData {
   id: string;
@@ -11,7 +11,7 @@ interface IUserProfileData {
   joinDate: string;
   bio: string;
   bannerImage: string;
-  bookmark: Iposts[];
+  bookmark: IBookmark[];
 }
 
 interface IuserProfileResponse {

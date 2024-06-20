@@ -13,15 +13,15 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "./page/ErrorPage";
 import PasswordReset from "./page/ForgotPass";
 import LoadingPage from "./components/component/ui_components/LoadingPage";
-import MainLayout from "./components/component/MainLayout";
+import MainLayout from "./components/component/ui_components/MainLayout";
 import Resetpassword from "./page/Resetpassword";
 import CheckEmailPage from "./page/CheckEmailPage";
 import { useTheme } from "./components/darkMode/theme-provider";
 import Profile from "./page/Profile";
 import AllPostByUser from "./components/component/ui_components/profileUI/AllPostProfileUI/AllPostByUser";
 import LikePost from "./components/component/ui_components/profileUI/likePostProfileUI/LikePost";
-import { ProfileLayout } from "./components/component/ProfileLayout";
-import BookmarkSave from "./components/component/BookmarkSave";
+import { ProfileLayout } from "./components/component/ui_components/profileUI/ProfileLayout";
+import BookmarkSave from "./components/component/ui_components/BookmarkSave";
 import PopularPost from "./page/PopularPost";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default

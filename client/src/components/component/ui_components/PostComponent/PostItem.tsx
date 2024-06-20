@@ -10,20 +10,8 @@ import { HoverCardContent } from "@/shadcnComponent/ui/hover-card";
 import HoverCardUI from "../../hoverCard/HoverCardUI";
 import LoadingPage from "../LoadingPage";
 import DOMPurify from "dompurify";
+import { PostItemType } from "@/utils/type";
 
-export interface PostItemType {
-  author: { name: string; _id: string; profileImage: string };
-  createAt: string;
-  detail: string;
-  slug: string;
-  title: string;
-  _id: string;
-  image: string[];
-  likesCount: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  likes: any[];
-  id: string;
-}
 interface item {
   item: PostItemType;
 }
@@ -39,17 +27,18 @@ const PostItem = ({ item }: item) => {
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
+  console.log(item, "item");
   return (
     <div
-      className={`listItem ${
+      className={` ${
         theme === "dark"
           ? "text-white  hover:bg-slate-700  border-2 border-slate-100"
           : "text-black  hover:bg-slate-200 border-2 border-slate-200"
-      } p-5  rounded-2xl  shadow-md  `}
+      } p-3  rounded-2xl  shadow-md  `}
     >
-      <div className="w-full  flex gap-2 mb-3 ">
+      <div className="w-full  flex  mb-3 ">
         <HoverCard>
-          <HoverCardTrigger className="w-12">
+          <HoverCardTrigger className="w-16">
             <img
               src={profileImage}
               className="md:h-12 md:w-12 w-9 h-9 rounded-full cursor-pointer  "

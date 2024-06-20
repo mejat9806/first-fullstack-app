@@ -17,20 +17,37 @@ export const getAllBookmarks = catchAsync(
   },
 );
 
-export const addBookmark = catchAsync(
+export const toogleBookmark = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { postId } = req.params;
     const user = req.user;
     if (!user) {
       return next(AppError("Please Log in", 401));
     }
-    const bookmark = await Bookmark.create({
+
+    const bookmarkExist = await Bookmark.findOne({
       post: postId,
       user: user.id,
     });
-    await User.findByIdAndUpdate(user.id, {
-      $push: { bookmark: bookmark.id },
-    });
-    res.status(200).send(bookmark);
+    console.log(bookmarkExist, " bookmark exist");
+    if (bookmarkExist) {
+      console.log("inhere");
+      await User.findByIdAndUpdate(user.id, {
+        $pull: { bookmark: bookmarkExist.id },
+      });
+      await Bookmark.findByIdAndDelete(bookmarkExist.id);
+      res.status(200).json({
+        message: "bookmark Deleted",
+      });
+    } else {
+      const bookmark = await Bookmark.create({
+        post: postId,
+        user: user.id,
+      });
+      await User.findByIdAndUpdate(user.id, {
+        $push: { bookmark: bookmark.id },
+      });
+      res.status(200).send(bookmark);
+    }
   },
 );

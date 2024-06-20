@@ -1,7 +1,7 @@
 import Nav from "./Nav";
 import { Outlet } from "react-router-dom";
 import HoroBar from "./horoBar";
-import { useTheme } from "../darkMode/theme-provider";
+import { useTheme } from "../../darkMode/theme-provider";
 function MainLayout() {
   const { theme } = useTheme();
   return (

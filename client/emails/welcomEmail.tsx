@@ -1,3 +1,4 @@
+import { IEmail } from "@/utils/type";
 import {
   Body,
   Button,
@@ -6,12 +7,6 @@ import {
   Text,
   Tailwind,
 } from "@react-email/components";
-import * as React from "react";
-
-interface IEmail {
-  name: string;
-  url: string;
-}
 
 export default function WelcomeEmail({ name, url }: IEmail) {
   return (

@@ -6,23 +6,7 @@ import {
   FormMessage,
 } from "@/shadcnComponent/ui/form";
 import { Input } from "@/shadcnComponent/ui/input";
-import { UseFormReturn } from "react-hook-form";
-
-interface FormInput {
-  form: UseFormReturn<
-    {
-      email?: string;
-      name?: string;
-      password?: string;
-      passwordConfirm?: string;
-    },
-    undefined
-  >;
-  label: string;
-  placeholder: string;
-  name: "email" | "name" | "password" | "passwordConfirm";
-  type: string;
-}
+import { FormInput } from "@/utils/type";
 
 function FormInputUpdateUser({
   form,

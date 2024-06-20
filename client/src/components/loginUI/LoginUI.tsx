@@ -1,4 +1,4 @@
-import Login from "@/components/component/Login";
+import Login from "@/components/component/ui_components/Login";
 import { Link } from "react-router-dom";
 import { useTheme } from "../darkMode/theme-provider";
 const LoginUI = () => {

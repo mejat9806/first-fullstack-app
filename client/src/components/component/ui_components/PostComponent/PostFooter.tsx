@@ -3,26 +3,17 @@ import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike"
 import { useQueryClient } from "@tanstack/react-query";
 import { Bookmark, Heart } from "lucide-react";
 import LoadingPage from "../LoadingPage";
-import { PostItemType } from "./PostItem";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import { FaCommentDots } from "react-icons/fa6";
-
-export interface Ilike {
-  user: string;
-  post: PostItemType;
-  _id: string;
-}
-export interface PostFooter {
-  like: number;
-  author: string;
-  postId: string;
-}
+import type { PostFooter } from "@/utils/type";
+import useBookmark from "@/features/api/bookmark/useBookmark";
 
 const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { user } = useContext(UserContext);
   const { likeDislike } = useLikeDislike();
+  const { mutateBookmark } = useBookmark();
   const queryClient = useQueryClient();
   if (!user) {
     return <LoadingPage />;
@@ -31,17 +22,22 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { userProfileData } = useGetPosterProfile({
     userId,
   });
+  if (!userProfileData) {
+    return <LoadingPage />;
+  }
+  console.log(userProfileData);
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
   const userProfileLike = userProfileData?.likePosts.map(
     (user) => user.post?._id,
   );
-  const userProfileBookmark = userProfileData?.bookmark.map((post) => post.id);
-  // if (!(like || postId || author || likeArray) || isGetProfile) {
-  //   return <LoadingPage className="h-fit" />;
-  // }
+  const userProfileBookmark = userProfileData.bookmark.map(
+    (post) => post.post.id,
+  );
+  console.log(userProfileBookmark);
   const isProfileLike = userProfileLike?.includes(postId);
   const isBookMark = userProfileBookmark?.includes(postId);
   // const isLike = userLike.includes(postId);
+  console.log(isBookMark);
   const handleLike = () => {
     likeDislike(postId, {
       onSuccess: () => {
@@ -52,7 +48,9 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
       },
     });
   };
-
+  const handleToggleBookmark = () => {
+    mutateBookmark(postId);
+  };
   return (
     <div className="w-full flex justify-start">
       <div className="flex gap-5 items-center justify-center">
@@ -72,6 +70,7 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
         <FaCommentDots size={30} />
         <Bookmark
           size={30}
+          onClick={handleToggleBookmark}
           className={`${
             isBookMark
               ? "fill-cyan-300 stroke-none hover:fill-cyan-200"

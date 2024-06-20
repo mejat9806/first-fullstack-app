@@ -19,6 +19,7 @@ const AllPostByUser = () => {
   if (isError) {
     return <div>Error loading user profile: {isError.message}</div>;
   }
+  console.log(userProfileData.posts, "here");
   return (
     <div
       className={` flex   md:justify-center md:items-center mt-12 w-full rounded-full`}

@@ -9,7 +9,7 @@ import { UserContext } from "@/context/userContext";
 import { IoAddCircleOutline } from "react-icons/io5";
 import DialogFN from "../DialogFN";
 import FileInputwithCrop from "../../addBannerImage/FileInputwithCrop";
-import { CroppedArea, ImageCropper } from "../../ImageCropper";
+import { CroppedArea, ImageCropper } from "../ImageCropper";
 import useUpdateUserData from "@/features/api/updateUser/updateUser/useUpdateUserData";
 
 const ProfileUI = () => {
@@ -102,7 +102,7 @@ const ProfileUI = () => {
               <img
                 src={`${baseUrl}img/posts/${userProfileData.bannerImage}`}
                 alt=""
-                className="h-full w-full object-center"
+                className="h-full w-full"
               />
               <button onClick={() => setUpdateImage(true)}>
                 <IoAddCircleOutline

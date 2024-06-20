@@ -15,9 +15,9 @@ const ResetPassForm = () => {
   const formSchema = z
     .object({
       password: z.string().min(8, { message: "Need 8 character" }),
-      passwordConfirmed: z.string().min(8, { message: "Need 8 character" }),
+      passwordConfirm: z.string().min(8, { message: "Need 8 character" }),
     })
-    .refine((data) => data.password === data.passwordConfirmed, {
+    .refine((data) => data.password === data.passwordConfirm, {
       //this data is from the form
       message: "Passwords do not match",
       path: ["passwordConfirmed"], //error path
@@ -26,7 +26,7 @@ const ResetPassForm = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       password: "",
-      passwordConfirmed: "",
+      passwordConfirm: "",
     },
   });
 
@@ -38,7 +38,7 @@ const ResetPassForm = () => {
     console.log(values, resetToken);
     resetPasswordFN({
       password: values.password,
-      passwordConfirmed: values.passwordConfirmed,
+      passwordConfirmed: values.passwordConfirm,
       resetToken: resetToken,
     });
   }
@@ -60,7 +60,7 @@ const ResetPassForm = () => {
           disabled={isResetingPassword}
           form={form}
           label="Confirm Password "
-          name="passwordConfirmed"
+          name="passwordConfirm"
           type="password"
           placeholder="Confirming Password"
         />

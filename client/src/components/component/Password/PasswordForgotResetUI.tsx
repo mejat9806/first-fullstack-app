@@ -1,12 +1,4 @@
-import { ReactNode } from "react";
-
-interface IData {
-  mainTitles: string;
-  desc: string;
-  form: ReactNode;
-  image: string;
-  alt: string;
-}
+import { IData } from "@/utils/type";
 
 export const PasswordForgotResetUI = ({
   mainTitles,

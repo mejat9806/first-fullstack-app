@@ -52,7 +52,7 @@ const PostDetail = () => {
           className={`${
             theme === "dark"
               ? "text-white bg-slate-900 border-2 border-slate-100"
-              : "text-black bg-slate-50"
+              : "text-black bg-slate-50 shadow-xl"
           } p-4 rounded-md flex flex-col gap-4 `}
         >
           <div className="flex items-center justify-between">

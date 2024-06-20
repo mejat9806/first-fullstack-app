@@ -1,23 +1,12 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import getPosterProfileApi from "./getPosterProfileApi";
 import { useParams } from "react-router-dom";
-import { Ilike } from "@/components/component/ui_components/PostComponent/PostFooter";
+import {} from "@/components/component/ui_components/PostComponent/PostFooter";
+import { IBookmark, Ilike, Iposts } from "@/utils/type";
 
-export interface Iposts {
-  name: string;
-  email: string;
-  profileImage: string;
-  createAt: string;
-  detail: string;
-  id: string;
-  image: [string];
-  likesCount: number;
-  slug: string;
-  title: string;
-}
 interface IUserProfileData {
   bannerImage: string;
-  bookmark: Iposts[];
+  bookmark: IBookmark[];
   id: string;
   name: string;
   email: string;
@@ -43,10 +32,10 @@ export const useGetPosterProfile = ({ userId }: { userId: string }) => {
       if (userID) {
         return getPosterProfileApi(userID);
       } else {
-        return Promise.reject(new Error("No ID provided"));
+        throw new Error("User not found");
       }
     },
-    enabled: !!userID, // Only run the query if userID is defined
+    enabled: !!userID, //this to make sure it only run when the userIs is existed
   });
 
   if (!userID) {

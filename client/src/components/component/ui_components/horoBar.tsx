@@ -2,10 +2,11 @@ import { OctagonIcon } from "lucide-react";
 import SearchBar from "./SearchBar";
 import ProfileIcon from "./profileUI/ProfileIcon";
 import { useTheme } from "../../darkMode/theme-provider";
+import { useNavigate } from "react-router-dom";
 
 const HoroBar = () => {
   const { theme } = useTheme();
-
+  const navigate = useNavigate();
   return (
     <div
       className={` fixed w-full z-50 ${
@@ -16,7 +17,7 @@ const HoroBar = () => {
     >
       <div className=" flex justify-between items-center h-14 mx-4 md:mx-12 rela">
         <div className="">
-          <OctagonIcon />
+          <OctagonIcon onClick={() => navigate("/")} />
         </div>
         <SearchBar />
         <div className="flex ">

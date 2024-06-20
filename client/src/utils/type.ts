@@ -65,3 +65,20 @@ export interface IBookmark {
   createAt: string;
   post: PostItemType;
 }
+export interface AuthType {
+  email: string;
+  id: string;
+  name: string;
+  iat: string;
+  profileImage: string;
+}
+
+export interface UserType extends AuthType {
+  accessToken: string;
+  likePosts: [string];
+  password: string;
+  profileImage: string;
+  email: string;
+  name: string;
+  id: string;
+}

@@ -1,26 +1,10 @@
 import { useRefreshLogin } from "@/features/api/Auth/login/useRefreshLogin";
+import { UserType } from "@/utils/type";
 
 import React, { ReactNode, useEffect, useState } from "react";
 
 import { createContext } from "react";
 
-export interface AuthType {
-  email: string;
-  id: string;
-  name: string;
-  iat: string;
-  profileImage: string;
-}
-
-export interface UserType extends AuthType {
-  accessToken: string;
-  likePosts: [string];
-  password: string;
-  profileImage: string;
-  email: string;
-  name: string;
-  id: string;
-}
 export const UserContext = createContext<{
   user: UserType | null;
   setUser: React.Dispatch<React.SetStateAction<UserType | null>>;

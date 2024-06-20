@@ -23,6 +23,7 @@ import LikePost from "./components/component/ui_components/profileUI/likePostPro
 import { ProfileLayout } from "./components/component/ui_components/profileUI/ProfileLayout";
 import BookmarkSave from "./components/component/ui_components/BookmarkSave";
 import PopularPost from "./page/PopularPost";
+import WrongPathPage from "./page/WrongPathPage";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -92,6 +93,7 @@ function App() {
               path="resetPassword/:resetToken"
               element={<Resetpassword />}
             />
+            <Route path="*" element={<WrongPathPage />} />
           </Routes>
         </Suspense>
       </ErrorBoundary>

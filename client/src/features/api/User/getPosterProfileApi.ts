@@ -21,7 +21,11 @@ interface IuserProfileResponse {
 const getPosterProfileApi = async (
   userID: string,
 ): Promise<IUserProfileData> => {
-  const response = await axios.get<IuserProfileResponse>(`/users/${userID}`);
+  const response = await axios.get<IuserProfileResponse>(`/users/${userID}`, {
+    onDownloadProgress(progressEvent) {
+      console.log(progressEvent);
+    },
+  });
   return response.data.data;
 };
 

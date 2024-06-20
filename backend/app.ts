@@ -9,6 +9,7 @@ import { router as postRoute } from "./routes/postRoute";
 import { router as commentRoute } from "./routes/commentRoutes";
 import { router as replyRoute } from "./routes/replyRoute";
 import { router as bookmarkRoute } from "./routes/bookMarkRoutes";
+import { router as searchRoute } from "./routes/searchRoutes";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import compression from "compression";
@@ -67,6 +68,7 @@ app.use("/api/likeDislike", likeRouter);
 app.use("/api/comment", commentRoute);
 app.use("/api/reply", replyRoute);
 app.use("/api/bookmark", bookmarkRoute);
+app.use("/api/search", searchRoute);
 
 //if any error happens in the server/route then it will go to error handler for example in catchAsyync function we got error and it will jump to error handler
 //

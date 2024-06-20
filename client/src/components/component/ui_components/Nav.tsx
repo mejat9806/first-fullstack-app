@@ -17,7 +17,7 @@ function Nav() {
   const navitems = [
     {
       name: "Home",
-      icons: <HomeIcon className=" hover:stroke-slate-700 " />,
+      icons: <HomeIcon />,
       link: "/",
     },
     {
@@ -28,12 +28,12 @@ function Nav() {
 
     {
       name: "Explore",
-      icons: <CompassIcon className=" hover:stroke-slate-700 " />,
+      icons: <CompassIcon />,
       link: "/explore",
     },
     {
       name: "Bookmark",
-      icons: <BookMarked className=" hover:stroke-slate-700 " />,
+      icons: <BookMarked />,
       link: `/profile/${user?.id}/bookmarksave`,
     },
   ];
@@ -53,12 +53,12 @@ function Nav() {
             <Link
               aria-label="label"
               to={navitem.link}
-              className={`flex hover:scale-100 h-10 w-10 justify-center items-center  hover:text-slate-400  rounded-full  ${
+              className={`flex hover:scale-100 h-10 w-10 justify-center items-center  hover:text-slate-200  rounded-full  ${
                 location.pathname === navitem.link
                   ? `${
                       theme === "dark"
-                        ? "text-white bg-slate-900 border-2 border-slate-100"
-                        : "text-black bg-slate-300"
+                        ? "text-white bg-slate-900 stroke-white"
+                        : "text-black bg-slate-300 stroke-black"
                     } `
                   : ``
               }`}
@@ -99,8 +99,8 @@ function Nav() {
       <nav
         className={`md:flex flex-col justify-between  items-center h-screen  w-[60px] md:w-[140px]  backdrop-blur-2xl	fixed hidden  transition-all duration-150 mt-12  ${
           theme === "dark"
-            ? "text-white bg-black border-r-2 border-r-slate-100"
-            : "text-black bg-slate-100 border-r-2 border-r-slate-900/10"
+            ? "text-white bg-black  "
+            : "text-black bg-slate-100  "
         } `}
       >
         <div className="flex flex-col gap-5  h-1/3 mt-10 transition-all duration-150">
@@ -110,7 +110,7 @@ function Nav() {
               to={navitem.link}
               className={`flex gap-2 hover:scale-100 p-3 mx-10 md:w-32 transition-transform duration-150  hover:text-slate-400  rounded-lg  ${
                 location.pathname === navitem.link
-                  ? "bg-blue-300/40 border-1 fill-black"
+                  ? "bg-blue-300/40  fill-black"
                   : ""
               }`}
               key={navitem.name}

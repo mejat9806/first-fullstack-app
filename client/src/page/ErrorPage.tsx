@@ -1,7 +1,7 @@
 const ErrorPage = () => {
   return (
-    <div className="h-full w-full flex justify-center items-center">
-      errorPage
+    <div className="h-screen w-screen flex justify-center items-center">
+      <h1>Something goes wrong </h1>
     </div>
   );
 };

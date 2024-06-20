@@ -60,7 +60,7 @@ const userSchema = new mongoose.Schema<UserType>(
     passwordResetExpired: Date,
     bio: { type: String },
     bannerImage: { type: String },
-    follow: [],
+    follow: [{ type: mongoose.Schema.Types.ObjectId, ref: "Follow" }],
   },
   {
     toJSON: {

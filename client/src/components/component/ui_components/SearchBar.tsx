@@ -10,7 +10,7 @@ const SearchBar = () => {
   function search(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const params = new URLSearchParams();
-    params.set("query", searchInput);
+    params.set("search", searchInput.trim());
     setSearchParams(params);
   }
 

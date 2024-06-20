@@ -136,7 +136,11 @@ const ProfileUI = () => {
             <p className="md:text-base text-sm">{userProfileData.email}</p>
             <span>X follower</span> <span>X following</span>
           </div>
-          {userID === userProfileData.id && <Button>Edit profile</Button>}
+          {userID === userProfileData.id ? (
+            <Button>Edit profile</Button>
+          ) : (
+            <Button>Follow</Button>
+          )}
         </div>
         <div className="flex gap-4">
           <Link

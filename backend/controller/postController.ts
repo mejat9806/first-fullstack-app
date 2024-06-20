@@ -37,6 +37,7 @@ export const getLatestPost = catchAsync(
 );
 export const getAllPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.query);
     const allPostFilter = await apiFeatures(
       Post,
       req,

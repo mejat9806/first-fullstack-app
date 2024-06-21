@@ -4,15 +4,16 @@ import { Input } from "@/shadcnComponent/ui/input";
 import { SearchIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState<null | string>(null);
   const searchBar = useRef<HTMLInputElement>(null);
   const wrapper = useRef<HTMLDivElement>(null);
   const [resultVisible, setResultVisible] = useState(false);
-
+  let [searchParams, setSearchParams] = useSearchParams();
   const [value] = useDebounce(searchInput, 500);
-  console.log(value);
+  const navigate = useNavigate();
   const { searchData } = useSearch({ search: value });
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -28,9 +29,21 @@ const SearchBar = () => {
     };
   }, [searchInput]);
 
+  const handleSubmit = () => {
+    setSearchInput(null);
+    setResultVisible(false);
+    if (value) {
+      setSearchParams({ search: value });
+    }
+    navigate();
+  };
+
   return (
     <div className="relative" ref={wrapper}>
-      <form className="flex items-center justify-center gap-2">
+      <form
+        className="flex items-center justify-center gap-2"
+        onSubmit={handleSubmit}
+      >
         <Input
           type="text"
           ref={searchBar}

@@ -1,4 +1,6 @@
 import { IEmail } from "@/utils/type";
+import React from "react";
+
 import {
   Body,
   Button,

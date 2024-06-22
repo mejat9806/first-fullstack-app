@@ -1,9 +1,9 @@
-import { PostItemType, UserType } from "@/utils/type";
+import { UserType, Iposts } from "@/utils/type";
 import axios from "axios";
 
 export interface searchResult {
   resultUser: UserType[];
-  resultPost: PostItemType[];
+  resultPost: Iposts[];
 }
 const searchApi = async ({ search }: { search: string }) => {
   const response = await axios.get<searchResult>(`search?q=${search}`, {

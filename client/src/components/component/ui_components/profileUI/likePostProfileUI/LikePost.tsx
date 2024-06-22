@@ -15,12 +15,13 @@ const LikePost = () => {
   if (!userProfileData) {
     return <LoadingPage />;
   }
-  console.log(userProfileData);
+
+  console.log(userProfileData, "like post");
   return (
     <div className=" flex flex-col gap-10  md:justify-center md:items-center mt-12 w-full overflow-hidden">
       <div className="w-full md:max-w-lg flex-col gap-10 flex">
-        {userProfileData?.likePosts.map((likePost) => (
-          <div key={likePost.post._id}>
+        {userProfileData?.likePosts?.map((likePost) => (
+          <div key={likePost._id}>
             <PostItem
               item={{
                 id: likePost.post.id,
@@ -33,9 +34,9 @@ const LikePost = () => {
                 likesCount: likePost.post.likesCount,
                 likes: userProfileData.likePosts,
                 author: {
-                  name: likePost.post.author.name,
-                  _id: likePost.post.author._id,
-                  profileImage: likePost.post.author.profileImage,
+                  name: userProfileData.name,
+                  _id: userProfileData._id,
+                  profileImage: userProfileData.profileImage,
                 },
               }}
             />

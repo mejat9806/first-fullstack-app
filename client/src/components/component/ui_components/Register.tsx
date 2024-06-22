@@ -92,7 +92,11 @@ function Register() {
           disabled={isLoadingRegister}
         />
 
-        <Button type="submit" className="hover:bg-slate-600 ">
+        <Button
+          type="submit"
+          className="hover:bg-slate-600 "
+          disabled={isLoadingRegister}
+        >
           {!isLoadingRegister ? "Submit" : "Please wait..."}
         </Button>
       </form>

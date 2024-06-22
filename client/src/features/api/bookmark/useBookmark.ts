@@ -2,12 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import bookmarkApi from "./bookmarkApi";
 import { toast } from "@/shadcnComponent/ui/use-toast";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const useBookmark = () => {
   const queryClient = useQueryClient();
+  const { id } = useParams();
+  console.log(id);
   const { mutate: mutateBookmark, isPending: isToogleBookmark } = useMutation({
     mutationFn: bookmarkApi,
-    mutationKey: ["bookmark"],
     onError: (err) => {
       if (axios.isAxiosError(err) && err.response) {
         console.log(err);
@@ -16,10 +18,11 @@ const useBookmark = () => {
     },
     onSuccess: (data) => {
       queryClient.setQueryData(["bookmark"], data);
-
-      queryClient.invalidateQueries({ queryKey: ["bookmark"] });
+      queryClient.invalidateQueries({ queryKey: ["userProfile", id] });
+      queryClient.invalidateQueries({ queryKey: ["bookmark", data] });
       queryClient.invalidateQueries({ queryKey: ["post"] });
-      queryClient.invalidateQueries({ queryKey: ["userProfile"] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
   });
   return { mutateBookmark, isToogleBookmark };

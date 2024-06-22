@@ -25,7 +25,6 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   if (!userProfileData) {
     return <LoadingPage />;
   }
-  console.log(userProfileData);
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
   const userProfileLike = userProfileData?.likePosts.map(
     (user) => user.post?._id,
@@ -33,11 +32,9 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   const userProfileBookmark = userProfileData.bookmark.map(
     (post) => post.post.id,
   );
-  console.log(userProfileBookmark);
   const isProfileLike = userProfileLike?.includes(postId);
   const isBookMark = userProfileBookmark?.includes(postId);
   // const isLike = userLike.includes(postId);
-  console.log(isBookMark);
   const handleLike = () => {
     likeDislike(postId, {
       onSuccess: () => {

@@ -1,3 +1,4 @@
+import { populate } from "dotenv";
 import mongoose, { Model, Query } from "mongoose";
 
 interface bookMarkType {
@@ -22,6 +23,14 @@ bookMarkSchema.pre<Query<any, bookMarkType>>(/^find/, function (next) {
   });
   next();
 });
+
+// bookMarkSchema.pre<Query<any, bookMarkType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "user",
+//     model: "User",
+//   });
+//   next();
+// });
 export const Bookmark: Model<bookMarkType> = mongoose.model<bookMarkType>(
   "BookMark",
   bookMarkSchema,

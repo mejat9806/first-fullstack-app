@@ -52,7 +52,9 @@ export interface Iposts {
 }
 export interface Ilike {
   user: string;
-  post: PostItemType;
+  name: string;
+  profileImage: string;
+  post: Iposts;
   _id: string;
 }
 export interface PostFooter {
@@ -75,10 +77,28 @@ export interface AuthType {
 
 export interface UserType extends AuthType {
   accessToken: string;
-  likePosts: [string];
-  password: string;
-  profileImage: string;
-  email: string;
-  name: string;
   id: string;
+  name: string;
+  email: string;
+  _id: string;
+  posts: Iposts[];
+  profileImage: string;
+  likePosts: Ilike[];
+  joinDate: string;
+  bio: string;
+  bannerImage: string;
+  bookmark: IBookmark[];
 }
+
+// export interface IUserProfileData {
+//   id: string;
+//   name: string;
+//   email: string;
+//   posts: Iposts[];
+//   profileImage: string;
+//   likePosts: [];
+//   joinDate: string;
+//   bio: string;
+//   bannerImage: string;
+//   bookmark: IBookmark[];
+// }

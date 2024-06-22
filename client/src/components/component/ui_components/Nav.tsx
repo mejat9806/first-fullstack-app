@@ -122,23 +122,29 @@ function Nav() {
             </Link>
           ))}
           <Button
-            className={`flex gap-2 hover:scale-105 p-3 mx-10 md:w-32 transition-transform duration-150   ${
+            className={`flex gap-2 hover:scale-105 p-3 mx-10 group  md:w-32 transition-transform duration-150   ${
               theme === "dark"
-                ? "hover:bg-white bg-blue-300"
-                : "text-slate-900 bg-blue-300 hover:bg-slate-300"
+                ? "hover:bg-white bg-blue-300 text-black"
+                : "text-slate-900  bg-blue-300"
             } rounded-full `}
             onClick={() => setOpenWrite(true)}
           >
-            <i>
+            <i className="">
               <PenIcon
                 className={`${
                   theme === "dark"
-                    ? "hover:stroke-slate-500 stroke-black"
-                    : "hover:stroke-slate-700 stroke-black"
+                    ? "group-hover:stroke-black stroke-black"
+                    : "group-hover:stroke-white stroke-black"
                 } `}
               />
             </i>{" "}
-            <span className="hidden md:flex transition-all duration-150">
+            <span
+              className={`hidden md:flex  ${
+                theme === "dark"
+                  ? "group-hover:text-black"
+                  : "group-hover:text-white"
+              }`}
+            >
               Write
             </span>
           </Button>

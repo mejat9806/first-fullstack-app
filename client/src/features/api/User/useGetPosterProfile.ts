@@ -2,22 +2,13 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import getPosterProfileApi from "./getPosterProfileApi";
 import { useParams } from "react-router-dom";
 import {} from "@/components/component/ui_components/PostComponent/PostFooter";
-import { IBookmark, Ilike, Iposts } from "@/utils/type";
+import { UserType } from "@/utils/type";
 
-interface IUserProfileData {
-  bannerImage: string;
-  bookmark: IBookmark[];
-  id: string;
-  name: string;
-  email: string;
-  likePosts: Ilike[];
-  posts: Iposts[];
-  profileImage: string;
-  joinDate: string;
-  bio: string;
-}
-
-export const useGetPosterProfile = ({ userId }: { userId: string }) => {
+export const useGetPosterProfile = ({
+  userId,
+}: {
+  userId: string | undefined;
+}) => {
   const queryClient = useQueryClient();
   const { id } = useParams<{ id: string }>();
 
@@ -26,7 +17,7 @@ export const useGetPosterProfile = ({ userId }: { userId: string }) => {
     isLoading: isGetProfile,
     data: userProfileData,
     error: isError,
-  } = useQuery<IUserProfileData, Error>({
+  } = useQuery<UserType, Error>({
     queryKey: ["userProfile", userID],
     queryFn: () => {
       if (userID) {

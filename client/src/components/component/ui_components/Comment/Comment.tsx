@@ -1,6 +1,5 @@
 import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
 import { useState } from "react";
-import Reply from "./reply/ReplyItem";
 import DOMPurify from "dompurify";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../PostComponent/PostItem";
@@ -13,6 +12,7 @@ import {
 import HoverCardUI from "../../hoverCard/HoverCardUI";
 import { Button } from "@/shadcnComponent/ui/button";
 import AddReply from "./reply/AddReply";
+import ReplyItem from "./reply/ReplyItem";
 
 interface ICommentData {
   commentData: Icomment;
@@ -89,7 +89,7 @@ const Comment = ({ commentData }: ICommentData) => {
               <div className="w-full  ">
                 {commentData.reply &&
                   commentData.reply.map((reply) => (
-                    <Reply key={reply._id} replyData={reply} />
+                    <ReplyItem key={reply._id} replyData={reply} />
                   ))}
               </div>
             )}

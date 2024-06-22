@@ -41,8 +41,8 @@ const ProfileUI = () => {
     imageObj1.src = image;
 
     imageObj1.onload = function () {
-      const scaleX = imageObj1.width / 100; // Adjust scale factor
-      const scaleY = imageObj1.height / 100; // Adjust scale factor
+      const scaleX = imageObj1.width / 100;
+      const scaleY = imageObj1.height / 100;
       canvasElement.width = imgCroppedArea.width * scaleX;
       canvasElement.height = imgCroppedArea.height * scaleY;
 
@@ -94,7 +94,7 @@ const ProfileUI = () => {
   }
 
   return (
-    <div className="w-full justify-center items-center flex mt-16">
+    <div className="w-full justify-center items-center flex ">
       <div className="flex justify-center flex-col items-start md:w-[50%] w-full px-1 mt-3">
         <div className="w-full md:h-[300px] h-[200px] relative ">
           {userProfileData.bannerImage ? (
@@ -144,7 +144,8 @@ const ProfileUI = () => {
         </div>
         <div className="flex gap-4">
           <Link
-            to={"all"}
+            to="all"
+            state={userProfileData}
             className={`${
               location.pathname === `/profile/${userProfileData.id}/all`
                 ? "toAdd"
@@ -154,8 +155,8 @@ const ProfileUI = () => {
             All <span className="">{userProfileData.posts.length}</span>
           </Link>
           <Link
-            defaultChecked={true}
-            to={"like"}
+            to="like"
+            state={userProfileData}
             className={`${
               location.pathname == `/profile/${userProfileData.id}/like`
                 ? "toAdd"
@@ -165,7 +166,8 @@ const ProfileUI = () => {
             Like <span className="">{userProfileData.likePosts.length}</span>
           </Link>
           <Link
-            to={"bookmarksave"}
+            to="bookmarksave"
+            state={userProfileData}
             className={`${
               location.pathname ===
               `/profile/${userProfileData.id}/bookmarksave`
@@ -174,6 +176,7 @@ const ProfileUI = () => {
             } w-22 p-3 relative `}
           >
             Bookmark
+            <span className="ml-1">{userProfileData.bookmark.length}</span>
           </Link>
         </div>
         <DialogFN

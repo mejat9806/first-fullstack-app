@@ -17,13 +17,17 @@ import MainLayout from "./components/component/ui_components/MainLayout";
 import Resetpassword from "./page/Resetpassword";
 import CheckEmailPage from "./page/CheckEmailPage";
 import { useTheme } from "./components/darkMode/theme-provider";
-import Profile from "./page/Profile";
 import AllPostByUser from "./components/component/ui_components/profileUI/AllPostProfileUI/AllPostByUser";
 import LikePost from "./components/component/ui_components/profileUI/likePostProfileUI/LikePost";
 import { ProfileLayout } from "./components/component/ui_components/profileUI/ProfileLayout";
 import BookmarkSave from "./components/component/ui_components/BookmarkSave";
 import PopularPost from "./page/PopularPost";
 import WrongPathPage from "./page/WrongPathPage";
+
+import { PostSearch } from "./components/component/searchComponent/searchResult/PostSearch";
+import { UserSearch } from "./components/component/searchComponent/searchResult/UserSearch";
+import { CommentSearch } from "./components/component/searchComponent/searchResult/CommentSearch";
+import SearchResultLayout from "./page/SearchResultLayout";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -74,14 +78,19 @@ function App() {
                 <Route path="popular" element={<PopularPost />} />
                 {/* <Route path="newPost" element={<NewPost />} /> */}
                 <Route path="setting" element={<Setting />} />
+                <Route />
 
-                <Route path="profile/:id" element={<Profile />}>
-                  <Route element={<ProfileLayout />}>
-                    <Route index element={<Navigate to="all" replace />} />
-                    <Route path="all" element={<AllPostByUser />} />
-                    <Route path="like" element={<LikePost />} />
-                    <Route path="bookmarksave" element={<BookmarkSave />} />
-                  </Route>
+                <Route path="profile/:id" element={<ProfileLayout />}>
+                  <Route index element={<Navigate to="all" replace />} />
+                  <Route path="all" element={<AllPostByUser />} />
+                  <Route path="like" element={<LikePost />} />
+                  <Route path="bookmarksave" element={<BookmarkSave />} />
+                </Route>
+                <Route path="search" element={<SearchResultLayout />}>
+                  <Route index element={<Navigate to="post" />} />
+                  <Route path="post" element={<PostSearch />} />
+                  <Route path="user" element={<UserSearch />} />
+                  <Route path="comment" element={<CommentSearch />} />
                 </Route>
               </Route>
             </Route>

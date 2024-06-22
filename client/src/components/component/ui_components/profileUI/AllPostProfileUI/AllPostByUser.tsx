@@ -1,17 +1,28 @@
-import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
-import { useParams } from "react-router-dom";
-import LoadingPage from "../../LoadingPage";
+import { useLocation, useParams } from "react-router-dom";
 import PostItem from "../../PostComponent/PostItem";
+import { Ilike, Iposts } from "@/utils/type";
+import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
+import LoadingPage from "../../LoadingPage";
 
+interface ILocationState {
+  posts: Iposts[];
+  likePosts: Ilike[];
+  id: string;
+  name: string;
+  profileImage: string;
+}
 const AllPostByUser = () => {
+  const { state } = useLocation();
+  console.log(state);
+  const data = state as ILocationState;
+  console.log(data);
   const { id: userId } = useParams<{ id: string }>();
-  if (!userId) {
-    return <div>No user ID provided.</div>;
-  }
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
     userId,
   });
+  if (!userId) {
+    return;
+  }
   if (isGetProfile || !userProfileData) {
     return <LoadingPage />;
   }
@@ -25,7 +36,7 @@ const AllPostByUser = () => {
       className={` flex   md:justify-center md:items-center mt-12 w-full rounded-full`}
     >
       <div className="w-full md:max-w-lg flex-col gap-10 flex">
-        {userProfileData.posts.map((post) => (
+        {data.posts.map((post) => (
           <PostItem
             key={post.id}
             item={{
@@ -37,11 +48,11 @@ const AllPostByUser = () => {
               slug: post.slug,
               image: post.image,
               likesCount: post.likesCount,
-              likes: userProfileData.likePosts,
+              likes: data.likePosts,
               author: {
-                name: userProfileData.name,
-                _id: userProfileData.id,
-                profileImage: userProfileData.profileImage,
+                name: data.name,
+                _id: data.id,
+                profileImage: data.profileImage,
               },
             }}
           />

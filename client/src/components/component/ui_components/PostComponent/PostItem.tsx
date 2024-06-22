@@ -12,11 +12,11 @@ import LoadingPage from "../LoadingPage";
 import DOMPurify from "dompurify";
 import { PostItemType } from "@/utils/type";
 
-interface item {
-  item: PostItemType;
+interface item<T extends PostItemType> {
+  item: T;
 }
 export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
-const PostItem = ({ item }: item) => {
+const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
@@ -27,7 +27,6 @@ const PostItem = ({ item }: item) => {
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
-  console.log(item, "item");
   return (
     <div
       className={` ${

@@ -30,7 +30,12 @@ const AddReply = ({
   const onSubmit = (value: z.infer<typeof FormSchema>) => {
     mutateReply(
       { commentId: commentId, postId: postId as string, text: value.text },
-      { onSuccess: () => form.reset() },
+      {
+        onSuccess: () => {
+          form.reset();
+          setOpenReply(false);
+        },
+      },
     );
   };
   const onCancel = () => {
@@ -43,7 +48,7 @@ const AddReply = ({
     } else setTextInputType("normal");
   };
   return (
-    <div className="border border-2 p-2 ">
+    <div className=" border-black p-2 ">
       {" "}
       <CommentReplyInput
         name="text"

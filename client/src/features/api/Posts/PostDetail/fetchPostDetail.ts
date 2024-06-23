@@ -1,4 +1,4 @@
-import { UserType } from "@/context/userContext";
+import { UserType } from "@/utils/type";
 import axios from "axios";
 
 export interface Ireply {
@@ -15,6 +15,7 @@ export interface Icomment {
   reply: Ireply[];
   timeStamp: string;
   user: UserType;
+  post: string;
 }
 export type IsinglePostDetail = {
   data: {

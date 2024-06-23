@@ -20,7 +20,6 @@ import { useTheme } from "./components/darkMode/theme-provider";
 import AllPostByUser from "./components/component/ui_components/profileUI/AllPostProfileUI/AllPostByUser";
 import LikePost from "./components/component/ui_components/profileUI/likePostProfileUI/LikePost";
 import { ProfileLayout } from "./components/component/ui_components/profileUI/ProfileLayout";
-import BookmarkSave from "./components/component/ui_components/BookmarkSave";
 import PopularPost from "./page/PopularPost";
 import WrongPathPage from "./page/WrongPathPage";
 
@@ -28,6 +27,8 @@ import { PostSearch } from "./components/component/searchComponent/searchResult/
 import { UserSearch } from "./components/component/searchComponent/searchResult/UserSearch";
 import { CommentSearch } from "./components/component/searchComponent/searchResult/CommentSearch";
 import SearchResultLayout from "./page/SearchResultLayout";
+import BookmarkSave from "./components/component/ui_components/profileUI/bookmarksave/BookmarkSave";
+import { PostLayout } from "./components/component/ui_components/PostComponent/PostLayout";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -73,7 +74,10 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route element={<MainLayout />}>
                 <Route index element={<Home />} />
-                <Route path={"post/:postId"} element={<PostDetail />} />
+                <Route path={"post"} element={<PostLayout />}>
+                  <Route path=":postId" index element={<PostDetail />} />
+                  <Route path=":postId/:replyId" />
+                </Route>
                 <Route path="explore" element={<Explore />} />
                 <Route path="popular" element={<PopularPost />} />
                 {/* <Route path="newPost" element={<NewPost />} /> */}

@@ -50,3 +50,9 @@ export const replyToComment = catchAsync(
     }
   },
 );
+
+export const getAreply = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    res.status(200).json("work");
+  },
+);

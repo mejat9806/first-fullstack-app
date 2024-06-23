@@ -42,7 +42,7 @@ function Nav() {
     <>
       <nav
         className={`md:hidden flex w-screen justify-center items-start	fixed bottom-0  
-          backdrop-blur-2xl `}
+          backdrop-blur-2xl z-50`}
       >
         <div
           className={`flex w-full h-1/3 py-1 justify-center gap-6 ${

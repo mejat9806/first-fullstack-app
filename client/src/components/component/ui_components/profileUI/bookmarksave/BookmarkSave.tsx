@@ -1,7 +1,8 @@
 import { useLocation, useParams } from "react-router-dom";
-import PostItem from "./PostComponent/PostItem";
-import LoadingPage from "./LoadingPage";
+
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
+import LoadingPage from "../../LoadingPage";
+import PostItem from "../../PostComponent/PostItem";
 
 const BookmarkSave = () => {
   const { state } = useLocation();

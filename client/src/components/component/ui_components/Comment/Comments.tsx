@@ -39,7 +39,7 @@ const Comments = ({ postId }: { postId: string }) => {
     } else setTextInputType("normal");
   };
   return (
-    <div className="w-full flex-col h-fit flex items-start  ">
+    <div className=" flex-col h-fit flex items-start  ">
       <div
         className={`${
           theme === "dark"

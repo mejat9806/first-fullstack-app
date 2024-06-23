@@ -11,6 +11,13 @@ export const GetAllComment = catchAsync(
     res.status(200).json({ comment });
   },
 );
+export const getAComment = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { commentId } = req.params;
+    const comment = await Comment.findById(commentId);
+    res.status(200).json({ comment });
+  },
+);
 export const createComment = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;

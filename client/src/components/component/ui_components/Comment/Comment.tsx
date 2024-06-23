@@ -25,11 +25,11 @@ const Comment = ({ commentData }: ICommentData) => {
 
   const profileImage = `${baseUrl}img/posts/${commentData.user.profileImage}`;
 
-  console.log("comment data:", commentData); // Debugging statement
+  console.log("comment data:", commentData.post); // Debugging statement
 
   return (
     <div className="">
-      <div className="grid grid-cols-2 grid-cols-comment gap-2">
+      <div className="grid grid-cols-2 grid-cols-comment gap-2 relative">
         <div>
           <HoverCard>
             <HoverCardTrigger>
@@ -39,13 +39,13 @@ const Comment = ({ commentData }: ICommentData) => {
                 onClick={() => navigate(`/profile/${commentData.user.id}`)}
               />
             </HoverCardTrigger>
-            <HoverCardContent className="m-0 absolute -top-20 -left-20">
+            <HoverCardContent className="m-0 absolute  -left-20">
               <HoverCardUI userId={commentData.user.id} />
             </HoverCardContent>
           </HoverCard>
         </div>
         <div className="flex flex-col">
-          <p className="font-medium">{commentData.user.name}</p>
+          <p className="font-medium text-xs">{commentData.user.name}</p>
           <span className="font-thin text-slate-400">
             {formatDistanceToNow(new Date(commentData.timeStamp))} ago
           </span>
@@ -54,7 +54,7 @@ const Comment = ({ commentData }: ICommentData) => {
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(commentData.commentText),
               }}
-              className="w-full "
+              className="w-full text-base "
             />
             {!openReply && (
               <div className="w-full flex justify-end">
@@ -62,7 +62,7 @@ const Comment = ({ commentData }: ICommentData) => {
               </div>
             )}
           </div>
-          <div>
+          <div className="">
             {openReply && (
               <AddReply
                 commentId={commentData._id}
@@ -72,7 +72,7 @@ const Comment = ({ commentData }: ICommentData) => {
           </div>
           <div className="justify-center flex ">
             <Button
-              className=""
+              className="text-xs p-1 h-5 bg-slate-400"
               onClick={() => setOpenReplySection(!openReplySection)}
             >
               Show replies
@@ -88,9 +88,24 @@ const Comment = ({ commentData }: ICommentData) => {
             {openReplySection && (
               <div className="w-full  ">
                 {commentData.reply &&
-                  commentData.reply.map((reply) => (
-                    <ReplyItem key={reply._id} replyData={reply} />
-                  ))}
+                  commentData.reply
+                    .slice(0, 5)
+                    .map((reply) => (
+                      <ReplyItem
+                        key={reply._id}
+                        replyData={reply}
+                        postId={commentData.post}
+                      />
+                    ))}
+                <div className="w-full justify-center flex items-center">
+                  {commentData.reply.length > 5 && (
+                    <Button
+                      onClick={() => navigate(`/post/${commentData.post}`)}
+                    >
+                      show all reply
+                    </Button>
+                  )}
+                </div>
               </div>
             )}
           </div>

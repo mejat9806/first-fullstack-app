@@ -47,7 +47,7 @@ const PostDetail = () => {
   const isAuthorCorrect = user.id === author?.id;
   return (
     <div className="flex justify-center w-full">
-      <div className=" mt-24  md:max-w-4xl md:max-w-lg  w-[80%] mb-12 ">
+      <div className=" my-24   w-full  ">
         <div
           className={`${
             theme === "dark"

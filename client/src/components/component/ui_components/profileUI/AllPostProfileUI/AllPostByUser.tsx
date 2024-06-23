@@ -12,10 +12,6 @@ interface ILocationState {
   profileImage: string;
 }
 const AllPostByUser = () => {
-  const { state } = useLocation();
-  console.log(state);
-  const data = state as ILocationState;
-  console.log(data);
   const { id: userId } = useParams<{ id: string }>();
   const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
     userId,
@@ -43,16 +39,16 @@ const AllPostByUser = () => {
               id: post.id,
               createAt: post.createAt,
               _id: post.id,
-              title: post.title,
+              title: post?.title,
               detail: post.detail,
               slug: post.slug,
               image: post.image,
               likesCount: post.likesCount,
-              likes: data.likePosts,
+              likes: userProfileData.likePosts,
               author: {
-                name: data.name,
-                _id: data.id,
-                profileImage: data.profileImage,
+                name: userProfileData.name,
+                _id: userProfileData.id,
+                profileImage: userProfileData.profileImage,
               },
             }}
           />

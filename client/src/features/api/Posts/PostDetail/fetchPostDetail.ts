@@ -4,7 +4,7 @@ import axios from "axios";
 export interface Ireply {
   createdAt: string;
   reply: Ireply[];
-  text: string;
+  commentText: string;
   _id: string;
   user: UserType;
   commentId: string;

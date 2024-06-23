@@ -14,8 +14,9 @@ export const GetAllComment = catchAsync(
 export const getAComment = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { commentId } = req.params;
-    const comment = await Comment.findById(commentId);
-    res.status(200).json({ comment });
+    console.log(commentId);
+    const comment = await Comment.findOne({ _id: commentId });
+    res.status(200).json(comment);
   },
 );
 export const createComment = catchAsync(

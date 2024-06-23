@@ -8,7 +8,7 @@ interface CommentProps {
 }
 
 const CommentsList = ({ comments }: CommentProps) => {
-  console.log(comments);
+  console.log(comments, "here list");
   if (comments.length === 0) {
     return (
       <div className="h-full w-full flex justify-center items-center">

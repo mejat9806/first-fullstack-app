@@ -1,5 +1,5 @@
 import { UserContext } from "@/context/userContext";
-import { useFetchDetails } from "@/features/api/Posts/PostDetail/useFetchDetail";
+
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
 import { dateFormat } from "@/utils/dateFormat";
 import { useContext, useState } from "react";
@@ -12,49 +12,38 @@ import ThreeDotDropDown from "@/components/component/ui_components/ThreeDotDropD
 import { baseUrl } from "@/components/component/ui_components/PostComponent/PostItem";
 import PostFooter from "@/components/component/ui_components/PostComponent/PostFooter";
 import DialogFN from "@/components/component/ui_components/DialogFN";
-import { useTheme } from "@/components/darkMode/theme-provider";
 import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
 import DOMPurify from "dompurify";
-import Comments from "@/components/component/ui_components/Comment/Comments";
-import CommentsList from "@/components/component/ui_components/Comment/CommentsList";
 
-const PostDetail = () => {
-  const { singleDetailLoading, singleDetail } = useFetchDetails();
+import CommentInput from "@/components/component/ui_components/Comment/CommentInput";
+import { IsinglePostDetail } from "@/features/api/Posts/PostDetail/fetchPostDetail";
+
+const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
+  // const { singleDetailLoading, singleDetail } = useFetchDetails();
   const [openImage, setOpenImage] = useState(false);
   const { isDeletePostLoading } = useDeletePost();
   const { isLikeDislike } = useLikeDislike();
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const { theme } = useTheme();
 
   // Check if data is still loading or any necessary data is missing
-  if (
-    singleDetailLoading ||
-    !singleDetail ||
-    !singleDetail.data ||
-    isDeletePostLoading ||
-    isLikeDislike
-  ) {
+  if (!singleData || !singleData.data || isDeletePostLoading || isLikeDislike) {
     return <LoadingPage />;
   }
-  const { author, createAt, detail, image, title, likes, id, comments } =
-    singleDetail.data;
+  console.log(singleData, "here in showDetails");
   if (!user) {
     return <LoadingPage />;
   }
+  const { author, createAt, detail, image, title, likes, id, comments } =
+    singleData.data;
+  console.log(comments, "here in postDetails");
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
   const isAuthorCorrect = user.id === author?.id;
   return (
     <div className="flex justify-center w-full">
-      <div className=" my-24   w-full  ">
-        <div
-          className={`${
-            theme === "dark"
-              ? "text-white bg-slate-900 border-2 border-slate-100"
-              : "text-black bg-slate-50 shadow-xl"
-          } p-4 rounded-md flex flex-col gap-4 `}
-        >
+      <div className=" w-full  ">
+        <div>
           <div className="flex items-center justify-between">
             <div className="flex md:items-center gap-3 flex-row md:flex-row">
               <div className="flex justify-start">
@@ -134,9 +123,10 @@ const PostDetail = () => {
           </div>
 
           <PostFooter like={likes?.length} author={author?.id} postId={id} />
-
-          <Comments postId={id} />
-          {comments && <CommentsList comments={comments} />}
+          <div>
+            <CommentInput postId={id} />
+            {/* {comments && <CommentsList comments={comments} />} */}
+          </div>
         </div>
       </div>
       <DialogFN

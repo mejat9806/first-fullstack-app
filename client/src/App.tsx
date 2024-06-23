@@ -29,6 +29,9 @@ import { CommentSearch } from "./components/component/searchComponent/searchResu
 import SearchResultLayout from "./page/SearchResultLayout";
 import BookmarkSave from "./components/component/ui_components/profileUI/bookmarksave/BookmarkSave";
 import { PostLayout } from "./components/component/ui_components/PostComponent/PostLayout";
+import PostDeepIntoComment from "./components/component/ui_components/PostComponent/PostDeepIntoComment";
+import CommentLayout from "./components/component/ui_components/PostComponent/CommentLayout";
+import { CommentItem } from "./components/component/ui_components/PostComponent/CommentItem";
 axios.defaults.baseURL = `http://localhost:8000/api/`;
 axios.defaults.withCredentials = true; // default
 
@@ -74,10 +77,16 @@ function App() {
             <Route element={<PrivateRoute />}>
               <Route element={<MainLayout />}>
                 <Route index element={<Home />} />
-                <Route path={"post"} element={<PostLayout />}>
-                  <Route path=":postId" index element={<PostDetail />} />
-                  <Route path=":postId/:replyId" />
+                <Route path="post" element={<PostLayout />}>
+                  <Route element={<CommentLayout />}>
+                    <Route path=":postId" element={<CommentItem />} />
+                    <Route
+                      path=":postId/:commentId"
+                      element={<PostDeepIntoComment />}
+                    />
+                  </Route>
                 </Route>
+
                 <Route path="explore" element={<Explore />} />
                 <Route path="popular" element={<PopularPost />} />
                 {/* <Route path="newPost" element={<NewPost />} /> */}

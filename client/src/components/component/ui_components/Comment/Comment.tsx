@@ -13,19 +13,21 @@ import HoverCardUI from "../../hoverCard/HoverCardUI";
 import { Button } from "@/shadcnComponent/ui/button";
 import AddReply from "./reply/AddReply";
 import ReplyItem from "./reply/ReplyItem";
+import PlusIcon from "@/components/SVG/PlusIcon";
+import { MinusCircle, PlusCircle } from "lucide-react";
 
 interface ICommentData {
   commentData: Icomment;
+  origin: boolean;
 }
 
-const Comment = ({ commentData }: ICommentData) => {
+const Comment = ({ commentData, origin = true }: ICommentData) => {
   const navigate = useNavigate();
   const [openReply, setOpenReply] = useState(false);
   const [openReplySection, setOpenReplySection] = useState(false);
+  // console.log("comment data:", commentData); // Debugging statement
 
   const profileImage = `${baseUrl}img/posts/${commentData.user.profileImage}`;
-
-  console.log("comment data:", commentData.post); // Debugging statement
 
   return (
     <div className="">
@@ -56,6 +58,7 @@ const Comment = ({ commentData }: ICommentData) => {
               }}
               className="w-full text-base "
             />
+
             {!openReply && (
               <div className="w-full flex justify-end">
                 <Button onClick={() => setOpenReply(true)}>Reply</Button>
@@ -71,12 +74,18 @@ const Comment = ({ commentData }: ICommentData) => {
             )}
           </div>
           <div className="justify-center flex ">
-            <Button
-              className="text-xs p-1 h-5 bg-slate-400"
-              onClick={() => setOpenReplySection(!openReplySection)}
-            >
-              Show replies
-            </Button>
+            {commentData.reply.length > 0 && (
+              <button
+                className="text-xs p-1 h-5 bg-transparent "
+                onClick={() => setOpenReplySection(!openReplySection)}
+              >
+                {!openReplySection ? (
+                  <PlusCircle className="w-5 stroke-black hover:stroke-slate-500" />
+                ) : (
+                  <MinusCircle className="w-5 stroke-black hover:stroke-slate-500" />
+                )}
+              </button>
+            )}
           </div>
           <div
             className={`w-full overflow-hidden transition-all duration-300 ease-in-out transform ${
@@ -89,18 +98,21 @@ const Comment = ({ commentData }: ICommentData) => {
               <div className="w-full  ">
                 {commentData.reply &&
                   commentData.reply
-                    .slice(0, 5)
+                    .slice(0, 1)
                     .map((reply) => (
                       <ReplyItem
                         key={reply._id}
                         replyData={reply}
                         postId={commentData.post}
+                        commentId={commentData._id}
                       />
                     ))}
                 <div className="w-full justify-center flex items-center">
                   {commentData.reply.length > 5 && (
                     <Button
-                      onClick={() => navigate(`/post/${commentData.post}`)}
+                      onClick={() =>
+                        navigate(`/post/${commentData.post}/${commentData._id}`)
+                      }
                     >
                       show all reply
                     </Button>

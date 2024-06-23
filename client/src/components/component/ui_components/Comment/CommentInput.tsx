@@ -8,7 +8,7 @@ import CommentReplyInput from "./CommentReplyInput";
 export const FormSchema = z.object({
   commentText: z.string(),
 });
-const Comments = ({ postId }: { postId: string }) => {
+const CommentInput = ({ postId }: { postId: string }) => {
   const { AddComment, isAddComment } = useCreateComment();
 
   const { theme } = useTheme();
@@ -69,4 +69,4 @@ const Comments = ({ postId }: { postId: string }) => {
   );
 };
 
-export default Comments;
+export default CommentInput;

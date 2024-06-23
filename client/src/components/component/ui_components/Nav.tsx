@@ -108,11 +108,8 @@ function Nav() {
             <Link
               aria-label="label"
               to={navitem.link}
-              className={`flex gap-2 hover:scale-100 p-3 mx-10 md:w-32 transition-transform duration-150  hover:text-slate-400  rounded-lg  ${
-                location.pathname === navitem.link
-                  ? "bg-blue-300/40  fill-black"
-                  : ""
-              }`}
+              className={`flex gap-2 hover:scale-100 p-3 mx-10 md:w-32 transition-transform duration-150  hover:text-slate-400  rounded-lg  
+              `}
               key={navitem.name}
             >
               <i>{navitem.icons}</i>{" "}

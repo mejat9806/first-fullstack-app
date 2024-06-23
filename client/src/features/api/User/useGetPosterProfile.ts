@@ -13,12 +13,14 @@ export const useGetPosterProfile = ({
   const { id } = useParams<{ id: string }>();
 
   const userID = id || userId;
+  console.log(userID);
   const {
     isLoading: isGetProfile,
     data: userProfileData,
     error: isError,
   } = useQuery<UserType, Error>({
     queryKey: ["userProfile", userID],
+
     queryFn: () => {
       if (userID) {
         return getPosterProfileApi(userID);

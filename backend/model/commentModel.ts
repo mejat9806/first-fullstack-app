@@ -17,10 +17,14 @@ const commentSchema = new mongoose.Schema<CommentType>({
 });
 
 commentSchema.pre<CommentType>(/^find/, function (next) {
-  console.log("Middleware triggered!");
-
   this.populate({
     path: "reply",
+  });
+  next();
+});
+commentSchema.pre<CommentType>(/^find/, function (next) {
+  this.populate({
+    path: "user",
   });
   next();
 });

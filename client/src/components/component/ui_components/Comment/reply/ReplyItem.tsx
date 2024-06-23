@@ -16,9 +16,10 @@ import { Button } from "@/shadcnComponent/ui/button";
 interface IreplyData {
   replyData: Ireply;
   postId: string;
+  commentId: string;
 }
 
-const ReplyItem = ({ replyData, postId }: IreplyData) => {
+const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
   console.log("Reply Data:", replyData);
   const [openReply, setOpenReply] = useState(false);
 
@@ -27,8 +28,9 @@ const ReplyItem = ({ replyData, postId }: IreplyData) => {
   if (!replyData) {
     return <LoadingPage />;
   }
+  console.log(commentId, "commentid");
   const profileImage = `${baseUrl}img/posts/${replyData.user?.profileImage}`;
-
+  console.log(replyData, "reply to a reply");
   return (
     <div className="flex flex-col h-fit ml-3 relative ">
       <div className="flex justify-start items-center gap-4 relative">
@@ -51,7 +53,7 @@ const ReplyItem = ({ replyData, postId }: IreplyData) => {
       <div className="w-full flex  p-2 mt-5">
         <p
           dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(replyData.text),
+            __html: DOMPurify.sanitize(replyData.commentText),
           }}
           className=" w-full text-xs md:text-base"
         />
@@ -65,8 +67,9 @@ const ReplyItem = ({ replyData, postId }: IreplyData) => {
         )}
       </div>{" "}
       <div className="">
-        {replyData.reply.slice(0, 1).map((replyToReply) => (
+        {replyData.reply.slice(0, 2).map((replyToReply) => (
           <ReplyItem
+            commentId={replyToReply.commentId}
             key={replyToReply._id}
             replyData={replyToReply}
             postId={postId}
@@ -74,7 +77,9 @@ const ReplyItem = ({ replyData, postId }: IreplyData) => {
         ))}
         <div className="w-full justify-center flex items-center">
           {replyData.reply.length > 1 && (
-            <Button onClick={() => navigate(`/post/${postId}`)}>
+            <Button
+              onClick={() => navigate(`/post/${postId}/${replyData.commentId}`)}
+            >
               show all reply
             </Button>
           )}

@@ -8,7 +8,8 @@ import { NextFunction, Request, Response } from "express";
 export const replyToComment = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { postId, commentId } = req.params;
-    console.log(commentId, "commentId", postId);
+    console.log("hello");
+    console.log(req.body, "body here");
     const user = req.user;
     if (!user) {
       return next(AppError("Please Log in", 401));
@@ -28,16 +29,15 @@ export const replyToComment = catchAsync(
       const reply = await Reply.create({
         user: user.id,
         commentId,
-        text: req.body.text,
+        commentText: req.body.text,
       });
       const replytoReply = await Reply.findByIdAndUpdate(commentId, {
         $push: { reply: reply.id },
       });
-      console.log("here");
       res.status(200).send({ replytoReply });
     } else {
       const reply = await Reply.create({
-        text: req.body.text,
+        commentText: req.body.text,
       });
       const replywithUpdate = await Reply.findByIdAndUpdate(reply.id, {
         user: user.id,
@@ -53,6 +53,10 @@ export const replyToComment = catchAsync(
 
 export const getAreply = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    res.status(200).json("work");
+    const { replyId } = req.params;
+    console.log("here");
+
+    const reply = await Reply.findById(replyId);
+    res.status(200).json(reply);
   },
 );

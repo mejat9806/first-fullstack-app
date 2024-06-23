@@ -24,6 +24,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   if (!item) {
     return <LoadingPage />; // or handle the case when item is undefined
   }
+  console.log(item.author._id);
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
@@ -46,12 +47,12 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
             />
           </HoverCardTrigger>
           <HoverCardContent className="m-0 absolute -top-20 -left-20">
-            <HoverCardUI userId={item.author?._id} />
+            <HoverCardUI userId={item.author._id} />
           </HoverCardContent>
         </HoverCard>
         <div
           className="flex flex-col items-start justify-start w-full "
-          onClick={() => navigate(`/post/${item._id}`, { replace: true })}
+          onClick={() => navigate(`post/${item._id}`, { replace: true })}
         >
           <h1 className="text-lg font-semibold leading-3 mb-2 flex flex-col">
             {item?.author?.name}

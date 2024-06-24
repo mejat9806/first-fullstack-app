@@ -11,12 +11,14 @@ import DialogFN from "../DialogFN";
 import FileInputwithCrop from "../../addBannerImage/FileInputwithCrop";
 import { CroppedArea, ImageCropper } from "../ImageCropper";
 import useUpdateUserData from "@/features/api/updateUser/updateUser/useUpdateUserData";
+import EditProfile from "../../edit profile/EditProfile";
 
 const ProfileUI = () => {
   const [openAddImage, setUpdateImage] = useState(false);
   const location = useLocation();
   const { updateUserFn } = useUpdateUserData();
   const [image, setImage] = useState("");
+  const [openEditProfile, setOpenEditProfile] = useState(false);
   const [imageAfterCrop, setImageAfterCrop] = useState("");
   const [currentPage, setCurrentPage] = useState("choose-img");
   const { id: userId } = useParams<{ id: string }>();
@@ -98,16 +100,16 @@ const ProfileUI = () => {
       <div className="flex justify-center flex-col items-start md:w-[50%] w-full px-1 mt-3">
         <div className="w-full md:h-[300px] h-[200px] relative ">
           {userProfileData.bannerImage ? (
-            <div className="w-full md:h-[300px] h-[200px] relative">
+            <div className="w-full md:h-[300px] h-[200px] relative bg-black">
               <img
                 src={`${baseUrl}img/posts/${userProfileData.bannerImage}`}
                 alt=""
-                className="h-full w-full"
+                className="h-full w-full "
               />
               <button onClick={() => setUpdateImage(true)}>
                 <IoAddCircleOutline
                   size={30}
-                  className="absolute top-0 right-0 stroke-black"
+                  className={`absolute top-0 right-0 stroke-white/10  hover:stroke-white`}
                 />
               </button>
             </div>
@@ -133,11 +135,14 @@ const ProfileUI = () => {
             <h1 className="md:text-lg text-sm  font-Poppins">
               {userProfileData.name}
             </h1>
+            <p>{userProfileData.bio}</p>
             <p className="md:text-base text-sm">{userProfileData.email}</p>
             <span>X follower</span> <span>X following</span>
           </div>
           {userID === userProfileData.id ? (
-            <Button>Edit profile</Button>
+            <Button onClick={() => setOpenEditProfile(true)}>
+              Edit profile
+            </Button>
           ) : (
             <Button>Follow</Button>
           )}
@@ -214,6 +219,17 @@ const ProfileUI = () => {
           }
         />
       </div>
+      <DialogFN
+        type="component"
+        setIsOpen={setOpenEditProfile}
+        open={openEditProfile}
+        component={
+          <EditProfile
+            userData={userProfileData}
+            setIsOpen={setOpenEditProfile}
+          />
+        }
+      />
     </div>
   );
 };

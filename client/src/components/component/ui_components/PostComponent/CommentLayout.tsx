@@ -3,19 +3,15 @@ import { Button } from "@/shadcnComponent/ui/button";
 import { ArrowBigLeft } from "lucide-react";
 import {
   Outlet,
-  useLocation,
   useNavigate,
   useOutletContext,
   useParams,
 } from "react-router-dom";
-import LoadingPage from "../LoadingPage";
 import { baseUrl } from "./PostItem";
 import { formatDistanceToNow } from "date-fns";
 import DOMPurify from "dompurify";
 import { useContext } from "react";
-import { useGetReply } from "@/features/api/reply/useGetReply";
 import { UserContext } from "@/context/userContext";
-import { useComment } from "@/features/api/Comment/useComment";
 
 const CommentLayout = () => {
   const comments = useOutletContext() as Icomment[];

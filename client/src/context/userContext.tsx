@@ -1,4 +1,5 @@
 import { useRefreshLogin } from "@/features/api/Auth/login/useRefreshLogin";
+import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
 import { UserType } from "@/utils/type";
 
 import React, { ReactNode, useEffect, useState } from "react";
@@ -8,8 +9,8 @@ import { createContext } from "react";
 export const UserContext = createContext<{
   user: UserType | null;
   setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
-  comment: any | null;
-  setComment: React.Dispatch<React.SetStateAction<any | null>>;
+  comment: Icomment | null;
+  setComment: React.Dispatch<React.SetStateAction<Icomment | null>>;
   fetchType: string;
   setFetchType: React.Dispatch<React.SetStateAction<string>>;
 }>({
@@ -22,7 +23,7 @@ export const UserContext = createContext<{
 });
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
-  const [comment, setComment] = useState(null);
+  const [comment, setComment] = useState<Icomment | null>(null);
   const [fetchType, setFetchType] = useState("popular");
   const accesstoken = user?.accessToken || "";
   const { refreshLoginData } = useRefreshLogin(accesstoken);

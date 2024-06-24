@@ -4,7 +4,6 @@ import { PasswordForgotResetUI } from "@/components/component/Password/PasswordF
 const ForgotPass = () => {
   return (
     <div>
-      {/* <ForgotPageUI /> */}
       <PasswordForgotResetUI
         mainTitles="Forgot Password?"
         desc="Just input your email and we will work it out😉"

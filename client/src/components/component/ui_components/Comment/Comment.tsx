@@ -16,6 +16,7 @@ import ReplyItem from "./reply/ReplyItem";
 import PlusIcon from "@/components/SVG/PlusIcon";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useTheme } from "@/components/darkMode/theme-provider";
 
 interface ICommentData {
   commentData: Icomment;
@@ -29,12 +30,12 @@ const Comment = ({ commentData }: ICommentData) => {
   const { postId, commentId } = useParams();
   console.log(postId, commentId);
   const profileImage = `${baseUrl}img/posts/${commentData.user.profileImage}`;
-  console.log(commentData._id, "commment data");
+  console.log(commentData, "commment data");
   const queryClient = useQueryClient();
-
+  const { theme } = useTheme();
   return (
-    <div className="">
-      <div className="grid grid-cols-2 grid-cols-comment gap-2 relative">
+    <div className="relative">
+      <div className="grid grid-cols-2 grid-cols-comment gap-2 ">
         <div>
           <HoverCard>
             <HoverCardTrigger>
@@ -83,9 +84,21 @@ const Comment = ({ commentData }: ICommentData) => {
                 onClick={() => setOpenReplySection(!openReplySection)}
               >
                 {!openReplySection ? (
-                  <PlusCircle className="w-5 stroke-black hover:stroke-slate-500" />
+                  <PlusCircle
+                    className={`${
+                      theme === "dark"
+                        ? "stroke-white hover:stroke-slate-600"
+                        : "stroke-black hover:stroke-slate-500"
+                    } w-5  `}
+                  />
                 ) : (
-                  <MinusCircle className="w-5 stroke-black hover:stroke-slate-500" />
+                  <MinusCircle
+                    className={`${
+                      theme === "dark"
+                        ? "stroke-white hover:stroke-slate-600"
+                        : "stroke-black hover:stroke-slate-500"
+                    } w-5  `}
+                  />
                 )}
               </button>
             )}

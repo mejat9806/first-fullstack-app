@@ -49,7 +49,7 @@ function FormInput<T extends FieldValues>({
               <Input
                 placeholder={placeholder}
                 {...field}
-                className=""
+                className="capitalize"
                 type={type}
                 autoComplete="on"
                 disabled={disabled}

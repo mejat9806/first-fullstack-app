@@ -76,13 +76,13 @@ const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
           />
         ))}
         <div className="w-full justify-center flex items-center">
-          {
+          {replyData.reply.length > 2 && (
             <Button
               onClick={() => navigate(`/post/${postId}/${replyData.commentId}`)}
             >
               show all reply
             </Button>
-          }
+          )}
         </div>
       </div>
     </div>

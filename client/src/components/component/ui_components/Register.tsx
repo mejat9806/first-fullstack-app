@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useRegister } from "@/features/api/Auth/register/useRegister";
 import { Form } from "@/shadcnComponent/ui/form";
 import FormInputLogin from "./FormInput";
+import { useTheme } from "@/components/darkMode/theme-provider";
 
 export const registerFormSchema = z
   .object({
@@ -22,6 +23,7 @@ export const registerFormSchema = z
     path: ["passwordConfirmed"], //error path
   });
 function Register() {
+  const { theme } = useTheme();
   const { isLoadingRegister, register } = useRegister();
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
@@ -86,7 +88,7 @@ function Register() {
         <FormInputLogin
           form={form}
           label={"password Confirmed"}
-          placeholder={"passwordConfirme"}
+          placeholder={"Password Confirm"}
           name="passwordConfirm"
           type="password"
           disabled={isLoadingRegister}
@@ -94,7 +96,9 @@ function Register() {
 
         <Button
           type="submit"
-          className="hover:bg-slate-600 "
+          className={`hover:bg-slate-600 ${
+            theme === "dark" ? "" : ""
+          } hover:text-white`}
           disabled={isLoadingRegister}
         >
           {!isLoadingRegister ? "Submit" : "Please wait..."}

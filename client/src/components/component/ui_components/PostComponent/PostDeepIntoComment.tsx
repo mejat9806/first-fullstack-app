@@ -13,7 +13,7 @@ const PostDeepIntoComment = () => {
 
   useEffect(() => {
     refetchComment();
-  }, [params.commentId, refetchComment]);
+  }, [params, refetchComment]);
 
   if (loadingCommentData) {
     return <LoadingPage className="h-fit" />;

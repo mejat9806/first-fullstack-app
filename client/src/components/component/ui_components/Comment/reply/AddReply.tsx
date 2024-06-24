@@ -29,7 +29,11 @@ const AddReply = ({
 
   const onSubmit = (value: z.infer<typeof FormSchema>) => {
     mutateReply(
-      { commentId: commentId, postId: postId as string, text: value.text },
+      {
+        commentId: commentId,
+        postId: postId as string,
+        commentText: value.text,
+      },
       {
         onSuccess: () => {
           form.reset();

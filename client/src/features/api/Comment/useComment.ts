@@ -1,8 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { getCommentApi } from "./getCommentApi";
+import { useParams } from "react-router-dom";
 
-export const useComment = (commentId: string | undefined) => {
-  const { data: commentData, isLoading: loadingCommentData } = useQuery({
+export const useComment = () => {
+  const { commentId } = useParams();
+  console.log(commentId, "comment sd");
+  const {
+    data: commentData,
+    isLoading: loadingCommentData,
+    refetch: refetchComment,
+  } = useQuery({
     queryKey: ["comment"],
     queryFn: () => {
       if (commentId) {
@@ -12,5 +19,5 @@ export const useComment = (commentId: string | undefined) => {
       }
     },
   });
-  return { commentData, loadingCommentData };
+  return { commentData, loadingCommentData, refetchComment };
 };

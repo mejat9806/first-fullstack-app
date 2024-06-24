@@ -3,12 +3,14 @@ import axios from "axios";
 export const replyApi = async ({
   postId,
   commentId,
-  text,
+  commentText,
 }: {
   postId: string;
   commentId: string;
-  text: string;
+  commentText: string;
 }) => {
-  const response = await axios.post(`reply/${postId}/${commentId}`, { text });
+  const response = await axios.post(`comment/${postId}/${commentId}`, {
+    commentText,
+  });
   return response;
 };

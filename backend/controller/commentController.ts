@@ -48,3 +48,52 @@ export const createComment = catchAsync(
     res.status(200).json({ data: comment });
   },
 );
+export const replyToComment = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { postId, commentId } = req.params;
+    console.log(postId, commentId);
+    console.log(req.body.commentText, "body here");
+    const user = req.user;
+    if (!user) {
+      return next(AppError("Please Log in", 401));
+    }
+    // const reply = await Reply.findO({ commentId: commentId });
+    // console.log(reply, "reply");
+    // if (!reply) {
+    //   return next(AppError("no comment found", 404));
+    // }
+    const replyToReply = await Comment.findOne({
+      _id: commentId,
+    });
+    console.log(commentId);
+    console.log(replyToReply, "reply to reply");
+    if (replyToReply) {
+      console.log(replyToReply);
+      const reply = await Comment.create({
+        user: user.id,
+        post: postId,
+        commentText: req.body.commentText,
+        commentId: commentId,
+      });
+      const replytoReply = await Comment.findByIdAndUpdate(commentId, {
+        $push: { reply: reply.id },
+      });
+      res.status(200).send({ replytoReply });
+    } else {
+      const reply = await Comment.create({
+        commentText: req.body.commentText,
+        user: user.id,
+        commentId: commentId,
+
+        post: postId,
+      });
+      const replywithUpdate = await Comment.findByIdAndUpdate(reply.id, {
+        user: user.id,
+        commentId: commentId,
+        $push: { reply: reply.id },
+      });
+
+      res.status(200).json(replywithUpdate);
+    }
+  },
+);

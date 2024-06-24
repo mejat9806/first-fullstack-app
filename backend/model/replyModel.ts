@@ -4,6 +4,7 @@ interface ReplyType {
   populate: any;
   commentId: mongoose.Schema.Types.ObjectId;
   commentText: string;
+  post: mongoose.Schema.Types.ObjectId;
   user: mongoose.Schema.Types.ObjectId;
   reply: mongoose.Schema.Types.ObjectId[];
   createdAt: Date;
@@ -11,11 +12,11 @@ interface ReplyType {
 }
 
 const replySchema = new mongoose.Schema<ReplyType>({
-  commentId: { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  post: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
   commentText: String,
+  commentId: { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
   reply: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reply" }],
-  createdAt: { type: Date, default: Date.now() },
   timeStamp: { type: Date, default: Date.now() },
 });
 

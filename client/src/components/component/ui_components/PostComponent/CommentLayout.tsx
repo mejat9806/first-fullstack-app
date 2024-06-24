@@ -1,4 +1,3 @@
-import { useComment } from "@/features/api/Comment/useComment";
 import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
 import { Button } from "@/shadcnComponent/ui/button";
 import { ArrowBigLeft } from "lucide-react";
@@ -9,32 +8,30 @@ import {
   useOutletContext,
   useParams,
 } from "react-router-dom";
-import Comment from "../Comment/Comment";
 import LoadingPage from "../LoadingPage";
 import { baseUrl } from "./PostItem";
-import { dateFormat } from "@/utils/dateFormat";
 import { formatDistanceToNow } from "date-fns";
 import DOMPurify from "dompurify";
+import { useContext } from "react";
+import { useGetReply } from "@/features/api/reply/useGetReply";
+import { UserContext } from "@/context/userContext";
+import { useComment } from "@/features/api/Comment/useComment";
 
 const CommentLayout = () => {
   const comments = useOutletContext() as Icomment[];
-  console.log(comments, "hero");
   const navigate = useNavigate();
+  const { comment } = useContext(UserContext);
   const params = useParams();
 
-  const { commentData, loadingCommentData } = useComment(params.commentId);
-  if (loadingCommentData) {
-    return <LoadingPage className="h-fit" />;
-  }
   const mustInclude: string[] = ["postId", "commentId"];
-  const parramArray = Object.keys(params);
+  const paramArray = Object.keys(params);
   const isIncludedParams = mustInclude.every((param) =>
-    parramArray.includes(param),
+    paramArray.includes(param),
   );
-  console.log(commentData, "hello");
+  console.log(comment, "in layout");
   return (
     <div className="flex flex-col gap-3">
-      {isIncludedParams && (
+      {isIncludedParams && comment && (
         <div className="flex flex-col gap-3 justify-center">
           <Button
             onClick={() => navigate(-1)}
@@ -45,19 +42,19 @@ const CommentLayout = () => {
           <div className="grid grid-cols-2 grid-cols-comment gap-2 relative bg-blue-200/20 p-2 border-2 border-gray-500/20 rounded-lg">
             <div>
               <img
-                src={`${baseUrl}/img/posts/${commentData?.user.profileImage}`}
+                src={`${baseUrl}/img/posts/${comment.user.profileImage}`}
                 alt="profileImage"
                 className="h-[50px] w-[50px] rounded-full"
               />
             </div>
-            <div className="">
-              <h1 className="">{commentData.user.name}</h1>
+            <div>
+              <h1>{comment.user.name}</h1>
               <span className="font-thin text-slate-400">
-                {formatDistanceToNow(new Date(commentData.timeStamp))} ago
-              </span>{" "}
+                {formatDistanceToNow(new Date(comment.timeStamp))} ago
+              </span>
               <p
                 dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(commentData.commentText),
+                  __html: DOMPurify.sanitize(comment.commentText),
                 }}
                 className="w-full text-base mt-5"
               />

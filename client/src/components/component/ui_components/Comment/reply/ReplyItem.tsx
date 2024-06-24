@@ -28,9 +28,9 @@ const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
   if (!replyData) {
     return <LoadingPage />;
   }
-  console.log(commentId, "commentid");
+  console.log(replyData, "replyData");
   const profileImage = `${baseUrl}img/posts/${replyData.user?.profileImage}`;
-  console.log(replyData, "reply to a reply");
+  console.log(replyData.commentId, "reply to a reply");
   return (
     <div className="flex flex-col h-fit ml-3 relative ">
       <div className="flex justify-start items-center gap-4 relative">
@@ -76,13 +76,13 @@ const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
           />
         ))}
         <div className="w-full justify-center flex items-center">
-          {replyData.reply.length > 1 && (
+          {
             <Button
               onClick={() => navigate(`/post/${postId}/${replyData.commentId}`)}
             >
               show all reply
             </Button>
-          )}
+          }
         </div>
       </div>
     </div>

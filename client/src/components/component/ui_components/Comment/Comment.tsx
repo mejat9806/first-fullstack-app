@@ -1,7 +1,7 @@
 import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
 import { useState } from "react";
 import DOMPurify from "dompurify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { baseUrl } from "../PostComponent/PostItem";
 import { formatDistanceToNow } from "date-fns";
 import {
@@ -15,19 +15,22 @@ import AddReply from "./reply/AddReply";
 import ReplyItem from "./reply/ReplyItem";
 import PlusIcon from "@/components/SVG/PlusIcon";
 import { MinusCircle, PlusCircle } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ICommentData {
   commentData: Icomment;
-  origin: boolean;
 }
 
-const Comment = ({ commentData, origin = true }: ICommentData) => {
+const Comment = ({ commentData }: ICommentData) => {
   const navigate = useNavigate();
   const [openReply, setOpenReply] = useState(false);
   const [openReplySection, setOpenReplySection] = useState(false);
   // console.log("comment data:", commentData); // Debugging statement
-
+  const { postId, commentId } = useParams();
+  console.log(postId, commentId);
   const profileImage = `${baseUrl}img/posts/${commentData.user.profileImage}`;
+  console.log(commentData._id, "commment data");
+  const queryClient = useQueryClient();
 
   return (
     <div className="">
@@ -97,26 +100,28 @@ const Comment = ({ commentData, origin = true }: ICommentData) => {
             {openReplySection && (
               <div className="w-full  ">
                 {commentData.reply &&
-                  commentData.reply
-                    .slice(0, 1)
-                    .map((reply) => (
-                      <ReplyItem
-                        key={reply._id}
-                        replyData={reply}
-                        postId={commentData.post}
-                        commentId={commentData._id}
-                      />
-                    ))}
+                  commentData.reply.map((reply) => (
+                    <ReplyItem
+                      key={reply._id}
+                      replyData={reply}
+                      postId={commentData.post}
+                      commentId={commentData._id}
+                    />
+                  ))}
                 <div className="w-full justify-center flex items-center">
-                  {commentData.reply.length > 5 && (
+                  {
                     <Button
-                      onClick={() =>
-                        navigate(`/post/${commentData.post}/${commentData._id}`)
-                      }
+                      onClick={() => {
+                        console.log("click go to ");
+                        queryClient.invalidateQueries({ queryKey: ["reply"] });
+                        navigate(`/post/${postId}/${commentData._id}`, {
+                          state: "reply",
+                        });
+                      }}
                     >
                       show all reply
                     </Button>
-                  )}
+                  }
                 </div>
               </div>
             )}

@@ -8,7 +8,7 @@ import { NextFunction, Request, Response } from "express";
 export const replyToComment = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { postId, commentId } = req.params;
-    console.log("hello");
+    console.log(postId, commentId);
     console.log(req.body, "body here");
     const user = req.user;
     if (!user) {
@@ -28,6 +28,7 @@ export const replyToComment = catchAsync(
       console.log(replyToReply);
       const reply = await Reply.create({
         user: user.id,
+        post: postId,
         commentId,
         commentText: req.body.text,
       });
@@ -38,6 +39,9 @@ export const replyToComment = catchAsync(
     } else {
       const reply = await Reply.create({
         commentText: req.body.text,
+        user: user.id,
+        commentId,
+        post: postId,
       });
       const replywithUpdate = await Reply.findByIdAndUpdate(reply.id, {
         user: user.id,
@@ -46,6 +50,7 @@ export const replyToComment = catchAsync(
       const comment = await Comment.findByIdAndUpdate(commentId, {
         $push: { reply: reply.id },
       });
+      console.log(comment);
       res.status(200).json(replywithUpdate);
     }
   },

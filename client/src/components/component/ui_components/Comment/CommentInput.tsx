@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import useCreateComment from "@/features/api/Comment/useCreateComment";
 import CommentReplyInput from "./CommentReplyInput";
 export const FormSchema = z.object({
-  commentText: z.string(),
+  commentText: z.string().min(1, "must not be empty"),
 });
 const CommentInput = ({ postId }: { postId: string }) => {
   const { AddComment, isAddComment } = useCreateComment();
@@ -49,12 +49,7 @@ const CommentInput = ({ postId }: { postId: string }) => {
       >
         {!openCommentArea ? (
           <div>
-            <div
-              onClick={() => {
-                setopenCommentArea(true),
-                  document.getElementById("commentInput").focus();
-              }}
-            >
+            <div onClick={() => setopenCommentArea(true)}>
               <h1>add comment</h1>
             </div>
           </div>

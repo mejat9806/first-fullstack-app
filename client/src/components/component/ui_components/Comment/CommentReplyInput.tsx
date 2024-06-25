@@ -1,4 +1,4 @@
-import { Form } from "@/shadcnComponent/ui/form";
+import { Form, FormMessage } from "@/shadcnComponent/ui/form";
 import {
   FieldValues,
   Path,
@@ -44,6 +44,7 @@ const CommentReplyInput = <T extends FieldValues>({
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormInput
+          onCancel={onCancel}
           textInput={textInputType}
           withCancel={true}
           form={form}
@@ -55,17 +56,17 @@ const CommentReplyInput = <T extends FieldValues>({
         />
         {textInputType === "normal" && (
           <div className="w-full flex justify-end gap-3 mt-3">
-            <Button type="button" onClick={onCancel}>
+            {/* <Button type="button" onClick={onCancel}>
               Cancel
-            </Button>
+            </Button> */}
             <Button type="submit">Submit</Button>
           </div>
         )}
         <Button
           className={`${
             theme === "dark"
-              ? "bg-slate-700 text-white hover:text-black"
-              : "text-white hover:bg-slate-700"
+              ? "bg-transparent border-2 border-gray-300/20 text-white hover:text-black"
+              : "text-black hover:bg-slate-700 bg-transparent hover:text-white border-2 border-gray-300/20"
           } w-10 text-xs rounded-full p-0 m-0 absolute bottom-0 `}
           onClick={changeTextMode}
           type="button"

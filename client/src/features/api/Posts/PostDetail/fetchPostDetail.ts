@@ -12,6 +12,7 @@ export interface Ireply {
 export interface Icomment {
   _id: string;
   commentText: string;
+  commentId: string;
   reply: Ireply[];
   timeStamp: string;
   user: UserType;

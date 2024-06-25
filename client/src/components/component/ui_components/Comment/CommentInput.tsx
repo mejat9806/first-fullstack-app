@@ -49,7 +49,12 @@ const CommentInput = ({ postId }: { postId: string }) => {
       >
         {!openCommentArea ? (
           <div>
-            <div onClick={() => setopenCommentArea(true)}>
+            <div
+              onClick={() => {
+                setopenCommentArea(true),
+                  document.getElementById("commentInput").focus();
+              }}
+            >
               <h1>add comment</h1>
             </div>
           </div>

@@ -40,7 +40,7 @@ const CommentReplyInput = <T extends FieldValues>({
   return (
     <Form {...form}>
       <form
-        className="flex flex-col gap-y-2 relative"
+        className="flex flex-col gap-y-5 relative"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormInput
@@ -50,7 +50,7 @@ const CommentReplyInput = <T extends FieldValues>({
           placeholder={"Comment"}
           name={name}
           type="text"
-          className="w-full"
+          className="w-full "
           disabled={isAddComment}
         />
         {textInputType === "normal" && (
@@ -66,7 +66,7 @@ const CommentReplyInput = <T extends FieldValues>({
             theme === "dark"
               ? "bg-slate-700 text-white hover:text-black"
               : "text-white hover:bg-slate-700"
-          } w-10 text-xs rounded-full p-0 m-0 absolute bottom-0`}
+          } w-10 text-xs rounded-full p-0 m-0 absolute bottom-0 `}
           onClick={changeTextMode}
           type="button"
         >

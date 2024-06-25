@@ -20,7 +20,7 @@ export const registerFormSchema = z
   })
   .refine((data) => data.password === data.passwordConfirm, {
     message: "passwords do not match",
-    path: ["passwordConfirmed"], //error path
+    path: ["passwordConfirm"], //error path
   });
 function Register() {
   const { theme } = useTheme();

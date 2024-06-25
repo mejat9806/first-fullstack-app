@@ -17,6 +17,8 @@ import PlusIcon from "@/components/SVG/PlusIcon";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTheme } from "@/components/darkMode/theme-provider";
+import { useComment } from "@/features/api/Comment/useComment";
+import LoadingPage from "../LoadingPage";
 
 interface ICommentData {
   commentData: Icomment;
@@ -26,16 +28,24 @@ const Comment = ({ commentData }: ICommentData) => {
   const navigate = useNavigate();
   const [openReply, setOpenReply] = useState(false);
   const [openReplySection, setOpenReplySection] = useState(false);
-  // console.log("comment data:", commentData); // Debugging statement
-  const { postId, commentId } = useParams();
-  console.log(postId, commentId);
-  const profileImage = `${baseUrl}img/posts/${commentData.user.profileImage}`;
-  console.log(commentData, "commment data");
   const queryClient = useQueryClient();
   const { theme } = useTheme();
+  const { postId, commentId } = useParams();
+  // console.log("comment data:", commentData); // Debugging statement
+  const id = commentData._id;
+  const { commentData: commentReplydata, loadingCommentData } = useComment();
+
+  if (loadingCommentData) {
+    return <LoadingPage />;
+  }
+  console.log(commentData, "in comment");
+  const text = commentReplydata?.commentText || commentData?.commentText;
+  // console.log("text:", commentReplydata.commentText, commentData.commentText);
+  const profileImage = `${baseUrl}img/posts/${commentData.user.profileImage}`;
+  console.log(text, "commment data text");
   return (
     <div className="relative">
-      <div className="grid grid-cols-2 grid-cols-comment gap-2 ">
+      <div className="grid  grid-cols-comment gap-6 ml-5 ">
         <div>
           <HoverCard>
             <HoverCardTrigger>
@@ -56,12 +66,16 @@ const Comment = ({ commentData }: ICommentData) => {
             {formatDistanceToNow(new Date(commentData.timeStamp))} ago
           </span>
           <div className="w-full flex  p-2 mt-5">
-            <p
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(commentData.commentText),
-              }}
-              className="w-full text-base "
-            />
+            <div className="flex flex-col w-full">
+              {commentData.commentId && <p> reply to {text}</p>}
+
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(commentData.commentText),
+                }}
+                className="w-full text-base  "
+              />
+            </div>
 
             {!openReply && (
               <div className="w-full flex justify-end">
@@ -80,7 +94,7 @@ const Comment = ({ commentData }: ICommentData) => {
           <div className="justify-center flex ">
             {commentData.reply.length > 0 && (
               <button
-                className="text-xs p-1 h-5 bg-transparent "
+                className="text-xs p-1 h-5 bg-transparent my-2 "
                 onClick={() => setOpenReplySection(!openReplySection)}
               >
                 {!openReplySection ? (
@@ -111,16 +125,19 @@ const Comment = ({ commentData }: ICommentData) => {
             }`}
           >
             {openReplySection && (
-              <div className="w-full  ">
+              <div className="w-full  relative flex flex-col gap-3">
                 {commentData.reply &&
-                  commentData.reply.map((reply) => (
-                    <ReplyItem
-                      key={reply._id}
-                      replyData={reply}
-                      postId={commentData.post}
-                      commentId={commentData._id}
-                    />
-                  ))}
+                  commentData.reply
+                    .slice(0, 4)
+                    .map((reply) => (
+                      <ReplyItem
+                        key={reply._id}
+                        replyData={reply}
+                        postId={commentData.post}
+                        commentId={commentData._id}
+                      />
+                    ))}
+
                 <div className="w-full justify-center flex items-center">
                   {
                     <Button

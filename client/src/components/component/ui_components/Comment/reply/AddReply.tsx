@@ -5,9 +5,14 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useReply } from "@/features/api/reply/useReply";
 import { useParams } from "react-router-dom";
-export const FormSchema = z.object({
-  text: z.string(),
-});
+export const FormSchema = z
+  .object({
+    text: z.string().min(1, "need at least 1 character"),
+  })
+  .refine((data) => data.text === "", {
+    message: " need at least 1 character",
+    path: ["text"],
+  });
 const AddReply = ({
   commentId,
   setOpenReply,

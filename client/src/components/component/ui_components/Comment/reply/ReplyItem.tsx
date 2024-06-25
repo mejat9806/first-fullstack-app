@@ -1,5 +1,8 @@
-import { Ireply } from "@/features/api/Posts/PostDetail/fetchPostDetail";
-import { useState } from "react";
+import {
+  Icomment,
+  Ireply,
+} from "@/features/api/Posts/PostDetail/fetchPostDetail";
+import { useEffect, useState } from "react";
 import {
   HoverCard,
   HoverCardContent,
@@ -12,6 +15,7 @@ import LoadingPage from "../../LoadingPage";
 import DOMPurify from "dompurify";
 import AddReply from "./AddReply";
 import { Button } from "@/shadcnComponent/ui/button";
+import { useComment } from "@/features/api/Comment/useComment";
 
 interface IreplyData {
   replyData: Ireply;
@@ -20,20 +24,29 @@ interface IreplyData {
 }
 
 const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
-  console.log("Reply Data:", replyData);
+  console.log("Reply Data:", commentId);
   const [openReply, setOpenReply] = useState(false);
+  // const {} = useComment();
+  console.log(replyData, "replyData in replyItem");
+  const id = replyData.commentId;
+  const { commentData, loadingCommentData, refetchComment } = useComment({
+    id,
+    runWith: "replyId",
+  });
 
+  useEffect(() => {
+    refetchComment();
+  }, [id, refetchComment]);
   const navigate = useNavigate();
-
-  if (!replyData) {
+  if (!replyData || loadingCommentData) {
     return <LoadingPage />;
   }
+  console.log(commentData, "commentData in replyItem");
   console.log(replyData, "replyData");
   const profileImage = `${baseUrl}img/posts/${replyData.user?.profileImage}`;
-  console.log(replyData.commentId, "reply to a reply");
   return (
-    <div className="flex flex-col h-fit ml-3 relative ">
-      <div className="flex justify-start items-center gap-4 relative">
+    <div className="flex flex-col h-fit ml-3 relative border-2 p-2 rounded-xl border-gray-400/50">
+      <div className="flex justify-start items-center gap-4 relative ">
         <HoverCard>
           <HoverCardTrigger className="">
             <img
@@ -50,6 +63,7 @@ const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
           {replyData.user?.name}
         </p>
       </div>
+      <p>reply to {commentData.commentText}</p>
       <div className="w-full flex  p-2 mt-5">
         <p
           dangerouslySetInnerHTML={{
@@ -61,7 +75,7 @@ const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
           <Button onClick={() => setOpenReply(true)}>Reply</Button>
         )}
       </div>
-      <div>
+      <div className="w-full">
         {openReply && (
           <AddReply commentId={replyData._id} setOpenReply={setOpenReply} />
         )}
@@ -69,7 +83,7 @@ const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
       <div className="">
         {replyData.reply.slice(0, 2).map((replyToReply) => (
           <ReplyItem
-            commentId={replyToReply.commentId}
+            commentId={replyToReply._id}
             key={replyToReply._id}
             replyData={replyToReply}
             postId={postId}

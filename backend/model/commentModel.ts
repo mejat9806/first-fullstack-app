@@ -20,13 +20,14 @@ const commentSchema = new mongoose.Schema<CommentType>({
 
 commentSchema.pre<CommentType>(/^find/, function (next) {
   this.populate({
-    path: "reply",
+    path: "user",
   });
   next();
 });
+
 commentSchema.pre<CommentType>(/^find/, function (next) {
   this.populate({
-    path: "user",
+    path: "reply",
   });
   next();
 });

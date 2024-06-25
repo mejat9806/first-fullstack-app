@@ -49,6 +49,7 @@ function FormInput<T extends FieldValues>({
               <Input
                 placeholder={placeholder}
                 {...field}
+                id="commentInput"
                 className="capitalize"
                 type={type}
                 autoComplete="on"

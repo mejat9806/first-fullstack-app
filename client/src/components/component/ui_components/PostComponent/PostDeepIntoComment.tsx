@@ -7,23 +7,30 @@ import { UserContext } from "@/context/userContext";
 
 const PostDeepIntoComment = () => {
   const { setComment } = useContext(UserContext);
-  const params = useParams();
+  const params = useParams<{ commentId?: string }>();
 
-  const { commentData, loadingCommentData, refetchComment } = useComment();
+  const { commentData, loadingCommentData, refetchComment } = useComment({
+    id: params.commentId || "",
+  });
 
   useEffect(() => {
-    refetchComment();
+    if (params) {
+      refetchComment();
+    }
   }, [params, refetchComment]);
+
+  useEffect(() => {
+    if (commentData) {
+      setComment(commentData);
+    }
+  }, [commentData, setComment]);
 
   if (loadingCommentData) {
     return <LoadingPage className="h-fit" />;
   }
 
-  setComment(commentData);
-  console.log(commentData, "vavasvav");
-
   return (
-    <div> {commentData && <CommentsList comments={commentData.reply} />}</div>
+    <div>{commentData && <CommentsList comments={commentData.reply} />}</div>
   );
 };
 

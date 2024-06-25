@@ -20,7 +20,7 @@ interface FormInput<T extends FieldValues> {
   textInput?: "normal" | "rich";
   className?: string;
   withCancel?: boolean;
-  onCancel: () => void;
+  onCancel?: () => void;
 }
 
 function FormInput<T extends FieldValues>({
@@ -55,7 +55,7 @@ function FormInput<T extends FieldValues>({
                   {...field}
                   placeholder={placeholder}
                   id="commentInput"
-                  className={`capitalize ${
+                  className={` ${
                     isFieldInvalid
                       ? "placeholder-red-600 focus:ring-2 focus:ring-red-500"
                       : ""

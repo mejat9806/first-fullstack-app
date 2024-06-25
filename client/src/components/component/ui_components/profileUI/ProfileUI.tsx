@@ -26,7 +26,7 @@ const ProfileUI = () => {
   const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
     userId: userId || "",
   });
-
+  console.log(userProfileData);
   if (!userId) {
     return <div>No user ID provided.</div>;
   }

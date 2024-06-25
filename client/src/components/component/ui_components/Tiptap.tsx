@@ -20,7 +20,7 @@ const Tiptap = ({
   onChange: (richText: string) => void;
   withCancel: boolean;
   disabled: boolean;
-  onCancel: () => void;
+  onCancel?: () => void;
   isFieldInvalid: boolean;
 }) => {
   const { theme } = useTheme();
@@ -80,7 +80,7 @@ const Tiptap = ({
   });
   const onCancel = () => {
     console.log("Click");
-    closeTextbox();
+    closeTextbox?.();
     editor?.commands.clearContent();
   };
 

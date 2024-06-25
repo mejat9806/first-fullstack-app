@@ -15,8 +15,10 @@ export interface UserType extends Document {
   bio: string;
   joinDate: Date;
   follow: [string];
+  follower: [string];
   likePosts: [mongoose.Schema.Types.ObjectId];
   followCount: number;
+  followerCount: number;
   passwordChangedAt: Date;
   passwordResetToken: string | undefined;
   passwordResetExpired: Date | undefined;
@@ -60,7 +62,8 @@ const userSchema = new mongoose.Schema<UserType>(
     passwordResetExpired: Date,
     bio: { type: String },
     bannerImage: { type: String },
-    follow: [{ type: mongoose.Schema.Types.ObjectId, ref: "Follow" }],
+    followCount: { type: Number, default: 0 },
+    followerCount: { type: Number, default: 0 },
   },
   {
     toJSON: {
@@ -115,6 +118,30 @@ userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
   next();
 });
 
+userSchema.virtual("followers", {
+  ref: "Follower",
+  localField: "_id",
+  foreignField: "followedUser",
+});
+userSchema.virtual("following", {
+  ref: "Follower",
+  localField: "_id",
+  foreignField: "user",
+});
+userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+  this.populate({
+    path: "followers",
+    model: "Follower",
+  });
+  next();
+});
+userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+  this.populate({
+    path: "following",
+    model: "Follower",
+  });
+  next();
+});
 userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
   //use type Query for query middleware
   this.find({ active: { $ne: false } });

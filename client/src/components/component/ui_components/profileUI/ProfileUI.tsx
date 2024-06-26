@@ -12,6 +12,8 @@ import FileInputwithCrop from "../../addBannerImage/FileInputwithCrop";
 import { CroppedArea, ImageCropper } from "../ImageCropper";
 import useUpdateUserData from "@/features/api/updateUser/updateUser/useUpdateUserData";
 import EditProfile from "../../edit profile/EditProfile";
+import { Ifollow } from "@/utils/type";
+import { useToggleFollow } from "@/features/api/follow/useToggleFollow";
 
 const ProfileUI = () => {
   const [openAddImage, setUpdateImage] = useState(false);
@@ -20,6 +22,7 @@ const ProfileUI = () => {
   const [image, setImage] = useState("");
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const [imageAfterCrop, setImageAfterCrop] = useState("");
+  const { ToggleFollow, isToggleFollow } = useToggleFollow();
   const [currentPage, setCurrentPage] = useState("choose-img");
   const { id: userId } = useParams<{ id: string }>();
   const { user } = useContext(UserContext);
@@ -29,6 +32,9 @@ const ProfileUI = () => {
   console.log(userProfileData);
   if (!userId) {
     return <div>No user ID provided.</div>;
+  }
+  if (!user) {
+    return;
   }
 
   const onImageSelected = (selectedImage: string) => {
@@ -95,9 +101,20 @@ const ProfileUI = () => {
     return <div>No user profile data provided.</div>;
   }
 
+  console.log({ userProfileData, user });
+  const shouldRenderButton = userProfileData.id === user._id;
+  const follower = userProfileData.followers.map(
+    (follow: Ifollow) => follow.user,
+  );
+  console.log(follower, "followers");
+  const isFollow = follower.includes(user.id);
+  console.log(isFollow, "isFollow");
+  const togglingFollow = () => {
+    ToggleFollow(userProfileData.id);
+  };
   return (
-    <div className="w-full justify-center items-center flex ">
-      <div className="flex justify-center flex-col items-start md:w-[50%] w-full px-1 mt-3">
+    <div className="w-svw justify-center items-center flex ">
+      <div className="flex justify-center flex-col items-start md:w-[50%] w-full px-1 mt-3 ">
         <div className="w-full md:h-[300px] h-[200px] relative ">
           {userProfileData.bannerImage ? (
             <div className="w-full md:h-[300px] h-[200px] relative bg-black">
@@ -106,21 +123,26 @@ const ProfileUI = () => {
                 alt=""
                 className="h-full w-full "
               />
-              <button onClick={() => setUpdateImage(true)}>
-                <IoAddCircleOutline
-                  size={30}
-                  className={`absolute top-0 right-0 stroke-white/10  hover:stroke-white`}
-                />
-              </button>
+
+              {shouldRenderButton && (
+                <button onClick={() => setUpdateImage(true)}>
+                  <IoAddCircleOutline
+                    size={30}
+                    className={`absolute top-0 right-0 stroke-white/10  hover:stroke-white`}
+                  />
+                </button>
+              )}
             </div>
           ) : (
-            <div className="h-full w-full">
-              <button onClick={() => setUpdateImage(true)}>
-                <IoAddCircleOutline
-                  size={30}
-                  className="absolute top-0 right-0 stroke-black"
-                />
-              </button>
+            <div className="w-full md:h-[300px] h-[200px] relative bg-black">
+              {shouldRenderButton && (
+                <button onClick={() => setUpdateImage(true)}>
+                  <IoAddCircleOutline
+                    size={30}
+                    className="absolute top-0 right-0 stroke-black"
+                  />
+                </button>
+              )}
             </div>
           )}
           <img
@@ -137,14 +159,17 @@ const ProfileUI = () => {
             </h1>
             <p>{userProfileData.bio}</p>
             <p className="md:text-base text-sm">{userProfileData.email}</p>
-            <span>X follower</span> <span>X following</span>
+            <span>{userProfileData.followerCount} follower</span>{" "}
+            <span>{userProfileData.followCount} following</span>
           </div>
           {userID === userProfileData.id ? (
             <Button onClick={() => setOpenEditProfile(true)}>
               Edit profile
             </Button>
           ) : (
-            <Button>Follow</Button>
+            <Button disabled={isToggleFollow} onClick={togglingFollow}>
+              {isFollow ? "Unfollow" : "Follow"}
+            </Button>
           )}
         </div>
         <div className="flex gap-4">

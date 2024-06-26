@@ -82,6 +82,10 @@ export interface UserType extends AuthType {
   email: string;
   _id: string;
   posts: Iposts[];
+  followCount: number;
+  followerCount: number;
+  followers: [];
+  following: [];
   profileImage: string;
   likePosts: Ilike[];
   joinDate: string;
@@ -102,3 +106,9 @@ export interface UserType extends AuthType {
 //   bannerImage: string;
 //   bookmark: IBookmark[];
 // }
+
+export interface Ifollow {
+  _id: string;
+  follower: string;
+  user: string;
+}

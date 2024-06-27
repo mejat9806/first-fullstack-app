@@ -11,6 +11,7 @@ import HoverCardUI from "../../hoverCard/HoverCardUI";
 import LoadingPage from "../LoadingPage";
 import DOMPurify from "dompurify";
 import { PostItemType } from "@/utils/type";
+import { HoverPic } from "../HoverPic";
 
 interface item<T extends PostItemType> {
   item: T;
@@ -38,19 +39,8 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
       } p-3  rounded-2xl  shadow-md  `}
     >
       <div className="w-full  flex  mb-3 ">
-        <HoverCard>
-          <HoverCardTrigger className="w-16">
-            <img
-              src={profileImage}
-              className="md:h-12 md:w-12 w-9 h-9 rounded-full cursor-pointer  "
-              // change this
-              onClick={() => navigate(`/profile/${item.author._id}`)}
-            />
-          </HoverCardTrigger>
-          <HoverCardContent className="m-0 absolute -top-20 -left-20">
-            <HoverCardUI userId={item.author._id} />
-          </HoverCardContent>
-        </HoverCard>
+        <HoverPic profileImage={profileImage} userId={item.author._id} />
+
         <div
           className="flex flex-col items-start justify-start w-full "
           onClick={() => navigate(`post/${item._id}`, { replace: true })}

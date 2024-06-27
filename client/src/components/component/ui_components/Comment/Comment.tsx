@@ -18,6 +18,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTheme } from "@/components/darkMode/theme-provider";
 import { useComment } from "@/features/api/Comment/useComment";
 import LoadingPage from "../LoadingPage";
+import { HoverPic } from "../HoverPic";
 
 interface ICommentData {
   commentData: Icomment;
@@ -45,18 +46,7 @@ const Comment = ({ commentData }: ICommentData) => {
     <div className="relative">
       <div className="grid  grid-cols-comment gap-6 ml-5 border-2 p-2 rounded-xl border-gray-400/50">
         <div>
-          <HoverCard>
-            <HoverCardTrigger>
-              <img
-                src={profileImage}
-                className="md:h-12 md:w-12 w-9 h-9 rounded-full cursor-pointer"
-                onClick={() => navigate(`/profile/${commentData.user.id}`)}
-              />
-            </HoverCardTrigger>
-            <HoverCardContent className="m-0 absolute  -left-20">
-              <HoverCardUI userId={commentData.user.id} />
-            </HoverCardContent>
-          </HoverCard>
+          <HoverPic profileImage={profileImage} userId={commentData.user.id} />
         </div>
         <div className="flex flex-col ">
           <p className="font-medium text-xs">{commentData.user.name}</p>

@@ -12,6 +12,7 @@ import { formatDistanceToNow } from "date-fns";
 import DOMPurify from "dompurify";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
+import { HoverPic } from "../HoverPic";
 
 const CommentLayout = () => {
   const comments = useOutletContext() as Icomment[];
@@ -37,10 +38,9 @@ const CommentLayout = () => {
           </Button>
           <div className="grid grid-cols-2 grid-cols-comment gap-2 relative bg-blue-200/20 p-2 border-2 border-gray-500/20 rounded-lg">
             <div>
-              <img
-                src={`${baseUrl}/img/posts/${comment.user.profileImage}`}
-                alt="profileImage"
-                className="h-[50px] w-[50px] rounded-full"
+              <HoverPic
+                profileImage={`${baseUrl}/img/posts/${comment.user.profileImage}`}
+                userId={comment.user.id}
               />
             </div>
             <div>

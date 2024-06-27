@@ -13,7 +13,6 @@ import HoverCardUI from "../../hoverCard/HoverCardUI";
 import { Button } from "@/shadcnComponent/ui/button";
 import AddReply from "./reply/AddReply";
 import ReplyItem from "./reply/ReplyItem";
-import PlusIcon from "@/components/SVG/PlusIcon";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTheme } from "@/components/darkMode/theme-provider";
@@ -30,9 +29,8 @@ const Comment = ({ commentData }: ICommentData) => {
   const [openReplySection, setOpenReplySection] = useState(false);
   const queryClient = useQueryClient();
   const { theme } = useTheme();
-  const { postId, commentId } = useParams();
+  const { postId } = useParams();
   // console.log("comment data:", commentData); // Debugging statement
-  const id = commentData._id;
   const { commentData: commentReplydata, loadingCommentData } = useComment();
 
   if (loadingCommentData) {

@@ -1,4 +1,3 @@
-import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../model/userModel.js";
 import { model } from "mongoose";

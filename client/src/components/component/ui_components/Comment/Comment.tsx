@@ -45,7 +45,7 @@ const Comment = ({ commentData }: ICommentData) => {
   console.log(text, "commment data text");
   return (
     <div className="relative">
-      <div className="grid  grid-cols-comment gap-6 ml-5 ">
+      <div className="grid  grid-cols-comment gap-6 ml-5 border-2 p-2 rounded-xl border-gray-400/50">
         <div>
           <HoverCard>
             <HoverCardTrigger>
@@ -60,7 +60,7 @@ const Comment = ({ commentData }: ICommentData) => {
             </HoverCardContent>
           </HoverCard>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col ">
           <p className="font-medium text-xs">{commentData.user.name}</p>
           <span className="font-thin text-slate-400">
             {formatDistanceToNow(new Date(commentData.timeStamp))} ago

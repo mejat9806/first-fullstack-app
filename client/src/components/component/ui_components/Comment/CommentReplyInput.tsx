@@ -56,9 +56,9 @@ const CommentReplyInput = <T extends FieldValues>({
         />
         {textInputType === "normal" && (
           <div className="w-full flex justify-end gap-3 mt-3">
-            {/* <Button type="button" onClick={onCancel}>
+            <Button type="button" onClick={onCancel}>
               Cancel
-            </Button> */}
+            </Button>
             <Button type="submit">Submit</Button>
           </div>
         )}

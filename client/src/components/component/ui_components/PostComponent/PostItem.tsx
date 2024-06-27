@@ -24,6 +24,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   if (!item) {
     return <LoadingPage />; // or handle the case when item is undefined
   }
+  console.log(item, "item for post");
   console.log(item.author._id);
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right

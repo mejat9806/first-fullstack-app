@@ -56,6 +56,7 @@ export interface Ilike {
   profileImage: string;
   post: Iposts;
   _id: string;
+  postId: string;
 }
 export interface PostFooter {
   like: number;

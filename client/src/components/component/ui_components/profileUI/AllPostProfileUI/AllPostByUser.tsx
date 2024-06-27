@@ -4,13 +4,6 @@ import { Ilike, Iposts } from "@/utils/type";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import LoadingPage from "../../LoadingPage";
 
-interface ILocationState {
-  posts: Iposts[];
-  likePosts: Ilike[];
-  id: string;
-  name: string;
-  profileImage: string;
-}
 const AllPostByUser = () => {
   const { id: userId } = useParams<{ id: string }>();
   const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
@@ -27,6 +20,7 @@ const AllPostByUser = () => {
     return <div>Error loading user profile: {isError.message}</div>;
   }
   console.log(userProfileData.posts, "here");
+
   return (
     <div
       className={` flex   md:justify-center md:items-center mt-12 w-full rounded-full`}

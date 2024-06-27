@@ -39,7 +39,7 @@ const Post = () => {
   if (!data) {
     throw new Error("something goes wrong");
   }
-  console.log();
+  console.log(data, "postArea");
   if (data.pages[0].data.length === 0) {
     return (
       <div className="w-[300px] md:w-[500px] h-full flex justify-center items-center mt-10">
@@ -53,7 +53,7 @@ const Post = () => {
     <div>{error?.message}</div>
   ) : (
     <div className="w-full  h-full flex flex-col justify-center">
-      {data?.pages.map((page, i) => (
+      {data.pages.map((page, i) => (
         <div
           key={i}
           className="flex flex-col gap-10 mt-5 md:w-[500px] w-[100%]"

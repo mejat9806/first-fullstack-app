@@ -20,18 +20,18 @@ const LikePost = () => {
   return (
     <div className=" flex flex-col gap-10  md:justify-center md:items-center mt-12 w-full overflow-hidden">
       <div className="w-full md:max-w-lg flex-col gap-10 flex">
-        {userProfileData?.likePosts?.map((likePost) => (
-          <div key={likePost._id}>
+        {userProfileData.likePosts.map((likePosts) => (
+          <div key={likePosts._id}>
             <PostItem
               item={{
-                id: likePost.post.id,
-                createAt: likePost.post.createAt,
-                _id: likePost.post.id,
-                title: likePost.post.title,
-                detail: likePost.post.detail,
-                slug: likePost.post.slug,
-                image: likePost.post.image,
-                likesCount: likePost.post.likesCount,
+                id: likePosts.post.id,
+                createAt: likePosts.post.createAt,
+                _id: likePosts.post.id,
+                title: likePosts.post.title,
+                detail: likePosts.post.detail,
+                slug: likePosts.post.slug,
+                image: likePosts.post.image,
+                likesCount: likePosts.post.likesCount,
                 likes: userProfileData.likePosts,
                 author: {
                   name: userProfileData.name,

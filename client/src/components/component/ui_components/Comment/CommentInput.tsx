@@ -43,9 +43,9 @@ const CommentInput = ({ postId }: { postId: string }) => {
       <div
         className={`${
           theme === "dark"
-            ? "text-white bg-slate-900 border-2 border-slate-100"
-            : "text-black bg-slate-50"
-        }  p-2 rounded-lg  w-full flex flex-col gap-2 h-fit`}
+            ? "text-white bg-slate-900  border-slate-100 hover:border-slate-200"
+            : "text-black bg-slate-50 border-slate-300 hover:border-slate-400"
+        }  p-2 rounded-lg  w-full flex flex-col gap-2 h-fit border-2`}
       >
         {!openCommentArea ? (
           <div>

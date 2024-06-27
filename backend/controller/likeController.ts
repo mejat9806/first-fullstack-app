@@ -21,7 +21,7 @@ export const likePost = catchAsync(
       //if the is already like for this post delete the like and
       const likePost = await Like.findByIdAndDelete(existingLike.id); //delete the existing like
       await Post.findByIdAndUpdate(postId, {
-        $pull: { likes: existingLike.id },
+        $pull: { likePosts: existingLike.id },
         $inc: { likesCount: -1 },
       }); //this will update the
       //then get the updated post and send it to the user
@@ -37,7 +37,7 @@ export const likePost = catchAsync(
         post: postId,
       });
       await Post.findByIdAndUpdate(postId, {
-        $push: { likes: likePost.id },
+        $push: { likePosts: likePost.id },
         $inc: { likesCount: 1 },
       });
       await User.findByIdAndUpdate(req.user.id, {

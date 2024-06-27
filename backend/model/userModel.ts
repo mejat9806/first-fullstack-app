@@ -14,8 +14,8 @@ export interface UserType extends Document {
   bookmark: [mongoose.Schema.Types.ObjectId];
   bio: string;
   joinDate: Date;
-  follow: [string];
-  follower: [string];
+  following: [mongoose.Schema.Types.ObjectId];
+  followers: [mongoose.Schema.Types.ObjectId];
   likePosts: [mongoose.Schema.Types.ObjectId];
   followCount: number;
   followerCount: number;
@@ -62,6 +62,8 @@ const userSchema = new mongoose.Schema<UserType>(
     passwordResetExpired: Date,
     bio: { type: String },
     bannerImage: { type: String },
+    following: [{ type: [mongoose.Schema.Types.ObjectId], ref: "Follower" }],
+    followers: [{ type: [mongoose.Schema.Types.ObjectId], ref: "Follower" }],
     followCount: { type: Number, default: 0 },
     followerCount: { type: Number, default: 0 },
   },
@@ -103,48 +105,59 @@ userSchema.methods.comparePassword = async function (
 };
 
 // Explicitly type the 'this' context as a Mongoose query object for query middleware hooks
-userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
-  this.populate({
-    path: "posts",
-    model: "Post",
-  });
-  next();
-});
-userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
-  this.populate({
-    path: "bookmark",
-    model: "BookMark",
-  });
-  next();
-});
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "posts",
+//     model: "Post",
+//   });
+//   next();
+// });
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "bookmark",
+//     model: "BookMark",
+//   });
+//   next();
+// });
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "likePosts",
+//     populate: [
+//       {
+//         path: "user",
+//         model: "User",
+//       },
+//       {
+//         path: "post",
+//         model: "Post",
+//       },
+//     ],
+//   });
+//   next();
+// });
 
-userSchema.virtual("followers", {
-  ref: "Follower",
-  localField: "_id",
-  foreignField: "followedUser",
-});
-userSchema.virtual("following", {
-  ref: "Follower",
-  localField: "_id",
-  foreignField: "user",
-});
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "followers",
+//     model: "Follower",
+//   });
+//   next();
+// });
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "following",
+//     model: "Follower",
+//   });
+//   next();
+// });
 userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
-  this.populate({
-    path: "followers",
-    model: "Follower",
-  });
-  next();
-});
-userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
-  this.populate({
-    path: "following",
-    model: "Follower",
-  });
-  next();
-});
-userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
-  //use type Query for query middleware
-  this.find({ active: { $ne: false } });
+  this.populate([
+    { path: "posts", model: "Post" },
+    { path: "bookmark", model: "BookMark" },
+
+    { path: "followers", model: "Follower" },
+    { path: "following", model: "Follower" },
+  ]);
   next();
 });
 

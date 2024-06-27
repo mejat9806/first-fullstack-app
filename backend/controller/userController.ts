@@ -1,3 +1,4 @@
+import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../model/userModel.js";
 import { model } from "mongoose";
@@ -68,10 +69,12 @@ export const followFnc = catchAsync(
     }
 
     const user = await User.findById(req.user.id);
+    console.log(user, "user");
     if (!user) {
       return next(AppError("please log in ", 401));
     }
 
+    console.log({ userId, userLogin: req.user?.id });
     const hasFollowed = await Follower.findOne({
       followedUser: userId,
       user: req.user.id,
@@ -82,6 +85,12 @@ export const followFnc = catchAsync(
       await User.findByIdAndUpdate(userId, { $inc: { followerCount: -1 } });
       await User.findByIdAndUpdate(user.id, { $inc: { followCount: -1 } });
       console.log("unfollow");
+      const addUserToFollow = await User.findByIdAndUpdate(req.user.id, {
+        $pull: { following: userId },
+      });
+      const addUserToFollower = await User.findByIdAndUpdate(userId, {
+        $pull: { followers: user.id },
+      });
       res.status(200).json("delete follow");
     } else {
       console.log(hasFollowed, "here");
@@ -89,16 +98,30 @@ export const followFnc = catchAsync(
         followedUser: userId,
         user: user.id,
       });
-      await User.findByIdAndUpdate(userId, { $inc: { followerCount: 1 } });
-      await User.findByIdAndUpdate(user.id, { $inc: { followCount: 1 } });
-      res.status(200).json(follow);
+      await User.findByIdAndUpdate(userId, {
+        $inc: { followerCount: 1 },
+        $push: { following: userId },
+      });
+      const addUserToFollower = await User.findByIdAndUpdate(user.id, {
+        $inc: { followerCount: 1 },
+        $push: { following: user.id },
+      });
+      // await User.findByIdAndUpdate(user.id, { $inc: { followCount: 1 }, });
+      // const addUserToFollow = await User.findByIdAndUpdate(
+      //   req.user.id,
+      //   {
+      //     $push: { following: userId },
+      //   },
+      //   { new: true },
+      // );
+      // const addUserToFollower = await User.findByIdAndUpdate(
+      //   userId,
+      //   {
+      //     $push: { followers: user.id },
+      //   },
+      //   { new: true },
+      // );
+      res.status(200).json(addUserToFollower?.followers);
     }
-
-    // const addUserToFollow = await User.findByIdAndUpdate(req.user.id, {
-    //   $push: { follow: userId },
-    // });
-    // const addUserToFollower = await User.findByIdAndUpdate(userId, {
-    //   $push: { follower: user.id },
-    // });
   },
 );

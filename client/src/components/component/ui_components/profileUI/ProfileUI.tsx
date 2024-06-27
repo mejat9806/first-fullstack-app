@@ -29,7 +29,6 @@ const ProfileUI = () => {
   const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
     userId: userId || "",
   });
-  console.log(userProfileData);
   if (!userId) {
     return <div>No user ID provided.</div>;
   }
@@ -100,15 +99,12 @@ const ProfileUI = () => {
   if (!userProfileData) {
     return <div>No user profile data provided.</div>;
   }
-
-  console.log({ userProfileData, user });
+  console.log({ userProfileData });
   const shouldRenderButton = userProfileData.id === user._id;
   const follower = userProfileData.followers.map(
     (follow: Ifollow) => follow.user,
   );
-  console.log(follower, "followers");
   const isFollow = follower.includes(user.id);
-  console.log(isFollow, "isFollow");
   const togglingFollow = () => {
     ToggleFollow(userProfileData.id);
   };

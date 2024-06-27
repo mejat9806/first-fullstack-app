@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import { FaCommentDots } from "react-icons/fa6";
-import type { PostFooter } from "@/utils/type";
+import type { IBookmark, Ilike, PostFooter } from "@/utils/type";
 import useBookmark from "@/features/api/bookmark/useBookmark";
 
 const PostFooter = ({ like, postId, author }: PostFooter) => {
@@ -25,16 +25,37 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   if (!userProfileData) {
     return <LoadingPage />;
   }
+  console.log(userProfileData, "userProfileData");
+  console.log(user, "user");
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
-  const userProfileLike = userProfileData?.likePosts.map(
-    (user) => user.post?._id,
+  const userProfileLike = userProfileData.likePosts.map(
+    (like: Ilike) => like._id,
   );
+
+  console.log(userProfileLike, "userProfileLike");
   const userProfileBookmark = userProfileData.bookmark.map(
-    (post) => post.post.id,
+    (bookmark: IBookmark) => bookmark._id,
   );
-  const isProfileLike = userProfileLike?.includes(postId);
-  const isBookMark = userProfileBookmark?.includes(postId);
-  // const isLike = userLike.includes(postId);
+  console.log({ userProfileLike, userProfileBookmark });
+  const loginUserLike = user.likePosts.map(
+    (userLoginLike) => userLoginLike._id,
+  );
+  const loginUserBookmark = user.bookmark.map(
+    (userLoginBookmark) => userLoginBookmark._id,
+  );
+  console.log(loginUserBookmark, "loginUserBookmark");
+  const isProfileLike = loginUserLike.some(
+    (id) => userProfileLike.includes(id),
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  );
+  console.log(isProfileLike);
+  const isProfileBookmark = loginUserBookmark.some(
+    (id) => userProfileBookmark.includes(id),
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ); // const isLike = userLike.includes(postId);
+  console.log(isProfileBookmark, "isProfileBookmark");
   const handleLike = () => {
     likeDislike(postId, {
       onSuccess: () => {
@@ -69,7 +90,7 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
           size={30}
           onClick={handleToggleBookmark}
           className={`${
-            isBookMark
+            isProfileBookmark
               ? "fill-cyan-300 stroke-none hover:fill-cyan-200"
               : "fill-white hover:fill-cyan-200"
           } hover:scale-105 transition-all duration-200`}

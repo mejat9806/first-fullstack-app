@@ -1,7 +1,4 @@
-import {
-  Icomment,
-  Ireply,
-} from "@/features/api/Posts/PostDetail/fetchPostDetail";
+import { Ireply } from "@/features/api/Posts/PostDetail/fetchPostDetail";
 import { useEffect, useState } from "react";
 import {
   HoverCard,

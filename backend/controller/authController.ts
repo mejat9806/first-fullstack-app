@@ -67,13 +67,27 @@ export const loginUser = catchAsync(
 
     //!
     //!2) check is the user exist password is correct
-    const user = await User.findOne({ email: email }).select(
-      "+password +isValidated",
-    ); //select use to get the password from DB eventhough they are on selected by default refer to password in userModel
+    const user = await User.findOne({ email: email })
+      .select("+password +isValidated")
+      .populate({
+        path: "likePosts",
+        model: "Like",
+        select: "-user",
+        populate: {
+          path: "post",
+          model: "Post",
+          populate: {
+            path: "author",
+            model: "User",
+            select: "-password -joinDate -posts",
+          },
+        },
+      }); //select use to get the password from DB eventhough they are on selected by default refer to password in userModel
     // (user.isValidated); //! this is for validation turn back on later
     // if (user.isValidated === false) {
     //   return next(AppError('Please check your email for validation', 401));
     // }
+    console.log(user);
     if (!user || !(await user.comparePassword(password, user.password))) {
       const err = AppError("please provide correct Email or password  ", 401);
       return next(err);
@@ -192,9 +206,22 @@ export const isLogin = catchAsync(
     if (currentUser?.changedPasswordAfter(user.iat as number)) {
       return next(AppError("user change password recently", 401));
     }
-    const profile = await User.findById(user.id).select(
-      "-password -passwordResetExpired -passwordResetToken",
-    );
+    const profile = await User.findById(user.id)
+      .select("-password -passwordResetExpired -passwordResetToken")
+      .populate({
+        path: "likePosts",
+        model: "Like",
+        select: "-user",
+        populate: {
+          path: "post",
+          model: "Post",
+          populate: {
+            path: "author",
+            model: "User",
+            select: "-password -joinDate -posts",
+          },
+        },
+      });
 
     if (!profile) {
       return next(AppError("Profile not found", 401));

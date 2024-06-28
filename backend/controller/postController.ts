@@ -35,6 +35,12 @@ export const getLatestPost = catchAsync(
     next();
   },
 );
+export const getPopularPost = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    req.query.sort = "-likesCount";
+    next();
+  },
+);
 export const getAllPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.query);

@@ -20,6 +20,7 @@ function Nav() {
       icons: <HomeIcon />,
       link: "/",
     },
+
     {
       name: "Popular",
       icons: <PopularIcon style=" stroke-current stroke-1 	" />,

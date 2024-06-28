@@ -5,9 +5,7 @@ import { dateFormat } from "@/utils/dateFormat";
 import { useNavigate } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useTheme } from "@/components/darkMode/theme-provider";
-import { HoverCard, HoverCardTrigger } from "@radix-ui/react-hover-card";
-import { HoverCardContent } from "@/shadcnComponent/ui/hover-card";
-import HoverCardUI from "../../hoverCard/HoverCardUI";
+
 import LoadingPage from "../LoadingPage";
 import DOMPurify from "dompurify";
 import { PostItemType } from "@/utils/type";
@@ -15,9 +13,10 @@ import { HoverPic } from "../HoverPic";
 
 interface item<T extends PostItemType> {
   item: T;
+  to?: "popular" | "recent";
 }
 export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
-const PostItem = <T extends PostItemType>({ item }: item<T>) => {
+const PostItem = <T extends PostItemType>({ item, to = "recent" }: item<T>) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
@@ -30,6 +29,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
+
   return (
     <div
       className={` ${
@@ -43,7 +43,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
 
         <div
           className="flex flex-col items-start justify-start w-full "
-          onClick={() => navigate(`post/${item._id}`, { replace: true })}
+          onClick={() => navigate(`/post/${item._id}`)}
         >
           <h1 className="text-lg font-semibold leading-3 mb-2 flex flex-col">
             {item?.author?.name}
@@ -90,7 +90,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
       </div>
       <div className="mt-5">
         <PostFooter
-          like={item.likesCount}
+          like={item.likes.length}
           author={item.author._id}
           postId={item._id}
         />

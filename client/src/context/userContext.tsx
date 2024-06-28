@@ -11,20 +11,15 @@ export const UserContext = createContext<{
   setUser: React.Dispatch<React.SetStateAction<UserType | null>>;
   comment: Icomment | null;
   setComment: React.Dispatch<React.SetStateAction<Icomment | null>>;
-  fetchType: string;
-  setFetchType: React.Dispatch<React.SetStateAction<string>>;
 }>({
   user: null,
   comment: null,
   setComment: () => {},
-  fetchType: "popular",
   setUser: () => {},
-  setFetchType: () => "",
 });
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [comment, setComment] = useState<Icomment | null>(null);
-  const [fetchType, setFetchType] = useState("popular");
   const accesstoken = user?.accessToken || "";
   const { refreshLoginData } = useRefreshLogin(accesstoken);
   useEffect(() => {
@@ -50,9 +45,7 @@ export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   // });
 
   return (
-    <UserContext.Provider
-      value={{ user, setUser, fetchType, setFetchType, setComment, comment }}
-    >
+    <UserContext.Provider value={{ user, setUser, setComment, comment }}>
       {children}
     </UserContext.Provider>
   );

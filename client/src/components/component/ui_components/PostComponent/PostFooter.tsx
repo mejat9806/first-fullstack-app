@@ -25,8 +25,7 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   if (!userProfileData) {
     return <LoadingPage />;
   }
-  console.log(userProfileData, "userProfileData");
-  console.log(user, "user");
+  console.log({ userProfileData, user }, "userProfileData");
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
   const userProfileLike = userProfileData.likePosts.map(
     (like: Ilike) => like._id,
@@ -38,23 +37,16 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   );
   console.log({ userProfileLike, userProfileBookmark });
   const loginUserLike = user.likePosts.map(
-    (userLoginLike) => userLoginLike._id,
+    (userLoginLike) => userLoginLike.post._id,
   );
   const loginUserBookmark = user.bookmark.map(
-    (userLoginBookmark) => userLoginBookmark._id,
+    (userLoginBookmark) => userLoginBookmark.post._id,
   );
   console.log(loginUserBookmark, "loginUserBookmark");
-  const isProfileLike = loginUserLike.some(
-    (id) => userProfileLike.includes(id),
+  const isProfileLike = loginUserLike.includes(postId);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  );
   console.log(isProfileLike);
-  const isProfileBookmark = loginUserBookmark.some(
-    (id) => userProfileBookmark.includes(id),
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ); // const isLike = userLike.includes(postId);
+  const isProfileBookmark = loginUserBookmark.includes(postId);
   console.log(isProfileBookmark, "isProfileBookmark");
   const handleLike = () => {
     likeDislike(postId, {

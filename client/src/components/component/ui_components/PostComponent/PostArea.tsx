@@ -1,16 +1,14 @@
 import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
 import { useInView } from "react-intersection-observer";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import PostItem from "./PostItem";
 import LoadingPage from "../LoadingPage";
 
 import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
-import { UserContext } from "@/context/userContext";
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
 
-const Post = () => {
-  const { fetchType } = useContext(UserContext);
+const Post = ({ fetchType = "recent" }) => {
   //use type here to dynamically fetch data base on what the page want like recent or popular
   let postType = fetchAllPost;
   if (fetchType === "popular") {
@@ -33,6 +31,7 @@ const Post = () => {
     }
     return () => {};
   }, [fetchNextPage, inView]);
+
   if (isLoadingAllPosts) {
     return <LoadingPage />;
   }
@@ -58,9 +57,9 @@ const Post = () => {
           key={i}
           className="flex flex-col gap-10 mt-5 md:w-[500px] w-[100%]"
         >
-          {page.data.map((itemData, i: number) => (
+          {page.data.sort().map((itemData, i: number) => (
             <div key={i} className="">
-              <PostItem item={itemData} />
+              <PostItem item={itemData} to="popular" />
             </div>
           ))}
         </div>

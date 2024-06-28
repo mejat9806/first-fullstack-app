@@ -2,7 +2,6 @@ import mongoose, { Model, Query } from "mongoose";
 import { Post } from "./postModel";
 
 interface likeType {
-  likes: number;
   user: mongoose.Schema.Types.ObjectId;
   post: mongoose.Schema.Types.ObjectId;
 }

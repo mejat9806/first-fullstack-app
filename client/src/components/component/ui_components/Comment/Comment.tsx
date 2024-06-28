@@ -4,12 +4,7 @@ import DOMPurify from "dompurify";
 import { useNavigate, useParams } from "react-router-dom";
 import { baseUrl } from "../PostComponent/PostItem";
 import { formatDistanceToNow } from "date-fns";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/shadcnComponent/ui/hover-card";
-import HoverCardUI from "../../hoverCard/HoverCardUI";
+
 import { Button } from "@/shadcnComponent/ui/button";
 import AddReply from "./reply/AddReply";
 import ReplyItem from "./reply/ReplyItem";

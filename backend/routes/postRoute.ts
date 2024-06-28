@@ -5,6 +5,7 @@ import {
   getAllPost,
   getLatestPost,
   getOnePost,
+  getPopularPost,
   resizePostImage,
   updatePost,
   uploadPostImage,
@@ -15,6 +16,7 @@ export const router = express.Router();
 
 router.get("/", getAllPost);
 router.get("/latest", getLatestPost, getAllPost);
+router.get("/popular", getPopularPost, getAllPost);
 // make most like post
 router
   .route("/:postId")

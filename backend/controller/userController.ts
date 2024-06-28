@@ -30,20 +30,37 @@ export const getUser = async (
       return res.status(404).json({ message: "No user found." });
     }
 
-    const user = await User.findById(authorId).populate({
-      path: "likePosts",
-      model: "Like",
-      select: "-user",
-      populate: {
-        path: "post",
-        model: "Post",
+    const user = await User.findById(authorId)
+      .populate({
+        path: "likePosts",
+        model: "Like",
+        select: "-user",
         populate: {
-          path: "author",
-          model: "User",
-          select: "-password -joinDate -posts",
+          path: "post",
+          model: "Post",
+          populate: {
+            path: "author",
+            model: "User",
+            select: "-password -joinDate -posts",
+          },
         },
-      },
-    });
+      })
+      .populate({ path: "posts", model: "Post" })
+      .populate({ path: "bookmark", model: "BookMark" })
+      .populate({
+        path: "followers",
+        model: "Follower",
+        populate: {
+          path: "user",
+          model: "User",
+        },
+      })
+      .populate({
+        path: "following",
+        model: "Follower",
+        populate: { path: "followedUser", model: "User" },
+      });
+
     res.status(200).json({ data: user });
   } catch (error) {
     next();
@@ -79,17 +96,16 @@ export const followFnc = catchAsync(
       user: req.user.id,
     });
     if (hasFollowed) {
-      console.log(hasFollowed.id, "has follow");
-      const deleteFollow = await Follower.findByIdAndDelete(hasFollowed.id);
       await User.findByIdAndUpdate(userId, { $inc: { followerCount: -1 } });
       await User.findByIdAndUpdate(user.id, { $inc: { followCount: -1 } });
       console.log("unfollow");
-      const addUserToFollow = await User.findByIdAndUpdate(req.user.id, {
-        $pull: { following: userId },
+      await User.findByIdAndUpdate(user.id, {
+        $pull: { following: hasFollowed.id },
       });
       const addUserToFollower = await User.findByIdAndUpdate(userId, {
-        $pull: { followers: user.id },
+        $pull: { followers: hasFollowed.id },
       });
+      await Follower.findByIdAndDelete(hasFollowed.id);
       res.status(200).json("delete follow");
     } else {
       console.log(hasFollowed, "here");
@@ -99,11 +115,11 @@ export const followFnc = catchAsync(
       });
       await User.findByIdAndUpdate(userId, {
         $inc: { followerCount: 1 },
-        $push: { following: userId },
+        $push: { followers: follow.id },
       });
-      const addUserToFollower = await User.findByIdAndUpdate(user.id, {
-        $inc: { followerCount: 1 },
-        $push: { following: user.id },
+      await User.findByIdAndUpdate(user.id, {
+        $inc: { followCount: 1 },
+        $push: { following: follow.id },
       });
       // await User.findByIdAndUpdate(user.id, { $inc: { followCount: 1 }, });
       // const addUserToFollow = await User.findByIdAndUpdate(
@@ -120,7 +136,7 @@ export const followFnc = catchAsync(
       //   },
       //   { new: true },
       // );
-      res.status(200).json(addUserToFollower?.followers);
+      res.status(200).json("add follow");
     }
   },
 );

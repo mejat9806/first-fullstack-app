@@ -40,6 +40,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
   const isAuthorCorrect = user.id === author?.id;
+  console.log(singleData.data, "like");
   return (
     <div className="flex justify-center w-full">
       <div className=" w-full  ">
@@ -122,7 +123,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
             )}
           </div>
 
-          <PostFooter like={likes?.length} author={author?.id} postId={id} />
+          <PostFooter like={likes.length} author={author.id} postId={id} />
           <div>
             <CommentInput postId={id} />
             {/* {comments && <CommentsList comments={comments} />} */}

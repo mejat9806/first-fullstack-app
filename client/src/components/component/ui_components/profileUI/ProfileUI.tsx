@@ -105,6 +105,7 @@ const ProfileUI = () => {
     (follow: Ifollow) => follow.user,
   );
   const isFollow = follower.includes(user.id);
+  console.log(follower, "isFOllow");
   const togglingFollow = () => {
     ToggleFollow(userProfileData.id);
   };

@@ -1,7 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { likeDislikeApi } from "./likeDislikeApi";
+import { useParams } from "react-router-dom";
 
 export const useLikeDislike = () => {
+  const { id } = useParams();
+
   const queryClient = useQueryClient();
   const {
     isPending: isLikeDislike,
@@ -10,12 +13,12 @@ export const useLikeDislike = () => {
     data: likeData,
   } = useMutation({
     mutationFn: likeDislikeApi,
-    onSuccess: (data) => {
-      console.log(data);
-      queryClient.setQueryData(["like"], data);
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    mutationKey: ["like"],
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["userProfile", id] });
       queryClient.invalidateQueries({ queryKey: ["post"] });
-      queryClient.invalidateQueries({ queryKey: ["like", data] });
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
     onError: (err) => {
       console.log(err);

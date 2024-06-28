@@ -1,9 +1,7 @@
+import { PopularUI } from "@/components/component/ui_components/PopularUI/PopularUI";
+
 const PopularPost = () => {
-  return (
-    <div className=" h-full w-full flex justify-center items-center mt-12">
-      PopulssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssarPost
-    </div>
-  );
+  return <PopularUI />;
 };
 
 export default PopularPost;

@@ -29,6 +29,9 @@ export const likePost = catchAsync(
         $pull: { likePosts: existingLike.id },
         $inc: { likesCount: -1 },
       });
+      await Post.findByIdAndUpdate(postId, {
+        $pull: { likes: existingLike.id },
+      });
       res.status(200).json({ message: " like remove", likePost });
     } else {
       //if there is no like post create new like poast
@@ -36,6 +39,7 @@ export const likePost = catchAsync(
         user: req.user.id,
         post: postId,
       });
+      console.log(likePost, "add like post");
       await Post.findByIdAndUpdate(postId, {
         $push: { likePosts: likePost.id },
         $inc: { likesCount: 1 },
@@ -43,6 +47,9 @@ export const likePost = catchAsync(
       await User.findByIdAndUpdate(req.user.id, {
         $push: { likePosts: likePost.id },
         $inc: { likesCount: 1 },
+      });
+      await Post.findByIdAndUpdate(postId, {
+        $push: { likes: likePost.id },
       });
 
       res.status(200).json({ message: " like added", likePost });
@@ -52,7 +59,8 @@ export const likePost = catchAsync(
 
 export const getLike = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const like = await Like.findById(req.body.likeId);
+    const { postId } = req.params;
+    const like = await Like.findOne({ post: postId });
     res.status(200).json(like);
   },
 );

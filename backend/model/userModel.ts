@@ -150,16 +150,21 @@ userSchema.methods.comparePassword = async function (
 //   });
 //   next();
 // });
-userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
-  this.populate([
-    { path: "posts", model: "Post" },
-    { path: "bookmark", model: "BookMark" },
-
-    { path: "followers", model: "Follower" },
-    { path: "following", model: "Follower" },
-  ]);
-  next();
-});
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate([
+//     {
+//       path: "followers",
+//       model: "Follower",
+//       populate: {
+//         path: "user",
+//         model: "User",
+//         select: "-posts",
+//       },
+//     },
+//     { path: "following", model: "Follower" },
+//   ]);
+//   next();
+// });
 
 userSchema.methods.changedPasswordAfter = function (JWTtimestamp: number) {
   //this will update the password after change time

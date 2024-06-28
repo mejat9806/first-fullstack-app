@@ -45,7 +45,6 @@ const postSchema = new mongoose.Schema<PostType>(
     },
     slug: { type: "string" },
     image: [String],
-    likesCount: { type: Number, default: 0 },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
     lastUpdate: Date,
     updated: { type: Boolean, default: false },

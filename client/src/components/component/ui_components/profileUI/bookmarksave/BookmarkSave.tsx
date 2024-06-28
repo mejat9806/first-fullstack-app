@@ -18,6 +18,7 @@ const BookmarkSave = () => {
   if (!userProfileData) {
     return <LoadingPage />;
   }
+  console.log(userProfileData, "userProfileData");
   return (
     <div
       className={` flex   md:justify-center md:items-center mt-12 w-full rounded-full`}

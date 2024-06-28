@@ -82,6 +82,21 @@ export const loginUser = catchAsync(
             select: "-password -joinDate -posts",
           },
         },
+      })
+      .populate({ path: "posts", model: "Post" })
+      .populate({ path: "bookmark", model: "BookMark" })
+      .populate({
+        path: "followers",
+        model: "Follower",
+        populate: {
+          path: "user",
+          model: "User",
+        },
+      })
+      .populate({
+        path: "following",
+        model: "Follower",
+        populate: { path: "followedUser", model: "User" },
       }); //select use to get the password from DB eventhough they are on selected by default refer to password in userModel
     // (user.isValidated); //! this is for validation turn back on later
     // if (user.isValidated === false) {
@@ -221,6 +236,21 @@ export const isLogin = catchAsync(
             select: "-password -joinDate -posts",
           },
         },
+      })
+      .populate({ path: "posts", model: "Post" })
+      .populate({ path: "bookmark", model: "BookMark" })
+      .populate({
+        path: "followers",
+        model: "Follower",
+        populate: {
+          path: "user",
+          model: "User",
+        },
+      })
+      .populate({
+        path: "following",
+        model: "Follower",
+        populate: { path: "followedUser", model: "User" },
       });
 
     if (!profile) {

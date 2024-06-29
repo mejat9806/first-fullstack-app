@@ -63,6 +63,30 @@ export const getAllPost = catchAsync(
     });
   },
 );
+export const getFriendPost = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    if (!user) {
+      return AppError("please log in", 401);
+    }
+    console.log(user.id);
+    const userLogin = await User.findById(user.id).populate({
+      path: "following",
+      model: "Follower",
+    });
+    if (!userLogin) {
+      return AppError("Something goes wrong", 404);
+    }
+    console.log(userLogin, "check userLogin");
+    const followingID = (userLogin.following as any).map(
+      (follow: any) => follow.followedUser,
+    );
+    const posts = await Post.find({ author: { $in: followingID } });
+
+    console.log(followingID, "followingID");
+    res.status(200).json(posts);
+  },
+);
 
 // export const getAllPost = async (
 //   req: Request,

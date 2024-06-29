@@ -1,6 +1,8 @@
 import mongoose, { Model, Query } from "mongoose";
 export interface FollowType extends Document {
   user: mongoose.Schema.Types.ObjectId;
+  _id: mongoose.Schema.Types.ObjectId;
+
   followedUser: mongoose.Schema.Types.ObjectId;
 }
 const followSchema = new mongoose.Schema<FollowType>(

@@ -16,14 +16,14 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { mutateBookmark } = useBookmark();
   const queryClient = useQueryClient();
   if (!user) {
-    return <LoadingPage />;
+    return <LoadingPage className="h-fit" />;
   }
   const userId = user.id;
   const { userProfileData } = useGetPosterProfile({
     userId,
   });
   if (!userProfileData) {
-    return <LoadingPage />;
+    return <LoadingPage className="h-fit" />;
   }
   console.log({ userProfileData, user }, "userProfileData");
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);

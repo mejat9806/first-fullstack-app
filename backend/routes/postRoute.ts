@@ -3,6 +3,7 @@ import {
   createAPost,
   deletePost,
   getAllPost,
+  getFriendPost,
   getLatestPost,
   getOnePost,
   getPopularPost,
@@ -14,7 +15,7 @@ import { verifyJWT } from "../middleware/verifyToken.js";
 
 export const router = express.Router();
 
-router.get("/", getAllPost);
+router.get("/following", verifyJWT, getFriendPost);
 router.get("/latest", getLatestPost, getAllPost);
 router.get("/popular", getPopularPost, getAllPost);
 // make most like post

@@ -14,8 +14,8 @@ export interface UserType extends Document {
   bookmark: [mongoose.Schema.Types.ObjectId];
   bio: string;
   joinDate: Date;
-  following: [mongoose.Schema.Types.ObjectId];
-  followers: [mongoose.Schema.Types.ObjectId];
+  following: mongoose.Schema.Types.ObjectId[];
+  followers: mongoose.Schema.Types.ObjectId[];
   likePosts: [mongoose.Schema.Types.ObjectId];
   followCount: number;
   followerCount: number;
@@ -62,8 +62,8 @@ const userSchema = new mongoose.Schema<UserType>(
     passwordResetExpired: Date,
     bio: { type: String },
     bannerImage: { type: String },
-    following: [{ type: [mongoose.Schema.Types.ObjectId], ref: "Follower" }],
-    followers: [{ type: [mongoose.Schema.Types.ObjectId], ref: "Follower" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Follower" }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Follower" }],
     followCount: { type: Number, default: 0 },
     followerCount: { type: Number, default: 0 },
   },

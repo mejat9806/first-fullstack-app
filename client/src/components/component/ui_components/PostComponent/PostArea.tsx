@@ -7,8 +7,13 @@ import LoadingPage from "../LoadingPage";
 import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
+import { fetchFollowUserPost } from "@/features/api/Posts/fetchPost/fetchFollowUserPost";
 
-const Post = ({ fetchType = "recent" }) => {
+const Post = ({
+  fetchType = "recent",
+}: {
+  fetchType: "recent" | "popular";
+}) => {
   //use type here to dynamically fetch data base on what the page want like recent or popular
   let postType = fetchAllPost;
   if (fetchType === "popular") {

@@ -47,7 +47,7 @@ export const getAllPost = catchAsync(
     const allPostFilter = await apiFeatures(
       Post,
       req,
-      "author likes",
+      "likes author",
       "name  profileImage ",
     );
     const allPost = await allPostFilter;
@@ -81,9 +81,20 @@ export const getFriendPost = catchAsync(
     const followingID = (userLogin.following as any).map(
       (follow: any) => follow.followedUser,
     );
-    const posts = await Post.find({ author: { $in: followingID } });
-
     console.log(followingID, "followingID");
+
+    const allPostFilter = await apiFeatures(
+      Post,
+      req,
+      "likes author",
+      "name  profileImage ",
+      followingID,
+    );
+    const posts = await allPostFilter;
+    // const posts = await Post.find({ author: { $in: followingID } });
+    // const getAllPostByUserFollow =
+
+    // console.log(followingID, "followingID");
     res.status(200).json(posts);
   },
 );

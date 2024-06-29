@@ -10,7 +10,7 @@ export default function Home() {
   if (isLoadingAllPosts) {
     <LoadingPage />;
   }
-  console.log(data);
+  console.log(data, "ths from home");
   return (
     <div>
       <PageUI pageName={"Home"} pageComponent={<h1>hello</h1>} />

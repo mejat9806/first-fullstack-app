@@ -41,13 +41,13 @@ const likeSchema = new mongoose.Schema<likeType>({
 //   });
 //   next();
 // });
-likeSchema.pre<Query<any, likeType>>(/^find/, function (next) {
-  this.populate([
-    { path: "user", model: "User" },
-    { path: "post", model: "Post" },
-  ]);
-  next();
-});
+// likeSchema.pre<Query<any, likeType>>(/^find/, function (next) {
+//   this.populate([
+//     { path: "user", model: "User" },
+//     { path: "post", model: "Post" },
+//   ]);
+//   next();
+// });
 export const Like: Model<likeType> = mongoose.model<likeType>(
   "Like",
   likeSchema,

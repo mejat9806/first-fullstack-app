@@ -36,10 +36,10 @@ const Post = ({
     }
     return () => {};
   }, [fetchNextPage, inView]);
-
   if (isLoadingAllPosts) {
     return <LoadingPage />;
   }
+
   if (!data) {
     throw new Error("something goes wrong");
   }

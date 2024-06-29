@@ -26,28 +26,39 @@ function applyPagination(query: any, pageQuery: any, limitQuery: any) {
 }
 
 export async function apiFeatures(
-  query: any, //this is the Model we want to operateon
-  req: Request, //this is the request
+  query: any, // this is the Model we want to operate on
+  req: Request, // this is the request
   populateOption: string,
   select: string,
+  followingID: any,
 ) {
   const populateOptions = populateOption.split(" ");
   const queryObject = { ...req.query };
-  const excludedFields = ["page", "sort", "limit", "fields", "search"]; //need to exclude because it will interfere with mongo query
-  excludedFields.forEach((el) => delete queryObject[el]); //this will remove excludedFields from the query object because it will effect the find result of the find operation
+  const excludedFields = ["page", "sort", "limit", "fields", "search"]; // need to exclude because it will interfere with mongo query
+  excludedFields.forEach((el) => delete queryObject[el]); // this will remove excludedFields from the query object because it will affect the find result of the find operation
   console.log(queryObject);
+
   let queryStr = JSON.stringify(queryObject);
-  queryStr = queryStr.replace(/\b(gte|gte|lte|lt)\b/g, (match) => `$${match}`); //this is used to change normal gte/lte to mongoDB one with $
-  query = query
-    .find(JSON.parse(queryStr))
-    .populate({
-      path: populateOptions[0],
-      select: select,
-    })
-    .populate({
+  queryStr = queryStr.replace(/\b(gte|gte|lte|lt)\b/g, (match) => `$${match}`); // this is used to change normal gte/lte to mongoDB one with $
+  console.log(followingID, "arrayssss");
+
+  let mongoQuery = { ...JSON.parse(queryStr) };
+  if (followingID) {
+    console.log(followingID, "following here");
+    mongoQuery = { ...mongoQuery, author: { $in: followingID } };
+  }
+
+  query = query.find(mongoQuery).populate({
+    path: populateOptions[0],
+    select: select,
+  });
+
+  if (populateOptions[1]) {
+    query = query.populate({
       path: populateOptions[1],
-    })
-    .lean();
+    });
+  }
+
   query = applyFieldSelection(query, req.query.fields);
   query = applySorting(query, req.query.sort);
   query = applyPagination(query, req.query.page, req.query.limit);

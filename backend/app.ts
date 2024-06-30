@@ -25,11 +25,8 @@ import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
 const corsOptions = {
-  origin: [
-    "http://localhost:5173",
-    "https://socialmedia-nupsaqvnw-mejat9806s-projects.vercel.app",
-    "https://socialmedia-650u.onrender.com",
-  ], // Allow requests from this origin
+  origin: "https://socialmedia-650u.onrender.com",
+  // Allow requests from this origin
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
     "set-cookie",

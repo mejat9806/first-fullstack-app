@@ -1,5 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { getLike } from "./getLike";
 
 export const useGetlike = ({

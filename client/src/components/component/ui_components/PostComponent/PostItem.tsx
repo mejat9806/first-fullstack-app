@@ -16,7 +16,7 @@ interface item<T extends PostItemType> {
   to?: "popular" | "recent";
 }
 export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
-const PostItem = <T extends PostItemType>({ item, to = "recent" }: item<T>) => {
+const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL

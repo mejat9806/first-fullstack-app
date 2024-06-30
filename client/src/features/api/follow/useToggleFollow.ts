@@ -5,7 +5,7 @@ import { toast } from "@/shadcnComponent/ui/use-toast";
 import { useParams } from "react-router-dom";
 
 export const useToggleFollow = () => {
-  const { userId } = useParams();
+  // const { userId } = useParams();
   const query = useQueryClient();
   const { mutate: ToggleFollow, isPending: isToggleFollow } = useMutation({
     mutationKey: ["follow"],

@@ -1,7 +1,12 @@
 import axios from "axios";
-import React from "react";
 
-export const getReplyApi = async ({ postId, replyId }) => {
+export const getReplyApi = async ({
+  postId,
+  replyId,
+}: {
+  postId: string;
+  replyId: string;
+}) => {
   const respose = await axios.get(`/reply/${postId}/${replyId}`);
   return respose.data.reply;
 };

@@ -8,7 +8,6 @@ import Setting from "./page/Setting";
 import { Suspense, useEffect, useState } from "react";
 import Explore from "./page/Explore";
 // import NewPost from "./page/NewPost";
-import PostDetail from "./page/PostDetail";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorPage from "./page/ErrorPage";
 import PasswordReset from "./page/ForgotPass";

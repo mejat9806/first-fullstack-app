@@ -3,7 +3,6 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/shadcnComponent/ui/hover-card";
-import React from "react";
 import HoverCardUI from "../hoverCard/HoverCardUI";
 import { useNavigate } from "react-router-dom";
 

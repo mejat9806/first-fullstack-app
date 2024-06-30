@@ -1,5 +1,5 @@
 import { SearchType } from "@/page/Search";
-import { Iposts, PostItemType, UserType } from "@/utils/type";
+import { Iposts } from "@/utils/type";
 import { Location, useLocation } from "react-router-dom";
 import SearchItem from "../SearchItem";
 

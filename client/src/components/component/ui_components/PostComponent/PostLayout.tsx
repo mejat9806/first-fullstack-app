@@ -1,7 +1,6 @@
 import { useTheme } from "@/components/darkMode/theme-provider";
 import { useFetchDetails } from "@/features/api/Posts/PostDetail/useFetchDetail";
 import PostDetail from "@/page/PostDetail";
-import React from "react";
 import { Outlet } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import SearchResultLayout from "./SearchResultLayout";
 import { Iposts, UserType } from "@/utils/type";
 export type SearchType = {

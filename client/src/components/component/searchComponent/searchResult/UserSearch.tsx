@@ -1,5 +1,4 @@
 import { SearchType } from "@/page/Search";
-import React from "react";
 import { Location, useLocation } from "react-router-dom";
 import SearchItem from "../SearchItem";
 import { UserType } from "@/utils/type";

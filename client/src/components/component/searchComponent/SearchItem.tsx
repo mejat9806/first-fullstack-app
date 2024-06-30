@@ -9,7 +9,6 @@ interface ISearchItemData {
 }
 
 const SearchItem = ({ user, type }: ISearchItemData) => {
-  const { theme } = useTheme();
   if (!user) {
     return;
   }

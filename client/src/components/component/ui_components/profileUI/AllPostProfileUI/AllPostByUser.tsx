@@ -1,6 +1,5 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PostItem from "../../PostComponent/PostItem";
-import { Ilike, Iposts } from "@/utils/type";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import LoadingPage from "../../LoadingPage";
 

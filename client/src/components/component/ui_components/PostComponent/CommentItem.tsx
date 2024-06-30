@@ -1,5 +1,4 @@
 import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
-import React from "react";
 import { useOutletContext } from "react-router-dom";
 import CommentsList from "../Comment/CommentsList";
 

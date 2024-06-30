@@ -114,3 +114,9 @@ react-email-starter/emails/static/vercel-logo.png
 react-email-starter/emails/static/vercel-team.png
 react-email-starter/emails/static/vercel-user.png
 authController Backup
+client/ca.crt
+client/ca.key
+client/cert.crt
+client/cert.key
+client/rootCA.key
+client/rootCA.pem

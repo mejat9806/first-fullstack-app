@@ -1,7 +1,6 @@
 import { globalErrorHandler } from "./controller/errorController";
 import express, { json } from "express";
 import cors from "cors";
-import { createProxyMiddleware } from "http-proxy-middleware";
 import mongoose from "mongoose";
 
 import { router as authRoute } from "./routes/authRoutes";
@@ -26,7 +25,11 @@ import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
 const corsOptions = {
-  origin: "*",
+  origin: [
+    "http://localhost:5173",
+    "https://socialmedia-nupsaqvnw-mejat9806s-projects.vercel.app",
+    "https://socialmedia-650u.onrender.com",
+  ], // Allow requests from this origin
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
     "set-cookie",
@@ -62,13 +65,6 @@ const __dirname = dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(compression());
-app.use(
-  "/api",
-  createProxyMiddleware({
-    target: "https://first-fullstack-app-bv0j.onrender.com",
-    changeOrigin: true,
-  }),
-);
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);

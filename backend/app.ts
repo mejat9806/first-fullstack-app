@@ -27,15 +27,15 @@ dotenv.config();
 const corsOptions = {
   origin: "https://socialmedia-650u.onrender.com",
   // Allow requests from this origin
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
-  allowedHeaders: [
-    "set-cookie",
-    "Content-Type",
-    "Access-Control-Allow-Origin ",
-    "Authorization",
-    "Access-Control-Allow-Credentials",
-  ],
-  exposedHeaders: ["Content-Length"], // Expose this custom header
+  // methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
+  // allowedHeaders: [
+  //   "set-cookie",
+  //   "Content-Type",
+  //   "Access-Control-Allow-Origin ",
+  //   "Authorization",
+  //   "Access-Control-Allow-Credentials",
+  // ],
+  // exposedHeaders: ["Content-Length"], // Expose this custom header
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 app.use(cors(corsOptions));

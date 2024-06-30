@@ -27,7 +27,7 @@ dotenv.config();
 const corsOptions = {
   origin: [
     "http://localhost:5173",
-    "https://socialmedia-9o23qcttc-mejat9806s-projects.vercel.app",
+    "https://socialmedia-nupsaqvnw-mejat9806s-projects.vercel.app",
   ], // Allow requests from this origin
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [

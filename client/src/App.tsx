@@ -37,7 +37,7 @@ axios.defaults.baseURL =
     : import.meta.env.VITE_DEVELOPMENT_URL;
 axios.defaults.withCredentials = true; // default
 
-console.log(import.meta.env.VITE_DEVELOPMENT_URL, "env");
+console.log(axios.defaults.baseURL, "env");
 function App() {
   const { theme } = useTheme();
   const [isLoading, setLoading] = useState(true);

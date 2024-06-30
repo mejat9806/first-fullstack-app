@@ -7,17 +7,7 @@ export const loginApi = async ({
   email: string;
   password: string;
 }) => {
-  const response = await axios.post(
-    "auth/login",
-    { email, password },
-    {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      withCredentials: true,
-    },
-  );
+  const response = await axios.post("auth/login", { email, password });
   console.log(response);
   return response;
 };

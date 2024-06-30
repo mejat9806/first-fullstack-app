@@ -1,6 +1,5 @@
 import { Iposts, UserType } from "@/utils/type";
 import { baseUrl } from "../ui_components/PostComponent/PostItem";
-import { useTheme } from "@/components/darkMode/theme-provider";
 
 interface ISearchItemData {
   user?: UserType;

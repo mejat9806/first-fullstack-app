@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ToggleFollowApi } from "./ToggleFollowApi";
 import axios from "axios";
 import { toast } from "@/shadcnComponent/ui/use-toast";
-import { useParams } from "react-router-dom";
 
 export const useToggleFollow = () => {
   // const { userId } = useParams();

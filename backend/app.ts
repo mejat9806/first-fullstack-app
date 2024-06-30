@@ -25,7 +25,7 @@ import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
 const corsOptions = {
-  origin: "*",
+  origin: "https://socialmedia-650u.onrender.com/",
   // origin: "http://localhost:5173",
   // Allow requests from this origin
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
@@ -40,6 +40,8 @@ const corsOptions = {
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
+
 // app.options("*", cors(corsOptions));
 
 const limiter = rateLimit({

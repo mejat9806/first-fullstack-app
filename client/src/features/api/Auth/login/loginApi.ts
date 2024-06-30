@@ -11,7 +11,10 @@ export const loginApi = async ({
     "auth/login",
     { email, password },
     {
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
       withCredentials: true,
     },
   );

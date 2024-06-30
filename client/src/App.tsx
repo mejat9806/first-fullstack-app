@@ -38,8 +38,8 @@ axios.defaults.baseURL =
 axios.defaults.withCredentials = true; // default
 axios.defaults.headers.common["Accept"] = "application/json, text/plain, */*";
 axios.defaults.headers.common["Content-Type"] = "application/json";
-(axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"),
-  console.log(axios.defaults.baseURL, "env");
+// axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
+console.log(axios.defaults.baseURL, "env");
 function App() {
   const { theme } = useTheme();
   const [isLoading, setLoading] = useState(true);

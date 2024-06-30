@@ -1,6 +1,7 @@
 import { globalErrorHandler } from "./controller/errorController";
 import express, { json } from "express";
 import cors from "cors";
+import { createProxyMiddleware } from "http-proxy-middleware";
 import mongoose from "mongoose";
 
 import { router as authRoute } from "./routes/authRoutes";
@@ -61,6 +62,13 @@ const __dirname = dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(compression());
+app.use(
+  "/api",
+  createProxyMiddleware({
+    target: "https://first-fullstack-app-bv0j.onrender.com",
+    changeOrigin: true,
+  }),
+);
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);

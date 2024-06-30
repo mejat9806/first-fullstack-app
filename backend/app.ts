@@ -39,6 +39,7 @@ const corsOptions = {
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 const limiter = rateLimit({
   max: 1000,

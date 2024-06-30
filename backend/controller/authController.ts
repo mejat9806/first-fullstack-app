@@ -116,7 +116,7 @@ export const loginUser = catchAsync(
 export const logout = (req: Request, res: Response) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false, //https
+    secure: true, //https
     sameSite: "lax", //cross site cookies
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });

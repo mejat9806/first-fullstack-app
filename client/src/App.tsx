@@ -33,12 +33,12 @@ import PostDeepIntoComment from "./components/component/ui_components/PostCompon
 import CommentLayout from "./components/component/ui_components/PostComponent/CommentLayout";
 import { CommentItem } from "./components/component/ui_components/PostComponent/CommentItem";
 axios.defaults.baseURL =
-  import.meta.env.VITE_ENV === "development"
+  import.meta.env.Vite_ENV === "development"
     ? import.meta.env.VITE_DEVELOPMENT_URL
-    : import.meta.env.VITE_PRODUCTION_URL;
+    : import.meta.env.VITE_DEVELOPMENT_URL;
 axios.defaults.withCredentials = true; // default
 
-console.log(import.meta.env.VITE_ENV, "env");
+console.log(import.meta.env.VITE_DEVELOPMENT_URL, "env");
 function App() {
   const { theme } = useTheme();
   const [isLoading, setLoading] = useState(true);

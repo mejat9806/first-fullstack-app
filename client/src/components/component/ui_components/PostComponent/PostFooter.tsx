@@ -15,41 +15,45 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
 
   const { mutateBookmark } = useBookmark();
   const queryClient = useQueryClient();
-
-  const userId = user?.id;
+  if (!user) {
+    return <LoadingPage className="h-fit" />;
+  }
+  const userId = user.id;
   const { userProfileData } = useGetPosterProfile({
     userId,
   });
-
+  if (!userProfileData) {
+    return <LoadingPage className="h-fit" />;
+  }
   console.log({ userProfileData, user }, "userProfileData");
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
-  const userProfileLike = userProfileData?.likePosts.map(
+  const userProfileLike = userProfileData.likePosts.map(
     (like: Ilike) => like._id,
   );
 
   console.log(userProfileLike, "userProfileLike");
-  const userProfileBookmark = userProfileData?.bookmark.map(
+  const userProfileBookmark = userProfileData.bookmark.map(
     (bookmark: IBookmark) => bookmark._id,
   );
   console.log({ userProfileLike, userProfileBookmark });
-  const loginUserLike = user?.likePosts.map(
+  const loginUserLike = user.likePosts.map(
     (userLoginLike) => userLoginLike.post._id,
   );
-  const loginUserBookmark = user?.bookmark.map(
+  const loginUserBookmark = user.bookmark.map(
     (userLoginBookmark) => userLoginBookmark.post._id,
   );
   console.log(loginUserBookmark, "loginUserBookmark");
-  const isProfileLike = loginUserLike?.includes(postId);
+  const isProfileLike = loginUserLike.includes(postId);
 
   console.log(isProfileLike);
-  const isProfileBookmark = loginUserBookmark?.includes(postId);
+  const isProfileBookmark = loginUserBookmark.includes(postId);
   console.log(isProfileBookmark, "isProfileBookmark");
   const handleLike = () => {
     likeDislike(postId, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ["posts"] });
         queryClient.invalidateQueries({ queryKey: ["posts"] });
-        queryClient.invalidateQueries({ queryKey: ["userProfile", user?.id] });
+        queryClient.invalidateQueries({ queryKey: ["userProfile", user.id] });
         queryClient.invalidateQueries({ queryKey: ["userProfile", author] });
       },
     });

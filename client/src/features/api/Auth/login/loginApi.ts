@@ -15,5 +15,6 @@ export const loginApi = async ({
       withCredentials: true,
     },
   );
+  console.log(response);
   return response;
 };

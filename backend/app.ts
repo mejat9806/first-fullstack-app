@@ -25,7 +25,7 @@ import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
 const corsOptions = {
-  origin: ["http://localhost:5173"], // Allow requests from this origin
+  // origin: ["http://localhost:5173"], // Allow requests from this origin
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
     "set-cookie",

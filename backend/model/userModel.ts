@@ -11,12 +11,12 @@ export interface UserType extends Document {
   profileImage: string;
   active: boolean;
   posts: any;
-  bookmark: [mongoose.Schema.Types.ObjectId];
+  bookmark: mongoose.Schema.Types.ObjectId[];
   bio: string;
   joinDate: Date;
   following: mongoose.Schema.Types.ObjectId[];
   followers: mongoose.Schema.Types.ObjectId[];
-  likePosts: [mongoose.Schema.Types.ObjectId];
+  likePosts: mongoose.Schema.Types.ObjectId[];
   followCount: number;
   followerCount: number;
   passwordChangedAt: Date;

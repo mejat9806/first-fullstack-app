@@ -8,38 +8,52 @@ import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
 import { fetchFollowUserPost } from "@/features/api/Posts/fetchPost/fetchFollowUserPost";
+import { useLocation } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
 
-const Post = ({
-  fetchType = "recent",
-}: {
-  fetchType: "recent" | "popular";
-}) => {
+const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
+  const { pathname } = useLocation();
+  console.log(pathname);
+  const queryClient = useQueryClient();
+
   //use type here to dynamically fetch data base on what the page want like recent or popular
   let postType = fetchAllPost;
-  if (fetchType === "popular") {
-    postType = fetchAllPost;
-  }
   if (fetchType === "recent") {
     postType = fetchlatest;
+  }
+  if (fetchType === "home") {
+    postType = fetchFollowUserPost;
+  }
+  if (fetchType === "popular") {
+    postType = fetchAllPost;
   }
 
   const { data, error, status, fetchNextPage, refetch, isLoadingAllPosts } =
     useGetAllPost({ fetchingFunction: postType });
+
   const { ref, inView } = useInView();
   const { isDeletePostLoading, status: statusDelete } = useDeletePost();
   useEffect(() => {
     refetch();
-  }, [refetch, isDeletePostLoading, statusDelete]);
+  }, [
+    refetch,
+    isDeletePostLoading,
+    statusDelete,
+    postType,
+    pathname,
+    queryClient,
+  ]);
   useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
     return () => {};
-  }, [fetchNextPage, inView]);
+  }, [fetchNextPage, inView, postType]);
   if (isLoadingAllPosts) {
     return <LoadingPage />;
   }
 
+  console.log(data, "in POST");
   if (!data) {
     throw new Error("something goes wrong");
   }

@@ -30,8 +30,9 @@ export async function apiFeatures(
   req: Request, // this is the request
   populateOption: string,
   select: string,
-  followingID: any,
+  followingID?: any,
 ) {
+  console.log(req.query, "req.query");
   const populateOptions = populateOption.split(" ");
   const queryObject = { ...req.query };
   const excludedFields = ["page", "sort", "limit", "fields", "search"]; // need to exclude because it will interfere with mongo query

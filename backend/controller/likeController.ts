@@ -31,6 +31,7 @@ export const likePost = catchAsync(
       });
       await Post.findByIdAndUpdate(postId, {
         $pull: { likes: existingLike.id },
+        $inc: { likesCount: -1 },
       });
       res.status(200).json({ message: " like remove", likePost });
     } else {
@@ -50,6 +51,7 @@ export const likePost = catchAsync(
       });
       await Post.findByIdAndUpdate(postId, {
         $push: { likes: likePost.id },
+        $inc: { likesCount: 1 },
       });
 
       res.status(200).json({ message: " like added", likePost });

@@ -7,6 +7,7 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["react-error-boundary"],
   },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

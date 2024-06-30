@@ -4,9 +4,11 @@ import { Post } from "./postModel";
 interface likeType {
   user: mongoose.Schema.Types.ObjectId;
   post: mongoose.Schema.Types.ObjectId;
+  likesCount: number;
 }
 
 const likeSchema = new mongoose.Schema<likeType>({
+  likesCount: { type: Number, default: 0 },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   post: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
 });

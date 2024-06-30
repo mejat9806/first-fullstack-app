@@ -32,9 +32,13 @@ import { PostLayout } from "./components/component/ui_components/PostComponent/P
 import PostDeepIntoComment from "./components/component/ui_components/PostComponent/PostDeepIntoComment";
 import CommentLayout from "./components/component/ui_components/PostComponent/CommentLayout";
 import { CommentItem } from "./components/component/ui_components/PostComponent/CommentItem";
-axios.defaults.baseURL = `http://localhost:8000/api/`;
+axios.defaults.baseURL =
+  import.meta.env.VITE_ENV === "development"
+    ? import.meta.env.VITE_DEVELOPMENT_URL
+    : import.meta.env.VITE_PRODUCTION_URL;
 axios.defaults.withCredentials = true; // default
 
+console.log(import.meta.env.VITE_ENV, "env");
 function App() {
   const { theme } = useTheme();
   const [isLoading, setLoading] = useState(true);

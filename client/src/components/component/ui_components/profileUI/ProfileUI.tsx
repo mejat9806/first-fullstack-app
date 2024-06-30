@@ -101,11 +101,12 @@ const ProfileUI = () => {
   }
   console.log({ userProfileData });
   const shouldRenderButton = userProfileData.id === user._id;
-  const follower = userProfileData.followers.map(
-    (follow: Ifollow) => follow.user,
+  const following = userProfileData.followers.map(
+    (follow: Ifollow) => follow.user.id,
   );
-  const isFollow = follower.includes(user.id);
-  console.log(follower, "isFOllow");
+  console.log(following, "following");
+  const isFollow = following.includes(user.id);
+  console.log(following, "isFOllow");
   const togglingFollow = () => {
     ToggleFollow(userProfileData.id);
   };

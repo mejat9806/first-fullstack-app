@@ -43,6 +43,7 @@ const postSchema = new mongoose.Schema<PostType>(
       type: Date,
       default: Date.now,
     },
+    likesCount: { type: "number", default: 0 },
     slug: { type: "string" },
     image: [String],
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],

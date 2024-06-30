@@ -44,13 +44,13 @@ const DialogFN = ({
         type="image"
         className={`${
           type === "image"
-            ? "bg-transparent px-10 border-none shadow-none"
+            ? "bg-transparent px-10 border-none shadow-none "
             : " py-10"
-        } w-[100%]  ${currentPage === "crop-img" ? "h-1/2" : "h-fit"}`}
+        } max-w-4xl ${currentPage === "crop-img" ? "h-1/2" : "h-fit"}`}
       >
         <DialogHeader>
           {type === "image" && image && (
-            <DialogDescription className="w-full  h-full">
+            <DialogDescription className="w-[100%]  h-full ">
               <CarouselComp
                 imageProp={image}
                 setOpenImage={setIsOpen}

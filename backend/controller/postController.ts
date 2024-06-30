@@ -31,19 +31,29 @@ interface RequestWithUser extends Request {
 }
 export const getLatestPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    req.query.sort = "-createAt";
+    req.query.sort = "createAt";
+    console.log(
+      "getLatestPost middleware - req.query.sort: at latest",
+      req.query.sort,
+    ); // Debug statement
+
     next();
   },
 );
 export const getPopularPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    req.query.sort = "-likesCount";
+    req.query.sort = "-likePosts";
+    console.log(
+      "getLatestPost middleware - req.query.sort: at popular",
+      req.query.sort,
+    ); // Debug statement
+
     next();
   },
 );
+
 export const getAllPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.query);
     const allPostFilter = await apiFeatures(
       Post,
       req,
@@ -51,7 +61,7 @@ export const getAllPost = catchAsync(
       "name  profileImage ",
     );
     const allPost = await allPostFilter;
-
+    console.log(req.query, "query");
     allPost.forEach((post: { author: any }) => {
       // this will loop through and delete the posts array from the author array
       if (post.author && (post.author as any).posts) {
@@ -95,7 +105,7 @@ export const getFriendPost = catchAsync(
     // const getAllPostByUserFollow =
 
     // console.log(followingID, "followingID");
-    res.status(200).json(posts);
+    res.status(200).json({ data: posts });
   },
 );
 

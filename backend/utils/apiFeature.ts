@@ -41,7 +41,6 @@ export async function apiFeatures(
 
   let queryStr = JSON.stringify(queryObject);
   queryStr = queryStr.replace(/\b(gte|gte|lte|lt)\b/g, (match) => `$${match}`); // this is used to change normal gte/lte to mongoDB one with $
-  console.log(followingID, "arrayssss");
 
   let mongoQuery = { ...JSON.parse(queryStr) };
   if (followingID) {

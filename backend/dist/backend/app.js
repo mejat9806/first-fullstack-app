@@ -1,13 +1,13 @@
-import { globalErrorHandler } from "./controller/errorController";
+import { globalErrorHandler } from "./controller/errorController.js";
 import express, { json } from "express";
 import cors from "cors";
-import { router as authRoute } from "./routes/authRoutes";
-import { router as userRoute } from "./routes/userRoute";
-import { router as postRoute } from "./routes/postRoute";
-import { router as commentRoute } from "./routes/commentRoutes";
-import { router as replyRoute } from "./routes/replyRoute";
-import { router as bookmarkRoute } from "./routes/bookMarkRoutes";
-import { router as searchRoute } from "./routes/searchRoutes";
+import { router as authRoute } from "./routes/authRoutes.js";
+import { router as userRoute } from "./routes/userRoute.js";
+import { router as postRoute } from "./routes/postRoute.js";
+import { router as commentRoute } from "./routes/commentRoutes.js";
+import { router as replyRoute } from "./routes/replyRoute.js";
+import { router as bookmarkRoute } from "./routes/bookMarkRoutes.js";
+import { router as searchRoute } from "./routes/searchRoutes.js";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import compression from "compression";
@@ -21,34 +21,34 @@ import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
 const corsOptions = {
-    origin: "https://socialmedia-650u.onrender.com",
-    // origin: "http://localhost:5173",
-    // Allow requests from this origin
-    methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"], // Allow GET and POST requests
-    allowedHeaders: [
-        "Origin",
-        "X-Requested-With",
-        "Content-Type",
-        "Accept",
-        "Authorization",
-        "Set-Cookie",
-        "Access-Control-Allow-Headers",
-        "Access-Control-Expose-Headers",
-    ],
-    // exposedHeaders: ["Content-Length"], // Expose this custom header
-    credentials: true, // Allow credentials (cookies, HTTP authentication)
+  origin: "https://socialmedia-650u.onrender.com",
+  // origin: "http://localhost:5173",
+  // Allow requests from this origin
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"], // Allow GET and POST requests
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "Authorization",
+    "Set-Cookie",
+    "Access-Control-Allow-Headers",
+    "Access-Control-Expose-Headers",
+  ],
+  // exposedHeaders: ["Content-Length"], // Expose this custom header
+  credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 app.use(cors(corsOptions));
 // app.options("*", cors(corsOptions));
 app.use((req, res, next) => {
-    res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-    console.log(res.header, "cross origin");
-    next();
+  res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  console.log(res.header, "cross origin");
+  next();
 });
 const limiter = rateLimit({
-    max: 1000,
-    windowMs: 60 * 60 * 1000, //this allow 100 request in 1 hours
-    message: "To Many request from  this IP ,pls try again in an hours ",
+  max: 1000,
+  windowMs: 60 * 60 * 1000, //this allow 100 request in 1 hours
+  message: "To Many request from  this IP ,pls try again in an hours ",
 });
 app.use("/", limiter);
 app.use(json());

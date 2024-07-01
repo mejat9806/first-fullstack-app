@@ -20,17 +20,10 @@ import { router as likeRouter } from "./routes/likeRoute.js";
 import { globalErrorHandler } from "./controller/errorController.js";
 dotenv.config();
 const corsOptions = {
-  origin: (origin, callback) => {
-    console.log("hello for the TS version");
-    console.log(origin);
-    const allowedOrigins = ["https://socialmedia-650u.onrender.com"];
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"],
+  origin: "https://socialmedia-650u.onrender.com",
+  // origin: "http://localhost:5173",
+  // Allow requests from this origin
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
     "Origin",
     "X-Requested-With",
@@ -38,10 +31,11 @@ const corsOptions = {
     "Accept",
     "Authorization",
     "Set-Cookie",
-    "Access-Control-Allow-Headers",
-    "Access-Control-Expose-Headers",
+    // "Access-Control-Allow-Headers",
+    // "Access-Control-Expose-Headers",
   ],
-  credentials: true,
+  // exposedHeaders: ["Content-Length"], // Expose this custom header
+  credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 console.log(corsOptions.origin, "origin link");
 console.log("dadasdasdsad");

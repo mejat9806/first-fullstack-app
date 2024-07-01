@@ -25,8 +25,8 @@ import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
 const corsOptions = {
-  // origin: "https://socialmedia-650u.onrender.com",
-  origin: ["https://socialmedia-650u.onrender.com", "http://localhost:5173"],
+  origin: "https://socialmedia-650u.onrender.com",
+  // origin: ["https://socialmedia-650u.onrender.com", "http://localhost:5173"],
   // origin: ["https://socialmedia-650u.onrender.com", "http://localhost:5173"],
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [

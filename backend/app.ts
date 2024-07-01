@@ -30,11 +30,14 @@ const corsOptions = {
   // Allow requests from this origin
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
-    "set-cookie",
+    "Origin",
+    "X-Requested-With",
     "Content-Type",
-    "Access-Control-Allow-Origin ",
+    "Accept",
     "Authorization",
-    "Access-Control-Allow-Credentials",
+    "Set-Cookie",
+    "Access-Control-Allow-Headers",
+    "Access-Control-Expose-Headers",
   ],
   // exposedHeaders: ["Content-Length"], // Expose this custom header
   credentials: true, // Allow credentials (cookies, HTTP authentication)

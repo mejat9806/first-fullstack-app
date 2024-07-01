@@ -42,8 +42,9 @@ const corsOptions = {
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
-
+app.options("*", cors(corsOptions), (req, res) => {
+  res.status(204).end();
+});
 // app.options("*", cors(corsOptions));
 
 const limiter = rateLimit({
@@ -68,6 +69,9 @@ const __dirname = dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(compression());
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);

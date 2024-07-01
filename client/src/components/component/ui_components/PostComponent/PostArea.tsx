@@ -17,7 +17,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   const queryClient = useQueryClient();
 
   //use type here to dynamically fetch data base on what the page want like recent or popular
-  let postType = fetchAllPost;
+  let postType = fetchFollowUserPost;
   if (fetchType === "recent") {
     postType = fetchlatest;
   }

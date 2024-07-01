@@ -1,12 +1,12 @@
 import express, { json } from "express";
 import cors from "cors";
-import { router as authRoute } from "./routes/authRoutes";
-import { router as userRoute } from "./routes/userRoute";
-import { router as postRoute } from "./routes/postRoute";
-import { router as commentRoute } from "./routes/commentRoutes";
-import { router as replyRoute } from "./routes/replyRoute";
-import { router as bookmarkRoute } from "./routes/bookMarkRoutes";
-import { router as searchRoute } from "./routes/searchRoutes";
+import { router as authRoute } from "./routes/authRoutes.js";
+import { router as userRoute } from "./routes/userRoute.js";
+import { router as postRoute } from "./routes/postRoute.js";
+import { router as commentRoute } from "./routes/commentRoutes.js";
+import { router as replyRoute } from "./routes/replyRoute.js";
+import { router as bookmarkRoute } from "./routes/bookMarkRoutes.js";
+import { router as searchRoute } from "./routes/searchRoutes.js";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import compression from "compression";
@@ -22,20 +22,10 @@ import { globalErrorHandler } from "./controller/errorController.js";
 dotenv.config();
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    console.log("hello for the TS version");
-
-    const allowedOrigins = [
-      "https://socialmedia-650u.onrender.com",
-      "http://localhost:5173",
-    ];
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"],
+  origin: "https://socialmedia-650u.onrender.com",
+  // origin: "http://localhost:5173",
+  // Allow requests from this origin
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
     "Origin",
     "X-Requested-With",
@@ -43,10 +33,11 @@ const corsOptions = {
     "Accept",
     "Authorization",
     "Set-Cookie",
-    "Access-Control-Allow-Headers",
-    "Access-Control-Expose-Headers",
+    // "Access-Control-Allow-Headers",
+    // "Access-Control-Expose-Headers",
   ],
-  credentials: true,
+  // exposedHeaders: ["Content-Length"], // Expose this custom header
+  credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 
 export const app = express();

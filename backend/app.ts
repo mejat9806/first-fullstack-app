@@ -27,22 +27,23 @@ dotenv.config();
 export const app = express();
 
 const corsOptions = {
-  origin: "https://socialmedia-650u.onrender.com",
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
+  origin: ["http://localhost:5173", "https://socialmedia-650u.onrender.com"],
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
   preflightContinue: false,
   allowedHeaders: [
     "Origin",
     "X-Requested-With",
     "Content-Type",
-    "Access-Control-Allow-Headers",
     "Accept",
     "Authorization",
-    " Access-Control-Expose-Headers",
     "Set-Cookie",
+    "Access-Control-Allow-Headers",
+    "Access-Control-Expose-Headers",
   ],
-
-  credentials: true, // Allow credentials (cookies, HTTP authentication)
+  credentials: true,
 };
+
+app.use(cors(corsOptions));
 
 app.use(cors(corsOptions));
 // app.use((req, res, next) => {

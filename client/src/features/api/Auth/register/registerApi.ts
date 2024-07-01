@@ -1,5 +1,4 @@
 import { apiClient } from "@/utils/axios";
-import axios from "axios";
 
 interface RegisterType {
   email: string;

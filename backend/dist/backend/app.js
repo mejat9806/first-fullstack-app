@@ -37,7 +37,7 @@ const corsOptions = {
   exposedHeaders: ["Content-Length"], // Expose this custom header
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
-console.log(corsOptions.origin);
+console.log(corsOptions.origin, "origin link");
 export const app = express();
 app.use(cors(corsOptions));
 app.use((req, res, next) => {

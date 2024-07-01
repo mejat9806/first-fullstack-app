@@ -36,8 +36,8 @@ const corsOptions = {
     "Accept",
     "Authorization",
     "Set-Cookie",
-    "Access-Control-Allow-Headers",
-    "Access-Control-Expose-Headers",
+    // "Access-Control-Allow-Headers",
+    // "Access-Control-Expose-Headers",
   ],
   // exposedHeaders: ["Content-Length"], // Expose this custom header
   credentials: true, // Allow credentials (cookies, HTTP authentication)
@@ -47,6 +47,7 @@ app.use(cors(corsOptions));
 // app.options("*", cors(corsOptions));
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+  console.log(res.header);
   next();
 });
 

@@ -24,26 +24,19 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
-// const corsOptions = {
-//   origin: "https://socialmedia-650u.onrender.com", // Update with your frontend URL
-//   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
-//   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
-// };
-// app.use(cors(corsOptions));
-// app.options("*", cors(corsOptions));
 
 // app.options("*", cors(corsOptions));
-app.use(function (req, res: Response, next) {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://socialmedia-650u.onrender.com",
-  ); // update to match the domain you will make the request from
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept",
-  );
-  next();
-});
+// app.use(function (req, res: Response, next) {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     "https://socialmedia-650u.onrender.com",
+//   ); // update to match the domain you will make the request from
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept",
+//   );
+//   next();
+// });
 const limiter = rateLimit({
   max: 1000,
   windowMs: 60 * 60 * 1000, //this allow 100 request in 1 hours
@@ -64,7 +57,22 @@ app.use(express.urlencoded({ extended: true }));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
-
+const corsOptions = {
+  origin: "https://socialmedia-650u.onrender.com", // Your frontend URL
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+  allowedHeaders: [
+    "Origin",
+    "X-Requested-With",
+    "Content-Type",
+    "Accept",
+    "Authorization",
+    "Access-Control-Allow-Credentials",
+    "Set-Cookie",
+  ],
+  credentials: true, // Allow credentials (cookies, HTTP authentication)
+};
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(compression());
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);

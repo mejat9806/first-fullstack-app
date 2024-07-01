@@ -23,6 +23,7 @@ dotenv.config();
 
 const corsOptions = {
   origin: (origin, callback) => {
+    console.log("hello for the js version");
     const allowedOrigins = [
       "https://socialmedia-650u.onrender.com",
       "http://localhost:5173",

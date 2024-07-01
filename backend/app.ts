@@ -27,7 +27,7 @@ dotenv.config();
 export const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:5173", "https://socialmedia-650u.onrender.com"],
+  origin: ["https://socialmedia-650u.onrender.com"],
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
   preflightContinue: false,
   allowedHeaders: [

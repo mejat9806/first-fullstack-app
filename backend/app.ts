@@ -57,9 +57,13 @@ app.use((req, res, next) => {
   next();
 });
 // Handle preflight requests
-app.options("*", cors(corsOptions), (req, res) => {
-  res.status(204).end();
-});
+app.options(
+  "https://socialmedia-650u.onrender.com",
+  cors(corsOptions),
+  (req, res) => {
+    res.status(204).json("hello from server").end();
+  },
+);
 
 const limiter = rateLimit({
   max: 1000,

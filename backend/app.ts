@@ -28,7 +28,7 @@ const corsOptions = {
   origin: "https://socialmedia-650u.onrender.com",
   // origin: "http://localhost:5173",
   // Allow requests from this origin
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"], // Allow GET and POST requests
   allowedHeaders: [
     "Origin",
     "X-Requested-With",

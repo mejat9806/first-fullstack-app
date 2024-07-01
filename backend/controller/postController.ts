@@ -159,9 +159,6 @@ export const getOnePost = catchAsync(
         },
       });
 
-    if (!data) {
-      return next(AppError("No Post found", 404));
-    }
     res.status(200).json(data);
   },
 );

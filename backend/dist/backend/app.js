@@ -47,7 +47,7 @@ const corsOptions = {
   ],
   credentials: true,
 };
-
+console.log(corsOptions, "corsOptions");
 export const app = express();
 
 app.use(cors(corsOptions));

@@ -55,7 +55,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
 
   console.log(data, "in POST");
   if (!data) {
-    throw new Error("something goes wrong");
+    return <LoadingPage />;
   }
   console.log(data, "postArea");
   if (data.pages[0].data.length === 0) {

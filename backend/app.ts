@@ -29,6 +29,7 @@ export const app = express();
 const corsOptions = {
   origin: "https://socialmedia-650u.onrender.com",
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
+  preflightContinue: false,
   allowedHeaders: [
     "Origin",
     "X-Requested-With",
@@ -37,33 +38,31 @@ const corsOptions = {
     "Access-Control-Allow-Headers",
     "Accept",
     "Authorization",
+    " Access-Control-Expose-Headers",
     "Set-Cookie",
   ],
+
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 
 app.use(cors(corsOptions));
-app.use((req, res, next) => {
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://socialmedia-650u.onrender.com",
-  );
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, PATCH");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.header(
+//     "Access-Control-Allow-Origin",
+//     "https://socialmedia-650u.onrender.com",
+//   );
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
+//   );
+//   res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, PATCH");
+//   res.header("Access-Control-Allow-Credentials", "true");
+//   next();
+// });
 // Handle preflight requests
-app.options(
-  "https://socialmedia-650u.onrender.com",
-  cors(corsOptions),
-  (req, res) => {
-    res.status(204).json("hello from server").end();
-  },
-);
+app.options("*", cors(corsOptions), (req, res) => {
+  res.status(204).json("hello from server").end();
+});
 
 const limiter = rateLimit({
   max: 1000,

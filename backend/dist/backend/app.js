@@ -18,16 +18,12 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 import { globalErrorHandler } from "./controller/errorController.js";
-
 dotenv.config();
-
 const corsOptions = {
   origin: (origin, callback) => {
-    console.log("hello for the js version");
-    const allowedOrigins = [
-      "https://socialmedia-650u.onrender.com",
-      "http://localhost:5173",
-    ];
+    console.log("hello for the TS version");
+    console.log(origin);
+    const allowedOrigins = ["https://socialmedia-650u.onrender.com"];
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
@@ -47,21 +43,19 @@ const corsOptions = {
   ],
   credentials: true,
 };
-console.log(corsOptions, "corsOptions");
+console.log(corsOptions.origin, "origin link");
+console.log("dadasdasdsad");
 export const app = express();
-
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
   next();
 });
-
 const limiter = rateLimit({
   max: 1000,
   windowMs: 60 * 60 * 1000,
   message: "Too many requests from this IP, please try again in an hour.",
 });
-
 app.use("/", limiter);
 app.use(json());
 app.use(morgan("dev"));
@@ -69,13 +63,10 @@ app.use(ExpressMongoSanitize());
 app.use(xss());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 app.use(express.static(path.join(__dirname, "public")));
 app.use(compression());
-
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
@@ -84,5 +75,4 @@ app.use("/api/comment", commentRoute);
 app.use("/api/reply", replyRoute);
 app.use("/api/bookmark", bookmarkRoute);
 app.use("/api/search", searchRoute);
-
 app.use(globalErrorHandler);

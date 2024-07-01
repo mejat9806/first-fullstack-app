@@ -101,9 +101,6 @@ export const getOnePost = catchAsync(async (req, res, next) => {
             },
         },
     });
-    if (!data) {
-        return next(AppError("No Post found", 404));
-    }
     res.status(200).json(data);
 });
 //!this will save the data to memory

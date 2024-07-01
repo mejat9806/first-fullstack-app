@@ -32,39 +32,70 @@ const sendErrorDev = (req: Request, res: Response, err: any) => {
   }
 };
 
+// const sendErrorProd = (req: Request, res: Response, err: any) => {
+//   //this for api
+//   if (req.originalUrl.startsWith("/api")) {
+//     //operational error ,trusted error :send message to client
+//     if (err.isOperational) {
+//       // part II then this will run
+//       return res.status(err.statusCode).json({
+//         status: err.status,
+//         message: err.message,
+//       });
+//     }
+//     //this is programing or other unknow error : dont leak error detail
+//     //this is like  the mongoose error
+//     return res.status(500).json({
+//       status: "error",
+//       message: "something when wrong",
+//     });
+//   }
+//   //this for render website
+
+//   if (err.isOperational) {
+//     return res.status(err.statusCode).render("error", {
+//       tittle: "some went wrong",
+//       msg: err.message,
+//     });
+//   }
+//   // programing or other unknow error : dont leak error detail for render website
+//   return res.status(err.statusCode).render("error", {
+//     tittle: "some went wrong",
+//     msg: "please try again",
+//   });
+// };
 const sendErrorProd = (req: Request, res: Response, err: any) => {
-  //this for api
+  // For API requests
   if (req.originalUrl.startsWith("/api")) {
-    //operational error ,trusted error :send message to client
+    // Operational error: Send specific error message to client
     if (err.isOperational) {
-      // part II then this will run
       return res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
       });
+    } else {
+      // Programming or unknown error: Don't leak error details
+      return res.status(500).json({
+        status: "error",
+        message: "Something went wrong",
+      });
     }
-    //this is programing or other unknow error : dont leak error detail
-    //this is like  the mongoose error
-    return res.status(500).json({
-      status: "error",
-      message: "something when wrong",
-    });
+  } else {
+    // For rendering requests
+    if (err.isOperational) {
+      return res.status(err.statusCode).render("error", {
+        title: "Something went wrong",
+        msg: err.message,
+      });
+    } else {
+      // Programming or unknown error: Don't leak error details
+      return res.status(err.statusCode).render("error", {
+        title: "Something went wrong",
+        msg: "Please try again",
+      });
+    }
   }
-  //this for render website
-
-  if (err.isOperational) {
-    return res.status(err.statusCode).render("error", {
-      tittle: "some went wrong",
-      msg: err.message,
-    });
-  }
-  // programing or other unknow error : dont leak error detail for render website
-  return res.status(err.statusCode).render("error", {
-    tittle: "some went wrong",
-    msg: "please try again",
-  });
 };
-
 export function globalErrorHandler(
   err: any, //this come from AppError
   req: Request,

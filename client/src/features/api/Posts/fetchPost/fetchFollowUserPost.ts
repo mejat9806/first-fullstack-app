@@ -5,6 +5,6 @@ export const fetchFollowUserPost = async ({
 }: {
   pageParam: number;
 }) => {
-  const response = await axios.get(`posts/following/?page=${pageParam}`);
+  const response = await axios.get(`posts/?page=${pageParam}`);
   return response.data;
 };

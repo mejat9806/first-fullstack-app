@@ -105,7 +105,7 @@ export const getFriendPost = catchAsync(
     // const getAllPostByUserFollow =
 
     // console.log(followingID, "followingID");
-    res.status(200).json({ data: posts });
+    res.status(200).json({ data: posts, message: "this is following data" });
   },
 );
 

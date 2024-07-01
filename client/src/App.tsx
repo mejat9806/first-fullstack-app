@@ -37,7 +37,7 @@ axios.defaults.baseURL =
     : import.meta.env.VITE_DEVELOPMENT_URL;
 axios.defaults.withCredentials = true; // default
 axios.defaults.headers.common["Accept"] = "application/json, text/plain, */*";
-axios.defaults.headers.common["Content-Type"] = "application/json";
+axios.defaults.headers.common["withCredentials "] = true;
 // axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
 console.log(axios.defaults.baseURL, "env");
 function App() {

@@ -117,7 +117,7 @@ const ProfileUI = () => {
           {userProfileData.bannerImage ? (
             <div className="w-full md:h-[300px] h-[200px] relative bg-black">
               <img
-                src={`${baseUrl}img/posts/${userProfileData.bannerImage}`}
+                src={`img/posts/${userProfileData.bannerImage}`}
                 alt=""
                 className="h-full w-full "
               />

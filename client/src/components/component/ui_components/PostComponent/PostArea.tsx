@@ -17,12 +17,12 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   const queryClient = useQueryClient();
 
   //use type here to dynamically fetch data base on what the page want like recent or popular
-  let postType = fetchFollowUserPost;
+  let postType = fetchAllPost;
   if (fetchType === "recent") {
-    postType = fetchlatest;
+    postType = fetchFollowUserPost;
   }
   if (fetchType === "home") {
-    postType = fetchFollowUserPost;
+    postType = fetchlatest;
   }
   if (fetchType === "popular") {
     postType = fetchAllPost;
@@ -55,9 +55,9 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
 
   console.log(data, "in POST");
   if (!data) {
-    return <LoadingPage />;
+    return;
   }
-  console.log(data, "postArea");
+  console.log(data.pages[0].data.length, "postArea");
   if (data.pages[0].data.length === 0) {
     return (
       <div className="w-[300px] md:w-[500px] h-full flex justify-center items-center mt-10">

@@ -42,7 +42,7 @@ export const getLatestPost = catchAsync(
 );
 export const getPopularPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    req.query.sort = "-likesCount";
+    req.query.sort = "-likeCount";
     console.log(
       "getLatestPost middleware - req.query.sort: at popular",
       req.query.sort,
@@ -54,7 +54,6 @@ export const getPopularPost = catchAsync(
 
 export const getAllPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.query.sort, "in get all post");
     const allPostFilter = await apiFeatures(
       Post,
       req,
@@ -106,7 +105,7 @@ export const getFriendPost = catchAsync(
     // const getAllPostByUserFollow =
 
     // console.log(followingID, "followingID");
-    res.status(200).json(posts);
+    res.status(200).json({ data: posts });
   },
 );
 

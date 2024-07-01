@@ -48,7 +48,7 @@ export const useGetAllPost = ({
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,
     getNextPageParam: (lastPage, allPages) => {
-      return lastPage.data.length ? allPages.length + 1 : undefined;
+      return lastPage.data?.length ? allPages?.length + 1 : undefined;
     },
   });
 

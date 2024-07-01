@@ -1,6 +1,6 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const forgotPassword = async (email: string) => {
-  const response = await axios.post("/auth/forgotPassword", { email });
+  const response = await apiClient.post("/auth/forgotPassword", { email });
   return response;
 };

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const loginApi = async ({
   email,
@@ -7,7 +7,7 @@ export const loginApi = async ({
   email: string;
   password: string;
 }) => {
-  const response = await axios.post("auth/login", { email, password });
+  const response = await apiClient.post("auth/login", { email, password });
   console.log(response);
   return response;
 };

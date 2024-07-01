@@ -1,6 +1,6 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const getCommentApi = async (Id: string) => {
-  const response = await axios.get(`/comment/${Id}`);
+  const response = await apiClient.get(`/comment/${Id}`);
   return response.data;
 };

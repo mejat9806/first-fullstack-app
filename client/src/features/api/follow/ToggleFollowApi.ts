@@ -1,6 +1,6 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const ToggleFollowApi = async (userId: string) => {
-  const response = await axios.post(`/users/follow/${userId}`);
+  const response = await apiClient.post(`/users/follow/${userId}`);
   return response;
 };

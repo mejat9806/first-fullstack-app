@@ -31,12 +31,13 @@ import { PostLayout } from "./components/component/ui_components/PostComponent/P
 import PostDeepIntoComment from "./components/component/ui_components/PostComponent/PostDeepIntoComment";
 import CommentLayout from "./components/component/ui_components/PostComponent/CommentLayout";
 import { CommentItem } from "./components/component/ui_components/PostComponent/CommentItem";
-axios.defaults.baseURL =
-  import.meta.env.Vite_ENV === "development"
-    ? import.meta.env.VITE_DEVELOPMENT_URL
-    : import.meta.env.VITE_DEVELOPMENT_URL;
-axios.defaults.withCredentials = true; // default
-axios.defaults.headers.common["Accept"] = "application/json, text/plain, */*";
+// axios.defaults.baseURL =
+//   import.meta.env.Vite_ENV === "development"
+//     ? import.meta.env.VITE_DEVELOPMENT_URL
+//     : import.meta.env.VITE_DEVELOPMENT_URL;
+// axios.defaults.withCredentials = true; // default
+// axios.defaults.headers.common["Accept"] = "application/json, text/plain, */*";
+
 // axios.defaults.headers.common["withCredentials "] = true;
 // axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
 console.log(axios.defaults.baseURL, "env");

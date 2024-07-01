@@ -1,3 +1,4 @@
+import { apiClient } from "@/utils/axios";
 import axios from "axios";
 
 interface RegisterType {
@@ -13,7 +14,7 @@ export const registerApi = async ({
   passwordConfirm,
   name,
 }: RegisterType) => {
-  const data = await axios.post(
+  const data = await apiClient.post(
     "auth/register",
     {
       email,

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const resetPassword = async ({
   password,
@@ -9,7 +9,7 @@ export const resetPassword = async ({
   passwordConfirmed: string;
   resetToken: string;
 }) => {
-  const response = await axios.patch(`auth/resetPassword/${resetToken}`, {
+  const response = await apiClient.patch(`auth/resetPassword/${resetToken}`, {
     password,
     passwordConfirmed,
   });

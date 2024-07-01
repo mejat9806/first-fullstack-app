@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 interface Ibookmark {
   post: string;
@@ -7,7 +7,7 @@ interface Ibookmark {
   createAt: string;
 }
 const bookmarkApi = async (postId: string) => {
-  const response = await axios.post<Ibookmark>(
+  const response = await apiClient.post<Ibookmark>(
     `bookmark/addBookmark/${postId}`,
   );
   return response;

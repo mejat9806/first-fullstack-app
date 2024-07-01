@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const getReplyApi = async ({
   postId,
@@ -7,6 +7,6 @@ export const getReplyApi = async ({
   postId: string;
   replyId: string;
 }) => {
-  const respose = await axios.get(`/reply/${postId}/${replyId}`);
+  const respose = await apiClient.get(`/reply/${postId}/${replyId}`);
   return respose.data.reply;
 };

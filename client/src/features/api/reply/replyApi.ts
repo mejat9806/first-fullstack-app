@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const replyApi = async ({
   postId,
@@ -9,7 +9,7 @@ export const replyApi = async ({
   commentId: string;
   commentText: string;
 }) => {
-  const response = await axios.post(`comment/${postId}/${commentId}`, {
+  const response = await apiClient.post(`comment/${postId}/${commentId}`, {
     commentText,
   });
   return response;

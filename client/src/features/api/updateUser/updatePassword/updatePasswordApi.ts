@@ -1,4 +1,5 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
+
 interface IPasswordUpdate {
   currentPassword: string;
   newPassword: string;
@@ -11,7 +12,7 @@ export const updatePasswordApi = async ({
   passwordConfirm,
 }: IPasswordUpdate) => {
   console.log(currentPassword, newPassword, passwordConfirm);
-  const response = await axios.patch("/auth/updatePassword", {
+  const response = await apiClient.patch("/auth/updatePassword", {
     currentPassword: currentPassword,
     password: newPassword,
     passwordConfirmed: passwordConfirm,

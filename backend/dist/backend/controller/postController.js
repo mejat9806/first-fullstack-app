@@ -10,16 +10,17 @@ import { deleteImage } from "../utils/deleteIMG.js";
 import { Like } from "../model/likeModel.js";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";
 export const getLatestPost = catchAsync(async (req, res, next) => {
-    req.query.sort = "createAt";
+    req.query.sort = "-createAt";
     console.log("getLatestPost middleware - req.query.sort: at latest", req.query.sort); // Debug statement
     next();
 });
 export const getPopularPost = catchAsync(async (req, res, next) => {
-    req.query.sort = "-likePosts";
+    req.query.sort = "-likesCount";
     console.log("getLatestPost middleware - req.query.sort: at popular", req.query.sort); // Debug statement
     next();
 });
 export const getAllPost = catchAsync(async (req, res, next) => {
+    console.log(req.query.sort, "in get all post");
     const allPostFilter = await apiFeatures(Post, req, "likes author", "name  profileImage ");
     const allPost = await allPostFilter;
     console.log(req.query, "query");
@@ -54,7 +55,7 @@ export const getFriendPost = catchAsync(async (req, res, next) => {
     // const posts = await Post.find({ author: { $in: followingID } });
     // const getAllPostByUserFollow =
     // console.log(followingID, "followingID");
-    res.status(200).json({ data: posts, message: "this is following data" });
+    res.status(200).json(posts);
 });
 // export const getAllPost = async (
 //   req: Request,

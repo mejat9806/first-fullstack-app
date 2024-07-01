@@ -1,20 +1,8 @@
 import { Router } from "express";
-import {
-  loginUser,
-  registerUser,
-  logout,
-  resizeUserPhoto,
-  updateMe,
-  forgotPassword,
-  resetPassword,
-  updatePassword,
-  isLogin,
-  uploadImage,
-} from "../controller/authController.js";
+import { loginUser, registerUser, logout, resizeUserPhoto, updateMe, forgotPassword, resetPassword, updatePassword, isLogin, uploadImage, } from "../controller/authController.js";
 import { verifyJWT } from "../middleware/verifyToken.js";
 import { validateEmail } from "../controller/validationApi.js";
 export const router = Router();
-
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logout);

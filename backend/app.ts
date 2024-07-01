@@ -25,22 +25,12 @@ import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
 const corsOptions = {
-  origin: "https://socialmedia-650u.onrender.com",
-  // origin: "http://localhost:5173",
-  // Allow requests from this origin
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
-  allowedHeaders: [
-    "set-cookie",
-    "Content-Type",
-    "Access-Control-Allow-Origin ",
-    "Authorization",
-    "Access-Control-Allow-Credentials",
-  ],
-  // exposedHeaders: ["Content-Length"], // Expose this custom header
-  credentials: true, // Allow credentials (cookies, HTTP authentication)
+  origin: "https://socialmedia-650u.onrender.com", // Update with your frontend URL
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
 };
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// app.options("*", cors(corsOptions));
 
 // app.options("*", cors(corsOptions));
 

@@ -31,10 +31,10 @@ const corsOptions = {
     "Accept",
     "Authorization",
     "Set-Cookie",
-    // "Access-Control-Allow-Headers",
-    // "Access-Control-Expose-Headers",
+    "Access-Control-Allow-Headers",
+    "Access-Control-Expose-Headers",
   ],
-  // exposedHeaders: ["Content-Length"], // Expose this custom header
+  exposedHeaders: ["Content-Length"], // Expose this custom header
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 console.log(corsOptions.origin, "origin link");
@@ -61,7 +61,26 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 app.use(compression());
-app.use("/api/auth", authRoute);
+app.use(
+  "/api/auth",
+  (req, res) => {
+    // Set CORS headers for this specific route
+    res.setHeader(
+      "Access-Control-Allow-Origin",
+      "https://socialmedia-650u.onrender.com",
+    );
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization",
+    );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+
+    // Your route logic here
+    res.json({ message: "Hello from /api/example" });
+  },
+  authRoute,
+);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/likeDislike", likeRouter);

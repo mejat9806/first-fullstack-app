@@ -1,8 +1,8 @@
-import { useRefreshLogin } from "@/features/api/Auth/login/useRefreshLogin";
+// import { useRefreshLogin } from "@/features/api/Auth/login/useRefreshLogin";
 import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
 import { UserType } from "@/utils/type";
 
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 import { createContext } from "react";
 
@@ -20,13 +20,13 @@ export const UserContext = createContext<{
 export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserType | null>(null);
   const [comment, setComment] = useState<Icomment | null>(null);
-  const accesstoken = user?.accessToken || "";
-  const { refreshLoginData } = useRefreshLogin(accesstoken);
-  useEffect(() => {
-    if (refreshLoginData) {
-      setUser(refreshLoginData);
-    }
-  }, [refreshLoginData]);
+  // const accesstoken = user?.accessToken || "";
+  // const { refreshLoginData } = useRefreshLogin(accesstoken);
+  // useEffect(() => {
+  //   if (refreshLoginData) {
+  //     setUser(refreshLoginData);
+  //   }
+  // }, [refreshLoginData]);
   // useEffect(() => {
   //   const accesstoken = user?.accessToken;
 

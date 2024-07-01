@@ -1,5 +1,3 @@
-import { IEmail } from "@/utils/type";
-
 import {
   Body,
   Button,
@@ -9,7 +7,13 @@ import {
   Tailwind,
 } from "@react-email/components";
 
-export default function WelcomeEmail({ name, url }: IEmail) {
+export default function WelcomeEmail({
+  name,
+  url,
+}: {
+  name: string;
+  url: string;
+}) {
   return (
     <Html style={{ height: "100%", width: "100%" }}>
       <Tailwind>

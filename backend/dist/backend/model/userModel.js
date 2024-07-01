@@ -19,6 +19,9 @@ const userSchema = new mongoose.Schema({
         required: [true, "password is required"],
         minlength: 8,
     },
+    likePosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
+    bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: "BookMark" }],
+    joinDate: { type: Date, default: Date.now() },
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     passwordConfirmed: String,
     profileImage: { type: String, default: "defaultUser.svg" },
@@ -26,6 +29,12 @@ const userSchema = new mongoose.Schema({
     passwordChangedAt: Date,
     passwordResetToken: String,
     passwordResetExpired: Date,
+    bio: { type: String },
+    bannerImage: { type: String },
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "Follower" }],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Follower" }],
+    followCount: { type: Number, default: 0 },
+    followerCount: { type: Number, default: 0 },
 }, {
     toJSON: {
         virtuals: true,
@@ -55,17 +64,65 @@ userSchema.methods.comparePassword = async function (inputPassword, passFromDB) 
     return bcrypt.compare(inputPassword, passFromDB);
 };
 // Explicitly type the 'this' context as a Mongoose query object for query middleware hooks
-userSchema.pre(/^find/, function (next) {
-    this.populate({
-        path: "posts",
-    });
-    next();
-});
-userSchema.pre(/^find/, function (next) {
-    //use type Query for query middleware
-    this.find({ active: { $ne: false } });
-    next();
-});
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "posts",
+//     model: "Post",
+//   });
+//   next();
+// });
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "bookmark",
+//     model: "BookMark",
+//   });
+//   next();
+// });
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "likePosts",
+//     populate: [
+//       {
+//         path: "user",
+//         model: "User",
+//       },
+//       {
+//         path: "post",
+//         model: "Post",
+//       },
+//     ],
+//   });
+//   next();
+// });
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "followers",
+//     model: "Follower",
+//   });
+//   next();
+// });
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "following",
+//     model: "Follower",
+//   });
+//   next();
+// });
+// userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
+//   this.populate([
+//     {
+//       path: "followers",
+//       model: "Follower",
+//       populate: {
+//         path: "user",
+//         model: "User",
+//         select: "-posts",
+//       },
+//     },
+//     { path: "following", model: "Follower" },
+//   ]);
+//   next();
+// });
 userSchema.methods.changedPasswordAfter = function (JWTtimestamp) {
     //this will update the password after change time
     if (this.passwordChangedAt) {

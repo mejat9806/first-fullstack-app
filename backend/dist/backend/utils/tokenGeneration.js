@@ -21,13 +21,15 @@ export const createSendToken = (user, statusCode, res) => {
     res.cookie("token", accessToken, {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
-        sameSite: "lax",
+        sameSite: "strict",
+        // sameSite: "lax",
     });
     res.cookie("refreshToken", refreshToken, {
         expires: new Date(Date.now() + refreshCookieExpiresIn * 24 * 60 * 60 * 1000),
         secure: true,
         httpOnly: true,
-        sameSite: "none",
+        sameSite: "strict",
+        // sameSite: "none",
     });
     res.status(statusCode).json({
         accessToken,

@@ -7,9 +7,22 @@ import multer from "multer";
 import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
 import { deleteImage } from "../utils/deleteIMG.js";
+import { Like } from "../model/likeModel.js";
+import { filterObjectsForUpdate } from "../utils/filterObject.js";
+export const getLatestPost = catchAsync(async (req, res, next) => {
+    req.query.sort = "createAt";
+    console.log("getLatestPost middleware - req.query.sort: at latest", req.query.sort); // Debug statement
+    next();
+});
+export const getPopularPost = catchAsync(async (req, res, next) => {
+    req.query.sort = "-likePosts";
+    console.log("getLatestPost middleware - req.query.sort: at popular", req.query.sort); // Debug statement
+    next();
+});
 export const getAllPost = catchAsync(async (req, res, next) => {
-    const allPostFilter = await apiFeatures(Post, req, "author", "name  profileImage ");
+    const allPostFilter = await apiFeatures(Post, req, "likes author", "name  profileImage ");
     const allPost = await allPostFilter;
+    console.log(req.query, "query");
     allPost.forEach((post) => {
         // this will loop through and delete the posts array from the author array
         if (post.author && post.author.posts) {
@@ -20,17 +33,37 @@ export const getAllPost = catchAsync(async (req, res, next) => {
         data: allPost,
     });
 });
+export const getFriendPost = catchAsync(async (req, res, next) => {
+    const user = req.user;
+    if (!user) {
+        return AppError("please log in", 401);
+    }
+    console.log(user.id);
+    const userLogin = await User.findById(user.id).populate({
+        path: "following",
+        model: "Follower",
+    });
+    if (!userLogin) {
+        return AppError("Something goes wrong", 404);
+    }
+    console.log(userLogin, "check userLogin");
+    const followingID = userLogin.following.map((follow) => follow.followedUser);
+    console.log(followingID, "followingID");
+    const allPostFilter = await apiFeatures(Post, req, "likes author", "name  profileImage ", followingID);
+    const posts = await allPostFilter;
+    // const posts = await Post.find({ author: { $in: followingID } });
+    // const getAllPostByUserFollow =
+    // console.log(followingID, "followingID");
+    res.status(200).json({ data: posts, message: "this is following data" });
+});
 // export const getAllPost = async (
 //   req: Request,
 //   res: Response,
 //   next: NextFunction,
 // ) => {
 //   const allPost = await Post.find()
-//     .populate({
-//       path: "author",
-//       select: "name email profileImage active",
-//     })
-//     .lean();
+//     .populate({ path: "author", select: "-posts" })
+//     .populate("_id");
 //   allPost.forEach((post) => {
 //     // this will loop through and delete the posts array from the author array
 //     if (post.author && (post.author as any).posts) {
@@ -44,8 +77,34 @@ export const getAllPost = catchAsync(async (req, res, next) => {
 export const getOnePost = catchAsync(async (req, res, next) => {
     const { postId } = req.params;
     console.log(postId);
-    const post = await Post.findById(postId).select("-__v ").populate("author");
-    res.status(200).json(post);
+    const data = await Post.findById(postId)
+        .populate({
+        path: "author",
+        model: "User",
+        select: "-password -joinDate -posts",
+    })
+        .populate("likes")
+        .populate({
+        path: "comments",
+        model: "Comment",
+        populate: { path: "user", model: "User" },
+    })
+        .populate({
+        path: "comments",
+        model: "Comment",
+        populate: {
+            path: "reply",
+            model: "Reply",
+            populate: {
+                path: "reply",
+                model: "Reply",
+            },
+        },
+    });
+    if (!data) {
+        return next(AppError("No Post found", 404));
+    }
+    res.status(200).json(data);
 });
 //!this will save the data to memory
 const multerStorege = multer.memoryStorage();
@@ -87,16 +146,21 @@ export const resizePostImage = catchAsync(async (req, res, next) => {
 export const createAPost = catchAsync(async (req, res, next) => {
     console.log(req.body);
     const { title, detail, image } = req.body;
+    console.log(image, "here");
     try {
         if (!req.user) {
             return next(AppError("User not authenticated", 401));
         }
         const user = req.user;
-        req.body.author = user.id;
-        console.log(req.user);
-        // Create new Post document
-        const newPost = await Post.create({ title, detail, image });
-        await User.findByIdAndUpdate(req.body.author.id, { $push: { posts: newPost._id } });
+        // Set the author field directly when creating the new Post
+        const newPost = await Post.create({
+            title,
+            detail,
+            image,
+            author: user.id,
+        });
+        // Update the user's posts array with the new post's ID
+        await User.findByIdAndUpdate(user.id, { $push: { posts: newPost.id } });
         res.status(200).json({ data: newPost });
     }
     catch (error) {
@@ -108,12 +172,47 @@ export const deletePost = catchAsync(async (req, res, next) => {
     if (!post) {
         return res.status(404).json({ message: "Post not found" });
     }
+    const like = await Like.findOne({ post: post.id });
+    console.log(like, "like here");
+    if (like) {
+        console.log(like.id, "like id");
+        await User.findByIdAndUpdate(req.user?.id, {
+            $pull: { likePosts: like.id },
+        });
+    }
     const imagePaths = post?.image;
-    await Post.findByIdAndDelete(req.params.postId);
+    await Like.findByIdAndDelete(post._id);
+    const deletePost = await User.findByIdAndUpdate(req.user?.id, {
+        $pull: { posts: post._id },
+    });
     if (Array.isArray(imagePaths)) {
         imagePaths.forEach((imagePath) => {
             deleteImage(imagePath, next);
         });
     }
+    await Post.findByIdAndDelete(req.params.postId);
+    console.log(deletePost, "here");
     res.status(200).json({ message: "delete work" });
+});
+export const updatePost = catchAsync(async (req, res, next) => {
+    const { postId } = req.params;
+    if (!postId) {
+        return next(AppError("no post Id ", 404));
+    }
+    console.log(req.body);
+    if (!req.body.title && !req.body.detail && !req.body.image) {
+        return next(AppError("no data to edit ", 404));
+    }
+    const filterBody = filterObjectsForUpdate(req.body, "title", "detail", "image");
+    const post = await Post.findById(postId);
+    if (!post) {
+        return next(AppError("Now post found", 404));
+    }
+    Object.keys(filterBody).forEach((key) => {
+        //noted to myself this is how to update the object properie // object.key will create array of from req.body
+        post[key] = req.body[key]; //this will add key and value based on the key in the req.body
+    });
+    console.log(post);
+    post.save({ validateBeforeSave: true });
+    res.status(200).json(post);
 });

@@ -1,3 +1,4 @@
+// import util from "util"; // Import util module for inspecting circular structures
 import { AppError } from "../utils/appError.js";
 function handleCastErrorDB(error) {
     const message = ` invalid ${error.path}: ${error.value}`;
@@ -24,14 +25,9 @@ const sendErrorDev = (req, res, err) => {
             status: err.status,
             err: err,
             message: err.message,
-            errorStack: err.stack,
+            // error: util.inspect(err, { depth: null }), // Inspect the error object to avoid circular references
         });
     }
-    //this is for render
-    return res.status(err.statusCode).render("error", {
-        tittle: "some went wrong",
-        msg: err.message,
-    });
 };
 const sendErrorProd = (req, res, err) => {
     //this for api
@@ -64,7 +60,8 @@ const sendErrorProd = (req, res, err) => {
         msg: "please try again",
     });
 };
-export function globalErrorHandler(err, req, res, next) {
+export function globalErrorHandler(err, //this come from AppError
+req, res, next) {
     err.statusCode = err.statusCode || 500;
     err.status = err.status || "error";
     if (process.env.NODE_ENV === "development") {

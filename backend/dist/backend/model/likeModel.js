@@ -1,0 +1,44 @@
+import mongoose from "mongoose";
+const likeSchema = new mongoose.Schema({
+    likesCount: { type: Number, default: 0 },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    post: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
+});
+// likeSchema.statics.calculateLikesNum = async function (postId) {
+//   //this need to be called like this on controllers await Like.calculateLikesNum(postId);
+//   console.log("here");
+//   const stats = await this.aggregate([
+//     {
+//       $match: { post: postId }, //this will only return the data that matches the postId
+//     },
+//     {
+//       $group: {
+//         _id: "$post", // make a group by an id
+//         nLikes: { $sum: 1 }, //increase the
+//       },
+//     },
+//   ]);
+//   if (stats.length > 0) {
+//     await Post.findByIdAndUpdate(postId, {
+//       likes: stats[0].nLikes,
+//     });
+//   }
+// };
+// likeSchema.pre<Query<any, likeType>>(/^find/, function (next) {
+//   this.populate({
+//     path: "user",
+//     model: "User",
+//   }).populate({
+//     path: "post",
+//     model: "Post",
+//   });
+//   next();
+// });
+// likeSchema.pre<Query<any, likeType>>(/^find/, function (next) {
+//   this.populate([
+//     { path: "user", model: "User" },
+//     { path: "post", model: "Post" },
+//   ]);
+//   next();
+// });
+export const Like = mongoose.model("Like", likeSchema);

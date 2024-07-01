@@ -31,7 +31,7 @@ interface RequestWithUser extends Request {
 }
 export const getLatestPost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    req.query.sort = "createAt";
+    req.query.sort = "-createAt";
     console.log(
       "getLatestPost middleware - req.query.sort: at latest",
       req.query.sort,

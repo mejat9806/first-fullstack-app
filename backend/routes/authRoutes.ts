@@ -23,7 +23,14 @@ router.use(
   }),
 );
 router.post("/register", registerUser);
-router.post("/login", loginUser);
+router.post(
+  "/login",
+  (req, res) => {
+    // Your login logic here
+    res.send("Login endpoint");
+  },
+  loginUser,
+);
 router.get("/logout", logout);
 router.post("/checkEmail", validateEmail);
 router.post("/forgotPassword", forgotPassword);

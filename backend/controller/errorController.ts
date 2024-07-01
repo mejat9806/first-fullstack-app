@@ -27,7 +27,7 @@ const sendErrorDev = (req: Request, res: Response, err: any) => {
       status: err.status,
       err: err,
       message: err.message,
-      error: util.inspect(err, { depth: null }), // Inspect the error object to avoid circular references
+      // error: util.inspect(err, { depth: null }), // Inspect the error object to avoid circular references
     });
   }
 };

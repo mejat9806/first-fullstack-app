@@ -16,7 +16,6 @@ interface item<T extends PostItemType> {
   item: T;
   to?: "popular" | "recent";
 }
-
 const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   const navigate = useNavigate();
   const { theme } = useTheme();

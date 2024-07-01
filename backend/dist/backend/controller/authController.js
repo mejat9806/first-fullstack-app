@@ -222,9 +222,6 @@ export const isLogin = catchAsync(async (req, res, next) => {
         model: "Follower",
         populate: { path: "followedUser", model: "User" },
     });
-    if (!profile) {
-        return next(AppError("Profile not found", 401));
-    }
     console.log(profile);
     res.status(200).json(profile);
 });

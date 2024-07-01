@@ -18,9 +18,7 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 import { globalErrorHandler } from "./controller/errorController.js";
-
 dotenv.config();
-
 const corsOptions = {
   origin: "https://socialmedia-650u.onrender.com",
   // origin: "http://localhost:5173",
@@ -33,27 +31,31 @@ const corsOptions = {
     "Accept",
     "Authorization",
     "Set-Cookie",
-    // "Access-Control-Allow-Headers",
-    // "Access-Control-Expose-Headers",
+    "Access-Control-Allow-Headers",
+    "Access-Control-Expose-Headers",
   ],
-  // exposedHeaders: ["Content-Length"], // Expose this custom header
+  exposedHeaders: ["Content-Length"], // Expose this custom header
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
-
+console.log(corsOptions.origin);
 export const app = express();
-
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
   next();
 });
-
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; img-src 'self' http://localhost:8000",
+  );
+  next();
+});
 const limiter = rateLimit({
   max: 1000,
   windowMs: 60 * 60 * 1000,
   message: "Too many requests from this IP, please try again in an hour.",
 });
-
 app.use("/", limiter);
 app.use(json());
 app.use(morgan("dev"));
@@ -61,13 +63,10 @@ app.use(ExpressMongoSanitize());
 app.use(xss());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 app.use(express.static(path.join(__dirname, "public")));
 app.use(compression());
-
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
@@ -76,5 +75,4 @@ app.use("/api/comment", commentRoute);
 app.use("/api/reply", replyRoute);
 app.use("/api/bookmark", bookmarkRoute);
 app.use("/api/search", searchRoute);
-
 app.use(globalErrorHandler);

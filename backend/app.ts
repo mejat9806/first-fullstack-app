@@ -22,20 +22,10 @@ import { globalErrorHandler } from "./controller/errorController.js";
 dotenv.config();
 
 const corsOptions = {
-  origin: (origin: any, callback: any) => {
-    console.log("hello for the TS version");
-
-    const allowedOrigins = [
-      "https://socialmedia-650u.onrender.com",
-      "http://localhost:5173",
-    ];
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"],
+  // origin: "https://socialmedia-650u.onrender.com",
+  origin: "http://localhost:5173",
+  // Allow requests from this origin
+  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
     "Origin",
     "X-Requested-With",
@@ -46,7 +36,8 @@ const corsOptions = {
     "Access-Control-Allow-Headers",
     "Access-Control-Expose-Headers",
   ],
-  credentials: true,
+  exposedHeaders: ["Content-Length"], // Expose this custom header
+  credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
 
 export const app = express();
@@ -56,7 +47,13 @@ app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
   next();
 });
-
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; img-src 'self' http://localhost:8000",
+  );
+  next();
+});
 const limiter = rateLimit({
   max: 1000,
   windowMs: 60 * 60 * 1000,

@@ -33,6 +33,8 @@ const corsOptions = {
     "Origin",
     "X-Requested-With",
     "Content-Type",
+    "Access-Control-Allow-Origin",
+    "Access-Control-Allow-Headers",
     "Accept",
     "Authorization",
     "Set-Cookie",
@@ -41,7 +43,19 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
+app.use((req, res, next) => {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://socialmedia-650u.onrender.com",
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization, Set-Cookie",
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, PATCH");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 // Handle preflight requests
 app.options("*", cors(corsOptions), (req, res) => {
   res.status(204).end();

@@ -1,0 +1,7 @@
+services:
+  - name: social Media
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    routes:
+      - path: /public
+        directory: public

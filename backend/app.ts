@@ -1,5 +1,5 @@
 import { globalErrorHandler } from "./controller/errorController";
-import express, { json } from "express";
+import express, { Response, json } from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 
@@ -24,16 +24,26 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 dotenv.config();
-const corsOptions = {
-  origin: "https://socialmedia-650u.onrender.com", // Update with your frontend URL
-  methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
-  allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: "https://socialmedia-650u.onrender.com", // Update with your frontend URL
+//   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+//   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
+// };
+// app.use(cors(corsOptions));
 // app.options("*", cors(corsOptions));
 
 // app.options("*", cors(corsOptions));
-
+app.use(function (req, res: Response, next) {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://socialmedia-650u.onrender.com",
+  ); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept",
+  );
+  next();
+});
 const limiter = rateLimit({
   max: 1000,
   windowMs: 60 * 60 * 1000, //this allow 100 request in 1 hours

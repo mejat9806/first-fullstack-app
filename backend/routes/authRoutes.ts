@@ -16,12 +16,7 @@ import { verifyJWT } from "../middleware/verifyToken.js";
 import { validateEmail } from "../controller/validationApi.js";
 
 export const router = Router();
-router.use(
-  cors({
-    credentials: true,
-    origin: "http://localhost:5173",
-  }),
-);
+
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logout);
@@ -31,14 +26,5 @@ router.patch("/resetPassword/:token", resetPassword);
 
 router.use(verifyJWT);
 router.get("/isLogin", isLogin);
-router.patch(
-  "/updateMe",
-  (req, res, next) => {
-    console.log("updateMe route accessed");
-    next();
-  },
-  uploadImage,
-  resizeUserPhoto,
-  updateMe,
-);
+router.patch("/updateMe", uploadImage, resizeUserPhoto, updateMe);
 router.patch("/updatePassword", updatePassword);

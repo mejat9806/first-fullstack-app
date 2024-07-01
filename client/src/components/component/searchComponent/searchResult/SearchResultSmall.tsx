@@ -1,7 +1,7 @@
 import { useTheme } from "@/components/darkMode/theme-provider";
+import { baseUrl } from "@/lib/basedURL";
 import { Iposts, UserType } from "@/utils/type";
 import React from "react";
-import { baseUrl } from "../../ui_components/PostComponent/PostItem";
 import { useNavigate } from "react-router-dom";
 
 interface IsmallSearch {

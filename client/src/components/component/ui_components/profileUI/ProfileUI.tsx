@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import LoadingPage from "../LoadingPage";
-import { baseUrl } from "../PostComponent/PostItem";
+import { baseUrl } from "@/lib/basedURL";
 import { Button } from "@/shadcnComponent/ui/button";
 import "./../../../../App.css";
 import { UserContext } from "@/context/userContext";

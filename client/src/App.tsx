@@ -40,7 +40,6 @@ import { CommentItem } from "./components/component/ui_components/PostComponent/
 
 // axios.defaults.headers.common["withCredentials "] = true;
 // axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
-console.log(axios.defaults.baseURL, "env");
 function App() {
   const { theme } = useTheme();
   const [isLoading, setLoading] = useState(true);

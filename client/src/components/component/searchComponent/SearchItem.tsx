@@ -1,5 +1,5 @@
+import { baseUrl } from "@/lib/basedURL";
 import { Iposts, UserType } from "@/utils/type";
-import { baseUrl } from "../ui_components/PostComponent/PostItem";
 
 interface ISearchItemData {
   user?: UserType;

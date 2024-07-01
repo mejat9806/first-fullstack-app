@@ -2,7 +2,6 @@ import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
 import { useState } from "react";
 import DOMPurify from "dompurify";
 import { useNavigate, useParams } from "react-router-dom";
-import { baseUrl } from "../PostComponent/PostItem";
 import { formatDistanceToNow } from "date-fns";
 
 import { Button } from "@/shadcnComponent/ui/button";
@@ -14,6 +13,7 @@ import { useTheme } from "@/components/darkMode/theme-provider";
 import { useComment } from "@/features/api/Comment/useComment";
 import LoadingPage from "../LoadingPage";
 import { HoverPic } from "../HoverPic";
+import { baseUrl } from "@/lib/basedURL";
 
 interface ICommentData {
   commentData: Icomment;

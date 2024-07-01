@@ -1,9 +1,9 @@
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 
-import { baseUrl } from "../ui_components/PostComponent/PostItem";
 import LoadingPage from "../ui_components/LoadingPage";
 import { dateFormat } from "@/utils/dateFormat";
 import { Button } from "@/shadcnComponent/ui/button";
+import { baseUrl } from "@/lib/basedURL";
 
 const HoverCardUI = ({ userId }: { userId: string }) => {
   console.log(userId);

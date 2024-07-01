@@ -5,7 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/shadcnComponent/ui/carousel";
-import { baseUrl } from "./PostComponent/PostItem";
+import { baseUrl } from "@/lib/basedURL";
 
 type ICarousel = {
   imageProp: [string];

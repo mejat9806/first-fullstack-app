@@ -10,12 +10,13 @@ import LoadingPage from "../LoadingPage";
 import DOMPurify from "dompurify";
 import { PostItemType } from "@/utils/type";
 import { HoverPic } from "../HoverPic";
+import { baseUrl } from "@/lib/basedURL";
 
 interface item<T extends PostItemType> {
   item: T;
   to?: "popular" | "recent";
 }
-export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
+
 const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   const navigate = useNavigate();
   const { theme } = useTheme();

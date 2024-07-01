@@ -5,7 +5,6 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/shadcnComponent/ui/hover-card";
-import { baseUrl } from "../../PostComponent/PostItem";
 import { useNavigate } from "react-router-dom";
 import HoverCardUI from "@/components/component/hoverCard/HoverCardUI";
 import LoadingPage from "../../LoadingPage";
@@ -13,6 +12,7 @@ import DOMPurify from "dompurify";
 import AddReply from "./AddReply";
 import { Button } from "@/shadcnComponent/ui/button";
 import { useComment } from "@/features/api/Comment/useComment";
+import { baseUrl } from "@/lib/basedURL";
 
 interface IreplyData {
   replyData: Ireply;

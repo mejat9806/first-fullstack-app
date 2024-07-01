@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 import DefaultProfile from "../DefaultProfile";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
-import { baseUrl } from "../PostComponent/PostItem";
+import { baseUrl } from "@/lib/basedURL";
 import { useLogin } from "@/features/api/Auth/login/useLogin";
 import LoadingPage from "../LoadingPage";
 import { useTheme } from "@/components/darkMode/theme-provider";

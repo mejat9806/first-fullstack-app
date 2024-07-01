@@ -9,7 +9,6 @@ import { ArrowBigLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "@/components/component/ui_components/LoadingPage";
 import ThreeDotDropDown from "@/components/component/ui_components/ThreeDotDropDown";
-import { baseUrl } from "@/components/component/ui_components/PostComponent/PostItem";
 import PostFooter from "@/components/component/ui_components/PostComponent/PostFooter";
 import DialogFN from "@/components/component/ui_components/DialogFN";
 import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
@@ -17,6 +16,7 @@ import DOMPurify from "dompurify";
 
 import CommentInput from "@/components/component/ui_components/Comment/CommentInput";
 import { IsinglePostDetail } from "@/features/api/Posts/PostDetail/fetchPostDetail";
+import { baseUrl } from "@/lib/basedURL";
 
 const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
   // const { singleDetailLoading, singleDetail } = useFetchDetails();

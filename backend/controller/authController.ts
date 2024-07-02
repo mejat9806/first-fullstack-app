@@ -7,7 +7,6 @@ import { AppError } from "../utils/appError.js";
 import multer from "multer";
 import * as crypto from "crypto";
 
-import { MulterFiles } from "./postController.js";
 import sharp from "sharp";
 import { Email } from "../utils/email.js";
 import { createSendToken, signToken } from "../utils/tokenGeneration.js";

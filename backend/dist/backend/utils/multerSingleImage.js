@@ -4,7 +4,7 @@ import multer from "multer";
 import { AppError } from "./appError.js";
 import { catchAsync } from "./catchAsync.js";
 import sharp from "sharp";
-import cloudinarysetup from "./cloudinarysetup.js";
+import cloudinary from "./cloudinary.js";
 import { User } from "../model/userModel.js";
 const multerStorage = multer.memoryStorage();
 const multerFilter = (req, file, cb) => {
@@ -40,7 +40,7 @@ export const resizeAndUploadImages = catchAsync(async (req, res, next) => {
       .webp({ quality: 100 })
       .toBuffer();
     return new Promise((resolve, reject) => {
-      cloudinarysetup.uploader
+      cloudinary.uploader
         .upload_stream({ resource_type: "image" }, (error, result) => {
           if (error) {
             console.error("Cloudinary upload error: ", error);
@@ -66,7 +66,7 @@ export const resizeAndUploadImages = catchAsync(async (req, res, next) => {
       req.body.profileImagePublicId = profileImagePublicId;
       // Optionally delete old profile image if it exists in Cloudinary
       if (userData.profileImagePublicId) {
-        await cloudinarysetup.uploader.destroy(userData.profileImagePublicId);
+        await cloudinary.uploader.destroy(userData.profileImagePublicId);
       }
     }
     // Handle banner image upload
@@ -78,7 +78,7 @@ export const resizeAndUploadImages = catchAsync(async (req, res, next) => {
       req.body.bannerImagePublicId = bannerImagePublicId;
       // Optionally delete old banner image if it exists in Cloudinary
       if (userData.bannerImagePublicId) {
-        await cloudinarysetup.uploader.destroy(userData.bannerImagePublicId);
+        await cloudinary.uploader.destroy(userData.bannerImagePublicId);
       }
     }
     next();

@@ -5,7 +5,7 @@ import { AppError } from "./appError";
 import { catchAsync } from "./catchAsync";
 import { NextFunction, Request, Response } from "express";
 import sharp from "sharp";
-import cloudinary from "./cloudinarysetup";
+import cloudinary from "./cloudinary";
 import { User } from "../model/userModel";
 
 const multerStorage = multer.memoryStorage();

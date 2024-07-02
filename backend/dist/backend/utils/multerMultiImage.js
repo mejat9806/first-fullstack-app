@@ -3,7 +3,7 @@ import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import { catchAsync } from "./catchAsync.js";
 import { AppError } from "./appError.js";
-import cloudinarysetup from "./cloudinarysetup.js";
+import cloudinary from "./cloudinary.js";
 const multerStorage = multer.memoryStorage();
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {
@@ -34,7 +34,7 @@ export const resizePostImage = catchAsync(async (req, res, next) => {
         .webp({ quality: 95 })
         .toBuffer();
       const uploadResult = await new Promise((resolve, reject) => {
-        cloudinarysetup.uploader
+        cloudinary.uploader
           .upload_stream(
             { public_id: fileName, resource_type: "image" },
             (error, result) => {

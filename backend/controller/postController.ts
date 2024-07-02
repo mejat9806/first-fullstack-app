@@ -1,19 +1,19 @@
 import { NextFunction, Request, Response } from "express";
-import { Post } from "../model/postModel.js";
-import { User } from "../model/userModel.js";
+import { Post } from "../model/postModel";
+import { User } from "../model/userModel";
 import { JwtPayload } from "jsonwebtoken";
-import { apiFeatures } from "../utils/apiFeature.js";
-import { catchAsync } from "../utils/catchAsync.js";
+import { apiFeatures } from "../utils/apiFeature";
+import { catchAsync } from "../utils/catchAsync";
 import { AppError } from "../utils/appError.js";
 import multer, { FileFilterCallback } from "multer";
 import { v4 as uuidv4 } from "uuid";
 
 import sharp from "sharp";
-import { Like } from "../model/likeModel.js";
+import { Like } from "../model/likeModel";
 import { Document, model } from "mongoose";
-import { filterObjectsForUpdate } from "../utils/filterObject.js";
+import { filterObjectsForUpdate } from "../utils/filterObject";
 import { populate } from "dotenv";
-import cloudinarysetup from "../utils/cloudinarysetup.js";
+import cloudinarysetup from "../utils/cloudinary";
 
 interface UserPayload {
   id: string;

@@ -1,6 +1,7 @@
 import express from "express";
-import { createAPost, deletePost, getAllPost, getFriendPost, getLatestPost, getOnePost, getPopularPost, resizePostImage, updatePost, uploadPostImage, } from "../controller/postController.js";
+import { createAPost, deletePost, getAllPost, getFriendPost, getLatestPost, getOnePost, getPopularPost, updatePost, } from "../controller/postController.js";
 import { verifyJWT } from "../middleware/verifyToken.js";
+import { resizePostImage, uploadPostImage } from "../utils/multerMultiImage.js";
 export const router = express.Router();
 router.get("/following", verifyJWT, getFriendPost);
 router.get("/latest", getLatestPost, getAllPost);

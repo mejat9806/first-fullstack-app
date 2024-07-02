@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+dotenv.config();
 import { NextFunction, Request, Response } from "express";
 import { User } from "../model/userModel.js";
 import { catchAsync } from "../utils/catchAsync.js";
@@ -13,7 +14,6 @@ import { createSendToken, signToken } from "../utils/tokenGeneration.js";
 import ResetPassword from "../../client/emails/ResetPassword.js";
 import WelcomeEmail from "../../client/emails/welcomEmail.js";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";
-dotenv.config();
 
 export const registerUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -179,6 +179,8 @@ export const updateMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log("bodyhere");
     const user = req.user;
+    const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
     if (!user) {
       return next(AppError("please login", 401));
     }
@@ -198,17 +200,15 @@ export const updateMe = catchAsync(
       "profileImagePublicId",
       "bannerImagePublicId",
     );
-
-    if (req.body.profileImage) {
-      filterBody.profileImage = req.body.profileImage;
+    console.log(files, "req.file");
+    if (req.body.profileImagePublicId) {
+      filterBody.profileImage = `https://${process.env.CLOUDINARYURL}${req.body.profileImagePublicId}`;
     }
-    if (req.body.bannerImage) {
-      filterBody.bannerImage = req.body.bannerImage;
-    }
-    if (req.body.bannerImage) {
-      filterBody.bannerImage = req.body.bannerImage;
+    if (req.body.bannerImagePublicId) {
+      filterBody.bannerImage = `https://${process.env.CLOUDINARYURL}${req.body.bannerImagePublicId}`;
     }
 
+    console.log(filterBody, "filterBody");
     const updatedUser = await User.findByIdAndUpdate(req.user?.id, filterBody, {
       new: true,
       runValidators: true,

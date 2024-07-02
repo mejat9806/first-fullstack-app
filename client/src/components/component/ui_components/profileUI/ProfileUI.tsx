@@ -110,6 +110,11 @@ const ProfileUI = () => {
   const togglingFollow = () => {
     ToggleFollow(userProfileData.id);
   };
+  const profileImage = `${
+    userProfileData.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
+    "./../../../../../public/img/userImage/defaultUser.svg"
+  }`;
+  console.log(userProfileData, "banner check");
   return (
     <div className="w-svw justify-center items-center flex ">
       <div className="flex justify-center flex-col items-start md:w-[50%] w-full px-1 mt-3 ">
@@ -117,7 +122,7 @@ const ProfileUI = () => {
           {userProfileData.bannerImage ? (
             <div className="w-full md:h-[300px] h-[200px] relative bg-black">
               <img
-                src={`img/posts/${userProfileData.bannerImage}`}
+                src={userProfileData.bannerImage}
                 alt=""
                 className="h-full w-full "
               />
@@ -137,14 +142,14 @@ const ProfileUI = () => {
                 <button onClick={() => setUpdateImage(true)}>
                   <IoAddCircleOutline
                     size={30}
-                    className="absolute top-0 right-0 stroke-black"
+                    className="absolute top-0 right-0 stroke-white"
                   />
                 </button>
               )}
             </div>
           )}
           <img
-            src={`${baseUrl}img/posts/${userProfileData.profileImage}`}
+            src={profileImage}
             alt={`${userProfileData.name}'s profile`}
             className="h-32 absolute w-32   -bottom-10 left-3 rounded-full"
           />

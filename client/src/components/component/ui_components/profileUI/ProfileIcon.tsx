@@ -32,8 +32,8 @@ const ProfileIcon = () => {
     return <LoadingPage />;
   }
 
-  const profileImage = `${baseUrl}img/posts/${
-    user?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
+  const profileImage = `${
+    user.profileImage ?? "./../../../../../public/img/userImage/defaultUser.svg" //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
 
   return (

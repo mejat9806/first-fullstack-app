@@ -41,6 +41,10 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
   const postDetail = dateFormat(createAt);
   const isAuthorCorrect = user.id === author?.id;
   console.log(singleData.data, "like");
+  const profileImage = `${
+    "./../../../../../public/img/userImage/defaultUser.svg" ??
+    singleData.data.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
+  }`;
   return (
     <div className="flex justify-center w-full">
       <div className=" w-full  ">
@@ -64,7 +68,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
                     }}
                   >
                     <img
-                      src={`${baseUrl}/img/posts/${author?.profileImage}`}
+                      src={profileImage}
                       alt="profileImage"
                       className="h-[50px] w-[50px] rounded-full"
                     />
@@ -97,7 +101,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
           <div className="w-full flex justify-center">
             {image && image.length === 1 ? (
               <img
-                src={`${baseUrl}/img/posts/${image[0]}`}
+                src={image[0]}
                 onClick={() => setOpenImage(true)}
                 className="max-w-[200px] md:max-w-[480px] md:max-h-[550px] object-cover"
               />
@@ -113,7 +117,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
                     image.map((img, i) => (
                       <img
                         key={i}
-                        src={`${baseUrl}/img/posts/${img}`}
+                        src={img}
                         onClick={() => setOpenImage(true)}
                         className="md:max-h-[500px] object-contain"
                       />

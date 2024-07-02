@@ -11,7 +11,7 @@ import DOMPurify from "dompurify";
 import { PostItemType } from "@/utils/type";
 import { HoverPic } from "../HoverPic";
 import { baseUrl } from "@/lib/basedURL";
-
+import DefaultProfile from "../DefaultProfile";
 interface item<T extends PostItemType> {
   item: T;
   to?: "popular" | "recent";
@@ -26,8 +26,9 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   }
   console.log(item, "item for post");
   console.log(item.author._id);
-  const profileImage = `${baseUrl}img/posts/${
-    item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
+  const profileImage = `${
+    item.author?.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
+    "./../../../../../public/img/userImage/defaultUser.svg"
   }`;
   console.log(item, "check cloudinary image");
   return (

@@ -108,6 +108,7 @@ userSchema.methods.comparePassword = async function (
   return bcrypt.compare(inputPassword, passFromDB);
 };
 
+userSchema.pre<Query<any, UserType>>("updateOne", function (next) {});
 // Explicitly type the 'this' context as a Mongoose query object for query middleware hooks
 // userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
 //   this.populate({

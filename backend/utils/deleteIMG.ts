@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-import cloudinarysetup from "./cloudinary";
+import cloudinarysetup from "./cloudinarysetup";
 import { catchAsync } from "./catchAsync";
 import { AppError } from "./appError";
 import { Post } from "../model/postModel";

@@ -13,7 +13,7 @@ import { Like } from "../model/likeModel.js";
 import { Document, model } from "mongoose";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";
 import { populate } from "dotenv";
-import cloudinarysetup from "../utils/cloudinary.js";
+import cloudinarysetup from "../utils/cloudinarysetup.js";
 
 interface UserPayload {
   id: string;

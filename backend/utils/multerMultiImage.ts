@@ -4,7 +4,7 @@ import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import { catchAsync } from "./catchAsync";
 import { AppError } from "./appError";
-import cloudinarysetup from "./cloudinary";
+import cloudinarysetup from "./cloudinarysetup";
 
 export interface MulterFiles {
   image: Express.Multer.File[];

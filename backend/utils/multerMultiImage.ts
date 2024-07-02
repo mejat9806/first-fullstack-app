@@ -4,7 +4,7 @@ import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import { catchAsync } from "./catchAsync";
 import { AppError } from "./appError";
-import cloudinarysetup from "./cloudinarysetup";
+import cloudinary from "./cloudinarysetup";
 
 export interface MulterFiles {
   image: Express.Multer.File[];
@@ -54,7 +54,7 @@ export const resizePostImage = catchAsync(
           .toBuffer();
 
         const uploadResult = await new Promise((resolve, reject) => {
-          cloudinarysetup.uploader
+          cloudinary.uploader
             .upload_stream(
               { public_id: fileName, resource_type: "image" },
               (error, result) => {

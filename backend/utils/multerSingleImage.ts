@@ -5,7 +5,7 @@ import { AppError } from "./appError";
 import { catchAsync } from "./catchAsync";
 import { NextFunction, Request, Response } from "express";
 import sharp from "sharp";
-import cloudinarysetup from "./cloudinarysetup";
+import cloudinary from "./cloudinarysetup";
 import { User } from "../model/userModel";
 
 const multerStorage = multer.memoryStorage();
@@ -49,7 +49,7 @@ export const resizeAndUploadImages = catchAsync(
         .toBuffer();
 
       return new Promise<string>((resolve, reject) => {
-        cloudinarysetup.uploader
+        cloudinary.uploader
           .upload_stream({ resource_type: "image" }, (error, result) => {
             if (error) {
               console.error("Cloudinary upload error: ", error);
@@ -77,7 +77,7 @@ export const resizeAndUploadImages = catchAsync(
 
         // Optionally delete old profile image if it exists in Cloudinary
         if (userData.profileImagePublicId) {
-          await cloudinarysetup.uploader.destroy(userData.profileImagePublicId);
+          await cloudinary.uploader.destroy(userData.profileImagePublicId);
         }
       }
 
@@ -91,7 +91,7 @@ export const resizeAndUploadImages = catchAsync(
 
         // Optionally delete old banner image if it exists in Cloudinary
         if (userData.bannerImagePublicId) {
-          await cloudinarysetup.uploader.destroy(userData.bannerImagePublicId);
+          await cloudinary.uploader.destroy(userData.bannerImagePublicId);
         }
       }
 

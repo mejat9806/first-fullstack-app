@@ -9,11 +9,11 @@ import multer, { FileFilterCallback } from "multer";
 import { v4 as uuidv4 } from "uuid";
 
 import sharp from "sharp";
-import { deleteImage } from "../utils/deleteIMG.js";
 import { Like } from "../model/likeModel.js";
 import { Document, model } from "mongoose";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";
 import { populate } from "dotenv";
+import cloudinarysetup from "../utils/cloudinary.js";
 
 interface UserPayload {
   id: string;
@@ -211,7 +211,7 @@ export const getOnePost = catchAsync(
 export const createAPost = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
     console.log(req.body);
-    const { title, detail, image } = req.body;
+    const { title, detail, image, imagePublicIds } = req.body;
     console.log(image, "here");
     try {
       if (!req.user) {
@@ -224,6 +224,7 @@ export const createAPost = catchAsync(
         title,
         detail,
         image,
+        imagePublicIds,
         author: user.id,
       });
 
@@ -249,26 +250,56 @@ export const deletePost = catchAsync(
     }
 
     const like = await Like.findOne({ post: post.id });
-    console.log(like, "like here");
     if (like) {
-      console.log(like.id, "like id");
       await User.findByIdAndUpdate(req.user?.id, {
         $pull: { likePosts: like.id },
       });
     }
-    const imagePaths = post?.image;
+
+    const imagePublicIds = post.imagePublicIds;
+
     await Like.findByIdAndDelete(post._id);
-    const deletePost = await User.findByIdAndUpdate(req.user?.id, {
+    await User.findByIdAndUpdate(req.user?.id, {
       $pull: { posts: post._id },
     });
-    if (Array.isArray(imagePaths)) {
-      imagePaths.forEach((imagePath) => {
-        deleteImage(imagePath, next);
-      });
+
+    if (imagePublicIds) {
+      if (Array.isArray(imagePublicIds)) {
+        // Handle case where imagePublicIds is an array
+        await Promise.all(
+          imagePublicIds.map(async (publicId) => {
+            await cloudinarysetup.uploader.destroy(
+              publicId,
+              (error, result) => {
+                if (error) {
+                  console.error("Error deleting image from Cloudinary:", error);
+                  return next(error);
+                }
+                console.log(
+                  "Image deleted successfully from Cloudinary:",
+                  result,
+                );
+              },
+            );
+          }),
+        );
+      } else {
+        // Handle case where imagePublicIds is a single string
+        await cloudinarysetup.uploader.destroy(
+          imagePublicIds,
+          (error, result) => {
+            if (error) {
+              console.error("Error deleting image from Cloudinary:", error);
+              return next(error);
+            }
+            console.log("Image deleted successfully from Cloudinary:", result);
+          },
+        );
+      }
     }
+
     await Post.findByIdAndDelete(req.params.postId);
-    console.log(deletePost, "here");
-    res.status(200).json({ message: "delete work" });
+    res.status(200).json({ message: "Post deleted successfully" });
   },
 );
 

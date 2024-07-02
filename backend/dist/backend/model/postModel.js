@@ -29,6 +29,7 @@ const postSchema = new mongoose.Schema({
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
     lastUpdate: Date,
     updated: { type: Boolean, default: false },
+    imagePublicIds: [String],
 }, {
     toJSON: {
         virtuals: true,

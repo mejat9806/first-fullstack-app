@@ -1,110 +1,85 @@
+import dotenv from "dotenv";
+dotenv.config();
 import multer from "multer";
 import { AppError } from "./appError";
 import { catchAsync } from "./catchAsync";
 import sharp from "sharp";
-import { v2 as cloudinary } from "cloudinary";
+import cloudinarysetup from "./cloudinary";
+import { User } from "../model/userModel";
 const multerStorage = multer.memoryStorage();
 const multerFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image")) {
-    cb(null, true);
-  } else {
-    cb(AppError("Please upload an image file only", 400), false);
-  }
+    if (file.mimetype.startsWith("image")) {
+        cb(null, true);
+    }
+    else {
+        cb(AppError("Please upload an image file only", 400), false);
+    }
 };
 const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
-// export const uploadUserPhoto = upload.single("profileImage");
 export const uploadImage = upload.fields([
-  { name: "profileImage", maxCount: 1 },
-  { name: "bannerImage", maxCount: 1 },
+    { name: "profileImage", maxCount: 1 },
+    { name: "bannerImage", maxCount: 1 },
 ]);
 export const resizeAndUploadImages = catchAsync(async (req, res, next) => {
-  if (!req.user) {
-    return next(AppError("Please login", 401));
-  }
-  if (!req.files) {
-    return next();
-  }
-  const files = req.files;
-  console.log(files, "files check");
-  if (files.profileImage && files.profileImage.length > 0) {
-    const buffer = await sharp(files.profileImage[0].buffer)
-      .toFormat("webp")
-      .webp({ quality: 100 })
-      .toBuffer();
-    const profileUploadResult = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({ resource_type: "image" }, (error, result) => {
-          if (error) {
-            console.error("Cloudinary upload error: ", error);
-            return reject(AppError("Image upload failed", 500));
-          }
-          req.body.profileImage = result?.secure_url;
-          resolve(result?.secure_url);
-        })
-        .end(buffer);
-    });
-    await profileUploadResult;
-  }
-  if (files.bannerImage && files.bannerImage.length > 0) {
-    const buffer = await sharp(files.bannerImage[0].buffer)
-      .toFormat("webp")
-      .webp({ quality: 100 })
-      .toBuffer();
-    const bannerUploadResult = await new Promise((resolve, reject) => {
-      cloudinary.uploader
-        .upload_stream({ resource_type: "image" }, (error, result) => {
-          if (error) {
-            console.error("Cloudinary upload error: ", error);
-            return reject(AppError("Image upload failed", 500));
-          }
-          req.body.bannerImage = result?.secure_url;
-          resolve(result?.secure_url);
-        })
-        .end(buffer);
-    });
-    await bannerUploadResult;
-  }
-  next();
+    if (!req.user) {
+        return next(AppError("Please login", 401));
+    }
+    const userData = await User.findById(req.user.id);
+    console.log(userData, "userData");
+    if (!userData) {
+        return next(AppError("no user found", 404));
+    }
+    console.log(req.user, "req.user.bannerImagePublicId");
+    const files = req.files;
+    // Function to upload image to Cloudinary and return public_id
+    const uploadToCloudinary = async (file) => {
+        if (!file) {
+            throw AppError("File not found", 400);
+        }
+        const buffer = await sharp(file.buffer)
+            .toFormat("webp")
+            .webp({ quality: 100 })
+            .toBuffer();
+        return new Promise((resolve, reject) => {
+            cloudinarysetup.uploader
+                .upload_stream({ resource_type: "image" }, (error, result) => {
+                if (error) {
+                    console.error("Cloudinary upload error: ", error);
+                    return reject(AppError("Image upload failed", 500));
+                }
+                if (!result) {
+                    return reject(AppError("Cloudinary upload failed: result is undefined", 500));
+                }
+                resolve(result.public_id);
+            })
+                .end(buffer);
+        });
+    };
+    try {
+        // Handle profile image upload
+        if (files.profileImage && files.profileImage.length > 0) {
+            const profileImagePublicId = await uploadToCloudinary(files.profileImage[0]);
+            req.body.profileImage = files.profileImage[0].path; // Set URL or path to profile image
+            req.body.profileImagePublicId = profileImagePublicId;
+            // Optionally delete old profile image if it exists in Cloudinary
+            if (userData.profileImagePublicId) {
+                await cloudinarysetup.uploader.destroy(userData.profileImagePublicId);
+            }
+        }
+        // Handle banner image upload
+        if (files.bannerImage && files.bannerImage.length > 0) {
+            const bannerImagePublicId = await uploadToCloudinary(files.bannerImage[0]);
+            req.body.bannerImage = files.bannerImage[0].path; // Set URL or path to banner image
+            req.body.bannerImagePublicId = bannerImagePublicId;
+            // Optionally delete old banner image if it exists in Cloudinary
+            if (userData.bannerImagePublicId) {
+                await cloudinarysetup.uploader.destroy(userData.bannerImagePublicId);
+            }
+        }
+        next();
+    }
+    catch (err) {
+        console.error("Error uploading images:", err);
+        return next(AppError("Failed to upload images", 500));
+    }
 });
-
-// const multerStorage = multer.memoryStorage();
-// const multerFilter = (req, file, cb) => {
-//     if (file.mimetype.startsWith("image")) {
-//         cb(null, true);
-//     }
-//     else {
-//         cb(AppError("please upload a image file only ", 400), false);
-//     }
-// };
-// const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
-// // export const uploadUserPhoto = upload.single("profileImage");
-// export const uploadImage = upload.fields([
-//     { name: "profileImage", maxCount: 1 },
-//     { name: "bannerImage", maxCount: 1 },
-// ]);
-// export const resizeUserPhoto = catchAsync(async (req, res, next) => {
-//     if (!req.user) {
-//         return next(AppError("please login", 401));
-//     }
-//     if (!req.files) {
-//         return next();
-//     }
-//     const files = req.files;
-//     console.log(files, "jere");
-//     if (files.profileImage && files.profileImage.length > 0) {
-//         req.body.profileImage = `user=${req.user.id}-${Date.now()}.webp`;
-//         await sharp(files.profileImage[0].buffer)
-//             .toFormat("webp")
-//             .webp({ quality: 100 })
-//             .toFile(`public/img/posts/${req.body.profileImage}`);
-//     }
-//     if (files.bannerImage && files.bannerImage.length > 0) {
-//         console.log("get here");
-//         req.body.bannerImage = `userBanner=${req.user.id}-${Date.now()}.webp`;
-//         await sharp(files.bannerImage[0].buffer)
-//             .toFormat("webp")
-//             .webp({ quality: 100 })
-//             .toFile(`public/img/posts/${req.body.bannerImage}`);
-//     }
-//     next();
-// });

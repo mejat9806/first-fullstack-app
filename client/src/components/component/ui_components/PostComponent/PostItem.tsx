@@ -29,7 +29,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   const profileImage = `${baseUrl}img/posts/${
     item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
-
+  console.log(item, "check cloudinary image");
   return (
     <div
       className={` ${
@@ -64,7 +64,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
       <div className="w-full  flex justify-center items-center">
         {item.image && item.image.length === 1 ? (
           <img
-            src={`${baseUrl}/img/posts/${item.image[0]}`}
+            src={`${item.image}`}
             onClick={() => navigate(`/post/${item._id}`, { replace: true })}
             className=" max-w-[200px] md:max-w-[450px] md:max-h-[400px] object-cover  "
           />
@@ -79,7 +79,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
               {item.image.map((img, i) => (
                 <img
                   key={i}
-                  src={`${baseUrl}/img/posts/${img}`}
+                  src={img}
                   onClick={() => navigate(`post/${item._id}`)}
                   className="md:max-h-[500px]  object-contain "
                 />

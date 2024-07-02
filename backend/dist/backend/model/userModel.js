@@ -19,6 +19,8 @@ const userSchema = new mongoose.Schema({
         required: [true, "password is required"],
         minlength: 8,
     },
+    profileImagePublicId: String,
+    bannerImagePublicId: String,
     likePosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
     bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: "BookMark" }],
     joinDate: { type: Date, default: Date.now() },

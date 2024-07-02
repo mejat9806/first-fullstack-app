@@ -21,6 +21,9 @@ export interface UserType extends Document {
   followerCount: number;
   passwordChangedAt: Date;
   passwordResetToken: string | undefined;
+  imagePublicIds: [string];
+  profileImagePublicId: string;
+  bannerImagePublicId: string;
   passwordResetExpired: Date | undefined;
   bannerImage: string;
   changedPasswordAfter: (JWTtimestamp: number) => boolean;
@@ -49,7 +52,8 @@ const userSchema = new mongoose.Schema<UserType>(
       required: [true, "password is required"],
       minlength: 8,
     },
-
+    profileImagePublicId: String,
+    bannerImagePublicId: String,
     likePosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
     bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: "BookMark" }],
     joinDate: { type: Date, default: Date.now() },

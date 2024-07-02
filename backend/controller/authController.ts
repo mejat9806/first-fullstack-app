@@ -189,10 +189,21 @@ export const updateMe = catchAsync(
     if (req.body.name < 5) {
       return next(AppError("Invalid username need atleast 5 characters", 401));
     }
-    const filterBody = filterObjectsForUpdate(req.body, "name", "email", "bio");
+    const filterBody = filterObjectsForUpdate(
+      req.body,
+      "name",
+      "email",
+      "bio",
+      "imagePublicIds",
+      "profileImagePublicId",
+      "bannerImagePublicId",
+    );
 
     if (req.body.profileImage) {
       filterBody.profileImage = req.body.profileImage;
+    }
+    if (req.body.bannerImage) {
+      filterBody.bannerImage = req.body.bannerImage;
     }
     if (req.body.bannerImage) {
       filterBody.bannerImage = req.body.bannerImage;

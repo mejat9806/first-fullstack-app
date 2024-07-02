@@ -16,7 +16,6 @@ import DOMPurify from "dompurify";
 
 import CommentInput from "@/components/component/ui_components/Comment/CommentInput";
 import { IsinglePostDetail } from "@/features/api/Posts/PostDetail/fetchPostDetail";
-import { baseUrl } from "@/lib/basedURL";
 
 const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
   // const { singleDetailLoading, singleDetail } = useFetchDetails();

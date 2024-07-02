@@ -10,8 +10,7 @@ import LoadingPage from "../LoadingPage";
 import DOMPurify from "dompurify";
 import { PostItemType } from "@/utils/type";
 import { HoverPic } from "../HoverPic";
-import { baseUrl } from "@/lib/basedURL";
-import DefaultProfile from "../DefaultProfile";
+
 interface item<T extends PostItemType> {
   item: T;
   to?: "popular" | "recent";

@@ -3,10 +3,16 @@ import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import LoadingPage from "../ui_components/LoadingPage";
 import { dateFormat } from "@/utils/dateFormat";
 import { Button } from "@/shadcnComponent/ui/button";
-import { baseUrl } from "@/lib/basedURL";
+import { useToggleFollow } from "@/features/api/follow/useToggleFollow";
+import { Ifollow } from "@/utils/type";
+import { useContext } from "react";
+import { UserContext } from "@/context/userContext";
 
 const HoverCardUI = ({ userId }: { userId: string }) => {
   console.log(userId);
+  const { ToggleFollow, isToggleFollow } = useToggleFollow();
+  const { user } = useContext(UserContext);
+
   const { isError, isGetProfile, userProfileData } = useGetPosterProfile({
     userId,
   });
@@ -16,12 +22,29 @@ const HoverCardUI = ({ userId }: { userId: string }) => {
   if (isError) {
     return <div>something goes wrong</div>;
   }
+  if (!user) {
+    return <LoadingPage />;
+  }
+  const following = userProfileData.followers.map(
+    (follow: Ifollow) => follow.user.id,
+  );
+  console.log(following, "following");
+  const isFollow = following.includes(userProfileData.id);
+  const togglingFollow = () => {
+    ToggleFollow(userProfileData.id);
+  };
+  const userID = user.id;
+
+  const profileImage = `${
+    userProfileData?.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
+    "./../../../../../public/img/userImage/defaultUser.svg"
+  }`;
   const dateJoin = userProfileData.joinDate.split("T")[0];
   return (
     <div className="flex w-full justify-between">
       <div className="flex gap-4 flex-col">
         <img
-          src={`${baseUrl}/img/posts/${userProfileData?.profileImage}`}
+          src={profileImage}
           alt="profileImage"
           className="h-[50px] w-[50px] rounded-full"
         />
@@ -34,7 +57,13 @@ const HoverCardUI = ({ userId }: { userId: string }) => {
         </div>
       </div>
       <div>
-        <Button className="w-14 rounded-full">Follow</Button>
+        {userID === userProfileData.id ? (
+          <></>
+        ) : (
+          <Button disabled={isToggleFollow} onClick={togglingFollow}>
+            {isFollow ? "Unfollow" : "Follow"}
+          </Button>
+        )}
       </div>
     </div>
   );

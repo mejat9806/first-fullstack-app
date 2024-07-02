@@ -4,7 +4,7 @@ import multer from "multer";
 import { AppError } from "./appError.js";
 import { catchAsync } from "./catchAsync.js";
 import sharp from "sharp";
-import cloudinarysetup from "./cloudinary.js";
+import cloudinarysetup from "./cloudinarysetup.js";
 import { User } from "../model/userModel.js";
 const multerStorage = multer.memoryStorage();
 const multerFilter = (req, file, cb) => {

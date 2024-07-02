@@ -3,7 +3,7 @@ import sharp from "sharp";
 import { v4 as uuidv4 } from "uuid";
 import { catchAsync } from "./catchAsync.js";
 import { AppError } from "./appError.js";
-import cloudinarysetup from "./cloudinary.js";
+import cloudinarysetup from "./cloudinarysetup.js";
 const multerStorage = multer.memoryStorage();
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image")) {

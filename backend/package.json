@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc && npm run copy-public",
-    "start": " node dist/backend/server.js ",
+    "start": "NODE_ENV=production node dist/backend/server.js ",
     "copy-public": "cp -r public dist/",
     "startProd": "NODE_ENV=production npx tsc &&  node dist/backend/server.js",
     "start:prod": "NODE_ENV=production tsx watch  server.ts",

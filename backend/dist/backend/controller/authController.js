@@ -184,17 +184,13 @@ export const updateMe = catchAsync(async (req, res, next) => {
 export const isLogin = catchAsync(async (req, res, next) => {
     console.log(req.user, "userdsds");
     const user = req.user;
-    if (!user) {
-        console.log("here");
-        return next(AppError("Please log in again", 401));
-    }
-    const currentUser = await User.findById(user.id);
+    const currentUser = await User.findById(user?.id);
     console.log("here");
     console.log(currentUser, "current user");
-    if (currentUser?.changedPasswordAfter(user.iat)) {
+    if (currentUser?.changedPasswordAfter(user?.iat)) {
         return next(AppError("user change password recently", 401));
     }
-    const profile = await User.findById(user.id)
+    const profile = await User.findById(user?.id)
         .select("-password -passwordResetExpired -passwordResetToken")
         .populate({
         path: "likePosts",

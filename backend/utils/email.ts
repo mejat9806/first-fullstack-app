@@ -43,8 +43,7 @@ export class Email implements IEmail {
   }
 
   createNewTransport(): Transporter {
-    if (process.env.NODE_ENV === "production") {
-      console.log(process.env.BREVO_HOST);
+    if (process.env.NODE_ENV === "development") {
       const transportOptions: SMTPTransport.Options = {
         host: process.env.BREVO_HOST,
         port: parseInt(process.env.BREVO_PORT || "587", 10),
@@ -54,9 +53,10 @@ export class Email implements IEmail {
           pass: process.env.BREVO_KEY,
         },
       };
+      console.log(transportOptions);
       console.log(process.env.BREVO_LOGIN);
       return nodemailer.createTransport(transportOptions);
-    } else if (process.env.NODE_ENV === "development") {
+    } else if (process.env.NODE_ENV === "production") {
       const transportOptions: SMTPTransport.Options = {
         host: process.env.MAILTRAP_HOST,
         port: parseInt(process.env.MAILTRAP_PORT || "2525", 10),

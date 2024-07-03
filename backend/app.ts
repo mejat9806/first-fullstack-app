@@ -20,6 +20,7 @@ import { router as likeRouter } from "./routes/likeRoute.js";
 import { globalErrorHandler } from "./controller/errorController.js";
 
 dotenv.config();
+console.log(process.env.Node_ENV, "brevo");
 
 const corsOptions = {
   // origin: "https://socialmedia-650u.onrender.com",

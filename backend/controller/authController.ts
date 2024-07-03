@@ -42,8 +42,8 @@ export const registerUser = catchAsync(
       password,
       profileImage: defaultImage,
     });
-    const url = `${req.protocol}://localhost:5173/login`;
-    const pageUrl = `${req.protocol}://localhost:5173/login`;
+    const url = `${req.protocol}://socialmedia-650u.onrender.com`;
+    const pageUrl = `${req.protocol}://socialmedia-650u.onrender.com`;
     const message = "Welcome to my app";
     const type = "welcome";
     const html = WelcomeEmail({ name: user.name.split(" ")[0], url }); // No need to provide actual HTML content
@@ -278,7 +278,7 @@ export const forgotPassword = catchAsync(
 
     await user.save({ validateBeforeSave: false }); //this is use to save the reset token
     try {
-      const resetPageUrl = `${req.protocol}://localhost:5173/resetPassword/${resetToken}`; //this will get the url
+      const resetPageUrl = `${req.protocol}://socialmedia-650u.onrender.com/${resetToken}`; //this will get the url
       const type = "reset";
       const resetURL = `${req.protocol}://${req.get(
         "host",

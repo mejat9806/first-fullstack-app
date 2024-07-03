@@ -34,18 +34,32 @@ function RegisterPage() {
             <img src={backgroundImage} alt="register photo" className="" />
             <h1 className="">register</h1>
           </div> */}
-            <div className="bg-slate-200/60 p-10 shadow-2xl w-full backdrop-blur-md md:rounded-r-2xl rounded-lg md:rounded-none">
+            <div
+              className={`${
+                theme === "dark"
+                  ? "bg-slate-900 text-white"
+                  : "bg-slate-100 text-black"
+              } p-10 shadow-2xl w-full backdrop-blur-md md:rounded-r-2xl rounded-lg md:rounded-none`}
+            >
               <Button
                 onClick={() => navigate("/login", { replace: true })}
-                className="hover:bg-slate-200 bg-transparent rounded-full h-10 w-10 p-0 hover:text-black"
+                className="hover:bg-slate-200 bg-transparent rounded-full h-10 w-10 p-0 hover:stroke-black"
               >
                 <ArrowBigLeft
                   className={`scale-110 ${
-                    theme === "dark" ? "" : "stroke-black hover:stroke-gray-500"
+                    theme === "dark"
+                      ? " text-white hover:stroke-black"
+                      : " text-black hover:stroke-white"
                   }`}
                 />
               </Button>
-              <h1 className="text-4xl font-bold mb-6 text-black">
+              <h1
+                className={`text-4xl font-bold mb-6 text-black ${
+                  theme === "dark"
+                    ? "bg-slate-900 text-white"
+                    : "bg-slate-100 text-black"
+                }`}
+              >
                 <span className="">S</span>ign Up Here
               </h1>
               <Register />

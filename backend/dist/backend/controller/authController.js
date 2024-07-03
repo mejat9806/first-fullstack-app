@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+dotenv.config();
 import { User } from "../model/userModel.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import { AppError } from "../utils/appError.js";
@@ -10,7 +11,6 @@ import { createSendToken, signToken } from "../utils/tokenGeneration.js";
 import ResetPassword from "../../client/emails/ResetPassword.js";
 import WelcomeEmail from "../../client/emails/welcomEmail.js";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";
-dotenv.config();
 export const registerUser = catchAsync(async (req, res, next) => {
     const { name, email, password } = req.body;
     console.log(name);
@@ -35,8 +35,8 @@ export const registerUser = catchAsync(async (req, res, next) => {
         password,
         profileImage: defaultImage,
     });
-    const url = `${req.protocol}://localhost:5173/login`;
-    const pageUrl = `${req.protocol}://localhost:5173/login`;
+    const url = `${req.protocol}://socialmedia-650u.onrender.com`;
+    const pageUrl = `${req.protocol}://socialmedia-650u.onrender.com`;
     const message = "Welcome to my app";
     const type = "welcome";
     const html = WelcomeEmail({ name: user.name.split(" ")[0], url }); // No need to provide actual HTML content
@@ -155,6 +155,7 @@ export const resizeUserPhoto = catchAsync(async (req, res, next) => {
 export const updateMe = catchAsync(async (req, res, next) => {
     console.log("bodyhere");
     const user = req.user;
+    const files = req.files;
     if (!user) {
         return next(AppError("please login", 401));
     }
@@ -166,15 +167,14 @@ export const updateMe = catchAsync(async (req, res, next) => {
         return next(AppError("Invalid username need atleast 5 characters", 401));
     }
     const filterBody = filterObjectsForUpdate(req.body, "name", "email", "bio", "imagePublicIds", "profileImagePublicId", "bannerImagePublicId");
-    if (req.body.profileImage) {
-        filterBody.profileImage = req.body.profileImage;
+    console.log(files, "req.file");
+    if (req.body.profileImagePublicId) {
+        filterBody.profileImage = `https://${process.env.CLOUDINARYURL}${req.body.profileImagePublicId}`;
     }
-    if (req.body.bannerImage) {
-        filterBody.bannerImage = req.body.bannerImage;
+    if (req.body.bannerImagePublicId) {
+        filterBody.bannerImage = `https://${process.env.CLOUDINARYURL}${req.body.bannerImagePublicId}`;
     }
-    if (req.body.bannerImage) {
-        filterBody.bannerImage = req.body.bannerImage;
-    }
+    console.log(filterBody, "filterBody");
     const updatedUser = await User.findByIdAndUpdate(req.user?.id, filterBody, {
         new: true,
         runValidators: true,
@@ -236,7 +236,7 @@ export const forgotPassword = catchAsync(async (req, res, next) => {
     const resetToken = user.createPasswordResetToken(); //this will create the reset token using the methods
     await user.save({ validateBeforeSave: false }); //this is use to save the reset token
     try {
-        const resetPageUrl = `${req.protocol}://localhost:5173/resetPassword/${resetToken}`; //this will get the url
+        const resetPageUrl = `${req.protocol}://socialmedia-650u.onrender.com/${resetToken}`; //this will get the url
         const type = "reset";
         const resetURL = `${req.protocol}://${req.get("host")}/api/auth/resetPassword/${resetToken}`; //this will get the url to send the the password reset
         const message = `forgot your password? Submit a PATCH request with your new password and password Confirm to ${resetPageUrl}.\n if you did not forget your password ,pls ignore this message`;

@@ -5,7 +5,7 @@ import { catchAsync } from "../utils/catchAsync.js";
 import { AppError } from "../utils/appError.js";
 import { Like } from "../model/likeModel.js";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";
-import cloudinarysetup from "../utils/cloudinary";
+import cloudinarysetup from "../utils/cloudinary.js";
 export const getLatestPost = catchAsync(async (req, res, next) => {
   req.query.sort = "-createAt";
   console.log(

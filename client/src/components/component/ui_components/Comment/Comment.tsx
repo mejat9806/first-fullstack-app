@@ -1,5 +1,5 @@
 import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DOMPurify from "dompurify";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";

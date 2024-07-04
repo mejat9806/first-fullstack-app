@@ -44,9 +44,9 @@ const DialogFN = ({
         type="image"
         className={`${
           type === "image"
-            ? "bg-transparent px-10 border-none shadow-none "
+            ? "bg-transparent px-10 border-none shadow-none max-w-4xl"
             : " py-10"
-        } max-w-4xl ${currentPage === "crop-img" ? "h-1/2" : "h-fit"}`}
+        }  ${currentPage === "crop-img" ? "h-1/2" : "h-fit"}`}
       >
         <DialogHeader>
           {type === "image" && image && (

@@ -133,7 +133,6 @@ export const getOnePost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { postId } = req.params;
     console.log(postId);
-
     const data = await Post.findById(postId)
       .populate({
         path: "author",
@@ -151,21 +150,18 @@ export const getOnePost = catchAsync(
       .populate({
         path: "comments",
         model: "Comment",
-        populate: { path: "user", model: "User" },
-      })
-      .populate({
-        path: "comments",
-        model: "Comment",
         populate: {
-          path: "reply",
-          model: "Reply",
-          populate: {
-            path: "reply",
-            model: "Reply",
-          },
+          path: "user",
+          model: "User",
+          populate: [
+            {
+              path: "following",
+              model: "Follower",
+            },
+            { path: "followers", model: "Follower" },
+          ],
         },
       });
-
     res.status(200).json(data);
   },
 );

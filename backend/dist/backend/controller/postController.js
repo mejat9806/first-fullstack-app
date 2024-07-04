@@ -6,6 +6,7 @@ import { AppError } from "../utils/appError.js";
 import { Like } from "../model/likeModel.js";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";
 import cloudinarysetup from "../utils/cloudinary.js";
+import { populate } from "dotenv";
 export const getLatestPost = catchAsync(async (req, res, next) => {
   req.query.sort = "-createAt";
   console.log(
@@ -109,6 +110,17 @@ export const getOnePost = catchAsync(async (req, res, next) => {
     .populate({
       path: "comments",
       model: "Comment",
+      populate: {
+        path: "user",
+        model: "User",
+        populate: [
+          {
+            path: "following",
+            model: "Follower",
+          },
+          { path: "followers", model: "Follower" },
+        ],
+      },
     });
   res.status(200).json(data);
 });

@@ -92,19 +92,31 @@ export const getFriendPost = catchAsync(async (req, res, next) => {
 export const getOnePost = catchAsync(async (req, res, next) => {
   const { postId } = req.params;
   console.log(postId);
-  const data = await Post.findById(postId).populate({
-    path: "author",
-    model: "User",
-    select: "-password -joinDate -posts",
-    populate: [
-      {
-        path: "following",
-        model: "Follower",
-      },
-      { path: "followers", model: "Follower" },
-    ],
-  });
-
+  const data = await Post.findById(postId)
+    .populate({
+      path: "author",
+      model: "User",
+      select: "-password -joinDate -posts",
+      populate: [
+        {
+          path: "following",
+          model: "Follower",
+        },
+        { path: "followers", model: "Follower" },
+      ],
+    })
+    .populate("likes")
+    .populate({
+      path: "comments",
+      model: "Comment",
+      populate: [
+        {
+          path: "following",
+          model: "Follower",
+        },
+        { path: "followers", model: "Follower" },
+      ],
+    });
   res.status(200).json(data);
 });
 // export interface MulterFiles {

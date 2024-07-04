@@ -21,9 +21,9 @@ export const PostLayout = () => {
           theme === "dark"
             ? "text-white bg-slate-900 border-2 border-slate-100"
             : "text-black bg-slate-50 shadow-xl"
-        } p-4`}
+        } p-4 w-full`}
       >
-        <div>
+        <div className="">
           <PostDetail singleData={singleDetail} />
         </div>
         <Outlet context={comments} />

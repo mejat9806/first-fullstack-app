@@ -57,6 +57,8 @@ export const getFriendPost = catchAsync(async (req, res, next) => {
   console.log(userLogin, "check userLogin");
   const followingID = userLogin.following.map((follow) => follow.followedUser);
   console.log(followingID, "followingID");
+  req.query.sort = "-createAt";
+
   const allPostFilter = await apiFeatures(
     Post,
     req,

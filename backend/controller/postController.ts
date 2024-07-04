@@ -92,7 +92,7 @@ export const getFriendPost = catchAsync(
       (follow: any) => follow.followedUser,
     );
     console.log(followingID, "followingID");
-
+    req.query.sort = "-createAt";
     const allPostFilter = await apiFeatures(
       Post,
       req,

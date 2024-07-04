@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 type PageParams = string | number;
 
 export type UseGetAllPostReturnType = {
+  fetchType: string;
   data?: {
     pages: { data: PostItemType[] }[];
     pageParams: PageParams;
@@ -16,8 +17,10 @@ type PostResponse = {
   data: PostItemType[];
 };
 export const useGetAllPost = ({
+  fetchType,
   fetchingFunction,
 }: {
+  fetchType: string;
   fetchingFunction: ({
     pageParam,
   }: {
@@ -38,10 +41,10 @@ export const useGetAllPost = ({
     isLoading: isLoadingAllPosts,
     refetch,
   } = useInfiniteQuery<PostResponse>({
-    queryKey: ["posts"],
+    queryKey: ["posts", fetchType],
     queryFn: ({ pageParam = 1 }) =>
       fetchingFunction({ pageParam: pageParam as number }), // Default pageParam to 1
-    staleTime: 300000, // 5 minutes
+    staleTime: 300000,
     initialPageParam: 1,
     gcTime: 0,
     refetchOnMount: true,
@@ -51,7 +54,7 @@ export const useGetAllPost = ({
       return lastPage.data?.length ? allPages?.length + 1 : undefined;
     },
   });
-
+  console.log(fetchingFunction, "fetching function");
   return {
     data,
     error,

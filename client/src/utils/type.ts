@@ -109,9 +109,13 @@ export interface UserType extends AuthType {
 // }
 
 export interface Ifollow {
-  id: string;
-  follower: string;
+  followedUser: { id: string };
   user: {
     id: string;
   };
+}
+
+export interface Ifollower {
+  id: string;
+  followedUser: string;
 }

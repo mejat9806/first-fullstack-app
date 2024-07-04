@@ -102,7 +102,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
               <img
                 src={image[0]}
                 onClick={() => setOpenImage(true)}
-                className="max-w-[200px] md:max-w-[480px] md:max-h-[550px] object-cover"
+                className="max-w-[200px] max-w-[90%]  md:max-h-[550px] object-cover"
               />
             ) : (
               <ResponsiveMasonry

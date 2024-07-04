@@ -19,17 +19,17 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   //use type here to dynamically fetch data base on what the page want like recent or popular
   let postType = fetchAllPost;
   if (fetchType === "recent") {
-    postType = fetchFollowUserPost;
+    postType = fetchlatest;
   }
   if (fetchType === "home") {
-    postType = fetchlatest;
+    postType = fetchFollowUserPost;
   }
   if (fetchType === "popular") {
     postType = fetchAllPost;
   }
 
   const { data, error, status, fetchNextPage, refetch, isLoadingAllPosts } =
-    useGetAllPost({ fetchingFunction: postType });
+    useGetAllPost({ fetchingFunction: postType, fetchType });
 
   const { ref, inView } = useInView();
   const { isDeletePostLoading, status: statusDelete } = useDeletePost();
@@ -57,7 +57,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   if (!data) {
     return;
   }
-  console.log(data.pages[0].data.length, "postArea");
+  console.log(data, "postArea");
   if (data.pages[0].data.length === 0) {
     return (
       <div className="w-[300px] md:w-[500px] h-full flex justify-center items-center mt-10">
@@ -72,10 +72,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   ) : (
     <div className="w-full  h-full flex flex-col justify-center">
       {data.pages.map((page, i) => (
-        <div
-          key={i}
-          className="flex flex-col gap-10 mt-5 md:w-[500px] w-[100%]"
-        >
+        <div key={i} className="flex flex-col gap-10 mt-5 md:w-[700px] w-full">
           {page.data.sort().map((itemData, i: number) => (
             <div key={i} className="">
               <PostItem item={itemData} to="popular" />

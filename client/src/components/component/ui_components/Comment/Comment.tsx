@@ -13,7 +13,6 @@ import { useTheme } from "@/components/darkMode/theme-provider";
 import { useComment } from "@/features/api/Comment/useComment";
 import LoadingPage from "../LoadingPage";
 import { HoverPic } from "../HoverPic";
-import { baseUrl } from "@/lib/basedURL";
 
 interface ICommentData {
   commentData: Icomment;
@@ -35,7 +34,7 @@ const Comment = ({ commentData }: ICommentData) => {
   console.log(commentData, "in comment");
   const text = commentReplydata?.commentText || commentData?.commentText;
   // console.log("text:", commentReplydata.commentText, commentData.commentText);
-  const profileImage = `${baseUrl}img/posts/${commentData.user.profileImage}`;
+  const profileImage = `${commentData.user.profileImage}`;
   console.log(text, "commment data text");
   return (
     <div className="relative">

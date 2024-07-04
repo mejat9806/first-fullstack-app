@@ -101,7 +101,13 @@ export const getOnePost = catchAsync(async (req, res, next) => {
     .populate({
       path: "comments",
       model: "Comment",
-      populate: { path: "user", model: "User" },
+      populate: [
+        {
+          path: "following",
+          model: "Follower",
+        },
+        { path: "followers", model: "Follower" },
+      ],
     })
     .populate({
       path: "comments",

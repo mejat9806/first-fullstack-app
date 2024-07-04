@@ -15,7 +15,7 @@ const commentSchema = new mongoose.Schema<CommentType>({
   commentText: String,
   commentId: { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
   reply: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
-  timeStamp: { type: Date, default: Date.now() },
+  timeStamp: { type: Date, default: Date.now },
 });
 
 commentSchema.pre<CommentType>(/^find/, function (next) {

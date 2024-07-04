@@ -17,7 +17,6 @@ export function useCreatePost() {
     onSuccess: (data) => {
       console.log(data);
       toast({ title: "Post successfully created" });
-      queryClient.setQueryData(["post"], data);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       navigate("/");
     },

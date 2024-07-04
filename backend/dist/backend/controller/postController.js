@@ -109,13 +109,6 @@ export const getOnePost = catchAsync(async (req, res, next) => {
     .populate({
       path: "comments",
       model: "Comment",
-      populate: [
-        {
-          path: "following",
-          model: "Follower",
-        },
-        { path: "followers", model: "Follower" },
-      ],
     });
   res.status(200).json(data);
 });

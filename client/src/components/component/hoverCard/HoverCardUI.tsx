@@ -17,29 +17,31 @@ const HoverCardUI = ({ userId }: { userId: string }) => {
     userId,
   });
   if (isGetProfile || !userProfileData) {
-    return <LoadingPage />;
+    return <LoadingPage className="h-fit" />;
   }
   if (isError) {
     return <div>something goes wrong</div>;
   }
   if (!user) {
-    return <LoadingPage />;
+    return <LoadingPage className="h-fit" />;
   }
+  const userID = user.id;
   const following = userProfileData.followers.map(
     (follow: Ifollow) => follow.user.id,
   );
+  console.log(userID, "userID");
   console.log(following, "following");
-  const isFollow = following.includes(userProfileData.id);
+  const isFollow = following.includes(userID);
   const togglingFollow = () => {
     ToggleFollow(userProfileData.id);
   };
-  const userID = user.id;
 
   const profileImage = `${
     userProfileData?.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
-    "./../../../../../public/img/userImage/defaultUser.svg"
+    "/img/userImage/defaultUser.svg"
   }`;
   const dateJoin = userProfileData.joinDate.split("T")[0];
+  console.log(following, "following");
   return (
     <div className="flex w-full justify-between">
       <div className="flex gap-4 flex-col">

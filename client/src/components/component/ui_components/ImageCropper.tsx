@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Cropper from "react-easy-crop";
 import { Button } from "@/shadcnComponent/ui/button";
+import { useTheme } from "@/components/darkMode/theme-provider";
 
 export interface CroppedArea {
   width: number;
@@ -28,7 +29,7 @@ export const ImageCropper = ({
     console.log("croppedAreaPixels:", croppedAreaPixels); // Debugging line
     setCroppedArea(croppedAreaPixels);
   };
-
+  const { theme } = useTheme();
   return (
     <div className="relative w-full h-full flex flex-col justify-end items-end">
       <div className="flex justify-center items-center w-full gap-11">
@@ -49,7 +50,14 @@ export const ImageCropper = ({
         />
       </div>
       <div className="absolute bottom-0 flex justify-center items-center w-full gap-7">
-        <Button onClick={onCropCancel} className="text-white z-50">
+        <Button
+          onClick={onCropCancel}
+          className={`${
+            theme === "dark"
+              ? "text-white bg-slate-600 hover:text-black"
+              : "text-blac bg-slate-400"
+          } `}
+        >
           Cancel
         </Button>
         <Button
@@ -59,7 +67,11 @@ export const ImageCropper = ({
               onCropDone(croppedArea);
             }
           }}
-          className="text-white z-50"
+          className={`${
+            theme === "dark"
+              ? "text-white bg-slate-600 hover:text-black"
+              : "text-black bg-slate-500 hover:text-black"
+          }  z-50`}
         >
           Crop and Apply
         </Button>

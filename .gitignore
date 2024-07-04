@@ -123,3 +123,4 @@ client/rootCA.pem
 .env
 client/.env
 backend/.env
+backend/.env

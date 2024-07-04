@@ -41,8 +41,8 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
   const isAuthorCorrect = user.id === author?.id;
   console.log(singleData.data, "like");
   const profileImage = `${
-    "./../../../../../public/img/userImage/defaultUser.svg" ??
-    singleData.data.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
+    singleData.data.author?.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
+    "./../../../../../public/img/userImage/defaultUser.svg"
   }`;
   return (
     <div className="flex justify-center w-full">

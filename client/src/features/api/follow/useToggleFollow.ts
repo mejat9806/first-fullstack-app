@@ -10,11 +10,6 @@ export const useToggleFollow = () => {
     mutationKey: ["follow"],
     mutationFn: ToggleFollowApi,
     onSuccess: () => {
-      toast({
-        title: "toogling work",
-        description: "work",
-        variant: "success",
-      });
       query.invalidateQueries({ queryKey: ["follow"] });
       query.invalidateQueries({ queryKey: ["userProfile"] });
       query.invalidateQueries({ queryKey: ["profile"] });

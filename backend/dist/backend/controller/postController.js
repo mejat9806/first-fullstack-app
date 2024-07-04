@@ -3,9 +3,9 @@ import { User } from "../model/userModel.js";
 import { apiFeatures } from "../utils/apiFeature.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import { AppError } from "../utils/appError.js";
-import { Like } from "../model/likeModel.js";
-import { filterObjectsForUpdate } from "../utils/filterObject.js";
-import cloudinarysetup from "../utils/cloudinarysetup.js";
+import { Like } from "../model/likeModel";
+import { filterObjectsForUpdate } from "../utils/filterObject";
+import cloudinarysetup from "../utils/cloudinary";
 export const getLatestPost = catchAsync(async (req, res, next) => {
   req.query.sort = "-createAt";
   console.log(
@@ -57,6 +57,8 @@ export const getFriendPost = catchAsync(async (req, res, next) => {
   console.log(userLogin, "check userLogin");
   const followingID = userLogin.following.map((follow) => follow.followedUser);
   console.log(followingID, "followingID");
+  req.query.sort = "-createAt";
+
   const allPostFilter = await apiFeatures(
     Post,
     req,
@@ -101,7 +103,13 @@ export const getOnePost = catchAsync(async (req, res, next) => {
     .populate({
       path: "comments",
       model: "Comment",
-      populate: { path: "user", model: "User" },
+      populate: [
+        {
+          path: "following",
+          model: "Follower",
+        },
+        { path: "followers", model: "Follower" },
+      ],
     })
     .populate({
       path: "comments",

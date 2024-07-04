@@ -92,7 +92,7 @@ export const getFriendPost = catchAsync(
       (follow: any) => follow.followedUser,
     );
     console.log(followingID, "followingID");
-
+    req.query.sort = "-createAt";
     const allPostFilter = await apiFeatures(
       Post,
       req,
@@ -139,6 +139,13 @@ export const getOnePost = catchAsync(
         path: "author",
         model: "User",
         select: "-password -joinDate -posts",
+        populate: [
+          {
+            path: "following",
+            model: "Follower",
+          },
+          { path: "followers", model: "Follower" },
+        ],
       })
       .populate("likes")
       .populate({

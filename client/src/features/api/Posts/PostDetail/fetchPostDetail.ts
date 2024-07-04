@@ -22,7 +22,7 @@ export type IsinglePostDetail = {
   data: {
     title: string;
     detail: string;
-    author: { id: string; profileImage: string; name: string };
+    author: { id: string; profileImage: string; name: string; bio: string };
     image: [string];
     createAt: string;
     slug: string;

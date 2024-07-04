@@ -26,7 +26,10 @@ const userSchema = new mongoose.Schema({
     joinDate: { type: Date, default: Date.now() },
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     passwordConfirmed: String,
-    profileImage: { type: String, default: "defaultUser.svg" },
+    profileImage: {
+        type: String,
+        default: "https://res.cloudinary.com/dmwtopo5n/image/upload/v1719901035/defaultUse_pyy1rs.webp",
+    },
     active: { type: Boolean, default: true, select: false },
     passwordChangedAt: Date,
     passwordResetToken: String,
@@ -65,6 +68,7 @@ userSchema.pre("save", function (next) {
 userSchema.methods.comparePassword = async function (inputPassword, passFromDB) {
     return bcrypt.compare(inputPassword, passFromDB);
 };
+userSchema.pre("updateOne", function (next) { });
 // Explicitly type the 'this' context as a Mongoose query object for query middleware hooks
 // userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
 //   this.populate({

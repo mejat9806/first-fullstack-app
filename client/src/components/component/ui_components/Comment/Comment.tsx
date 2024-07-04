@@ -1,5 +1,5 @@
 import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
@@ -10,8 +10,8 @@ import ReplyItem from "./reply/ReplyItem";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTheme } from "@/components/darkMode/theme-provider";
-import { useComment } from "@/features/api/Comment/useComment";
-import LoadingPage from "../LoadingPage";
+// import { useComment } from "@/features/api/Comment/useComment";
+// import LoadingPage from "../LoadingPage";
 import { HoverPic } from "../HoverPic";
 
 interface ICommentData {
@@ -26,13 +26,14 @@ const Comment = ({ commentData }: ICommentData) => {
   const { theme } = useTheme();
   const { postId } = useParams();
   // console.log("comment data:", commentData); // Debugging statement
-  const { commentData: commentReplydata, loadingCommentData } = useComment();
 
-  if (loadingCommentData) {
-    return <LoadingPage />;
-  }
+  // const { commentData: commentReplydata, loadingCommentData } = useComment();
+
+  // if (loadingCommentData) {
+  //   return <LoadingPage className="h-20" />;
+  // }
   console.log(commentData, "in comment");
-  const text = commentReplydata?.commentText || commentData?.commentText;
+  const text = commentData?.commentText;
   // console.log("text:", commentReplydata.commentText, commentData.commentText);
   const profileImage = `${commentData.user.profileImage}`;
   console.log(text, "commment data text");

@@ -33,17 +33,14 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
   if (!user) {
     return <LoadingPage />;
   }
-  const { author, createAt, detail, image, title, likes, id, comments } =
-    singleData.data;
-  console.log(comments, "here in postDetails");
+  const { author, createAt, detail, image, title, likes, id } = singleData.data;
+  console.log(author, "here in postDetails");
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
   const isAuthorCorrect = user.id === author?.id;
   console.log(singleData.data, "like");
-  const profileImage = `${
-    singleData.data.author?.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
-    "./../../../../../public/img/userImage/defaultUser.svg"
-  }`;
+  const profileImage = `${singleData.data.author?.profileImage}
+`;
   return (
     <div className="flex justify-center w-full">
       <div className=" w-full  ">

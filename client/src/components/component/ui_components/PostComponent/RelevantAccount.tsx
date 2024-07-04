@@ -80,7 +80,10 @@ export const RelevantAccount = ({ comments, author }: RelevantAcc) => {
       </div>
 
       {uniqueData.slice(0, 4).map((comment) => (
-        <div className="hover:bg-slate-600 text-lg odd:bg-slate-800 even:bg-slate-900 p-4 last:rounded-b-xl">
+        <div
+          className="hover:bg-slate-600 text-lg odd:bg-slate-800 even:bg-slate-900 p-4 last:rounded-b-xl"
+          key={comment.id}
+        >
           <div
             className="flex gap "
             onClick={() => navigate(`/profile/${comment.id}`)}

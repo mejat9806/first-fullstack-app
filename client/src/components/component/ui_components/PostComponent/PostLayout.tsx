@@ -12,7 +12,7 @@ export const PostLayout = () => {
   if (!singleDetail || !singleDetail.data || singleDetailLoading) {
     return <LoadingPage />;
   }
-  console.log(singleDetail.data, "single diteali");
+  console.log(singleDetail, "single diteali");
   const { comments, author } = singleDetail.data;
   return (
     <div className="p-4 rounded-md flex flex-col md:flex-row gap-4  w-dvw md:max-w-lg md:w-[70%] my-24 lg:max-w-5xl ">

@@ -3,8 +3,8 @@ import { User } from "../model/userModel.js";
 import { apiFeatures } from "../utils/apiFeature.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import { AppError } from "../utils/appError.js";
-import { Like } from "../model/likeModel";
-import { filterObjectsForUpdate } from "../utils/filterObject";
+import { Like } from "../model/likeModel.js";
+import { filterObjectsForUpdate } from "../utils/filterObject.js";
 import cloudinarysetup from "../utils/cloudinary";
 export const getLatestPost = catchAsync(async (req, res, next) => {
   req.query.sort = "-createAt";
@@ -58,7 +58,6 @@ export const getFriendPost = catchAsync(async (req, res, next) => {
   const followingID = userLogin.following.map((follow) => follow.followedUser);
   console.log(followingID, "followingID");
   req.query.sort = "-createAt";
-
   const allPostFilter = await apiFeatures(
     Post,
     req,
@@ -98,11 +97,6 @@ export const getOnePost = catchAsync(async (req, res, next) => {
       path: "author",
       model: "User",
       select: "-password -joinDate -posts",
-    })
-    .populate("likes")
-    .populate({
-      path: "comments",
-      model: "Comment",
       populate: [
         {
           path: "following",
@@ -110,6 +104,12 @@ export const getOnePost = catchAsync(async (req, res, next) => {
         },
         { path: "followers", model: "Follower" },
       ],
+    })
+    .populate("likes")
+    .populate({
+      path: "comments",
+      model: "Comment",
+      populate: { path: "user", model: "User" },
     })
     .populate({
       path: "comments",

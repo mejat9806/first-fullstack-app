@@ -13,7 +13,7 @@ export const useComment = ({
 }: UseCommentParams = {}) => {
   // Provide default value here
   const { commentId } = useParams<{ commentId?: string }>();
-  console.log(commentId, "comment sd");
+  console.log(id, "comment sd");
 
   const Id = runWith === "replyId" ? id : commentId;
   console.log(Id, "Id in useCommnet");
@@ -25,7 +25,7 @@ export const useComment = ({
   } = useQuery({
     queryKey: ["comment", Id],
     queryFn: () => getCommentApi(Id as string),
-    enabled: !!Id, // Ensure the query only runs if Id is defined
+    // enabled: !!Id, // Ensure the query only runs if Id is defined
   });
 
   return { commentData, loadingCommentData, refetchComment };

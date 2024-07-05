@@ -26,3 +26,5 @@ work need to be implement
 - [x]add tiptap if posible
 - []add edited mark on the post
 - []add delete account function
+- []fix update post dialog (remove the html and fixed the colors)
+- [] fixed layout shift in setting page

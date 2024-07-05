@@ -88,7 +88,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
               }}
             ></h1>
             <p
-              className="whitespace-break-spaces break-all	 text-sm  font-extralight text-wrap"
+              className="whitespace-break-spaces break-all	 text-sm  font-extralight text-wrap mb-10"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(detail),
               }}

@@ -12,7 +12,6 @@ import DOMPurify from "dompurify";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { HoverPic } from "../HoverPic";
-import { baseUrl } from "@/lib/basedURL";
 
 const CommentLayout = () => {
   const comments = useOutletContext() as Icomment[];

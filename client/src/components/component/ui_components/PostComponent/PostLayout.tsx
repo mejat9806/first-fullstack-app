@@ -26,7 +26,9 @@ export const PostLayout = () => {
         <div className="">
           <PostDetail singleData={singleDetail} />
         </div>
-        <Outlet context={comments} />
+        <div className="mt-5">
+          <Outlet context={comments} />
+        </div>
       </div>
       <RelevantAccount comments={comments} author={author} />
     </div>

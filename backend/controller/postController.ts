@@ -88,9 +88,10 @@ export const getFriendPost = catchAsync(
       return AppError("Something goes wrong", 404);
     }
     console.log(userLogin, "check userLogin");
-    const followingID = (userLogin.following as any).map(
+    const IDs = (userLogin.following as any).map(
       (follow: any) => follow.followedUser,
     );
+    const followingID = IDs.push(user.id);
     console.log(followingID, "followingID");
     req.query.sort = "-createAt";
     const allPostFilter = await apiFeatures(
@@ -98,10 +99,11 @@ export const getFriendPost = catchAsync(
       req,
       "likes author",
       "name  profileImage ",
-      followingID,
+      IDs,
     );
     const posts = await allPostFilter;
-    // const posts = await Post.find({ author: { $in: followingID } });
+    // const userposts = await Post.find(user.id);
+    // console.log(userposts);
     // const getAllPostByUserFollow =
 
     // console.log(followingID, "followingID");

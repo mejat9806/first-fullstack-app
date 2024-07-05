@@ -39,7 +39,7 @@ const CommentLayout = () => {
           <div className="grid grid-cols-2 grid-cols-comment gap-2 relative bg-blue-200/20 p-2 border-2 border-gray-500/20 rounded-lg">
             <div>
               <HoverPic
-                profileImage={`${baseUrl}/img/posts/${comment.user.profileImage}`}
+                profileImage={`${comment.user.profileImage}`}
                 userId={comment.user.id}
               />
             </div>

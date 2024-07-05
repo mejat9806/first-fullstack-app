@@ -40,7 +40,7 @@ const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
   }
   console.log(commentData, "commentData in replyItem");
   console.log(replyData, "replyData");
-  const profileImage = `${baseUrl}img/posts/${replyData.user?.profileImage}`;
+  const profileImage = `${replyData.user?.profileImage}`;
   return (
     <div className="flex flex-col h-fit ml-3 relative border-2 p-2 rounded-xl border-gray-400/50">
       <div className="flex justify-start items-center gap-4 relative ">

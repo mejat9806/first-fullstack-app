@@ -60,8 +60,13 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   console.log(data, "postArea");
   if (data.pages[0].data.length === 0) {
     return (
-      <div className="w-[300px] md:w-[500px] h-full flex justify-center items-center mt-10">
-        <h1 className="text-5xl">No Data</h1>
+      <div className="w-[300px] md:w-full h-full flex justify-center items-center mt-10">
+        <h1 className="text-2xl capitalize">
+          {" "}
+          {fetchType === "home"
+            ? "this will show the user that you follow "
+            : "No Data"}
+        </h1>
       </div>
     );
   }

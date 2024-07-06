@@ -25,7 +25,7 @@ const ProfileUI = () => {
   const [currentPage, setCurrentPage] = useState("choose-img");
   const { id: userId } = useParams<{ id: string }>();
   const { user } = useContext(UserContext);
-  const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
+  const { isGetProfile, userProfileData } = useGetPosterProfile({
     userId: userId || "",
   });
   if (!userId) {

@@ -16,7 +16,7 @@ const BookmarkSave = () => {
     userId,
   });
   if (!userProfileData) {
-    return <LoadingPage />;
+    return <LoadingPage className="" />;
   }
   console.log(userProfileData, "userProfileData");
   return (

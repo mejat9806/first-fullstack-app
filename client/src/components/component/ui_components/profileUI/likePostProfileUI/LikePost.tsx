@@ -12,8 +12,8 @@ const LikePost = () => {
   const { userProfileData } = useGetPosterProfile({
     userId,
   });
-  if (!userProfileData) {
-    return <LoadingPage />;
+  if (!userProfileData?.likePosts) {
+    return <LoadingPage className="h-fit" />;
   }
 
   console.log(userProfileData, "like post");

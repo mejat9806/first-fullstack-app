@@ -2,13 +2,13 @@
 import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
 import { useQueryClient } from "@tanstack/react-query";
 import { Bookmark, Heart } from "lucide-react";
-import LoadingPage from "../LoadingPage";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import { FaCommentDots } from "react-icons/fa6";
 import type { IBookmark, Ilike, PostFooter } from "@/utils/type";
 import useBookmark from "@/features/api/bookmark/useBookmark";
+import { PostSkeleton } from "./PostSkeleton";
 const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { user } = useContext(UserContext);
   const { likeDislike } = useLikeDislike();
@@ -16,14 +16,14 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { mutateBookmark } = useBookmark();
   const queryClient = useQueryClient();
   if (!user) {
-    return <LoadingPage className="h-fit" />;
+    return <PostSkeleton />;
   }
   const userId = user.id;
   const { userProfileData } = useGetPosterProfile({
     userId,
   });
   if (!userProfileData) {
-    return <LoadingPage className="h-fit" />;
+    return <PostSkeleton />;
   }
   console.log({ userProfileData, user }, "userProfileData");
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);

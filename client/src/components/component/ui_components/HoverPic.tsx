@@ -22,6 +22,7 @@ export const HoverPic = ({ profileImage, userId }: IHoverCard) => {
           className="md:h-12 md:w-12 w-9 h-9 rounded-full cursor-pointer  "
           // change this
           onClick={() => navigate(`/profile/${userId}`)}
+          loading="lazy"
         />
       </HoverCardTrigger>
       <HoverCardContent className="m-0 absolute -top-20 -left-20">

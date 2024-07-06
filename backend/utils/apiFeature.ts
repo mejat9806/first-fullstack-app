@@ -20,7 +20,7 @@ function applySorting(query: any, sortQuery: any) {
 }
 function applyPagination(query: any, pageQuery: any, limitQuery: any) {
   const page = pageQuery * 1 || 1;
-  const limit = limitQuery * 1 || 5;
+  const limit = limitQuery * 1 || 20;
   const skip = (page - 1) * limit; //this used to get the previous page to skip
   return query.skip(skip).limit(limit);
 }

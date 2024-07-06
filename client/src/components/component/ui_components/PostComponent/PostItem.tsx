@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useTheme } from "@/components/darkMode/theme-provider";
 
-import LoadingPage from "../LoadingPage";
 import DOMPurify from "dompurify";
 import { PostItemType } from "@/utils/type";
 import { HoverPic } from "../HoverPic";
+import { PostSkeleton } from "./PostSkeleton";
 
 interface item<T extends PostItemType> {
   item: T;
@@ -21,7 +21,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
   const postDay = dateFormat(item.createAt);
   if (!item) {
-    return <LoadingPage />; // or handle the case when item is undefined
+    return <PostSkeleton />; // or handle the case when item is undefined
   }
   console.log(item, "item for post");
   console.log(item.author._id);
@@ -67,6 +67,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
             src={`${item.image}`}
             onClick={() => navigate(`/post/${item._id}`, { replace: true })}
             className=" max-w-[200px] md:max-w-[450px] md:max-h-[400px] object-cover  "
+            loading="lazy"
           />
         ) : (
           <ResponsiveMasonry
@@ -82,6 +83,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
                   src={img}
                   onClick={() => navigate(`post/${item._id}`)}
                   className="md:max-h-[300px]  object-cover "
+                  loading="lazy"
                 />
               ))}
             </Masonry>

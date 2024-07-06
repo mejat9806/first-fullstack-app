@@ -85,20 +85,12 @@ const ProfileUI = () => {
     setImage("");
   };
 
-  if (isGetProfile || !user) {
+  if (isGetProfile || !user || !userProfileData) {
     return <LoadingPage />;
   }
 
   const userID = user.id;
 
-  if (isError) {
-    return <div>Error loading user profile: {isError.message}</div>;
-  }
-
-  if (!userProfileData) {
-    return <div>No user profile data provided.</div>;
-  }
-  console.log({ userProfileData });
   const shouldRenderButton = userProfileData.id === user._id;
   const following = userProfileData.followers.map(
     (follow: Ifollow) => follow.user.id,

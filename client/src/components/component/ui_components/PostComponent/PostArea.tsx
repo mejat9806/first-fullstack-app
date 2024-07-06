@@ -2,7 +2,6 @@ import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import PostItem from "./PostItem";
-import LoadingPage from "../LoadingPage";
 
 import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
@@ -10,6 +9,7 @@ import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
 import { fetchFollowUserPost } from "@/features/api/Posts/fetchPost/fetchFollowUserPost";
 import { useLocation } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import { PostSkeleton } from "./PostSkeleton";
 
 const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   const { pathname } = useLocation();
@@ -50,7 +50,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
     return () => {};
   }, [fetchNextPage, inView, postType]);
   if (isLoadingAllPosts) {
-    return <LoadingPage />;
+    return <PostSkeleton />;
   }
 
   console.log(data, "in POST");

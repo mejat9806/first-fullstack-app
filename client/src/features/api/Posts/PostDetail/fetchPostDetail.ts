@@ -32,12 +32,7 @@ export type IsinglePostDetail = {
   };
 };
 
-export const fetchPostDetail = async ({
-  postId,
-}: {
-  postId: string;
-}): Promise<IsinglePostDetail> => {
-  const response: IsinglePostDetail = await apiClient.get(`/posts/${postId}`);
-  console.log(response.data);
-  return response;
+export const fetchPostDetail = async ({ postId }: { postId: string }) => {
+  const response = await apiClient.get(`/posts/${postId}`);
+  return response.data;
 };

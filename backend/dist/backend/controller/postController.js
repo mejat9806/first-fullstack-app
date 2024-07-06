@@ -125,7 +125,7 @@ export const getOnePost = catchAsync(async (req, res, next) => {
         ],
       },
     });
-  res.status(200).json(data);
+  res.status(200).json({ data });
 });
 // export interface MulterFiles {
 //   image: Express.Multer.File[];

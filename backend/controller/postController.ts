@@ -164,7 +164,7 @@ export const getOnePost = catchAsync(
           ],
         },
       });
-    res.status(200).json(data);
+    res.status(200).json({ data });
   },
 );
 // export interface MulterFiles {

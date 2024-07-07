@@ -3,7 +3,7 @@ import { UserContext } from "@/context/userContext";
 import { useToggleFollow } from "@/features/api/follow/useToggleFollow";
 import { Button } from "@/shadcnComponent/ui/button";
 import { Ifollow, RelevantAccountUserInPOst } from "@/utils/type";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../LoadingPage";
 

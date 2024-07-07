@@ -34,7 +34,7 @@ export const UserListToFollow = () => {
   return (
     <div className=" flex flex-col gap-5">
       <h1 className="text-xl font-semibold px-4 pt-3">User to Follow</h1>
-      <div className="divide-slate-300 divide-y-2">
+      <div className="divide-slate-600 divide-y-2">
         {userFollowedLoginUser.slice(0, 4).map((userData) => (
           <UserListItem key={user.id} userData={userData} currentLogin={user} />
         ))}

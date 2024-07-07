@@ -85,9 +85,7 @@ function Nav() {
                 } `}
               />
             </i>{" "}
-            <span className="hidden md:flex transition-all duration-150">
-              Write
-            </span>
+            <span className="hidden  transition-all duration-150">Write</span>
           </Button>
         </div>
         <DialogFN
@@ -137,7 +135,7 @@ function Nav() {
               />
             </i>{" "}
             <span
-              className={`hidden md:flex  ${
+              className={`md:hidden md:flex  ${
                 theme === "dark"
                   ? "group-hover:text-black"
                   : "group-hover:text-white"

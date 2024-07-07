@@ -1,6 +1,8 @@
+import { useTheme } from "@/components/darkMode/theme-provider";
 import { useToggleFollow } from "@/features/api/follow/useToggleFollow";
 import { Button } from "@/shadcnComponent/ui/button";
 import { Ifollow, UserType } from "@/utils/type";
+import { useNavigate } from "react-router-dom";
 
 export const UserListItem = ({
   userData,
@@ -9,6 +11,8 @@ export const UserListItem = ({
   userData: UserType;
   currentLogin: UserType;
 }) => {
+  const { theme } = useTheme();
+  const navigate = useNavigate();
   const { ToggleFollow, isToggleFollow } = useToggleFollow();
   const togglingFollow = ({ userId }: { userId: string }) => {
     ToggleFollow(userId);
@@ -23,7 +27,12 @@ export const UserListItem = ({
   return (
     <div
       key={userData._id}
-      className="odd:bg-slate-200 p-4 text-lg flex items-center justify-between"
+      className={` p-4 text-lg flex items-center justify-between  ${
+        theme === "dark"
+          ? "text-white  odd:bg-slate-600"
+          : "text-black   odd:bg-slate-300"
+      }`}
+      onClick={() => navigate(`/profile/${userData._id}`)}
     >
       <div className="flex gap-3 items-center">
         <img
@@ -32,7 +41,7 @@ export const UserListItem = ({
           className="h-10 w-10 rounded-full"
         />
 
-        <h1 className=" break-words">{userData.name}</h1>
+        <h1 className=" break-words w-full">{userData.name}</h1>
       </div>
       <div>
         <Button

@@ -60,7 +60,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   console.log(data, "postArea");
   if (data.pages[0].data.length === 0) {
     return (
-      <div className="w-[300px] md:w-full h-full flex justify-center items-center mt-10">
+      <div className="w-[300px] md:w-full h-full  flex justify-center items-center mt-10">
         <h1 className="text-2xl capitalize">
           {" "}
           {fetchType === "home"
@@ -77,7 +77,10 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   ) : (
     <div className="w-full  h-full flex flex-col ">
       {data.pages.map((page, i) => (
-        <div key={i} className="flex flex-col gap-10 mt-5  min-w-[600px] ">
+        <div
+          key={i}
+          className="flex flex-col gap-10 mt-5  w-svw max-w-[600px] "
+        >
           {page.data.sort().map((itemData, i: number) => (
             <div key={i} className="w-full flex justify-center items-center">
               <PostItem item={itemData} to="popular" />

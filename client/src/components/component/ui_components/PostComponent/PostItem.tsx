@@ -66,7 +66,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
           <img
             src={`${item.image}`}
             onClick={() => navigate(`/post/${item._id}`, { replace: true })}
-            className=" max-w-[200px] md:max-w-[450px] md:max-h-[400px] object-cover  "
+            className=" max-w-[300px] md:max-w-[450px] md:max-h-[400px] object-cover  "
             loading="lazy"
           />
         ) : (

@@ -1,3 +1,4 @@
+import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
 import { ReactNode } from "react";
 import { UseFormReturn } from "react-hook-form";
 
@@ -118,4 +119,15 @@ export interface Ifollow {
 export interface Ifollower {
   id: string;
   followedUser: string;
+}
+export interface RelevantAccountUserInPOst {
+  name: string;
+  profileImage: string;
+  id: string;
+  bio: string;
+}
+
+export interface RelevantAcc {
+  comments: Icomment[];
+  author: RelevantAccountUserInPOst;
 }

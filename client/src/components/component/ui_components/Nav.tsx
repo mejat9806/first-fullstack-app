@@ -42,7 +42,7 @@ function Nav() {
   return (
     <>
       <nav
-        className={`md:hidden flex w-screen justify-center items-start	fixed bottom-0  
+        className={`lg:hidden flex w-screen justify-center items-start	fixed bottom-0  
           backdrop-blur-2xl z-50`}
       >
         <div
@@ -98,7 +98,7 @@ function Nav() {
         />
       </nav>
       <nav
-        className={`md:flex flex-col justify-between  items-center h-screen  w-[60px] md:w-[140px]  backdrop-blur-2xl	fixed hidden  transition-all duration-150 mt-12  ${
+        className={`lg:flex flex-col justify-between  items-center h-screen  w-[60px] md:w-[140px]  backdrop-blur-2xl	fixed hidden  transition-all duration-150 mt-12  ${
           theme === "dark"
             ? "text-white bg-black  "
             : "text-black bg-slate-100  "

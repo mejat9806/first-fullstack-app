@@ -56,26 +56,6 @@ const SearchResultLayout = () => {
           >
             User{" "}
           </Button>
-          <Button
-            onClick={() =>
-              nagivate(`/search/comment${search}`, { state: state })
-            }
-            className={`rounded-full ${
-              pathname === "/search/comment"
-                ? ` ${
-                    theme === "dark"
-                      ? "text-white hover:text-black bg-slate-500 hover:bg-slate-100"
-                      : "text-black bg-blue-200 hover:text-white hover:bg-slate-600"
-                  } `
-                : ` bg-transparent ${
-                    theme === "dark"
-                      ? "text-white hover:bg-blue-200 hover:text-black hover:bg-slate-200"
-                      : "text-black  hover:text-white"
-                  } `
-            } `}
-          >
-            Comment{" "}
-          </Button>
         </div>
         <div className="mt-6">
           <Outlet />

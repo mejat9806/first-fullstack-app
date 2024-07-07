@@ -75,11 +75,11 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   ) : status === "error" ? (
     <div>{error?.message}</div>
   ) : (
-    <div className="w-full  h-full flex flex-col justify-center">
+    <div className="w-full  h-full flex flex-col ">
       {data.pages.map((page, i) => (
-        <div key={i} className="flex flex-col gap-10 mt-5 md:w-[700px] w-full">
+        <div key={i} className="flex flex-col gap-10 mt-5  min-w-[600px] ">
           {page.data.sort().map((itemData, i: number) => (
-            <div key={i} className="">
+            <div key={i} className="w-full flex justify-center items-center">
               <PostItem item={itemData} to="popular" />
             </div>
           ))}

@@ -11,7 +11,7 @@ export const PostLayout = () => {
   const { singleDetailLoading, singleDetail } = useFetchDetails();
 
   return (
-    <div className="p-4 rounded-md flex flex-col md:flex-row gap-4  w-dvw md:max-w-lg md:w-[70%] my-24 lg:max-w-5xl ">
+    <div className="p-4 rounded-md flex flex-col md:flex-row gap-4  w-[dvw] sm:w-[80%] md:max-w-lg md:w-[70%] my-24 lg:max-w-5xl ">
       {!singleDetail || singleDetailLoading ? (
         <PostDetailsSkeleton skeletonType="postDetail" />
       ) : (

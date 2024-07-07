@@ -13,7 +13,7 @@ function MainLayout() {
       <HoroBar />
       <div className=" flex ">
         <Nav />
-        <div className="flex-grow flex justify-center items-center md:mt-16 ">
+        <div className="flex-grow gap-x-16 flex justify-center items-start md:mt-16 lg:ml-44">
           <Outlet />
         </div>
       </div>

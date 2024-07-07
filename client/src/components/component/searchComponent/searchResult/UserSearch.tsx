@@ -16,6 +16,7 @@ export const UserSearch = () => {
           className={`${
             theme === "dark" ? "odd:bg-slate-950" : "odd:bg-blue-50"
           }`}
+          key={userSearch._id}
         >
           <SearchItem user={userSearch} key={userSearch.id} type="user" />
         </div>

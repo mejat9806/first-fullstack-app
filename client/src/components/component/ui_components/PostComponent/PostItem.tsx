@@ -36,7 +36,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
         theme === "dark"
           ? "text-white  hover:bg-slate-700  border-2 border-slate-100"
           : "text-black  hover:bg-slate-200 border-2 border-slate-200"
-      } p-3  rounded-2xl  shadow-md w-dvw md:max-w-2xl`}
+      } p-3  rounded-2xl  shadow-md w-[90%] md:max-w-2xl`}
     >
       <div className="w-full  flex  mb-3 ">
         <HoverPic profileImage={profileImage} userId={item.author._id} />

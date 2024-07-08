@@ -12,7 +12,6 @@ import DOMPurify from "dompurify";
 import AddReply from "./AddReply";
 import { Button } from "@/shadcnComponent/ui/button";
 import { useComment } from "@/features/api/Comment/useComment";
-import { baseUrl } from "@/lib/basedURL";
 
 interface IreplyData {
   replyData: Ireply;

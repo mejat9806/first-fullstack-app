@@ -29,8 +29,8 @@ export const createSendToken = (user, statusCode, res) => {
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
-    // sameSite: "lax",
+    // sameSite: "strict",
+    sameSite: "none",
   });
   res.cookie("refreshToken", refreshToken, {
     expires: new Date(
@@ -38,8 +38,8 @@ export const createSendToken = (user, statusCode, res) => {
     ),
     secure: true,
     httpOnly: true,
-    sameSite: "strict",
-    // sameSite: "none",
+    // sameSite: "strict",
+    sameSite: "none",
   });
   res.status(statusCode).json({
     accessToken,

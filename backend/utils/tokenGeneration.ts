@@ -38,7 +38,7 @@ export const createSendToken = (
     secure: true,
 
     // sameSite: "strict",
-    sameSite: "strict",
+    sameSite: "none",
   });
   res.cookie("refreshToken", refreshToken, {
     expires: new Date(
@@ -47,7 +47,7 @@ export const createSendToken = (
     secure: true,
     httpOnly: true,
     // sameSite: "strict",
-    sameSite: "strict",
+    sameSite: "none",
   });
   res.status(statusCode).json({
     accessToken,

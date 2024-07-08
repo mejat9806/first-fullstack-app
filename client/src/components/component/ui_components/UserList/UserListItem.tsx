@@ -28,7 +28,7 @@ export const UserListItem = ({
   return (
     <div
       key={userData._id}
-      className={` p-4 text-lg flex items-center justify-between  ${
+      className={` p-4 text-lg flex items-center justify-between last:rounded-b-2xl ${
         theme === "dark"
           ? "text-white  odd:bg-slate-600"
           : "text-black   odd:bg-slate-300"

@@ -14,6 +14,10 @@ import { createSendToken, signToken } from "../utils/tokenGeneration.js";
 import ResetPassword from "../../client/emails/ResetPassword.js";
 import WelcomeEmail from "../../client/emails/welcomEmail.js";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";
+import { Comment } from "../model/commentModel.js";
+import { Like } from "../model/likeModel.js";
+import { Post } from "../model/postModel.js";
+import { Bookmark } from "../model/bookMarkModel.js";
 
 export const registerUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -102,6 +106,7 @@ export const loginUser = catchAsync(
     //   return next(AppError('Please check your email for validation', 401));
     // }
     console.log(user);
+
     if (!user || !(await user.comparePassword(password, user.password))) {
       const err = AppError("please provide correct Email or password  ", 401);
       return next(err);
@@ -355,5 +360,17 @@ export const updatePassword = catchAsync(
     user.passwordConfirmed = req.body.passwordConfirmed;
     await user.save();
     res.status(200).json({ status: "woriking", user });
+  },
+);
+export const deleteAccount = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.params.userId);
+    await Comment.findOneAndDelete({ user: req.params.userId });
+    await Like.findOneAndDelete({ user: req.params.userId });
+    await Post.findOneAndDelete({ author: req.params.userId });
+    await Bookmark.findOneAndDelete({ author: req.params.userId });
+    const deleteduser = await User.findByIdAndDelete(req.params.userId);
+    console.log(deleteduser);
+    res.status(200).json({ status: "user deleted" });
   },
 );

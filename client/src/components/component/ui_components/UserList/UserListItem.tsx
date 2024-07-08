@@ -17,13 +17,14 @@ export const UserListItem = ({
   const togglingFollow = ({ userId }: { userId: string }) => {
     ToggleFollow(userId);
   };
-  const follower = currentLogin.followers.map(
-    (user: Ifollow) => user.followedUser.id,
-  );
+  const follower = currentLogin.followers
+    ? currentLogin.followers.map((user: Ifollow) => user.followedUser.id)
+    : [];
+
   const userFollowed = follower.map((user) => user);
 
   const isFollow = userFollowed.includes(currentLogin.id);
-  console.log(userFollowed, "isFollow");
+  console.log(follower, "isFollow");
   return (
     <div
       key={userData._id}

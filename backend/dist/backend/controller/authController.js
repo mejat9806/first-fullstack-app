@@ -31,13 +31,11 @@ export const registerUser = catchAsync(async (req, res, next) => {
   if (exist) {
     return AppError("email is taken", 401);
   }
-  const defaultImage = `defaultUse.webp`;
   // const hashedPaswords = await hashPaswords(password);
   const user = await User.create({
     name,
     email,
     password,
-    profileImage: defaultImage,
   });
   const url = `${req.protocol}://socialmedia-650u.onrender.com`;
   const pageUrl = `${req.protocol}://socialmedia-650u.onrender.com`;

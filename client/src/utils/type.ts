@@ -43,6 +43,7 @@ export interface Iposts {
   email: string;
   profileImage: string;
   createAt: string;
+  likes: Ilike[];
   detail: string;
   id: string;
   image: [string];

@@ -15,7 +15,7 @@ const AllPostByUser = () => {
     return <LoadingPage className="h-fit" />;
   }
 
-  console.log(userProfileData?.posts, "here");
+  console.log(userProfileData?.posts, "here userProfileData");
 
   return (
     <div
@@ -34,7 +34,7 @@ const AllPostByUser = () => {
               slug: post.slug,
               image: post.image,
               likesCount: post.likesCount,
-              likes: userProfileData.likePosts,
+              likes: post.likes,
               author: {
                 name: userProfileData.name,
                 _id: userProfileData.id,

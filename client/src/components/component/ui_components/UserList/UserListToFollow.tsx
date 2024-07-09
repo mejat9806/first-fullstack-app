@@ -21,7 +21,7 @@ export const UserListToFollow = () => {
     (userList) => userList.id !== user._id,
   );
   const userHasFollowed =
-    user.following?.map((user: Ifollow) => user.followedUser.id) || [];
+    user.following?.map((user: Ifollow) => user.followedUser?.id) || [];
 
   const userFollowedLoginUser: UserType[] = [];
 
@@ -36,7 +36,11 @@ export const UserListToFollow = () => {
       <h1 className="text-xl font-semibold px-4 pt-3">User to Follow</h1>
       <div className="divide-slate-600 divide-y-2">
         {userFollowedLoginUser.slice(0, 4).map((userData) => (
-          <UserListItem key={user.id} userData={userData} currentLogin={user} />
+          <UserListItem
+            key={userData.id}
+            userData={userData}
+            currentLogin={user}
+          />
         ))}
       </div>
     </div>

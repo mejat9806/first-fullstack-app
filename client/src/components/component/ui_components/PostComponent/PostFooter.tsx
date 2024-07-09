@@ -18,6 +18,7 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   if (!user) {
     return <PostSkeleton />;
   }
+  console.log(like, "like");
   const userId = user.id;
   const { userProfileData } = useGetPosterProfile({
     userId,

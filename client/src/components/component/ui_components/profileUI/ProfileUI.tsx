@@ -32,7 +32,7 @@ const ProfileUI = () => {
     return <div>No user ID provided.</div>;
   }
   if (!user) {
-    return;
+    return <LoadingPage />;
   }
 
   const onImageSelected = (selectedImage: string) => {
@@ -90,10 +90,10 @@ const ProfileUI = () => {
   }
 
   const userID = user.id;
-
+  console.log(userID, "userID");
   const shouldRenderButton = userProfileData.id === user._id;
   const following = userProfileData.followers.map(
-    (follow: Ifollow) => follow.user.id,
+    (follow: Ifollow) => follow.user?.id,
   );
   console.log(following, "following");
   const isFollow = following.includes(user.id);

@@ -313,12 +313,18 @@ export const updatePassword = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: "woriking", user });
 });
 export const deleteAccount = catchAsync(async (req, res, next) => {
-  console.log(req.params.userId);
+  const postsData = await Post.find({ author: req.params.userId });
+  console.log(postsData, "dasdasdasdasdasdasd");
   await Comment.findOneAndDelete({ user: req.params.userId });
-  await Like.findOneAndDelete({ user: req.params.userId });
+
+  Promise.all(
+    postsData.map(async (post) => {
+      console.log(post, "in postData");
+      await Like.deleteMany({ post: post.id });
+      await Bookmark.deleteMany({ post: post.id });
+    }),
+  );
   await Post.findOneAndDelete({ author: req.params.userId });
-  await Bookmark.findOneAndDelete({ author: req.params.userId });
-  const deleteduser = await User.findByIdAndDelete(req.params.userId);
-  console.log(deleteduser);
+  await User.findByIdAndDelete(req.params.userId);
   res.status(200).json({ status: "user deleted" });
 });

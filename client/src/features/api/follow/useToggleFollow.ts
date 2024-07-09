@@ -13,6 +13,7 @@ export const useToggleFollow = () => {
       query.invalidateQueries({ queryKey: ["follow"] });
       query.invalidateQueries({ queryKey: ["userProfile"] });
       query.invalidateQueries({ queryKey: ["profile"] });
+      query.invalidateQueries({ queryKey: ["posts"] });
     },
     onError: (err) => {
       console.log("Error", err);

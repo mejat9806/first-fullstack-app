@@ -13,11 +13,12 @@ import useUpdateUserData from "@/features/api/updateUser/updateUser/useUpdateUse
 import EditProfile from "../../edit profile/EditProfile";
 import { Ifollow } from "@/utils/type";
 import { useToggleFollow } from "@/features/api/follow/useToggleFollow";
+import { LoaderIcon } from "lucide-react";
 
 const ProfileUI = () => {
   const [openAddImage, setUpdateImage] = useState(false);
   const location = useLocation();
-  const { updateUserFn } = useUpdateUserData();
+  const { updateUserFn, isPending } = useUpdateUserData();
   const [image, setImage] = useState("");
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const [imageAfterCrop, setImageAfterCrop] = useState("");
@@ -105,18 +106,25 @@ const ProfileUI = () => {
     userProfileData.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
     "./../../../../../public/img/userImage/defaultUser.svg"
   }`;
+  if (isPending) {
+    return <LoadingPage />;
+  }
   console.log(userProfileData, "banner check");
   return (
-    <div className="w-svw justify-center items-center flex ">
+    <div className="w-dvw justify-center items-center flex ">
       <div className="flex justify-center flex-col items-start md:w-[50%] w-full px-1 mt-3 ">
         <div className="w-full md:h-[300px] h-[200px] relative ">
           {userProfileData.bannerImage ? (
             <div className="w-full md:h-[300px] h-[200px] relative bg-black">
-              <img
-                src={userProfileData.bannerImage}
-                alt=""
-                className="h-full w-full "
-              />
+              {isPending ? (
+                <LoaderIcon />
+              ) : (
+                <img
+                  src={userProfileData.bannerImage}
+                  alt=""
+                  className="h-full w-full "
+                />
+              )}
 
               {shouldRenderButton && (
                 <button onClick={() => setUpdateImage(true)}>
@@ -215,6 +223,7 @@ const ProfileUI = () => {
               <div className=" relative w-full h-full">
                 <ImageCropper
                   image={image}
+                  isPending={isPending}
                   onCropDone={onCropDone}
                   onCropCancel={onCropCancel}
                 />

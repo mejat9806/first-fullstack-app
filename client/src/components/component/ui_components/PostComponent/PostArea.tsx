@@ -2,7 +2,6 @@ import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
 import { useInView } from "react-intersection-observer";
 import { useEffect } from "react";
 import PostItem from "./PostItem";
-
 import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
@@ -16,7 +15,6 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   console.log(pathname);
   const queryClient = useQueryClient();
 
-  //use type here to dynamically fetch data base on what the page want like recent or popular
   let postType = fetchAllPost;
   if (fetchType === "recent") {
     postType = fetchlatest;
@@ -33,6 +31,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
 
   const { ref, inView } = useInView();
   const { isDeletePostLoading, status: statusDelete } = useDeletePost();
+
   useEffect(() => {
     refetch();
   }, [
@@ -43,51 +42,45 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
     pathname,
     queryClient,
   ]);
+
   useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
-    return () => {};
   }, [fetchNextPage, inView, postType]);
+
   if (isLoadingAllPosts) {
     return <PostSkeleton />;
   }
 
-  console.log(data, "in POST");
+  if (status === "error") {
+    return <div>{error?.message}</div>;
+  }
+
   if (!data) {
-    return;
+    return <div>No data available</div>;
   }
-  console.log(data, "postArea");
-  if (data.pages[0].data.length === 0) {
-    return (
-      <div className="w-[300px] md:w-full h-full  flex justify-center items-center mt-10">
-        <h1 className="text-2xl capitalize">
-          {" "}
-          {fetchType === "home"
-            ? "this will show the user that you follow "
-            : "No Data"}
-        </h1>
-      </div>
-    );
-  }
-  return status === "pending" ? (
-    <div>{/* <LoadingPage /> */}</div>
-  ) : status === "error" ? (
-    <div>{error?.message}</div>
-  ) : (
-    <div className="w-full  h-full flex flex-col ">
-      {data.pages.map((page, i) => (
-        <div
-          key={i}
-          className="flex flex-col gap-10 mt-5  w-svw max-w-[600px] "
-        >
-          {page.data.sort().map((itemData, i: number) => (
-            <div key={i} className="w-full flex justify-center items-center">
-              <PostItem item={itemData} to="popular" />
-            </div>
-          ))}
+  console.log(data.pages[0].data.length, "length");
+  return (
+    <div className="w-full h-full flex flex-col">
+      {data.pages[0].data.length === 0 ? (
+        <div>
+          <h1>no data to show here,please follow other user</h1>
         </div>
-      ))}
+      ) : (
+        data.pages.map((page, i) => (
+          <div
+            key={i}
+            className="flex flex-col gap-10 mt-5 w-full max-w-[600px]"
+          >
+            {page.data.sort().map((itemData, i: number) => (
+              <div key={i} className="">
+                <PostItem item={itemData} to="popular" />
+              </div>
+            ))}
+          </div>
+        ))
+      )}
       <div ref={ref} className="w-full h-1 bg-red"></div>
     </div>
   );

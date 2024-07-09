@@ -17,8 +17,8 @@ const Setting = () => {
     return <LoadingPage className="w-fit" />;
   }
   return (
-    <div className="flex justify-center mt-24 ">
-      <div className="md:max-w-2xl w-[200px] md:w-full  flex flex-col gap-8 ml-12">
+    <div className="flex justify-center mt-24 flex-grow md:flex-grow-0 mx-10">
+      <div className="md:max-w-2xl w-full  flex flex-col gap-8 ">
         <div>
           <h1 className="font-semibold text-2xl">User Setting</h1>
           <UserSetting />

@@ -52,7 +52,7 @@ const DialogFN = ({
       >
         <DialogHeader>
           {type === "image" && image && (
-            <DialogDescription className="w-[100%]  h-full ">
+            <DialogDescription className="w-[100%]  h-full bg">
               <CarouselComp
                 imageProp={image}
                 setOpenImage={setIsOpen}

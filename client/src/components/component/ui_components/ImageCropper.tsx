@@ -14,12 +14,14 @@ interface ImageCropperProps {
   image: string;
   onCropCancel: () => void;
   onCropDone: (croppedArea: CroppedArea) => void;
+  isPending: boolean;
 }
 
 export const ImageCropper = ({
   image,
   onCropCancel,
   onCropDone,
+  isPending,
 }: ImageCropperProps) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -73,7 +75,7 @@ export const ImageCropper = ({
               : "text-black bg-slate-500 hover:text-black"
           }  z-50`}
         >
-          Crop and Apply
+          {!isPending ? "Crop and Apply" : "Loading"}
         </Button>
       </div>
     </div>

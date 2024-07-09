@@ -9,7 +9,9 @@ import LoadingPage from "../LoadingPage";
 
 export const ReleventUserList = ({
   userData,
+  author,
 }: {
+  author: RelevantAccountUserInPOst;
   userData: RelevantAccountUserInPOst;
 }) => {
   const { theme } = useTheme();
@@ -19,17 +21,14 @@ export const ReleventUserList = ({
   if (!user) {
     return <LoadingPage />;
   }
-  const following = user?.following.map(
-    (user: Ifollow) => user.followedUser.id,
-  );
-  const userFollowed = following?.map((user) => user);
-  console.log(userFollowed, "following");
+  const following = user.following.map((user: Ifollow) => user.followedUser.id);
+  console.log(following, "following");
   const userId = userData.id;
-  const isFollow = userFollowed.includes(userId);
+  const isFollow = following.includes(userId);
   const togglingFollow = ({ userId }: { userId: string }) => {
     ToggleFollow(userId);
   };
-  console.log(userData.id, isFollow, user.following, "isFollow");
+  console.log(userId, isFollow, user.following, "isFollow");
   return (
     <div
       className={` text-lg flex justify-between p-4 last:rounded-b-xl ${
@@ -49,7 +48,7 @@ export const ReleventUserList = ({
           className="w-14 h-14 rounded-full"
         />
         <div className="flex-1 flex flex-col ">
-          {userData.id === user?.id ? (
+          {userId === author.id ? (
             <p className="text-sm font-medium px-4  flex  gap-2 h-full">
               {userData.name}
               <span
@@ -70,12 +69,14 @@ export const ReleventUserList = ({
           </p>
         </div>
       </div>
-      <Button
-        onClick={() => togglingFollow({ userId: userData.id })}
-        disabled={isToggleFollow}
-      >
-        {isFollow ? "Unfollow" : "Follow"}
-      </Button>
+      {userId !== user.id && (
+        <Button
+          onClick={() => togglingFollow({ userId: userData.id })}
+          disabled={isToggleFollow}
+        >
+          {isFollow ? "Unfollow" : "Follow"}
+        </Button>
+      )}
     </div>
   );
 };

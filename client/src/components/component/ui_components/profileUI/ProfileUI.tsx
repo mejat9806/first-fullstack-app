@@ -90,10 +90,10 @@ const ProfileUI = () => {
   }
 
   const userID = user.id;
-  console.log(userID, "userID");
+
   const shouldRenderButton = userProfileData.id === user._id;
   const following = userProfileData.followers.map(
-    (follow: Ifollow) => follow.user?.id,
+    (follow: Ifollow) => follow.user.id,
   );
   console.log(following, "following");
   const isFollow = following.includes(user.id);
@@ -153,8 +153,8 @@ const ProfileUI = () => {
             </h1>
             <p>{userProfileData.bio}</p>
             <p className="md:text-base text-sm">{userProfileData.email}</p>
-            <span>{userProfileData.followerCount} follower</span>{" "}
-            <span>{userProfileData.followCount} following</span>
+            <span>{userProfileData.followers.length} follower</span>{" "}
+            <span>{userProfileData.following.length} following</span>
           </div>
           {userID === userProfileData.id ? (
             <Button onClick={() => setOpenEditProfile(true)}>

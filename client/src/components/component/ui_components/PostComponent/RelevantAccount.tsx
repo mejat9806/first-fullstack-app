@@ -39,9 +39,9 @@ export const RelevantAccount = ({ comments, author }: RelevantAcc) => {
       <h1 className="text-2xl font-bold text-center ">Relevent User </h1>
 
       <div
-        className={` flex mt-6    p-4 rounded-b-xl ${
+        className={` flex mt-6    p-4 ${
           theme === "dark"
-            ? "text-white bg-slate-900 border-2 hover:bg-slate-600 border-slate-100"
+            ? "text-white bg-slate-900 hover:bg-slate-600 "
             : "text-black bg-slate-50 hover:bg-slate-300 shadow-xl "
         }`}
         onClick={() => navigate(`/profile/${author.id}`)}
@@ -70,7 +70,7 @@ export const RelevantAccount = ({ comments, author }: RelevantAcc) => {
       </div>
 
       {releventUser.slice(0, 4).map((user) => (
-        <ReleventUserList key={user.id} userData={user} />
+        <ReleventUserList key={user.id} userData={user} author={author} />
       ))}
     </div>
   );

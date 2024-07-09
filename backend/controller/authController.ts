@@ -18,6 +18,8 @@ import { Comment } from "../model/commentModel.js";
 import { Like } from "../model/likeModel.js";
 import { Post } from "../model/postModel.js";
 import { Bookmark } from "../model/bookMarkModel.js";
+import { Follower } from "../model/followerModel.js";
+import { Reply } from "../model/replyModel.js";
 
 export const registerUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -362,19 +364,69 @@ export const updatePassword = catchAsync(
 );
 export const deleteAccount = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const postsData = await Post.find({ author: req.params.userId });
-    console.log(postsData, "dasdasdasdasdasdasd");
-    await Comment.findOneAndDelete({ user: req.params.userId });
+    const userId = req.params.userId;
+    const loginUserFollow = await Follower.find({ user: userId });
+    const loginUserLikePost = await Like.find({ user: userId });
+    const postsData = await Post.find({ author: userId });
+    console.log(loginUserLikePost, "dasdasdasdasdasdasd");
+    await Comment.deleteMany({ user: userId });
+    await Reply.deleteMany({ user: userId });
 
     Promise.all(
       postsData.map(async (post) => {
-        console.log(post, "in postData");
+        console.log(post.author, "in postData");
         await Like.deleteMany({ post: post.id });
         await Bookmark.deleteMany({ post: post.id });
       }),
     );
-    await Post.findOneAndDelete({ author: req.params.userId });
-    await User.findByIdAndDelete(req.params.userId);
+    Promise.all(
+      loginUserFollow.map(async (userFollowing) => {
+        console.log(userFollowing, "userFollowing");
+        await User.updateMany(
+          { following: userFollowing.id },
+          { $pull: { following: userFollowing.id }, $inc: { followCount: -1 } },
+        );
+        await User.updateMany(
+          { followers: userFollowing.id },
+          {
+            $pull: { followers: userFollowing.id },
+            $inc: { followerCount: -1 },
+          },
+        );
+      }),
+    );
+    Promise.all(
+      loginUserLikePost.map(async (userLikePost) => {
+        console.log(userLikePost, "userFollowing");
+        await Like.deleteMany({ user: userLikePost.user });
+        await Bookmark.deleteMany({ user: userLikePost.user });
+
+        await User.updateMany(
+          { likePosts: userLikePost.id },
+          { $pull: { likePosts: userLikePost.id } },
+        );
+        await Post.updateMany(
+          { likes: userLikePost.id },
+          {
+            $pull: { likes: userLikePost.id },
+            $inc: { likesCount: -1 },
+          },
+        );
+      }),
+    );
+    await Post.deleteMany({ author: userId });
+    // await User.updateMany(
+    //   { following: userId },
+    //   { $pull: { following: userId }, $inc: { followCount: -1 } },
+    // );
+    // await User.updateMany(
+    //   { followers: userId },
+    //   { $pull: { followers: userId }, $inc: { followCount: -1 } },
+    // );
+    await Follower.deleteMany({
+      $or: [{ user: userId }, { followedUser: userId }],
+    });
+    // await User.findByIdAndDelete(userId);
 
     res.status(200).json({ status: "user deleted" });
   },

@@ -47,7 +47,9 @@ export const UserListItem = ({
       <div>
         <Button
           disabled={isToggleFollow}
-          onClick={() => togglingFollow({ userId: userData.id })}
+          onClick={(e) => {
+            e.stopPropagation(), togglingFollow({ userId: userData.id });
+          }}
         >
           {isFollow ? "UnFollow" : "Follow"}
         </Button>

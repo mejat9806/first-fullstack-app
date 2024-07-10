@@ -22,8 +22,11 @@ dotenv.config();
 const corsOptions = {
   //   origin: "https://socialmedia-650u.onrender.com",
   // origin: "http://localhost:5173",
-  origin: ["http://localhost:5173", "https://socialmedia-650u.onrender.com"],
-  // Allow requests from this origin
+  origin: [
+    "https://viewfinder.website",
+    "http://localhost:5173",
+    "https://socialmedia-650u.onrender.com",
+  ], // Allow requests from this origin
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
     "Origin",

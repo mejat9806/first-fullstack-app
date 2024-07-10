@@ -55,7 +55,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; img-src 'self' http://localhost:8000",
+    "default-src 'self'; img-src 'self' https://viewfinder.website http://localhost:8000",
   );
   next();
 });

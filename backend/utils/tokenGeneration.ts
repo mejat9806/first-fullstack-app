@@ -36,7 +36,7 @@ export const createSendToken = (
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
     secure: true,
-    domain: "api.viewfinder.website/",
+    domain: "viewfinder.website/",
 
     // sameSite: "strict",
     sameSite: "none",
@@ -47,7 +47,7 @@ export const createSendToken = (
     ),
     secure: true,
     httpOnly: true,
-    domain: "api.viewfinder.website/",
+    domain: "viewfinder.website",
 
     // sameSite: "strict",
     sameSite: "none",

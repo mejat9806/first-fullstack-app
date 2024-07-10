@@ -8,7 +8,7 @@ import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import { FaCommentDots } from "react-icons/fa6";
 import type { IBookmark, Ilike, PostFooter } from "@/utils/type";
 import useBookmark from "@/features/api/bookmark/useBookmark";
-import { PostSkeleton } from "./PostSkeleton";
+import LoadingPage from "../LoadingPage";
 const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { user } = useContext(UserContext);
   const { likeDislike } = useLikeDislike();
@@ -16,7 +16,7 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { mutateBookmark } = useBookmark();
   const queryClient = useQueryClient();
   if (!user) {
-    return <PostSkeleton />;
+    return <LoadingPage className="h-fit" />;
   }
   console.log(like, "like");
   const userId = user.id;
@@ -24,7 +24,7 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
     userId,
   });
   if (!userProfileData) {
-    return <PostSkeleton />;
+    return <LoadingPage className="h-fit" />;
   }
   console.log({ userProfileData, user }, "userProfileData");
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);

@@ -24,7 +24,11 @@ console.log(process.env.Node_ENV, "brevo");
 
 const corsOptions = {
   // origin: "https://socialmedia-650u.onrender.com",
-  origin: ["http://localhost:5173", "https://socialmedia-650u.onrender.com"],
+  origin: [
+    "http://localhost:5173",
+    "https://socialmedia-650u.onrender.com",
+    "https://viewfinder.website",
+  ],
   // Allow requests from this origin
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [

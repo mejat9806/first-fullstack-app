@@ -97,7 +97,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
             key={i}
             className="flex flex-col gap-10 mt-5 w-full max-w-[600px] items-center"
           >
-            {page.data.sort().map((itemData, i: number) => (
+            {page.data.map((itemData, i: number) => (
               <PostItem item={itemData} to="popular" key={i} />
             ))}
           </div>
@@ -113,5 +113,8 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
     </div>
   );
 };
+{
+  /* NOTE_TO_MYSELF:  fetchNextpage will stop fetching new data when it reach the last page.even if trigger buy the useref over and over again it will not fetch new data because the the pagination has reach the last page and  i can see it on the network tab and my express server  */
+}
 
 export default Post;

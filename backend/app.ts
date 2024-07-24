@@ -28,10 +28,13 @@ export const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: [
+      "https://viewfinder.website",
+      "http://localhost:5173",
+      "https://socialmedia-650u.onrender.com",
+    ],
   },
 });
-
 io.on("connect", (socket) => {
   console.log("connected", socket.id);
 });

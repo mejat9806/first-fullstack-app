@@ -9,7 +9,7 @@ import { useInView } from "react-intersection-observer";
 import { useLocation } from "react-router-dom";
 import PostItem from "./PostItem";
 import { PostSkeleton } from "./PostSkeleton";
-import UseWebSocket from "../../websocketTest/UseWebSocket";
+import UseWebSocket from "../../../../lib/UseWebSocket";
 
 const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   const { pathname } = useLocation();

@@ -3,7 +3,8 @@ import { io } from "socket.io-client";
 
 const PORT = import.meta.env.VITE_PORT || 8000;
 console.log(PORT, "port");
-const socket = io(`http://localhost:8000`); // Use your server URL
+const URLSOCKET = import.meta.env.VITE_DEVELOPMENT_SOCKETIO;
+const socket = io(URLSOCKET); // Use your server URL
 
 const UseWebSocket = () => {
   const [connected, setConnected] = useState(false);

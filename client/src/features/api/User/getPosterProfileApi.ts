@@ -8,9 +8,6 @@ interface IuserProfileResponse {
 const getPosterProfileApi = async (userID: string): Promise<UserType> => {
   const response = await apiClient.get<IuserProfileResponse>(
     `/users/${userID}`,
-    {
-      onDownloadProgress(progressEvent) {},
-    },
   );
   return response.data.data;
 };

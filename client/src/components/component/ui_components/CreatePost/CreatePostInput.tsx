@@ -72,7 +72,7 @@ const CreatePostInput = ({
         formData.append(`image`, file as Blob);
       });
     }
-    const formObject = Object.fromEntries(formData.entries());
+    // const formObject = Object.fromEntries(formData.entries());
 
     createPost(formData, {
       onSuccess: () => {

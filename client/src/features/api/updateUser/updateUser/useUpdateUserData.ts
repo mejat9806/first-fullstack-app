@@ -11,7 +11,7 @@ const useUpdateUserData = () => {
     mutate: updateUserFn,
   } = useMutation({
     mutationFn: updateUserApi,
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({
         title: "Update successfully",
       });

@@ -19,7 +19,7 @@ interface IreplyData {
   commentId: string;
 }
 
-const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
+const ReplyItem = ({ replyData, postId }: IreplyData) => {
   const [openReply, setOpenReply] = useState(false);
   // const {} = useComment();
 

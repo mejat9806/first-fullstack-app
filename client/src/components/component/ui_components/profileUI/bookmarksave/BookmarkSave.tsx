@@ -1,13 +1,13 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import LoadingPage from "../../LoadingPage";
 import PostItem from "../../PostComponent/PostItem";
 
 const BookmarkSave = () => {
-  const { state } = useLocation();
+  // const { state } = useLocation();
 
-  const data = state;
+  // const data = state;
 
   const { id: userId } = useParams<{ id: string }>();
 

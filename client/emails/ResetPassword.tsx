@@ -6,7 +6,6 @@ import {
   Text,
   Tailwind,
 } from "@react-email/components";
-import React from "react";
 
 export default function ResetPassword({
   name,

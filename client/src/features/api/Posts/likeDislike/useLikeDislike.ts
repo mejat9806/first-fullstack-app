@@ -20,7 +20,9 @@ export const useLikeDislike = () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       queryClient.invalidateQueries({ queryKey: ["profile"] });
     },
-    onError: (err) => {},
+    onError: (err) => {
+      console.log(err);
+    },
   });
   return {
     likeDislike,

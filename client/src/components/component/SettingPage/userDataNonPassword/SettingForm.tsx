@@ -69,7 +69,6 @@ const SettingForm = () => {
     if (image) {
       formData.append("profileImage", image);
     }
-    formData.forEach((data, key) => {});
     updateUserFn(formData);
   }
   return (

@@ -22,7 +22,6 @@ export const useDeletePost = () => {
     },
     onError: (err) => {
       toast({ title: err.message });
-      console.log(err);
     },
   });
   return { DeletePost, isDeletePostLoading, status };

@@ -9,7 +9,6 @@ interface CommentProps {
 }
 
 const CommentsList = ({ comments }: CommentProps) => {
-  console.log(comments);
   if (!comments) {
     return <LoadingPage />;
   }

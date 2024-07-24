@@ -26,9 +26,8 @@ export const ImageCropper = ({
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedArea, setCroppedArea] = useState<CroppedArea | null>(null);
-  console.log("cropArea:", croppedArea);
+
   const onCropComplete = (croppedAreaPixels: CroppedArea) => {
-    console.log("croppedAreaPixels:", croppedAreaPixels); // Debugging line
     setCroppedArea(croppedAreaPixels);
   };
   const { theme } = useTheme();
@@ -65,7 +64,6 @@ export const ImageCropper = ({
         <Button
           onClick={() => {
             if (croppedArea) {
-              console.log("Cropped Area:", croppedArea); // Debugging line
               onCropDone(croppedArea);
             }
           }}

@@ -71,13 +71,7 @@ const ProfileIcon = () => {
           </DropdownMenuItem>
           <DropdownMenuItem>Contact the Dev</DropdownMenuItem>
           <DropdownMenuItem>
-            <button
-              onClick={() => {
-                console.log("click"), logout();
-              }}
-            >
-              Logout
-            </button>
+            <button onClick={() => {}}>Logout</button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

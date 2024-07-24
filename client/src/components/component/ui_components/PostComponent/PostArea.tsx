@@ -26,10 +26,18 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
     postType = fetchAllPost;
   }
 
-  const { data, error, status, fetchNextPage, refetch, isLoadingAllPosts } =
-    useGetAllPost({ fetchingFunction: postType, fetchType });
+  const {
+    data,
+    error,
+    status,
+    fetchNextPage,
+    refetch,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoadingAllPosts,
+  } = useGetAllPost({ fetchingFunction: postType, fetchType });
 
-  const { ref, inView } = useInView();
+  const { ref, inView } = useInView({});
   const { isDeletePostLoading, status: statusDelete } = useDeletePost();
 
   useEffect(() => {
@@ -42,12 +50,21 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
     pathname,
     queryClient,
   ]);
-
+  console.log("render");
   useEffect(() => {
     if (inView) {
-      fetchNextPage();
+      fetchNextPage({ cancelRefetch: false });
     }
-  }, [fetchNextPage, inView, postType]);
+  }, [fetchNextPage, hasNextPage, inView, isFetchingNextPage, postType]);
+
+  // useEffect(() => {
+  //   const lastElement = document.getElementById("lastElement");
+
+  //   if (!hasNextPage) {
+  //     console.log("here");
+  //     lastElement?.remove();
+  //   }
+  // }); //this is if i want to remove the last element
 
   if (isLoadingAllPosts) {
     return <PostSkeleton />;
@@ -62,7 +79,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   }
   console.log(data.pages[0].data.length, "length");
   return (
-    <div className="w-full h-full flex flex-col">
+    <div className="w-full h-full flex flex-col justify-center ">
       {data.pages[0].data.length === 0 ? (
         <div>
           <h1>no data to show here,please follow other user</h1>
@@ -71,17 +88,21 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
         data.pages.map((page, i) => (
           <div
             key={i}
-            className="flex flex-col gap-10 mt-5 w-full max-w-[600px]"
+            className="flex flex-col gap-10 mt-5 w-full max-w-[600px] items-center"
           >
             {page.data.sort().map((itemData, i: number) => (
-              <div key={i} className="">
-                <PostItem item={itemData} to="popular" />
-              </div>
+              <PostItem item={itemData} to="popular" key={i} />
             ))}
           </div>
         ))
       )}
-      <div ref={ref} className="w-full h-1 bg-red"></div>
+      <div
+        ref={ref}
+        className="w-full h-full  justify-center flex"
+        id="lastElement"
+      >
+        {hasNextPage ? <h1>Loading...</h1> : <h1>no more post</h1>}
+      </div>
     </div>
   );
 };

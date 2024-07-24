@@ -9,12 +9,10 @@ export const useResetPassword = () => {
     useMutation({
       mutationFn: resetPassword,
       onSuccess: (data) => {
-        console.log(data);
         toast({ variant: "success", description: "Success reseting password" });
         navigate("/login");
       },
       onError: (data) => {
-        console.log(data);
         toast({ variant: "error", description: "Reseting password Failed" });
       },
     });

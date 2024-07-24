@@ -7,7 +7,7 @@ import {
   Tailwind,
 } from "@react-email/components";
 import React from "react";
-console.log(React);
+
 export default function WelcomeEmail({
   name,
   url,

@@ -25,18 +25,18 @@ const Comment = ({ commentData }: ICommentData) => {
   const queryClient = useQueryClient();
   const { theme } = useTheme();
   const { postId } = useParams();
-  // console.log("comment data:", commentData); // Debugging statement
+  //
 
   // const { commentData: commentReplydata, loadingCommentData } = useComment();
 
   // if (loadingCommentData) {
   //   return <LoadingPage className="h-20" />;
   // }
-  console.log(commentData, "in comment");
+
   const text = commentData?.commentText;
-  // console.log("text:", commentReplydata.commentText, commentData.commentText);
+  //
   const profileImage = `${commentData.user.profileImage}`;
-  console.log(text, "commment data text");
+
   return (
     <div className="relative">
       <div className="grid  grid-cols-comment gap-6 ml-5 border-2 p-2 rounded-xl border-gray-400/50">
@@ -125,7 +125,6 @@ const Comment = ({ commentData }: ICommentData) => {
                   {
                     <Button
                       onClick={() => {
-                        console.log("click go to ");
                         queryClient.invalidateQueries({ queryKey: ["reply"] });
                         navigate(`/post/${postId}/${commentData._id}`, {
                           state: "reply",

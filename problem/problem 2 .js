@@ -34,7 +34,6 @@ const CreatePostInput = () => {
         },
       };
   function onSubmit(values: z.infer<typeof FormSchema>) {
-    console.log("here");
     const { detail, title, image } = values;
 
     const formData = new FormData();
@@ -49,7 +48,6 @@ const CreatePostInput = () => {
       });
     }
 
-    console.log(formData);
     // createPost(formData);
   }
 

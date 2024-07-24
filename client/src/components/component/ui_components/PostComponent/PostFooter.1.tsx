@@ -23,7 +23,7 @@ export const PostFooter = ({
   if (!user) {
     return <LoadingPage />;
   }
-  console.log(user.likePosts);
+
   // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
 
   if (!(like || postId || author || likeArray)) {

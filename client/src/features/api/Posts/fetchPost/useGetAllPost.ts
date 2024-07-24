@@ -38,6 +38,7 @@ export const useGetAllPost = ({
     isFetching,
     isFetchingNextPage,
     status,
+
     isLoading: isLoadingAllPosts,
     refetch,
   } = useInfiniteQuery<PostResponse>({
@@ -54,7 +55,7 @@ export const useGetAllPost = ({
       return lastPage.data?.length ? allPages?.length + 1 : undefined;
     },
   });
-  console.log(fetchingFunction, "fetching function");
+
   return {
     data,
     error,

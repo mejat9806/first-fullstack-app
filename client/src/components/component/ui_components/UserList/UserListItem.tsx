@@ -24,7 +24,7 @@ export const UserListItem = ({
   const userFollowed = follower.map((user) => user);
 
   const isFollow = userFollowed.includes(currentLogin.id);
-  console.log(follower, "isFollow");
+
   return (
     <div
       key={userData._id}

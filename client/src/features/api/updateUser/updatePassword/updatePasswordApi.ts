@@ -11,7 +11,6 @@ export const updatePasswordApi = async ({
   newPassword,
   passwordConfirm,
 }: IPasswordUpdate) => {
-  console.log(currentPassword, newPassword, passwordConfirm);
   const response = await apiClient.patch("/auth/updatePassword", {
     currentPassword: currentPassword,
     password: newPassword,

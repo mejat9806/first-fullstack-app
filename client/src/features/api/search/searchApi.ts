@@ -6,9 +6,7 @@ export interface searchResult {
 }
 const searchApi = async ({ search }: { search: string }) => {
   const response = await apiClient.get<searchResult>(`search?q=${search}`, {
-    onDownloadProgress: (progress) => {
-      console.log(progress);
-    },
+    onDownloadProgress: (progress) => {},
   });
   return response;
 };

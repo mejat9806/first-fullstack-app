@@ -19,7 +19,7 @@ const UpdatePost = ({
   const { singleDetailLoading, singleDetail } = useFetchDetails();
   const { theme } = useTheme();
   const { isUpdatingPost, updatePostMutation } = useUpdatePost();
-  console.log(isUpdatingPost);
+
   if (singleDetailLoading || !singleDetail || !singleDetail.data) {
     return <LoadingPage />;
   }

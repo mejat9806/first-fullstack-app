@@ -23,13 +23,12 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   if (!item) {
     return <PostSkeleton />; // or handle the case when item is undefined
   }
-  console.log(item.likes, "item for post");
-  console.log(item.author._id);
+
   const profileImage = `${
     item.author?.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
     "./../../../../../public/img/userImage/defaultUser.svg"
   }`;
-  console.log(item, "check cloudinary image");
+
   return (
     <div
       className={` ${

@@ -4,6 +4,6 @@ import CommentsList from "../Comment/CommentsList";
 
 export const CommentItem = () => {
   const comments = useOutletContext() as Icomment[];
-  console.log(comments, "Comments");
+
   return <div>{comments && <CommentsList comments={comments} />}</div>;
 };

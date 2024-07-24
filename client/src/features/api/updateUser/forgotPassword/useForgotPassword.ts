@@ -16,7 +16,6 @@ export const useForgotPassword = () => {
       return data;
     },
     onError: (err) => {
-      console.log(err);
       toast({ variant: "error", description: "Please check your email again" });
     },
   });

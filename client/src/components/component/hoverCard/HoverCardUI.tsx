@@ -9,7 +9,6 @@ import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 
 const HoverCardUI = ({ userId }: { userId: string }) => {
-  console.log(userId);
   const { ToggleFollow, isToggleFollow } = useToggleFollow();
   const { user } = useContext(UserContext);
 
@@ -29,8 +28,7 @@ const HoverCardUI = ({ userId }: { userId: string }) => {
   const following = userProfileData.followers.map(
     (follow: Ifollow) => follow.user.id,
   );
-  console.log(userID, "userID");
-  console.log(following, "following");
+
   const isFollow = following.includes(userID);
   const togglingFollow = () => {
     ToggleFollow(userProfileData.id);
@@ -41,7 +39,7 @@ const HoverCardUI = ({ userId }: { userId: string }) => {
     "/img/userImage/defaultUser.svg"
   }`;
   const dateJoin = userProfileData.joinDate.split("T")[0];
-  console.log(following, "following");
+
   return (
     <div className="flex w-full justify-between">
       <div className="flex gap-4 flex-col">

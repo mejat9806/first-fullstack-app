@@ -16,7 +16,6 @@ export const useToggleFollow = () => {
       query.invalidateQueries({ queryKey: ["posts"] });
     },
     onError: (err) => {
-      console.log("Error", err);
       if (axios.isAxiosError(err) && err.response) {
         toast({
           title: "Login Error",

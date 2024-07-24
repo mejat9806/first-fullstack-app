@@ -15,8 +15,6 @@ const AllPostByUser = () => {
     return <LoadingPage className="h-fit" />;
   }
 
-  console.log(userProfileData?.posts, "here userProfileData");
-
   return (
     <div
       className={` flex   md:justify-center md:items-center mt-12 w-full rounded-full`}

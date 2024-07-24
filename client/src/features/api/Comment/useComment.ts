@@ -13,10 +13,8 @@ export const useComment = ({
 }: UseCommentParams = {}) => {
   // Provide default value here
   const { commentId } = useParams<{ commentId?: string }>();
-  console.log(id, "comment sd");
 
   const Id = runWith === "replyId" ? id : commentId;
-  console.log(Id, "Id in useCommnet");
 
   const {
     data: commentData,

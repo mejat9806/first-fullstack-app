@@ -26,6 +26,6 @@ export const registerApi = async ({
       withCredentials: true,
     },
   );
-  console.log(data);
+
   return data;
 };

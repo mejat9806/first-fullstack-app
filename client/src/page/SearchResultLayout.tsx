@@ -6,9 +6,9 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 const SearchResultLayout = () => {
   const { state, pathname, search } = useLocation();
   const nagivate = useNavigate();
-  console.log(state);
+
   const { theme } = useTheme();
-  console.log(search);
+
   return (
     <div className="w-dvw flex justify-center items-center flex-col mt-16 overflow-y-hidden ">
       <div className="min-w-[50%]">

@@ -22,7 +22,6 @@ const useCreateComment = () => {
     },
     onError: (err) => {
       if (axios.isAxiosError(err) && err.response) {
-        console.log(err);
         toast({ variant: "error", description: err.message });
       }
     },

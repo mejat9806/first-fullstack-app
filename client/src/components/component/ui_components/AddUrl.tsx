@@ -33,7 +33,6 @@ const AddUrl = ({
     },
   });
   const formSubmit = (value: z.infer<typeof FormSchema>) => {
-    console.log(value);
     addLink(value.url);
     setIsOpen(false);
   };

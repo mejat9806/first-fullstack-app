@@ -9,7 +9,6 @@ export const PostSearch = () => {
   const { resultPost } = location.state;
   const { theme } = useTheme();
 
-  console.log(resultPost);
   return (
     <div className="flex flex-col">
       {resultPost.map((postSearch: Iposts) => (

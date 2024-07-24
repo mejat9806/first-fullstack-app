@@ -35,7 +35,7 @@ const ResetPassForm = () => {
       toast({ variant: "error", description: "Something went wrong" });
       return;
     }
-    console.log(values, resetToken);
+
     resetPasswordFN({
       password: values.password,
       passwordConfirmed: values.passwordConfirm,

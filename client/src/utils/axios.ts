@@ -8,5 +8,3 @@ export const apiClient = axios.create({
     Accept: "application/json",
   },
 });
-
-console.log(import.meta.env.VITE_DEVELOPMENT_URL, "axios link");

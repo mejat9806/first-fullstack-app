@@ -22,13 +22,13 @@ export const ReleventUserList = ({
     return <LoadingPage />;
   }
   const following = user.following.map((user: Ifollow) => user.followedUser.id);
-  console.log(following, "following");
+
   const userId = userData.id;
   const isFollow = following.includes(userId);
   const togglingFollow = ({ userId }: { userId: string }) => {
     ToggleFollow(userId);
   };
-  console.log(userId, isFollow, user.following, "isFollow");
+
   return (
     <div
       className={` text-lg flex justify-between p-4 last:rounded-b-xl ${

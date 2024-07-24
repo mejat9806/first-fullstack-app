@@ -10,7 +10,6 @@ interface ISearchItemData {
 
 const SearchItem = ({ user, type = "post", post }: ISearchItemData) => {
   const navigate = useNavigate();
-  console.log(post);
 
   const textDetailSanitize = post?.detail;
   if (type === "user") {

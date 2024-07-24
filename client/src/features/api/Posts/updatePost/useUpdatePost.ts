@@ -16,9 +16,7 @@ const useUpdatePost = () => {
         queryClient.invalidateQueries({ queryKey: ["post"] });
         navigate(`/post/${postId}`, { replace: true });
       },
-      onError: (error) => {
-        console.log(error);
-      },
+      onError: (error) => {},
     },
   );
   return { isUpdatingPost, updatePostMutation };

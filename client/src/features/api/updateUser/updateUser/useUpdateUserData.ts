@@ -12,7 +12,6 @@ const useUpdateUserData = () => {
   } = useMutation({
     mutationFn: updateUserApi,
     onSuccess: (data) => {
-      console.log(data);
       toast({
         title: "Update successfully",
       });
@@ -23,7 +22,6 @@ const useUpdateUserData = () => {
     },
     onError: (err) => {
       toast({ title: err.message });
-      console.log(err);
     },
   });
   return { updateData, updateDataError, isPending, updateUserFn };

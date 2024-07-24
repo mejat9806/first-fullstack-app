@@ -8,6 +8,6 @@ export const loginApi = async ({
   password: string;
 }) => {
   const response = await apiClient.post("auth/login", { email, password });
-  console.log(response);
+
   return response;
 };

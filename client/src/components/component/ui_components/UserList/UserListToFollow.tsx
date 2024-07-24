@@ -29,7 +29,6 @@ export const UserListToFollow = () => {
     if (!userHasFollowed.includes(userFollowed.id))
       return userFollowedLoginUser.push(userFollowed);
   });
-  console.log(userFollowedLoginUser, "userFollowedLoginUser");
 
   return (
     <div className=" flex flex-col gap-5">

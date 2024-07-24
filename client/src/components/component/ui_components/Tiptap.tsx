@@ -25,8 +25,7 @@ const Tiptap = ({
 }) => {
   const { theme } = useTheme();
   // const themeChange = theme === "light" ? "text-white" : "text-black";
-  console.log("Current theme:", theme);
-  console.log(isFieldInvalid, "in tap tap");
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -79,7 +78,6 @@ const Tiptap = ({
     },
   });
   const onCancel = () => {
-    console.log("Click");
     closeTextbox?.();
     editor?.commands.clearContent();
   };

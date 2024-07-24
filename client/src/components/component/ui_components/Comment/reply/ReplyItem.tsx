@@ -20,10 +20,9 @@ interface IreplyData {
 }
 
 const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
-  console.log("Reply Data:", commentId);
   const [openReply, setOpenReply] = useState(false);
   // const {} = useComment();
-  console.log(replyData, "replyData in replyItem");
+
   const id = replyData.commentId;
   const { commentData, loadingCommentData, refetchComment } = useComment({
     id,
@@ -37,8 +36,7 @@ const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
   if (!replyData || loadingCommentData) {
     return <LoadingPage />;
   }
-  console.log(commentData, "commentData in replyItem");
-  console.log(replyData, "replyData");
+
   const profileImage = `${replyData.user?.profileImage}`;
   return (
     <div className="flex flex-col h-fit ml-3 relative border-2 p-2 rounded-xl border-gray-400/50">

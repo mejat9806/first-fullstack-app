@@ -7,12 +7,11 @@ import { useParams } from "react-router-dom";
 const useBookmark = () => {
   const queryClient = useQueryClient();
   const { id } = useParams();
-  console.log(id);
+
   const { mutate: mutateBookmark, isPending: isToogleBookmark } = useMutation({
     mutationFn: bookmarkApi,
     onError: (err) => {
       if (axios.isAxiosError(err) && err.response) {
-        console.log(err);
         toast({ variant: "error", description: err.message });
       }
     },

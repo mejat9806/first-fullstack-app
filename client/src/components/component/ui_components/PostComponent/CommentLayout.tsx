@@ -24,7 +24,7 @@ const CommentLayout = () => {
   const isIncludedParams = mustInclude.every((param) =>
     paramArray.includes(param),
   );
-  console.log(comment, "in layout");
+
   return (
     <div className="flex flex-col gap-3">
       {isIncludedParams && comment && (

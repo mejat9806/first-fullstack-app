@@ -29,16 +29,16 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
   if (!singleData || !singleData.data || isDeletePostLoading || isLikeDislike) {
     return <LoadingPage />;
   }
-  console.log(singleData, "here in showDetails");
+
   if (!user) {
     return <LoadingPage />;
   }
   const { author, createAt, detail, image, title, likes, id } = singleData.data;
-  console.log(author, "here in postDetails");
+
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
   const isAuthorCorrect = user.id === author?.id;
-  console.log(singleData.data, "like");
+
   const profileImage = `${singleData.data.author?.profileImage}
 `;
   return (

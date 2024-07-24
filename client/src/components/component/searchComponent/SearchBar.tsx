@@ -21,10 +21,9 @@ const SearchBar = () => {
     if (wrapper.current && !wrapper.current.contains(event?.target as Node)) {
       setResultVisible(false);
       setSearchInput("");
-      console.log("click");
     }
   };
-  console.log(search);
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, false);
     return () => {
@@ -39,7 +38,6 @@ const SearchBar = () => {
       return;
     }
     if (searchInput) {
-      console.log(searchInput);
       setSearchParams({ search: searchInput });
     }
     navigate(`/search/post?q=${searchInput} `, { state: searchData });

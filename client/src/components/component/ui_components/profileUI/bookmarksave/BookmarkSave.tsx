@@ -6,10 +6,9 @@ import PostItem from "../../PostComponent/PostItem";
 
 const BookmarkSave = () => {
   const { state } = useLocation();
-  console.log(state);
+
   const data = state;
 
-  console.log(data);
   const { id: userId } = useParams<{ id: string }>();
 
   const { userProfileData } = useGetPosterProfile({
@@ -18,7 +17,7 @@ const BookmarkSave = () => {
   if (!userProfileData) {
     return <LoadingPage className="" />;
   }
-  console.log(userProfileData, "userProfileData");
+
   return (
     <div
       className={` flex   md:justify-center md:items-center mt-12 w-full rounded-full`}

@@ -26,7 +26,6 @@ export const RelevantAccount = ({ comments, author }: RelevantAcc) => {
   const releventUser = uniqueData.filter((item) => {
     return item.id !== author.id;
   });
-  console.log(releventUser, "userdddd");
 
   return (
     <div

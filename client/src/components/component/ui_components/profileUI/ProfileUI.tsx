@@ -96,9 +96,9 @@ const ProfileUI = () => {
   const following = userProfileData.followers.map(
     (follow: Ifollow) => follow.user.id,
   );
-  console.log(following, "following");
+
   const isFollow = following.includes(user.id);
-  console.log(following, "isFOllow");
+
   const togglingFollow = () => {
     ToggleFollow(userProfileData.id);
   };
@@ -109,7 +109,7 @@ const ProfileUI = () => {
   if (isPending) {
     return <LoadingPage />;
   }
-  console.log(userProfileData, "banner check");
+
   return (
     <div className="w-dvw justify-center items-center flex ">
       <div className="flex justify-center flex-col items-start md:w-[50%] w-full px-1 mt-3 ">

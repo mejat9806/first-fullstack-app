@@ -1,7 +1,7 @@
 import { Post } from "../model/postModel.js";
 import { User } from "../model/userModel.js";
-import { apiFeatures } from "../utils/apiFeature";
-import { catchAsync } from "../utils/catchAsync";
+import { apiFeatures } from "../utils/apiFeature.js";
+import { catchAsync } from "../utils/catchAsync.js";
 import { AppError } from "../utils/appError.js";
 import { Like } from "../model/likeModel.js";
 import { filterObjectsForUpdate } from "../utils/filterObject.js";

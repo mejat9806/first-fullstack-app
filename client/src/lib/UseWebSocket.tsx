@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:8000"); // Use your server URL
+const PORT = process.env.PORT || 8000;
+const socket = io(`http://localhost:${PORT}`); // Use your server URL
 
 const UseWebSocket = () => {
   const [connected, setConnected] = useState(false);

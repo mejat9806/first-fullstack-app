@@ -24,7 +24,6 @@ import { Reply } from "../model/replyModel.js";
 export const registerUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
-    console.log(name);
     //check if name .password and email was entered
     if (!name) {
       return res.json({ error: "name is required" });
@@ -105,7 +104,6 @@ export const loginUser = catchAsync(
     // if (user.isValidated === false) {
     //   return next(AppError('Please check your email for validation', 401));
     // }
-    console.log(user);
 
     if (!user || !(await user.comparePassword(password, user.password))) {
       const err = AppError("please provide correct Email or password  ", 401);
@@ -159,7 +157,6 @@ export const resizeUserPhoto = catchAsync(
     }
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
-    console.log(files, "jere");
     if (files.profileImage && files.profileImage.length > 0) {
       req.body.profileImage = `user=${req.user.id}-${Date.now()}.webp`;
       await sharp(files.profileImage[0].buffer)
@@ -169,7 +166,6 @@ export const resizeUserPhoto = catchAsync(
     }
 
     if (files.bannerImage && files.bannerImage.length > 0) {
-      console.log("get here");
       req.body.bannerImage = `userBanner=${req.user.id}-${Date.now()}.webp`;
       await sharp(files.bannerImage[0].buffer)
         .toFormat("webp")
@@ -182,7 +178,6 @@ export const resizeUserPhoto = catchAsync(
 
 export const updateMe = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log("bodyhere");
     const user = req.user;
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
@@ -205,7 +200,6 @@ export const updateMe = catchAsync(
       "profileImagePublicId",
       "bannerImagePublicId",
     );
-    console.log(files, "req.file");
     if (req.body.profileImagePublicId) {
       filterBody.profileImage = `https://${process.env.CLOUDINARYURL}${req.body.profileImagePublicId}`;
     }
@@ -213,7 +207,6 @@ export const updateMe = catchAsync(
       filterBody.bannerImage = `https://${process.env.CLOUDINARYURL}${req.body.bannerImagePublicId}`;
     }
 
-    console.log(filterBody, "filterBody");
     const updatedUser = await User.findByIdAndUpdate(req.user?.id, filterBody, {
       new: true,
       runValidators: true,
@@ -224,12 +217,10 @@ export const updateMe = catchAsync(
 );
 export const isLogin = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.user, "userdsds");
     const user = req.user;
 
     const currentUser = await User.findById(user?.id);
-    console.log("here");
-    console.log(currentUser, "current user");
+
     if (currentUser?.changedPasswordAfter(user?.iat as number)) {
       return next(AppError("user change password recently", 401));
     }
@@ -265,7 +256,6 @@ export const isLogin = catchAsync(
         populate: { path: "followedUser", model: "User" },
       });
 
-    console.log(profile);
     res.status(200).json(profile);
   },
 );
@@ -308,7 +298,6 @@ export const forgotPassword = catchAsync(
       user.passwordResetToken = undefined;
       user.passwordResetExpired = undefined;
       await user.save({ validateBeforeSave: false });
-      console.log(error);
       return next(AppError("There wass a error while sending a email ", 500));
     }
   },
@@ -316,18 +305,14 @@ export const forgotPassword = catchAsync(
 
 export const resetPassword = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.params.token, "here tokens params");
-    console.log(req.body);
     const hashedToken = crypto
       .createHash("sha256")
       .update(req.params.token)
       .digest("hex");
-    console.log(hashedToken, "here");
     const user = await User.findOne({
       passwordResetToken: hashedToken,
       passwordResetExpired: { $gt: Date.now() }, //this use to compare the expire time
     });
-    console.log(user, "here null");
     if (!user) {
       return next(AppError("Token is invalid or expired", 400));
     }
@@ -368,20 +353,17 @@ export const deleteAccount = catchAsync(
     const loginUserFollow = await Follower.find({ user: userId });
     const loginUserLikePost = await Like.find({ user: userId });
     const postsData = await Post.find({ author: userId });
-    console.log(loginUserLikePost, "dasdasdasdasdasdasd");
     await Comment.deleteMany({ user: userId });
     await Reply.deleteMany({ user: userId });
 
     Promise.all(
       postsData.map(async (post) => {
-        console.log(post.author, "in postData");
         await Like.deleteMany({ post: post.id });
         await Bookmark.deleteMany({ post: post.id });
       }),
     );
     Promise.all(
       loginUserFollow.map(async (userFollowing) => {
-        console.log(userFollowing, "userFollowing");
         await User.updateMany(
           { following: userFollowing.id },
           { $pull: { following: userFollowing.id }, $inc: { followCount: -1 } },
@@ -397,7 +379,6 @@ export const deleteAccount = catchAsync(
     );
     Promise.all(
       loginUserLikePost.map(async (userLikePost) => {
-        console.log(userLikePost, "userFollowing");
         await Like.deleteMany({ user: userLikePost.user });
         await Bookmark.deleteMany({ user: userLikePost.user });
 

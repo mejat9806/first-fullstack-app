@@ -34,6 +34,7 @@ export const useGetAllPost = ({
     data,
     error,
     fetchNextPage,
+
     hasNextPage,
     isFetching,
     isFetchingNextPage,
@@ -45,9 +46,10 @@ export const useGetAllPost = ({
     queryKey: ["posts", fetchType],
     queryFn: ({ pageParam = 1 }) =>
       fetchingFunction({ pageParam: pageParam as number }), // Default pageParam to 1
-    staleTime: 300000,
+    staleTime: 0,
     initialPageParam: 1,
     gcTime: 0,
+    // refetchInterval: 100000,
     refetchOnMount: true,
     refetchOnReconnect: true,
     refetchOnWindowFocus: true,

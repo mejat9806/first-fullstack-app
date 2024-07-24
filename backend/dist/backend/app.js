@@ -18,15 +18,31 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 import { globalErrorHandler } from "./controller/errorController.js";
+import { Server } from "socket.io";
+import { createServer } from "http";
 dotenv.config();
+console.log(process.env.Node_ENV, "brevo");
+export const app = express();
+export const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+  },
+});
+io.on("connect", (socket) => {
+  console.log("connected", socket.id);
+});
+export const emitPostCreated = () => {
+  io.emit("postCreated");
+};
 const corsOptions = {
-  //   origin: "https://socialmedia-650u.onrender.com",
-  // origin: "http://localhost:5173",
+  // origin: "https://socialmedia-650u.onrender.com",
   origin: [
     "https://viewfinder.website",
     "http://localhost:5173",
     "https://socialmedia-650u.onrender.com",
-  ], // Allow requests from this origin
+  ],
+  // Allow requests from this origin
   methods: ["GET", "POST", "DELETE", "PUT", "PATCH"], // Allow GET and POST requests
   allowedHeaders: [
     "Origin",
@@ -41,7 +57,6 @@ const corsOptions = {
   exposedHeaders: ["Content-Length"], // Expose this custom header
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
-export const app = express();
 app.use(cors(corsOptions));
 app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
@@ -50,7 +65,7 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; img-src 'self' http://localhost:8000",
+    "default-src 'self'; img-src 'self' https://viewfinder.website http://localhost:8000",
   );
   next();
 });

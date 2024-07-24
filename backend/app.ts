@@ -18,10 +18,27 @@ import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { router as likeRouter } from "./routes/likeRoute.js";
 import { globalErrorHandler } from "./controller/errorController.js";
-
+import { Server } from "socket.io";
+import { createServer } from "http";
 dotenv.config();
 console.log(process.env.Node_ENV, "brevo");
 
+export const app = express();
+export const httpServer = createServer(app);
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+  },
+});
+
+io.on("connect", (socket) => {
+  console.log("connected", socket.id);
+});
+
+export const emitPostCreated = () => {
+  io.emit("postCreated");
+};
 const corsOptions = {
   // origin: "https://socialmedia-650u.onrender.com",
   origin: [
@@ -44,8 +61,6 @@ const corsOptions = {
   exposedHeaders: ["Content-Length"], // Expose this custom header
   credentials: true, // Allow credentials (cookies, HTTP authentication)
 };
-
-export const app = express();
 
 app.use(cors(corsOptions));
 app.use((req, res, next) => {

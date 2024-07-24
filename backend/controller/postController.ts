@@ -14,6 +14,7 @@ import { Document, model } from "mongoose";
 import { filterObjectsForUpdate } from "../utils/filterObject";
 import { populate } from "dotenv";
 import cloudinarysetup from "../utils/cloudinary";
+import { emitPostCreated } from "../app.js";
 
 interface UserPayload {
   id: string;
@@ -61,7 +62,6 @@ export const getAllPost = catchAsync(
       "name  profileImage ",
     );
     const allPost = await allPostFilter;
-    console.log(req.query, "query");
     allPost.forEach((post: { author: any }) => {
       // this will loop through and delete the posts array from the author array
       if (post.author && (post.author as any).posts) {
@@ -79,7 +79,6 @@ export const getFriendPost = catchAsync(
     if (!user) {
       return AppError("please log in", 401);
     }
-    console.log(user.id);
     const userLogin = await User.findById(user.id).populate({
       path: "following",
       model: "Follower",
@@ -87,12 +86,10 @@ export const getFriendPost = catchAsync(
     if (!userLogin) {
       return AppError("Something goes wrong", 404);
     }
-    console.log(userLogin, "check userLogin");
     const IDs = (userLogin.following as any).map(
       (follow: any) => follow.followedUser,
     );
     const followingID = IDs.push(user.id);
-    console.log(followingID, "followingID");
     req.query.sort = "-createAt";
     const allPostFilter = await apiFeatures(
       Post,
@@ -134,7 +131,6 @@ export const getFriendPost = catchAsync(
 export const getOnePost = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { postId } = req.params;
-    console.log(postId);
     const data = await Post.findById(postId)
       .populate({
         path: "author",
@@ -215,9 +211,7 @@ export const getOnePost = catchAsync(
 // );
 export const createAPost = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    console.log(req.body);
     const { title, detail, image, imagePublicIds } = req.body;
-    console.log(image, "here");
     try {
       if (!req.user) {
         return next(AppError("User not authenticated", 401));
@@ -239,7 +233,7 @@ export const createAPost = catchAsync(
         { $push: { posts: newPost.id } },
         // { new: true, useFindAndModify: false }, // options to return the updated document and avoid deprecated method warning
       );
-
+      emitPostCreated();
       res.status(200).json({ data: newPost });
     } catch (error) {
       res.status(500).json({ error: error });
@@ -314,7 +308,6 @@ export const updatePost = catchAsync(
     if (!postId) {
       return next(AppError("no post Id ", 404));
     }
-    console.log(req.body);
     if (!req.body.title && !req.body.detail && !req.body.image) {
       return next(AppError("no data to edit ", 404));
     }
@@ -332,7 +325,6 @@ export const updatePost = catchAsync(
       //noted to myself this is how to update the object properie // object.key will create array of from req.body
       (post as unknown as IPost)[key] = req.body[key]; //this will add key and value based on the key in the req.body
     });
-    console.log(post);
     post.save({ validateBeforeSave: true });
     res.status(200).json(post);
   },

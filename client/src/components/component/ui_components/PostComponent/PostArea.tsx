@@ -1,17 +1,19 @@
-import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
-import PostItem from "./PostItem";
-import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
-import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
+import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { fetchFollowUserPost } from "@/features/api/Posts/fetchPost/fetchFollowUserPost";
-import { useLocation } from "react-router-dom";
+import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
+import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { useLocation } from "react-router-dom";
+import PostItem from "./PostItem";
 import { PostSkeleton } from "./PostSkeleton";
+import UseWebSocket from "../../websocketTest/UseWebSocket";
 
 const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   const { pathname } = useLocation();
+  const { socket } = UseWebSocket();
   console.log(pathname);
   const queryClient = useQueryClient();
 
@@ -41,6 +43,12 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   const { isDeletePostLoading, status: statusDelete } = useDeletePost();
 
   useEffect(() => {
+    socket.on("postCreated", () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    });
+  }, [queryClient, socket]);
+
+  useEffect(() => {
     refetch();
   }, [
     refetch,
@@ -50,21 +58,20 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
     pathname,
     queryClient,
   ]);
-  console.log("render");
   useEffect(() => {
     if (inView) {
       fetchNextPage({ cancelRefetch: false });
     }
   }, [fetchNextPage, hasNextPage, inView, isFetchingNextPage, postType]);
+  console.log("refetch");
+  useEffect(() => {
+    const lastElement = document.getElementById("lastElement");
 
-  // useEffect(() => {
-  //   const lastElement = document.getElementById("lastElement");
-
-  //   if (!hasNextPage) {
-  //     console.log("here");
-  //     lastElement?.remove();
-  //   }
-  // }); //this is if i want to remove the last element
+    if (!hasNextPage) {
+      console.log("here");
+      lastElement?.remove();
+    }
+  }); //this is if i want to remove the last element
 
   if (isLoadingAllPosts) {
     return <PostSkeleton />;

@@ -61,7 +61,7 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   if (data.pages[0].data.length === 0) {
     return (
       <div className="w-[300px] md:w-[500px] h-full flex justify-center items-center mt-10">
-        <h1 className="text-5xl">No Data</h1>
+        <h1 className="text-5xl">No Data commit</h1>
       </div>
     );
   }

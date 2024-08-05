@@ -36,7 +36,7 @@ function FormInput<T extends FieldValues>({
 }: FormInput<T>) {
   const { theme } = useTheme();
   const isFieldInvalid = !!form.formState.errors[name];
-  console.log(isFieldInvalid);
+
   return (
     <FormField
       control={form.control}

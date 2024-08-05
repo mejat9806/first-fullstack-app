@@ -23,14 +23,13 @@ export function useLogin() {
         title: "Login Success",
         variant: "success",
       });
-      console.log(data, "in the quuery function");
+
       queryClient.setQueryData(["user"], data);
       setUser(data.data);
       // setAuth(data);
       navigate("/", { replace: true });
     },
     onError: (err) => {
-      console.log("ERROR", err);
       if (axios.isAxiosError(err) && err.response)
         //this how to read error from axios
         toast({

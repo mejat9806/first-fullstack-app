@@ -15,6 +15,8 @@ declare global {
             id: string;
             name: string;
             profileImage: string;
+            bannerImagePublicId: string;
+            profileImagePublicId: string;
             iat: number;
           }
         | undefined;

@@ -27,7 +27,7 @@ export function useRegister() {
     }) => registerApi({ email, password, passwordConfirm, name }),
     onSuccess: (data) => {
       queryClient.setQueryData(["user"], data);
-      console.log(data, "register");
+
       toast({
         title: "ok created",
         description: "user created successfully",

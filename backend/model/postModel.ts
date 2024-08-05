@@ -15,6 +15,7 @@ export interface PostType extends Document {
   likes: mongoose.Schema.Types.ObjectId[];
   comments: mongoose.Schema.Types.ObjectId[];
   likesCount: number;
+  imagePublicIds: [string];
   updated: boolean;
   lastUpdate: Date;
 }
@@ -49,7 +50,9 @@ const postSchema = new mongoose.Schema<PostType>(
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
     lastUpdate: Date,
     updated: { type: Boolean, default: false },
+    imagePublicIds: [String],
   },
+
   {
     toJSON: {
       virtuals: true,

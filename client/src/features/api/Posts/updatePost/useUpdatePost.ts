@@ -17,7 +17,8 @@ const useUpdatePost = () => {
         navigate(`/post/${postId}`, { replace: true });
       },
       onError: (error) => {
-        console.log(error);
+        console.log(error.message);
+        toast({ variant: "error", description: "update error" });
       },
     },
   );

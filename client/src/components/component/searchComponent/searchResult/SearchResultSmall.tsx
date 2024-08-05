@@ -1,7 +1,6 @@
 import { useTheme } from "@/components/darkMode/theme-provider";
 import { Iposts, UserType } from "@/utils/type";
 import React from "react";
-import { baseUrl } from "../../ui_components/PostComponent/PostItem";
 import { useNavigate } from "react-router-dom";
 
 interface IsmallSearch {
@@ -38,9 +37,9 @@ export const SearchResultSmall = ({
         >
           <div className="flex  items-center gap-2">
             <img
-              src={`${baseUrl}img/posts/${user?.profileImage}`}
+              src={`${user?.profileImage}`}
               alt={`${user?.name}'s profile`}
-              className="h-5 w-5  rounded-full"
+              className="h-10 w-10  rounded-full"
             />
             <h1>{user?.name}</h1>
           </div>

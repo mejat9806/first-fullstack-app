@@ -35,8 +35,11 @@ export const createSendToken = (
   res.cookie("token", accessToken, {
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
-    sameSite: "strict",
-    // sameSite: "lax",
+    secure: true,
+    // domain: "viewfinder.website/",
+
+    // sameSite: "strict",
+    sameSite: "none",
   });
   res.cookie("refreshToken", refreshToken, {
     expires: new Date(
@@ -44,8 +47,10 @@ export const createSendToken = (
     ),
     secure: true,
     httpOnly: true,
-    sameSite: "strict",
-    // sameSite: "none",
+    // domain: "viewfinder.website",
+
+    // sameSite: "strict",
+    sameSite: "none",
   });
   res.status(statusCode).json({
     accessToken,

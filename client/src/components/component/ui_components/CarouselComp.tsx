@@ -5,7 +5,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/shadcnComponent/ui/carousel";
-import { baseUrl } from "./PostComponent/PostItem";
 
 type ICarousel = {
   imageProp: [string];
@@ -15,15 +14,18 @@ type ICarousel = {
 
 const CarouselComp = ({ imageProp, setOpenImage, open }: ICarousel) => {
   return (
-    <div className="w-full  md:w-full transition-all duration-150 ">
-      <Carousel className="md:w-full h-full">
-        <CarouselContent className="rounded-2xl">
+    <div className="transition-all duration-150 ">
+      <Carousel className="">
+        <CarouselContent className="rounded-2xl ">
           {imageProp.map((img) => (
-            <CarouselItem key={img} className="">
+            <CarouselItem
+              key={img}
+              className="flex justify-center items-center"
+            >
               <img
-                src={`${baseUrl}/img/posts/${img}`}
+                src={`${img}`}
                 alt={img}
-                className=" w-full md:w-full h-full object-contain "
+                className=" w-dvw md:w-1/2 h-full object-contain "
                 onClick={() => setOpenImage(true)}
               />
             </CarouselItem>

@@ -2,13 +2,13 @@
 import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
 import { useQueryClient } from "@tanstack/react-query";
 import { Bookmark, Heart } from "lucide-react";
-import LoadingPage from "../LoadingPage";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import { FaCommentDots } from "react-icons/fa6";
-import type { IBookmark, Ilike, PostFooter } from "@/utils/type";
+import type { PostFooter } from "@/utils/type";
 import useBookmark from "@/features/api/bookmark/useBookmark";
+import LoadingPage from "../LoadingPage";
 const PostFooter = ({ like, postId, author }: PostFooter) => {
   const { user } = useContext(UserContext);
   const { likeDislike } = useLikeDislike();
@@ -18,6 +18,7 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   if (!user) {
     return <LoadingPage className="h-fit" />;
   }
+
   const userId = user.id;
   const { userProfileData } = useGetPosterProfile({
     userId,
@@ -25,29 +26,27 @@ const PostFooter = ({ like, postId, author }: PostFooter) => {
   if (!userProfileData) {
     return <LoadingPage className="h-fit" />;
   }
-  console.log({ userProfileData, user }, "userProfileData");
-  // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
-  const userProfileLike = userProfileData.likePosts.map(
-    (like: Ilike) => like._id,
-  );
 
-  console.log(userProfileLike, "userProfileLike");
-  const userProfileBookmark = userProfileData.bookmark.map(
-    (bookmark: IBookmark) => bookmark._id,
-  );
-  console.log({ userProfileLike, userProfileBookmark });
+  // const [userVote, setUserVote] = useState<null | "like" | "dislike">(null);
+  // const userProfileLike = userProfileData.likePosts.map(
+  //   (like: Ilike) => like._id,
+  // );
+
+  // const userProfileBookmark = userProfileData.bookmark.map(
+  //   (bookmark: IBookmark) => bookmark._id,
+  // );
+
   const loginUserLike = user.likePosts.map(
     (userLoginLike) => userLoginLike.post._id,
   );
   const loginUserBookmark = user.bookmark.map(
     (userLoginBookmark) => userLoginBookmark.post._id,
   );
-  console.log(loginUserBookmark, "loginUserBookmark");
+
   const isProfileLike = loginUserLike.includes(postId);
 
-  console.log(isProfileLike);
   const isProfileBookmark = loginUserBookmark.includes(postId);
-  console.log(isProfileBookmark, "isProfileBookmark");
+
   const handleLike = () => {
     likeDislike(postId, {
       onSuccess: () => {

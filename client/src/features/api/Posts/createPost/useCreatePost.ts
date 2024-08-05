@@ -14,15 +14,12 @@ export function useCreatePost() {
     error,
   } = useMutation({
     mutationFn: createPostApi,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
       toast({ title: "Post successfully created" });
-      queryClient.setQueryData(["post"], data);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       navigate("/");
     },
-    onError: (data) => {
-      console.log(data);
+    onError: () => {
       toast({ title: "Post creating fail", variant: "error" });
     },
   });

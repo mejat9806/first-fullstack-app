@@ -6,28 +6,27 @@ import { useNavigate } from "react-router-dom";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { useTheme } from "@/components/darkMode/theme-provider";
 
-import LoadingPage from "../LoadingPage";
 import DOMPurify from "dompurify";
 import { PostItemType } from "@/utils/type";
 import { HoverPic } from "../HoverPic";
+import { PostSkeleton } from "./PostSkeleton";
 
 interface item<T extends PostItemType> {
   item: T;
   to?: "popular" | "recent";
 }
-export const baseUrl = "http://localhost:8000/"; // Base URL of  Express server
 const PostItem = <T extends PostItemType>({ item }: item<T>) => {
   const navigate = useNavigate();
   const { theme } = useTheme();
   // const imageUrl = baseUrl + "public/img/posts/" + item.image[0]; // Construct the full image URL
   const postDay = dateFormat(item.createAt);
   if (!item) {
-    return <LoadingPage />; // or handle the case when item is undefined
+    return <PostSkeleton />; // or handle the case when item is undefined
   }
-  console.log(item, "item for post");
-  console.log(item.author._id);
-  const profileImage = `${baseUrl}img/posts/${
-    item.author?.profileImage ?? item.author?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
+
+  const profileImage = `${
+    item.author?.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
+    "./../../../../../public/img/userImage/defaultUser.svg"
   }`;
 
   return (
@@ -36,7 +35,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
         theme === "dark"
           ? "text-white  hover:bg-slate-700  border-2 border-slate-100"
           : "text-black  hover:bg-slate-200 border-2 border-slate-200"
-      } p-3  rounded-2xl  shadow-md  `}
+      } p-3  rounded-2xl  shadow-md w-[90%] md:max-w-2xl`}
     >
       <div className="w-full  flex  mb-3 ">
         <HoverPic profileImage={profileImage} userId={item.author._id} />
@@ -64,9 +63,10 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
       <div className="w-full  flex justify-center items-center">
         {item.image && item.image.length === 1 ? (
           <img
-            src={`${baseUrl}/img/posts/${item.image[0]}`}
+            src={`${item.image}`}
             onClick={() => navigate(`/post/${item._id}`, { replace: true })}
-            className=" max-w-[200px] md:max-w-[450px] md:max-h-[400px] object-cover  "
+            className=" max-w-[300px] md:max-w-[450px] md:max-h-[400px] object-cover  "
+            loading="lazy"
           />
         ) : (
           <ResponsiveMasonry
@@ -79,9 +79,10 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
               {item.image.map((img, i) => (
                 <img
                   key={i}
-                  src={`${baseUrl}/img/posts/${img}`}
+                  src={img}
                   onClick={() => navigate(`post/${item._id}`)}
-                  className="md:max-h-[500px]  object-contain "
+                  className="md:max-h-[300px]  object-cover "
+                  loading="lazy"
                 />
               ))}
             </Masonry>

@@ -1,61 +1,49 @@
-import axios from "axios";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Home from "./page/Home";
-import PrivateRoute from "./page/PrivateRoute";
-import LoginPage from "./page/LoginPage";
-import RegisterPage from "./page/RegisterPage";
 import Setting from "./page/Setting";
-import { Suspense, useEffect, useState } from "react";
-import Explore from "./page/Explore";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { useTheme } from "./components/darkMode/theme-provider";
 // import NewPost from "./page/NewPost";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorPage from "./page/ErrorPage";
-import PasswordReset from "./page/ForgotPass";
 import LoadingPage from "./components/component/ui_components/LoadingPage";
 import MainLayout from "./components/component/ui_components/MainLayout";
-import Resetpassword from "./page/Resetpassword";
-import CheckEmailPage from "./page/CheckEmailPage";
-import { useTheme } from "./components/darkMode/theme-provider";
-import AllPostByUser from "./components/component/ui_components/profileUI/AllPostProfileUI/AllPostByUser";
-import LikePost from "./components/component/ui_components/profileUI/likePostProfileUI/LikePost";
+
 import { ProfileLayout } from "./components/component/ui_components/profileUI/ProfileLayout";
-import PopularPost from "./page/PopularPost";
-import WrongPathPage from "./page/WrongPathPage";
 
 import { PostSearch } from "./components/component/searchComponent/searchResult/PostSearch";
 import { UserSearch } from "./components/component/searchComponent/searchResult/UserSearch";
 import { CommentSearch } from "./components/component/searchComponent/searchResult/CommentSearch";
 import SearchResultLayout from "./page/SearchResultLayout";
-import BookmarkSave from "./components/component/ui_components/profileUI/bookmarksave/BookmarkSave";
+
 import { PostLayout } from "./components/component/ui_components/PostComponent/PostLayout";
 import PostDeepIntoComment from "./components/component/ui_components/PostComponent/PostDeepIntoComment";
 import CommentLayout from "./components/component/ui_components/PostComponent/CommentLayout";
 import { CommentItem } from "./components/component/ui_components/PostComponent/CommentItem";
-axios.defaults.baseURL =
-  import.meta.env.Vite_ENV === "development"
-    ? import.meta.env.VITE_DEVELOPMENT_URL
-    : import.meta.env.VITE_DEVELOPMENT_URL;
-axios.defaults.withCredentials = true; // default
-axios.defaults.headers.common["Accept"] = "application/json, text/plain, */*";
-axios.defaults.headers.common["Content-Type"] = "application/json";
-// axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*"
-console.log(axios.defaults.baseURL, "env");
+import AllPostByUser from "./components/component/ui_components/profileUI/AllPostProfileUI/AllPostByUser";
+import LikePost from "./components/component/ui_components/profileUI/likePostProfileUI/LikePost";
+import BookmarkSave from "./components/component/ui_components/profileUI/bookmarksave/BookmarkSave";
+const Home = lazy(() => import("./page/Home"));
+const PrivateRoute = lazy(() => import("./page/PrivateRoute"));
+const LoginPage = lazy(() => import("./page/LoginPage"));
+const RegisterPage = lazy(() => import("./page/RegisterPage"));
+const Explore = lazy(() => import("./page/Explore"));
+const ErrorPage = lazy(() => import("./page/ErrorPage"));
+const Resetpassword = lazy(() => import("./page/Resetpassword"));
+const CheckEmailPage = lazy(() => import("./page/CheckEmailPage"));
+const PasswordReset = lazy(() => import("./page/ForgotPass"));
+const PopularPost = lazy(() => import("./page/PopularPost"));
+const WrongPathPage = lazy(() => import("./page/WrongPathPage"));
+
 function App() {
   const { theme } = useTheme();
   const [isLoading, setLoading] = useState(true);
 
   function someRequest() {
-    //Simulates a request; makes a "promise" that'll run for 2.5 seconds
     return new Promise<void>((resolve) => setTimeout(() => resolve(), 1500));
   }
   useEffect(() => {
     someRequest().then(() => {
       const loaderElement = document.querySelector(".loader-container");
-      // if (theme === "dark") {
-      //   loaderElement?.classList.add("bg-black");
-      // } else {
-      //   loaderElement?.classList.add("bg-white");
-      // }
+
       if (loaderElement) {
         loaderElement.remove();
         setLoading(!isLoading);

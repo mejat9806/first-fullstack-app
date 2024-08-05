@@ -1,4 +1,6 @@
-import { useLogout } from "@/features/api/Auth/logout/useLogout";
+import { useTheme } from "@/components/darkMode/theme-provider";
+import { UserContext } from "@/context/userContext";
+import { useLogin } from "@/features/api/Auth/login/useLogin";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,17 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shadcnComponent/ui/dropdown-menu";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import DefaultProfile from "../DefaultProfile";
-import { useContext } from "react";
-import { UserContext } from "@/context/userContext";
-import { baseUrl } from "../PostComponent/PostItem";
-import { useLogin } from "@/features/api/Auth/login/useLogin";
 import LoadingPage from "../LoadingPage";
-import { useTheme } from "@/components/darkMode/theme-provider";
 
 const ProfileIcon = () => {
-  const { logout } = useLogout();
+  // const { logout } = useLogout();
   const { isLoading } = useLogin();
   const { setTheme, theme } = useTheme();
   const { user } = useContext(UserContext);
@@ -32,8 +30,8 @@ const ProfileIcon = () => {
     return <LoadingPage />;
   }
 
-  const profileImage = `${baseUrl}img/posts/${
-    user?.profileImage //return leftside if it not null/undefiend .if null/undifined it will return the right
+  const profileImage = `${
+    user.profileImage ?? "./../../../../../public/img/userImage/defaultUser.svg" //return leftside if it not null/undefiend .if null/undifined it will return the right
   }`;
 
   return (
@@ -72,13 +70,7 @@ const ProfileIcon = () => {
           </DropdownMenuItem>
           <DropdownMenuItem>Contact the Dev</DropdownMenuItem>
           <DropdownMenuItem>
-            <button
-              onClick={() => {
-                console.log("click"), logout();
-              }}
-            >
-              Logout
-            </button>
+            <button onClick={() => {}}>Logout</button>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

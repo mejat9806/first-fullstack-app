@@ -120,3 +120,7 @@ client/cert.crt
 client/cert.key
 client/rootCA.key
 client/rootCA.pem
+.env
+client/.env
+backend/.env
+backend/.env

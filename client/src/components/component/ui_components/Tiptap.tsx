@@ -4,7 +4,6 @@ import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Toolbar from "./Toolbar";
 import { Button } from "@/shadcnComponent/ui/button";
-import { useTheme } from "@/components/darkMode/theme-provider";
 import { cn } from "@/lib/utils";
 import { FormMessage } from "@/shadcnComponent/ui/form";
 
@@ -23,10 +22,8 @@ const Tiptap = ({
   onCancel?: () => void;
   isFieldInvalid: boolean;
 }) => {
-  const { theme } = useTheme();
   // const themeChange = theme === "light" ? "text-white" : "text-black";
-  console.log("Current theme:", theme);
-  console.log(isFieldInvalid, "in tap tap");
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -79,7 +76,6 @@ const Tiptap = ({
     },
   });
   const onCancel = () => {
-    console.log("Click");
     closeTextbox?.();
     editor?.commands.clearContent();
   };

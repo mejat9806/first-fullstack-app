@@ -18,7 +18,7 @@ function Login() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      email: "mejathussin@gmail.com",
+      email: "mejathussin123@gmail.com",
       password: "mav989698",
     },
   });
@@ -34,8 +34,6 @@ function Login() {
   //   // navigate("/dashboard");
   // };
   async function onSubmit(values: z.infer<typeof FormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     login({ email: values.email, password: values.password });
     // await login(values.email, values.password);
   }
@@ -62,7 +60,11 @@ function Login() {
           disabled={isLoading}
         />
 
-        <Button type="submit" className="hover:bg-slate-600 flex w-full ">
+        <Button
+          type="submit"
+          className="hover:bg-slate-600 flex w-full "
+          disabled={isLoading}
+        >
           {!isLoading ? "  Submit" : "Loading..."}
         </Button>
       </form>

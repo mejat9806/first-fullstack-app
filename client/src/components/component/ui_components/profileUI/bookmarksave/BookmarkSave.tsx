@@ -1,24 +1,23 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import LoadingPage from "../../LoadingPage";
 import PostItem from "../../PostComponent/PostItem";
 
 const BookmarkSave = () => {
-  const { state } = useLocation();
-  console.log(state);
-  const data = state;
+  // const { state } = useLocation();
 
-  console.log(data);
+  // const data = state;
+
   const { id: userId } = useParams<{ id: string }>();
 
   const { userProfileData } = useGetPosterProfile({
     userId,
   });
   if (!userProfileData) {
-    return <LoadingPage />;
+    return <LoadingPage className="" />;
   }
-  console.log(userProfileData, "userProfileData");
+
   return (
     <div
       className={` flex   md:justify-center md:items-center mt-12 w-full rounded-full`}

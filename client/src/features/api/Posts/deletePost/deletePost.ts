@@ -1,7 +1,7 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const deletePostApi = async (postId: string) => {
-  const response = await axios.delete(`posts/${postId}`);
+  const response = await apiClient.delete(`posts/${postId}`);
 
   return response;
 };

@@ -2,7 +2,6 @@ import { Icomment } from "@/features/api/Posts/PostDetail/fetchPostDetail";
 import { useState } from "react";
 import DOMPurify from "dompurify";
 import { useNavigate, useParams } from "react-router-dom";
-import { baseUrl } from "../PostComponent/PostItem";
 import { formatDistanceToNow } from "date-fns";
 
 import { Button } from "@/shadcnComponent/ui/button";
@@ -11,8 +10,8 @@ import ReplyItem from "./reply/ReplyItem";
 import { MinusCircle, PlusCircle } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTheme } from "@/components/darkMode/theme-provider";
-import { useComment } from "@/features/api/Comment/useComment";
-import LoadingPage from "../LoadingPage";
+// import { useComment } from "@/features/api/Comment/useComment";
+// import LoadingPage from "../LoadingPage";
 import { HoverPic } from "../HoverPic";
 
 interface ICommentData {
@@ -26,17 +25,18 @@ const Comment = ({ commentData }: ICommentData) => {
   const queryClient = useQueryClient();
   const { theme } = useTheme();
   const { postId } = useParams();
-  // console.log("comment data:", commentData); // Debugging statement
-  const { commentData: commentReplydata, loadingCommentData } = useComment();
+  //
 
-  if (loadingCommentData) {
-    return <LoadingPage />;
-  }
-  console.log(commentData, "in comment");
-  const text = commentReplydata?.commentText || commentData?.commentText;
-  // console.log("text:", commentReplydata.commentText, commentData.commentText);
-  const profileImage = `${baseUrl}img/posts/${commentData.user.profileImage}`;
-  console.log(text, "commment data text");
+  // const { commentData: commentReplydata, loadingCommentData } = useComment();
+
+  // if (loadingCommentData) {
+  //   return <LoadingPage className="h-20" />;
+  // }
+
+  const text = commentData?.commentText;
+  //
+  const profileImage = `${commentData.user.profileImage}`;
+
   return (
     <div className="relative">
       <div className="grid  grid-cols-comment gap-6 ml-5 border-2 p-2 rounded-xl border-gray-400/50">
@@ -125,7 +125,6 @@ const Comment = ({ commentData }: ICommentData) => {
                   {
                     <Button
                       onClick={() => {
-                        console.log("click go to ");
                         queryClient.invalidateQueries({ queryKey: ["reply"] });
                         navigate(`/post/${postId}/${commentData._id}`, {
                           state: "reply",

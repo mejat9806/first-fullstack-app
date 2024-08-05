@@ -7,7 +7,7 @@ export default function Home() {
   // if (isLoadingAllPosts) {
   //   <LoadingPage />;
   // }
-  // console.log(data, "ths from home");
+  //
   return (
     <div>
       <PageUI pageName={"Home"} pageComponent={<Post fetchType="home" />} />

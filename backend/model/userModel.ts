@@ -21,6 +21,9 @@ export interface UserType extends Document {
   followerCount: number;
   passwordChangedAt: Date;
   passwordResetToken: string | undefined;
+  imagePublicIds: [string];
+  profileImagePublicId: string;
+  bannerImagePublicId: string;
   passwordResetExpired: Date | undefined;
   bannerImage: string;
   changedPasswordAfter: (JWTtimestamp: number) => boolean;
@@ -49,13 +52,18 @@ const userSchema = new mongoose.Schema<UserType>(
       required: [true, "password is required"],
       minlength: 8,
     },
-
+    profileImagePublicId: String,
+    bannerImagePublicId: String,
     likePosts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
     bookmark: [{ type: mongoose.Schema.Types.ObjectId, ref: "BookMark" }],
     joinDate: { type: Date, default: Date.now() },
     posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Post" }],
     passwordConfirmed: String,
-    profileImage: { type: String, default: "defaultUser.svg" },
+    profileImage: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dmwtopo5n/image/upload/v1719901035/defaultUse_pyy1rs.webp",
+    },
     active: { type: Boolean, default: true, select: false },
     passwordChangedAt: Date,
     passwordResetToken: String,
@@ -104,6 +112,7 @@ userSchema.methods.comparePassword = async function (
   return bcrypt.compare(inputPassword, passFromDB);
 };
 
+userSchema.pre<Query<any, UserType>>("updateOne", function (next) {});
 // Explicitly type the 'this' context as a Mongoose query object for query middleware hooks
 // userSchema.pre<Query<any, UserType>>(/^find/, function (next) {
 //   this.populate({

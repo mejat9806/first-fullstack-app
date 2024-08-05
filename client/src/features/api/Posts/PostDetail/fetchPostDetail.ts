@@ -1,5 +1,5 @@
+import { apiClient } from "@/utils/axios";
 import { UserType } from "@/utils/type";
-import axios from "axios";
 
 export interface Ireply {
   createdAt: string;
@@ -22,7 +22,7 @@ export type IsinglePostDetail = {
   data: {
     title: string;
     detail: string;
-    author: { id: string; profileImage: string; name: string };
+    author: { id: string; profileImage: string; name: string; bio: string };
     image: [string];
     createAt: string;
     slug: string;
@@ -32,12 +32,7 @@ export type IsinglePostDetail = {
   };
 };
 
-export const fetchPostDetail = async ({
-  postId,
-}: {
-  postId: string;
-}): Promise<IsinglePostDetail> => {
-  const response: IsinglePostDetail = await axios.get(`/posts/${postId}`);
-  console.log(response.data);
-  return response;
+export const fetchPostDetail = async ({ postId }: { postId: string }) => {
+  const response = await apiClient.get(`/posts/${postId}`);
+  return response.data;
 };

@@ -16,7 +16,6 @@ export const useUpdatePassword = () => {
       logout();
     },
     onError: (err) => {
-      console.log("ERROR", err);
       if (axios.isAxiosError(err) && err.response)
         //this how to read error from axios
         toast({

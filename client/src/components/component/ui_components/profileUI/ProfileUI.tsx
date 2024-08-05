@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useGetPosterProfile } from "@/features/api/User/useGetPosterProfile";
 import LoadingPage from "../LoadingPage";
-import { baseUrl } from "../PostComponent/PostItem";
 import { Button } from "@/shadcnComponent/ui/button";
 import "./../../../../App.css";
 import { UserContext } from "@/context/userContext";
@@ -14,11 +13,12 @@ import useUpdateUserData from "@/features/api/updateUser/updateUser/useUpdateUse
 import EditProfile from "../../edit profile/EditProfile";
 import { Ifollow } from "@/utils/type";
 import { useToggleFollow } from "@/features/api/follow/useToggleFollow";
+import { LoaderIcon } from "lucide-react";
 
 const ProfileUI = () => {
   const [openAddImage, setUpdateImage] = useState(false);
   const location = useLocation();
-  const { updateUserFn } = useUpdateUserData();
+  const { updateUserFn, isPending } = useUpdateUserData();
   const [image, setImage] = useState("");
   const [openEditProfile, setOpenEditProfile] = useState(false);
   const [imageAfterCrop, setImageAfterCrop] = useState("");
@@ -26,14 +26,14 @@ const ProfileUI = () => {
   const [currentPage, setCurrentPage] = useState("choose-img");
   const { id: userId } = useParams<{ id: string }>();
   const { user } = useContext(UserContext);
-  const { isGetProfile, isError, userProfileData } = useGetPosterProfile({
+  const { isGetProfile, userProfileData } = useGetPosterProfile({
     userId: userId || "",
   });
   if (!userId) {
     return <div>No user ID provided.</div>;
   }
   if (!user) {
-    return;
+    return <LoadingPage />;
   }
 
   const onImageSelected = (selectedImage: string) => {
@@ -86,41 +86,45 @@ const ProfileUI = () => {
     setImage("");
   };
 
-  if (isGetProfile || !user) {
+  if (isGetProfile || !user || !userProfileData) {
     return <LoadingPage />;
   }
 
   const userID = user.id;
 
-  if (isError) {
-    return <div>Error loading user profile: {isError.message}</div>;
-  }
-
-  if (!userProfileData) {
-    return <div>No user profile data provided.</div>;
-  }
-  console.log({ userProfileData });
   const shouldRenderButton = userProfileData.id === user._id;
   const following = userProfileData.followers.map(
     (follow: Ifollow) => follow.user.id,
   );
-  console.log(following, "following");
+
   const isFollow = following.includes(user.id);
-  console.log(following, "isFOllow");
+
   const togglingFollow = () => {
     ToggleFollow(userProfileData.id);
   };
+  const profileImage = `${
+    userProfileData.profileImage ?? //return leftside if it not null/undefiend .if null/undifined it will return the right
+    "./../../../../../public/img/userImage/defaultUser.svg"
+  }`;
+  if (isPending) {
+    return <LoadingPage />;
+  }
+
   return (
-    <div className="w-svw justify-center items-center flex ">
+    <div className="w-dvw justify-center items-center flex ">
       <div className="flex justify-center flex-col items-start md:w-[50%] w-full px-1 mt-3 ">
         <div className="w-full md:h-[300px] h-[200px] relative ">
           {userProfileData.bannerImage ? (
             <div className="w-full md:h-[300px] h-[200px] relative bg-black">
-              <img
-                src={`${baseUrl}img/posts/${userProfileData.bannerImage}`}
-                alt=""
-                className="h-full w-full "
-              />
+              {isPending ? (
+                <LoaderIcon />
+              ) : (
+                <img
+                  src={userProfileData.bannerImage}
+                  alt=""
+                  className="h-full w-full "
+                />
+              )}
 
               {shouldRenderButton && (
                 <button onClick={() => setUpdateImage(true)}>
@@ -137,14 +141,14 @@ const ProfileUI = () => {
                 <button onClick={() => setUpdateImage(true)}>
                   <IoAddCircleOutline
                     size={30}
-                    className="absolute top-0 right-0 stroke-black"
+                    className="absolute top-0 right-0 stroke-white"
                   />
                 </button>
               )}
             </div>
           )}
           <img
-            src={`${baseUrl}img/posts/${userProfileData.profileImage}`}
+            src={profileImage}
             alt={`${userProfileData.name}'s profile`}
             className="h-32 absolute w-32   -bottom-10 left-3 rounded-full"
           />
@@ -157,8 +161,8 @@ const ProfileUI = () => {
             </h1>
             <p>{userProfileData.bio}</p>
             <p className="md:text-base text-sm">{userProfileData.email}</p>
-            <span>{userProfileData.followerCount} follower</span>{" "}
-            <span>{userProfileData.followCount} following</span>
+            <span>{userProfileData.followers.length} follower</span>{" "}
+            <span>{userProfileData.following.length} following</span>
           </div>
           {userID === userProfileData.id ? (
             <Button onClick={() => setOpenEditProfile(true)}>
@@ -219,6 +223,7 @@ const ProfileUI = () => {
               <div className=" relative w-full h-full">
                 <ImageCropper
                   image={image}
+                  isPending={isPending}
                   onCropDone={onCropDone}
                   onCropCancel={onCropCancel}
                 />

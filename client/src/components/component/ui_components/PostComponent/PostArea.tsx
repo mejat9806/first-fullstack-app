@@ -1,22 +1,22 @@
-import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
-import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
-import PostItem from "./PostItem";
-import LoadingPage from "../LoadingPage";
-
-import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
-import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
 import { useDeletePost } from "@/features/api/Posts/deletePost/useDeletePost";
+import { fetchAllPost } from "@/features/api/Posts/fetchPost/fetchAllPost";
 import { fetchFollowUserPost } from "@/features/api/Posts/fetchPost/fetchFollowUserPost";
-import { useLocation } from "react-router-dom";
+import { fetchlatest } from "@/features/api/Posts/fetchPost/fetchLatest";
+import { useGetAllPost } from "@/features/api/Posts/fetchPost/useGetAllPost";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { useLocation } from "react-router-dom";
+import PostItem from "./PostItem";
+import { PostSkeleton } from "./PostSkeleton";
+import UseWebSocket from "../../../../lib/UseWebSocket";
 
 const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   const { pathname } = useLocation();
+  const { socket } = UseWebSocket();
   console.log(pathname);
   const queryClient = useQueryClient();
 
-  //use type here to dynamically fetch data base on what the page want like recent or popular
   let postType = fetchAllPost;
   if (fetchType === "recent") {
     postType = fetchlatest;
@@ -28,11 +28,26 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
     postType = fetchAllPost;
   }
 
-  const { data, error, status, fetchNextPage, refetch, isLoadingAllPosts } =
-    useGetAllPost({ fetchingFunction: postType });
+  const {
+    data,
+    error,
+    status,
+    fetchNextPage,
+    refetch,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoadingAllPosts,
+  } = useGetAllPost({ fetchingFunction: postType, fetchType });
 
-  const { ref, inView } = useInView();
+  const { ref, inView } = useInView({});
   const { isDeletePostLoading, status: statusDelete } = useDeletePost();
+
+  useEffect(() => {
+    socket.on("postCreated", () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    });
+  }, [queryClient, socket]);
+
   useEffect(() => {
     refetch();
   }, [
@@ -45,47 +60,61 @@ const Post = ({ fetchType }: { fetchType: "recent" | "popular" | "home" }) => {
   ]);
   useEffect(() => {
     if (inView) {
-      fetchNextPage();
+      fetchNextPage({ cancelRefetch: false });
     }
-    return () => {};
-  }, [fetchNextPage, inView, postType]);
+  }, [fetchNextPage, hasNextPage, inView, isFetchingNextPage, postType]);
+  console.log("refetch");
+  useEffect(() => {
+    const lastElement = document.getElementById("lastElement");
+
+    if (!hasNextPage) {
+      console.log("here");
+      lastElement?.remove();
+    }
+  }); //this is if i want to remove the last element
+
   if (isLoadingAllPosts) {
-    return <LoadingPage />;
+    return <PostSkeleton />;
   }
 
-  console.log(data, "in POST");
+  if (status === "error") {
+    return <div>{error?.message}</div>;
+  }
+
   if (!data) {
-    throw new Error("something goes wrong");
+    return <div>No data available</div>;
   }
-  console.log(data, "postArea");
-  if (data.pages[0].data.length === 0) {
-    return (
-      <div className="w-[300px] md:w-[500px] h-full flex justify-center items-center mt-10">
-        <h1 className="text-5xl">No Data commitddfdf</h1>
-      </div>
-    );
-  }
-  return status === "pending" ? (
-    <div>{/* <LoadingPage /> */}</div>
-  ) : status === "error" ? (
-    <div>{error?.message}</div>
-  ) : (
-    <div className="w-full  h-full flex flex-col justify-center">
-      {data.pages.map((page, i) => (
-        <div
-          key={i}
-          className="flex flex-col gap-10 mt-5 md:w-[500px] w-[100%]"
-        >
-          {page.data.sort().map((itemData, i: number) => (
-            <div key={i} className="">
-              <PostItem item={itemData} to="popular" />
-            </div>
-          ))}
+  console.log(data.pages[0].data.length, "length");
+  return (
+    <div className="w-full h-full flex flex-col justify-center ">
+      {data.pages[0].data.length === 0 ? (
+        <div>
+          <h1>no data to show here,please follow other user</h1>
         </div>
-      ))}
-      <div ref={ref} className="w-full h-1 bg-red"></div>
+      ) : (
+        data.pages.map((page, i) => (
+          <div
+            key={i}
+            className="flex flex-col gap-10 mt-5 w-full max-w-[600px] items-center"
+          >
+            {page.data.map((itemData, i: number) => (
+              <PostItem item={itemData} to="popular" key={i} />
+            ))}
+          </div>
+        ))
+      )}
+      <div
+        ref={ref}
+        className="w-full h-full  justify-center flex"
+        id="lastElement"
+      >
+        {hasNextPage ? <h1>Loading...</h1> : <h1>no more post</h1>}
+      </div>
     </div>
   );
 };
+{
+  /* NOTE_TO_MYSELF:  fetchNextpage will stop fetching new data when it reach the last page.even if trigger buy the useref over and over again it will not fetch new data because the the pagination has reach the last page and  i can see it on the network tab and my express server  */
+}
 
 export default Post;

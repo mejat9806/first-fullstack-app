@@ -21,12 +21,17 @@ export const createSendToken = (user, statusCode, res) => {
     res.cookie("token", accessToken, {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
-        sameSite: "lax",
+        secure: true,
+        // domain: "viewfinder.website/",
+        // sameSite: "strict",
+        sameSite: "none",
     });
     res.cookie("refreshToken", refreshToken, {
         expires: new Date(Date.now() + refreshCookieExpiresIn * 24 * 60 * 60 * 1000),
         secure: true,
         httpOnly: true,
+        // domain: "viewfinder.website",
+        // sameSite: "strict",
         sameSite: "none",
     });
     res.status(statusCode).json({

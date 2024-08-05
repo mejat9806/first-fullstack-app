@@ -4,8 +4,8 @@ import { toast } from "@/shadcnComponent/ui/use-toast";
 const useCheckEmail = () => {
   const { mutate: checkingEmail, isPending: isCheckingEmail } = useMutation({
     mutationFn: checkEmail,
-    onSuccess: (data) => {
-      console.log(data);
+    onSuccess: () => {
+      toast({ variant: "success", description: "email send" });
     },
     onError(err) {
       console.error(err);

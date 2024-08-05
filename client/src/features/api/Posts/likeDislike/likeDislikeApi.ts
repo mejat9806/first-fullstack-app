@@ -1,6 +1,6 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const likeDislikeApi = async (postId: string) => {
-  const response = await axios.post(`likeDislike/${postId}`);
+  const response = await apiClient.post(`likeDislike/${postId}`);
   return response;
 };

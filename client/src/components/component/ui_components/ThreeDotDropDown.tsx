@@ -24,7 +24,7 @@ const ThreeDotDropDown = ({ dropDownStuff }: dropDownStuff) => {
   const { DeletePost } = useDeletePost();
 
   const { postId } = useParams();
-  console.log(postId);
+
   return (
     <>
       <DropdownMenu>

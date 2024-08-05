@@ -7,7 +7,6 @@ import {
   useOutletContext,
   useParams,
 } from "react-router-dom";
-import { baseUrl } from "./PostItem";
 import { formatDistanceToNow } from "date-fns";
 import DOMPurify from "dompurify";
 import { useContext } from "react";
@@ -25,7 +24,7 @@ const CommentLayout = () => {
   const isIncludedParams = mustInclude.every((param) =>
     paramArray.includes(param),
   );
-  console.log(comment, "in layout");
+
   return (
     <div className="flex flex-col gap-3">
       {isIncludedParams && comment && (
@@ -39,7 +38,7 @@ const CommentLayout = () => {
           <div className="grid grid-cols-2 grid-cols-comment gap-2 relative bg-blue-200/20 p-2 border-2 border-gray-500/20 rounded-lg">
             <div>
               <HoverPic
-                profileImage={`${baseUrl}/img/posts/${comment.user.profileImage}`}
+                profileImage={`${comment.user.profileImage}`}
                 userId={comment.user.id}
               />
             </div>

@@ -7,11 +7,10 @@ import {
   getLatestPost,
   getOnePost,
   getPopularPost,
-  resizePostImage,
   updatePost,
-  uploadPostImage,
 } from "../controller/postController.js";
 import { verifyJWT } from "../middleware/verifyToken.js";
+import { resizePostImage, uploadPostImage } from "../utils/multerMultiImage.js";
 
 export const router = express.Router();
 

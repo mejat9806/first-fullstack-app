@@ -23,7 +23,7 @@ const ForgotPassForm = () => {
   //     debounce(async (email: string): Promise<boolean> => {
   //       //this is the main debounce from loadash
   //       const result = await checkEmail(email); //this will run the checkEmail from the api
-  //       console.log(result);
+  //
   //       return result; //return true or false
   //     }, 1), //run it every 300ms
   //   ).current; //this is to access the current input

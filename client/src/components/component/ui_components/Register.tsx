@@ -44,7 +44,7 @@ function Register() {
     //   passwordConfirm: values.passwordConfirm,
     // });
     // if (data.error) {
-    //   console.log(data.error);
+    //
     // } else {
     //   toast({
     //     title: "ok created",

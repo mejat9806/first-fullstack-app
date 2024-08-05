@@ -20,7 +20,7 @@ function applySorting(query: any, sortQuery: any) {
 }
 function applyPagination(query: any, pageQuery: any, limitQuery: any) {
   const page = pageQuery * 1 || 1;
-  const limit = limitQuery * 1 || 5;
+  const limit = limitQuery * 1 || 2;
   const skip = (page - 1) * limit; //this used to get the previous page to skip
   return query.skip(skip).limit(limit);
 }
@@ -41,7 +41,6 @@ export async function apiFeatures(
 
   let queryStr = JSON.stringify(queryObject);
   queryStr = queryStr.replace(/\b(gte|gte|lte|lt)\b/g, (match) => `$${match}`); // this is used to change normal gte/lte to mongoDB one with $
-  console.log(followingID, "arrayssss");
 
   let mongoQuery = { ...JSON.parse(queryStr) };
   if (followingID) {

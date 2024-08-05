@@ -1,4 +1,4 @@
-import axios from "axios";
+import { apiClient } from "@/utils/axios";
 
 export const getLike = async ({
   postId,
@@ -7,6 +7,8 @@ export const getLike = async ({
   postId: string;
   userId: string;
 }) => {
-  const response = await axios.get(`likeDislike/getLike/${postId}/${userId}`);
+  const response = await apiClient.get(
+    `likeDislike/getLike/${postId}/${userId}`,
+  );
   return response.data;
 };

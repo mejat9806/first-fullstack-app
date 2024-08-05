@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 export const useGetReply = () => {
   const { postId, commentId } = useParams();
-  console.log(postId, commentId, "use reply");
+
   const { data: replyData, isLoading: loadingReplyData } = useQuery({
     queryKey: ["reply"],
     queryFn: () => {

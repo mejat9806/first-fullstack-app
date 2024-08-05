@@ -5,7 +5,6 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/shadcnComponent/ui/hover-card";
-import { baseUrl } from "../../PostComponent/PostItem";
 import { useNavigate } from "react-router-dom";
 import HoverCardUI from "@/components/component/hoverCard/HoverCardUI";
 import LoadingPage from "../../LoadingPage";
@@ -20,11 +19,10 @@ interface IreplyData {
   commentId: string;
 }
 
-const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
-  console.log("Reply Data:", commentId);
+const ReplyItem = ({ replyData, postId }: IreplyData) => {
   const [openReply, setOpenReply] = useState(false);
   // const {} = useComment();
-  console.log(replyData, "replyData in replyItem");
+
   const id = replyData.commentId;
   const { commentData, loadingCommentData, refetchComment } = useComment({
     id,
@@ -38,9 +36,8 @@ const ReplyItem = ({ replyData, postId, commentId }: IreplyData) => {
   if (!replyData || loadingCommentData) {
     return <LoadingPage />;
   }
-  console.log(commentData, "commentData in replyItem");
-  console.log(replyData, "replyData");
-  const profileImage = `${baseUrl}img/posts/${replyData.user?.profileImage}`;
+
+  const profileImage = `${replyData.user?.profileImage}`;
   return (
     <div className="flex flex-col h-fit ml-3 relative border-2 p-2 rounded-xl border-gray-400/50">
       <div className="flex justify-start items-center gap-4 relative ">

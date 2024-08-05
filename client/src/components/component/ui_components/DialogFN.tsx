@@ -26,6 +26,7 @@ interface DialogProps {
   image?: [string];
   component?: React.ReactNode;
   currentPage?: string;
+  deleteWhat?: string;
 }
 
 const DialogFN = ({
@@ -36,6 +37,7 @@ const DialogFN = ({
   currentPage,
   image,
   component,
+  deleteWhat = "Post",
 }: DialogProps) => {
   const { theme } = useTheme();
   return (
@@ -44,13 +46,13 @@ const DialogFN = ({
         type="image"
         className={`${
           type === "image"
-            ? "bg-transparent px-10 border-none shadow-none "
+            ? "bg-transparent px-10 border-none shadow-none max-w-4xl"
             : " py-10"
-        } max-w-4xl ${currentPage === "crop-img" ? "h-1/2" : "h-fit"}`}
+        }  ${currentPage === "crop-img" ? "h-1/2" : "h-fit"}`}
       >
         <DialogHeader>
           {type === "image" && image && (
-            <DialogDescription className="w-[100%]  h-full ">
+            <DialogDescription className="w-[100%]  h-full bg">
               <CarouselComp
                 imageProp={image}
                 setOpenImage={setIsOpen}
@@ -66,8 +68,8 @@ const DialogFN = ({
                 Are you absolutely sure?
               </DialogTitle>{" "}
               <DialogDescription className="flex flex-col gap-4">
-                This action cannot be undone. This will permanently delete your
-                Post
+                This action cannot be undone. This will permanently delete your{" "}
+                {deleteWhat}
               </DialogDescription>
               <div className="flex gap-4">
                 <Button variant={"destructive"} onClick={func}>

@@ -62,7 +62,7 @@ const CreatePostInput = ({
   });
   function onSubmit(values: z.infer<typeof FormSchema>) {
     const { title, detail, image } = values;
-    console.log(title, detail);
+
     const formData = new FormData();
     formData.append("title", title);
     formData.append("detail", detail);
@@ -72,11 +72,10 @@ const CreatePostInput = ({
         formData.append(`image`, file as Blob);
       });
     }
-    const formObject = Object.fromEntries(formData.entries());
-    console.log(formObject);
+    // const formObject = Object.fromEntries(formData.entries());
+
     createPost(formData, {
       onSuccess: () => {
-        console.log("success");
         setIsOpen(false);
       },
     });

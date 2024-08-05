@@ -12,11 +12,10 @@ const LikePost = () => {
   const { userProfileData } = useGetPosterProfile({
     userId,
   });
-  if (!userProfileData) {
-    return <LoadingPage />;
+  if (!userProfileData?.likePosts) {
+    return <LoadingPage className="h-fit" />;
   }
 
-  console.log(userProfileData, "like post");
   return (
     <div className=" flex flex-col gap-10  md:justify-center md:items-center mt-12 w-full overflow-hidden">
       <div className="w-full md:max-w-lg flex-col gap-10 flex">

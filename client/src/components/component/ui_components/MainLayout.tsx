@@ -11,9 +11,9 @@ function MainLayout() {
       } mx-auto w-full overflow-hidden`}
     >
       <HoroBar />
-      <div className=" flex relative">
+      <div className=" flex ">
         <Nav />
-        <div className="flex-grow flex justify-center items-center md:mt-16">
+        <div className="flex-grow gap-x-16 flex justify-center items-start md:mt-16 ">
           <Outlet />
         </div>
       </div>

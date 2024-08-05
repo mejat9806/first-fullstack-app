@@ -9,7 +9,6 @@ import { ArrowBigLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "@/components/component/ui_components/LoadingPage";
 import ThreeDotDropDown from "@/components/component/ui_components/ThreeDotDropDown";
-import { baseUrl } from "@/components/component/ui_components/PostComponent/PostItem";
 import PostFooter from "@/components/component/ui_components/PostComponent/PostFooter";
 import DialogFN from "@/components/component/ui_components/DialogFN";
 import { useLikeDislike } from "@/features/api/Posts/likeDislike/useLikeDislike";
@@ -30,17 +29,18 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
   if (!singleData || !singleData.data || isDeletePostLoading || isLikeDislike) {
     return <LoadingPage />;
   }
-  console.log(singleData, "here in showDetails");
+
   if (!user) {
     return <LoadingPage />;
   }
-  const { author, createAt, detail, image, title, likes, id, comments } =
-    singleData.data;
-  console.log(comments, "here in postDetails");
+  const { author, createAt, detail, image, title, likes, id } = singleData.data;
+
   const dropDownStuff = [{ name: "delete" }, { name: "update" }];
   const postDetail = dateFormat(createAt);
   const isAuthorCorrect = user.id === author?.id;
-  console.log(singleData.data, "like");
+
+  const profileImage = `${singleData.data.author?.profileImage}
+`;
   return (
     <div className="flex justify-center w-full">
       <div className=" w-full  ">
@@ -64,7 +64,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
                     }}
                   >
                     <img
-                      src={`${baseUrl}/img/posts/${author?.profileImage}`}
+                      src={profileImage}
                       alt="profileImage"
                       className="h-[50px] w-[50px] rounded-full"
                     />
@@ -88,7 +88,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
               }}
             ></h1>
             <p
-              className="whitespace-break-spaces break-all	 text-sm  font-extralight text-wrap"
+              className="whitespace-break-spaces break-all	 text-sm  font-extralight text-wrap mb-10"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(detail),
               }}
@@ -97,9 +97,9 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
           <div className="w-full flex justify-center">
             {image && image.length === 1 ? (
               <img
-                src={`${baseUrl}/img/posts/${image[0]}`}
+                src={image[0]}
                 onClick={() => setOpenImage(true)}
-                className="max-w-[200px] md:max-w-[480px] md:max-h-[550px] object-cover"
+                className="max-w-[200px] max-w-[90%]  md:max-h-[550px] object-cover"
               />
             ) : (
               <ResponsiveMasonry
@@ -113,7 +113,7 @@ const PostDetail = ({ singleData }: { singleData: IsinglePostDetail }) => {
                     image.map((img, i) => (
                       <img
                         key={i}
-                        src={`${baseUrl}/img/posts/${img}`}
+                        src={img}
                         onClick={() => setOpenImage(true)}
                         className="md:max-h-[500px] object-contain"
                       />

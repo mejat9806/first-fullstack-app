@@ -15,14 +15,12 @@ const AddBannerImage = () => {
       bannerImage: undefined,
     },
   });
-  function submit(values: z.infer<typeof FormSchema>) {
-    console.log(values);
-  }
+  // function submit(values: z.infer<typeof FormSchema>) {}
   const diabled = false;
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(submit)}
+        // onSubmit={form.handleSubmit(submit)}
         className="flex justify-center items-center"
       >
         <FormInput

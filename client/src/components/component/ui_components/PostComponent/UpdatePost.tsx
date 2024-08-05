@@ -9,6 +9,7 @@ import FormInput from "../FormInput";
 import { Form } from "@/shadcnComponent/ui/form";
 import { Button } from "@/shadcnComponent/ui/button";
 import useUpdatePost from "@/features/api/Posts/updatePost/useUpdatePost";
+import { useTheme } from "@/components/darkMode/theme-provider";
 
 const UpdatePost = ({
   setShowUpdateDialog,
@@ -16,21 +17,23 @@ const UpdatePost = ({
   setShowUpdateDialog: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { singleDetailLoading, singleDetail } = useFetchDetails();
+  const { theme } = useTheme();
   const { isUpdatingPost, updatePostMutation } = useUpdatePost();
-  console.log(isUpdatingPost);
+
   if (singleDetailLoading || !singleDetail || !singleDetail.data) {
     return <LoadingPage />;
   }
-  const { detail, title, id } = singleDetail.data;
+  const { id } = singleDetail.data;
   const FormSchema = z.object({
     title: z.string().min(1, { message: "Please enter a title" }),
     detail: z.string().min(5, { message: "Must have 10 characters" }),
   });
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      title: title,
-      detail: detail,
+      title: "",
+      detail: "",
     },
   });
   const formSubmit = (value: z.infer<typeof FormSchema>) => {
@@ -44,7 +47,13 @@ const UpdatePost = ({
   };
   return (
     <div>
-      <h1 className="md:text-5xl text-2xl font-bold">Update Post</h1>
+      <h1
+        className={`md:text-5xl text-2xl font-bold ${
+          theme === "dark" ? "text-white" : "text-black"
+        }`}
+      >
+        Update Post
+      </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(formSubmit)}
@@ -60,6 +69,7 @@ const UpdatePost = ({
           />
           <FormInput
             form={form}
+            textInput="rich"
             label={"detail"}
             placeholder={"Post detail"}
             name="detail"

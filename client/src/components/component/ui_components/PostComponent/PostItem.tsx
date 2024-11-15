@@ -80,7 +80,7 @@ const PostItem = <T extends PostItemType>({ item }: item<T>) => {
                 <img
                   key={i}
                   src={img}
-                  onClick={() => navigate(`post/${item._id}`)}
+                  onClick={() => navigate(`/post/${item._id}`)}
                   className="md:max-h-[300px]  object-cover "
                   loading="lazy"
                 />
